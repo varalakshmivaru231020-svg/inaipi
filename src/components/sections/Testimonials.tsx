@@ -1,0 +1,356 @@
+'use client';
+
+import { motion, useMotionValue, animate } from 'framer-motion';
+import { useRef, useState, useEffect } from 'react';
+
+/* ── Single unified card color — clean white with blue accent ── */
+const CARD = {
+  bg:     'linear-gradient(160deg, #ffffff 0%, #f0f6ff 100%)',
+  accent: '#2563eb',
+  border: 'rgba(37,99,235,0.15)',
+  glow:   'rgba(37,99,235,0.18)',
+  text:   '#0f172a',
+  sub:    '#64748b',
+  quote:  '#1e293b',
+};
+
+const testimonials = [
+  {
+    name: 'Dr. Sarah Al Mansouri',
+    role: 'Chief Digital Officer · Aster DM Healthcare',
+    stars: 5,
+    quote: 'Inaipi transformed how we handle patient communications. Our response time dropped from 12 minutes to under 45 seconds, and patient satisfaction scores have never been higher.',
+    avatar: 'https://i.pravatar.cc/150?img=25',
+    stat: '94%', statLabel: 'CSAT Score',
+  },
+  {
+    name: 'Mohammed Al Rashid',
+    role: 'VP Customer Experience · Emirates NBD',
+    stars: 5,
+    quote: 'We handle over 50,000 customer interactions daily across 8 channels. Inaipi unified everything into one platform — our agents are more productive and our customers are happier.',
+    avatar: 'https://i.pravatar.cc/150?img=60',
+    stat: '67%', statLabel: 'Cost Reduction',
+  },
+  {
+    name: 'Priya Nambiar',
+    role: 'Head of Customer Operations · AXA Gulf Insurance',
+    stars: 5,
+    quote: 'The AI co-pilot is a game changer. Our agents resolve complex insurance claims 3× faster with AI suggestions right in their workspace. Implementation was seamless.',
+    avatar: 'https://i.pravatar.cc/150?img=43',
+    stat: '3×', statLabel: 'Faster Resolution',
+  },
+  {
+    name: 'Khalid Al-Mansouri',
+    role: 'Director of Digital Services · Abu Dhabi Municipality',
+    stars: 5,
+    quote: 'Deploying across 14 regional offices felt impossible before Inaipi. Governance controls and multi-language support gave us compliance confidence we never had with our legacy system.',
+    avatar: 'https://i.pravatar.cc/150?img=15',
+    stat: '14×', statLabel: 'Offices Unified',
+  },
+  {
+    name: 'James Thornton',
+    role: 'CX Strategy Lead · Majid Al Futtaim',
+    stars: 5,
+    quote: 'Real-time sentiment analysis has been invaluable. We now catch dissatisfied customers before they escalate and the proactive outreach has dramatically improved our NPS.',
+    avatar: 'https://i.pravatar.cc/150?img=47',
+    stat: '+42', statLabel: 'NPS Improvement',
+  },
+];
+
+const AVATARS = [
+  'https://i.pravatar.cc/150?img=11',
+  'https://i.pravatar.cc/150?img=32',
+  'https://i.pravatar.cc/150?img=12',
+  'https://i.pravatar.cc/150?img=13',
+  'https://i.pravatar.cc/150?img=14',
+  'https://i.pravatar.cc/150?img=16',
+];
+
+const FLAGS = [
+  { src: 'https://flagcdn.com/w160/ae.png', alt: 'UAE' },
+  { src: 'https://flagcdn.com/w160/us.png', alt: 'USA' },
+  { src: 'https://flagcdn.com/w160/gb.png', alt: 'UK' },
+  { src: 'https://flagcdn.com/w160/in.png', alt: 'India' },
+  { src: 'https://flagcdn.com/w160/sa.png', alt: 'Saudi Arabia' },
+  { src: 'https://flagcdn.com/w160/au.png', alt: 'Australia' },
+  { src: 'https://flagcdn.com/w160/de.png', alt: 'Germany' },
+  { src: 'https://flagcdn.com/w160/sg.png', alt: 'Singapore' },
+];
+
+const CARD_W   = 400;
+const CARD_GAP = 28;
+const SPEED    = 0.6; // px per frame  ← adjust for faster/slower
+
+/* ── Animated progress dot ── */
+function ProgressDot({ active, onClick }: { active: boolean; onClick: () => void }) {
+  const progress = useMotionValue(0);
+  useEffect(() => {
+    if (!active) { progress.set(0); return; }
+    progress.set(0);
+    const duration = ((CARD_W + CARD_GAP) / SPEED) / 60 / 1000; // rough cycle ms→s
+    const ctrl = animate(progress, 1, { duration, ease: 'linear' });
+    return () => ctrl.stop();
+  }, [active, progress]);
+
+  return (
+    <motion.button
+      onClick={onClick}
+      animate={{ width: active ? 36 : 10 }}
+      transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+      style={{ height: 10, borderRadius: 5, border: 'none', cursor: 'pointer', padding: 0, background: active ? CARD.accent : 'rgba(59,130,246,0.15)', position: 'relative', overflow: 'hidden' }}
+    >
+      {active && (
+        <motion.div style={{ position: 'absolute', inset: 0, borderRadius: 5, background: CARD.accent, scaleX: progress, originX: 0 }} />
+      )}
+    </motion.button>
+  );
+}
+
+export default function Testimonials() {
+  const trackRef  = useRef<HTMLDivElement>(null);
+  const rafRef    = useRef<number>(0);
+  const pausedRef = useRef(false);
+  const xRef      = useRef(0); // current translateX (negative = scrolled right)
+
+  /* centerIdx: which card (0..n-1) is closest to viewport center */
+  const [centerIdx, setCenterIdx] = useState(0);
+  const wrapRef = useRef<HTMLDivElement>(null);
+
+  const n = testimonials.length;
+  /* Triple the array so we always have cards on both sides */
+  const triple = [...testimonials, ...testimonials, ...testimonials];
+  const totalW = n * (CARD_W + CARD_GAP); // width of ONE set
+
+  /* ── rAF loop ── */
+  useEffect(() => {
+    const tick = () => {
+      if (!trackRef.current) { rafRef.current = requestAnimationFrame(tick); return; }
+
+      if (!pausedRef.current) {
+        xRef.current -= SPEED;
+
+        /* Seamless loop: when we've scrolled a full set, reset by one set width */
+        if (Math.abs(xRef.current) >= totalW * 2) {
+          xRef.current += totalW;
+        }
+      }
+
+      trackRef.current.style.transform = `translateX(${xRef.current}px)`;
+
+      /* Detect which card is nearest center */
+      if (wrapRef.current) {
+        const vCenter = wrapRef.current.getBoundingClientRect().width / 2;
+        let closest = 0;
+        let minDist = Infinity;
+        triple.forEach((_, i) => {
+          const cardCenter = xRef.current + i * (CARD_W + CARD_GAP) + CARD_W / 2;
+          const dist = Math.abs(cardCenter - vCenter);
+          if (dist < minDist) { minDist = dist; closest = i % n; }
+        });
+        setCenterIdx(closest);
+      }
+
+      rafRef.current = requestAnimationFrame(tick);
+    };
+
+    /* Start offset so first card is roughly centered */
+    const initOffset = wrapRef.current
+      ? wrapRef.current.getBoundingClientRect().width / 2 - CARD_W / 2 - totalW
+      : 0;
+    xRef.current = initOffset;
+
+    rafRef.current = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(rafRef.current);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return (
+    <section className="py-16 relative overflow-hidden"
+      style={{ background: 'linear-gradient(160deg, #f0f4ff 0%, #fafbff 40%, #f5f0ff 100%)' }}>
+
+      {/* ── Glow behind slider ── */}
+      <div className="pointer-events-none absolute inset-0">
+        <div style={{ position: 'absolute', top: '-10%', left: '15%', width: 700, height: 500, borderRadius: '50%', background: 'radial-gradient(circle, rgba(59,130,246,0.12) 0%, transparent 65%)', filter: 'blur(70px)' }} />
+        <div style={{ position: 'absolute', bottom: '-5%', right: '15%', width: 500, height: 400, borderRadius: '50%', background: 'radial-gradient(circle, rgba(99,102,241,0.1) 0%, transparent 65%)', filter: 'blur(70px)' }} />
+        <div className="absolute inset-0 opacity-[0.025]" style={{ backgroundImage: 'radial-gradient(#0f172a 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
+      </div>
+
+      {/* ── Header ── */}
+      <div className="relative z-10 text-center" style={{ padding: '0 8vw' }}>
+        <motion.p initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+          className="text-xs font-black uppercase tracking-[0.4em] text-blue-600 mb-4">
+          What Our Clients Say
+        </motion.p>
+        <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}
+          className="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold font-figtree tracking-[-0.03em] text-[#0f172a] leading-[1.25] mb-4">
+          Trusted by customer experience<br className="hidden sm:block" /> leaders worldwide.
+        </motion.h2>
+        <motion.p initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.15 }}
+          className="text-base text-slate-500 max-w-[560px] mx-auto leading-relaxed">
+          Trusted by contact centers across healthcare, insurance, hospitality and government sectors.
+        </motion.p>
+      </div>
+
+      {/* ── Pill + Flags ── */}
+      <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}
+        className="relative z-10 flex items-center justify-between flex-wrap gap-6 mt-8 mb-10"
+        style={{ padding: '0 8vw' }}>
+        {/* Pill */}
+        <div className="flex items-center rounded-full"
+          style={{ background: 'rgba(59,130,246,0.07)', border: '1px solid rgba(59,130,246,0.18)', padding: '0.75rem 2rem 0.75rem 1.25rem', gap: '2rem' }}>
+          <div className="flex items-center">
+            {AVATARS.map((src, i) => (
+              <img key={i} src={src} alt="" style={{ width: 34, height: 34, borderRadius: '50%', border: '2px solid rgba(59,130,246,0.25)', marginLeft: i === 0 ? 0 : -8, objectFit: 'cover' }} />
+            ))}
+            <div style={{ width: 34, height: 34, borderRadius: '50%', background: 'rgba(59,130,246,0.12)', border: '2px solid rgba(59,130,246,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.8rem', fontWeight: 700, color: '#3b82f6', marginLeft: -8, flexShrink: 0 }}>+</div>
+          </div>
+          <div className="flex flex-col gap-0.5">
+            <strong style={{ color: '#0f172a', fontWeight: 800, fontSize: '0.95rem', lineHeight: 1.2 }}>669k+ Active</strong>
+            <span style={{ color: '#475569', fontSize: '0.85rem', lineHeight: 1.2, whiteSpace: 'nowrap' }}>users world-wide</span>
+          </div>
+          <motion.a href="#" whileHover={{ x: 4 }}
+            style={{ width: 32, height: 32, borderRadius: '50%', background: 'rgba(59,130,246,0.1)', border: '1px solid rgba(59,130,246,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#3b82f6', textDecoration: 'none', fontSize: '0.9rem', flexShrink: 0 }}>→</motion.a>
+        </div>
+
+        {/* Flags */}
+        <div className="flex items-center gap-3">
+          {FLAGS.map((f, i) => (
+            <motion.img key={i} src={f.src} alt={f.alt}
+              initial={{ opacity: 0, scale: 0.4, y: 12 }}
+              whileInView={{ opacity: 1, scale: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3 + i * 0.07, type: 'spring', stiffness: 260, damping: 18 }}
+              whileHover={{ scale: 1.18, y: -4, transition: { duration: 0.2 } }}
+              style={{ width: 50, height: 50, borderRadius: '50%', objectFit: 'cover', border: '2.5px solid rgba(59,130,246,0.18)', cursor: 'pointer' }} />
+          ))}
+        </div>
+      </motion.div>
+
+      {/* ── Infinite scroll track ── */}
+      <div
+        ref={wrapRef}
+        className="relative z-[5] overflow-hidden"
+        style={{ padding: '2rem 0', cursor: 'default' }}
+        onMouseEnter={() => { pausedRef.current = true; }}
+        onMouseLeave={() => { pausedRef.current = false; }}
+      >
+        <div
+          ref={trackRef}
+          style={{ display: 'flex', gap: CARD_GAP, willChange: 'transform', alignItems: 'center' }}
+        >
+          {triple.map((t, i) => {
+            const realIdx = i % n;
+            const isCenter = realIdx === centerIdx;
+
+            return (
+              <div
+                key={i}
+                style={{
+                  width: CARD_W,
+                  minWidth: CARD_W,
+                  flexShrink: 0,
+                  background: CARD.bg,
+                  border: `1.5px solid ${isCenter ? CARD.accent + '80' : CARD.border}`,
+                  borderRadius: 22,
+                  padding: '2.2rem',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '1.1rem',
+                  position: 'relative',
+                  overflow: 'hidden',
+                  /* scale + shadow via CSS transition for smoothness inside rAF */
+                  transform: isCenter ? 'scale(1.04) translateY(-6px)' : 'scale(0.96) translateY(2px)',
+                  opacity: isCenter ? 1 : 0.72,
+                  boxShadow: isCenter
+                    ? `0 16px 48px ${CARD.glow}, 0 4px 16px rgba(0,0,0,0.3)`
+                    : '0 2px 12px rgba(0,0,0,0.15)',
+                  transition: 'transform 0.45s cubic-bezier(0.22,1,0.36,1), opacity 0.45s ease, box-shadow 0.45s ease, border-color 0.45s ease',
+                  zIndex: isCenter ? 10 : 1,
+                }}
+              >
+                {/* Top accent bar */}
+                <div style={{
+                  position: 'absolute', top: 0, left: 0, right: 0, height: 3,
+                  borderRadius: '22px 22px 0 0',
+                  background: `linear-gradient(90deg, ${CARD.accent}, ${CARD.accent}60)`,
+                  opacity: isCenter ? 1 : 0.25,
+                  transform: `scaleX(${isCenter ? 1 : 0.4})`,
+                  transformOrigin: 'left',
+                  transition: 'opacity 0.45s, transform 0.45s cubic-bezier(0.22,1,0.36,1)',
+                  zIndex: 2,
+                }} />
+
+                {/* Corner glow — subtle on white card */}
+                <div style={{ position: 'absolute', bottom: -20, right: -20, width: 100, height: 100, borderRadius: '50%', background: `radial-gradient(circle, ${CARD.accent}18 0%, transparent 70%)`, pointerEvents: 'none' }} />
+
+                {/* Watermark ❝ */}
+                <div style={{ position: 'absolute', top: 12, right: 18, fontSize: '4rem', fontWeight: 900, color: `${CARD.accent}10`, lineHeight: 1, pointerEvents: 'none', userSelect: 'none' }}>❝</div>
+
+                {/* Name + role */}
+                <div style={{ position: 'relative', zIndex: 3 }}>
+                  <div style={{ fontSize: '0.97rem', fontWeight: 700, color: CARD.text, marginBottom: 3 }}>{t.name}</div>
+                  <div style={{ fontSize: '0.76rem', color: CARD.sub, lineHeight: 1.4 }}>{t.role}</div>
+                </div>
+
+                {/* Stars */}
+                <div style={{ display: 'flex', gap: 3, position: 'relative', zIndex: 3 }}>
+                  {Array.from({ length: t.stars }).map((_, si) => (
+                    <span key={si} style={{
+                      fontSize: '0.95rem', color: '#f59e0b', display: 'inline-block',
+                      transform: isCenter ? 'scale(1.1)' : 'scale(1)',
+                      transition: `transform 0.35s cubic-bezier(0.34,1.56,0.64,1) ${si * 0.05}s`,
+                    }}>★</span>
+                  ))}
+                </div>
+
+                {/* Quote */}
+                <p style={{
+                  fontSize: '0.96rem', fontStyle: 'italic', fontWeight: 450,
+                  lineHeight: 1.75, color: isCenter ? CARD.quote : CARD.sub,
+                  margin: 0, flex: 1, position: 'relative', zIndex: 3,
+                  transition: 'color 0.45s',
+                }}>
+                  &ldquo;{t.quote}&rdquo;
+                </p>
+
+                {/* Stat badge */}
+                <div style={{
+                  position: 'relative', zIndex: 3,
+                  opacity: isCenter ? 1 : 0,
+                  transform: isCenter ? 'translateY(0)' : 'translateY(8px)',
+                  transition: 'opacity 0.4s ease 0.1s, transform 0.4s cubic-bezier(0.22,1,0.36,1) 0.1s',
+                }}>
+                  <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', background: `${CARD.accent}12`, border: `1px solid ${CARD.accent}30`, borderRadius: 9, padding: '0.25rem 0.8rem' }}>
+                    <span style={{ fontSize: '1.1rem', fontWeight: 900, color: CARD.accent }}>{t.stat}</span>
+                    <span style={{ fontSize: '0.7rem', fontWeight: 600, color: CARD.sub, textTransform: 'uppercase', letterSpacing: '0.06em' }}>{t.statLabel}</span>
+                  </div>
+                </div>
+
+                {/* Avatar + quote icon */}
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: `1px solid ${CARD.accent}15`, paddingTop: '1.1rem', position: 'relative', zIndex: 3 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+                    <img src={t.avatar} alt={t.name}
+                      style={{ width: 42, height: 42, borderRadius: '50%', objectFit: 'cover', border: `2px solid ${isCenter ? CARD.accent : 'rgba(37,99,235,0.15)'}`, flexShrink: 0, transition: 'border-color 0.45s' }} />
+                    <div style={{ width: 7, height: 7, borderRadius: '50%', background: CARD.accent, opacity: isCenter ? 1 : 0.2, boxShadow: isCenter ? `0 0 6px ${CARD.accent}` : 'none', transition: 'opacity 0.45s, box-shadow 0.45s' }} />
+                  </div>
+                  <div style={{ width: 34, height: 34, borderRadius: '50%', background: `${CARD.accent}10`, border: `1px solid ${CARD.accent}25`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: CARD.accent, fontSize: '1rem' }}>❝</div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* ── Dots ── */}
+      <div className="relative z-10 flex justify-center items-center gap-2 mt-2">
+        {testimonials.map((_, i) => (
+          <ProgressDot key={i} active={i === centerIdx} onClick={() => {}} />
+        ))}
+      </div>
+
+      {/* ── Bottom strip ── */}
+      <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 3, background: `linear-gradient(90deg, transparent 0%, ${CARD.accent} 30%, ${CARD.accent} 70%, transparent 100%)`, zIndex: 20 }} />
+
+    </section>
+  );
+}

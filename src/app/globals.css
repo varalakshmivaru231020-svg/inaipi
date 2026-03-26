@@ -1,26 +1,142 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --background: 255, 255, 255;
+  --foreground: 15, 23, 42;
+  --primary: 37, 99, 235;
+  --primary-glow: 37, 99, 235, 0.1;
+  --secondary: 79, 70, 229;
+  --accent: 245, 158, 11;
+  --success: 22, 163, 74;
+  --purple: 124, 58, 237;
+  --orange: 234, 88, 12;
+  --glass: 255, 255, 255, 0.8;
+  --glass-border: 0, 0, 0, 0.05;
+  --card: 248, 250, 252;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: 255, 255, 255; /* Force Light mode for now as per user request */
+    --foreground: 15, 23, 42;
+    --primary: 37, 99, 235;
+    --primary-glow: 37, 99, 235, 0.1;
+    --secondary: 79, 70, 229;
+    --accent: 245, 158, 11;
+    --success: 22, 163, 74;
+    --purple: 124, 58, 237;
+    --orange: 234, 88, 12;
+    --glass: 255, 255, 255, 0.8;
+    --glass-border: 0, 0, 0, 0.05;
+    --card: 248, 250, 252;
   }
 }
 
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
 body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  font-family: var(--font-figtree), 'Figtree', sans-serif;
+  scroll-behavior: auto !important; /* Lenis handles this */
+}
+
+body {
+  color: rgb(var(--foreground));
+  background: rgb(var(--background));
+}
+
+.premium-gradient {
+  background: radial-gradient(circle at 50% -20%, var(--primary-glow) 0%, transparent 50%);
+}
+
+.glass {
+  background: var(--glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+}
+
+.text-reveal {
+  overflow: hidden;
+  display: inline-block;
+}
+
+.lenis.lenis-smooth {
+  height: auto;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
   background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--secondary);
+}
+
+@layer components {
+  .btn-primary {
+    @apply relative inline-flex items-center gap-3 px-7 py-3.5 bg-[#0f172a] text-white rounded-full font-bold text-sm border border-[#0f172a] transition-all duration-300 hover:bg-blue-600 hover:border-blue-600 active:scale-95;
+  }
+
+  .btn-primary .btn-icon {
+    @apply w-7 h-7 rounded-full bg-white/15 flex items-center justify-center transition-all duration-300;
+  }
+
+  .btn-primary:hover .btn-icon {
+    @apply bg-white/25;
+  }
+
+  .btn-secondary {
+    @apply relative inline-flex items-center gap-3 px-7 py-3.5 bg-white text-[#0f172a] rounded-full font-bold text-sm border border-[#0f172a] transition-all duration-300 hover:bg-blue-600 hover:text-white hover:border-blue-600 active:scale-95;
+  }
+
+  .btn-secondary .btn-icon {
+    @apply w-7 h-7 rounded-full bg-[#0f172a] flex items-center justify-center transition-all duration-300;
+  }
+
+  .btn-secondary:hover .btn-icon {
+    @apply bg-white/20;
+  }
+
+  .nav-link {
+    @apply text-foreground/60 hover:text-foreground transition-colors duration-200;
+  }
+
+  .section-title {
+    @apply text-4xl md:text-6xl font-bold tracking-tight mb-6;
+  }
+
+  .section-subtitle {
+    @apply text-lg md:text-xl text-foreground/60 max-w-2xl mx-auto;
+  }
 }
