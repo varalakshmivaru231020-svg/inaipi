@@ -173,19 +173,19 @@ export default function Industries() {
 
                 {/* Title with animated underline */}
                 <div className="relative z-10 mb-1">
-                  <h3 className="text-[17px] font-bold text-white font-figtree leading-snug inline-block">{ind.name}</h3>
+                  <h3 className="text-lg font-bold text-white leading-snug inline-block">{ind.name}</h3>
                   {/* underline draws on hover */}
                   <div className="h-[2px] rounded-full mt-1 bg-white/80 w-0 group-hover:w-full transition-all duration-500 ease-out" />
                 </div>
 
-                <p className="relative z-10 text-[13px] text-white/65 font-figtree font-normal leading-relaxed mb-4">{ind.desc}</p>
+                <p className="relative z-10 text-sm text-white/65 font-normal leading-relaxed mb-4">{ind.desc}</p>
 
                 {/* Tags */}
                 <div className="relative z-10 flex flex-wrap gap-1.5">
                   {ind.useCases.map((uc, j) => (
                     <span
                       key={j}
-                      className="text-[10px] font-figtree font-semibold uppercase tracking-wider text-white/80 px-2.5 py-1 rounded-full"
+                      className="text-xs font-semibold uppercase tracking-wider text-white/80 px-2.5 py-1 rounded-full"
                       style={{ background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.18)', letterSpacing: '0.08em' }}
                     >
                       {uc}

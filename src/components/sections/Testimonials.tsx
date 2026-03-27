@@ -205,8 +205,8 @@ export default function Testimonials() {
             <div style={{ width: 34, height: 34, borderRadius: '50%', background: 'rgba(59,130,246,0.12)', border: '2px solid rgba(59,130,246,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.8rem', fontWeight: 700, color: '#3b82f6', marginLeft: -8, flexShrink: 0 }}>+</div>
           </div>
           <div className="flex flex-col gap-0.5">
-            <strong style={{ color: '#0f172a', fontWeight: 800, fontSize: '1rem', lineHeight: 1.2, fontFamily: 'var(--font-figtree), Figtree, sans-serif' }}>669k+ Active</strong>
-            <span style={{ color: '#475569', fontSize: '0.875rem', lineHeight: 1.2, whiteSpace: 'nowrap', fontFamily: 'var(--font-figtree), Figtree, sans-serif' }}>users world-wide</span>
+            <strong className="text-base font-extrabold text-[#0f172a] leading-tight">669k+ Active</strong>
+            <span className="text-sm text-slate-600 whitespace-nowrap leading-tight">users world-wide</span>
           </div>
           <motion.a href="#" whileHover={{ x: 4 }}
             style={{ width: 32, height: 32, borderRadius: '50%', background: 'rgba(59,130,246,0.1)', border: '1px solid rgba(59,130,246,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#3b82f6', textDecoration: 'none', fontSize: '0.9rem', flexShrink: 0 }}>→</motion.a>
@@ -288,8 +288,8 @@ export default function Testimonials() {
 
                 {/* Name + role */}
                 <div style={{ position: 'relative', zIndex: 3 }}>
-                  <div style={{ fontSize: '1rem', fontWeight: 700, color: CARD.text, marginBottom: 3, fontFamily: 'var(--font-figtree), Figtree, sans-serif' }}>{t.name}</div>
-                  <div style={{ fontSize: '0.8rem', color: CARD.sub, lineHeight: 1.4, fontFamily: 'var(--font-figtree), Figtree, sans-serif' }}>{t.role}</div>
+                  <div style={{ fontSize: '1rem', fontWeight: 700, color: CARD.text, marginBottom: 3 }}>{t.name}</div>
+                  <div style={{ fontSize: '0.875rem', color: CARD.sub, lineHeight: 1.4 }}>{t.role}</div>
                 </div>
 
                 {/* Stars */}

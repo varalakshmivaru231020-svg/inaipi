@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { ArrowRight, Clock, ArrowUpRight, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, Clock, CheckCircle2 } from 'lucide-react';
 import Image from 'next/image';
 
 const blogs = [
@@ -128,7 +128,7 @@ export default function Blogs() {
               <h3 className="text-xl font-bold text-[#0f172a] leading-snug mb-3 group-hover:text-blue-600 transition-colors duration-200">
                 {featured.title}
               </h3>
-              <p className="text-[15px] text-slate-500 leading-relaxed mb-5">
+              <p className="text-base text-slate-500 leading-relaxed mb-5">
                 {featured.excerpt}
               </p>
 
@@ -136,7 +136,7 @@ export default function Blogs() {
               {'keyPoints' in featured && (
                 <ul className="space-y-2 mb-6">
                   {(featured as typeof featured & { keyPoints: string[] }).keyPoints.map((pt, i) => (
-                    <li key={i} className="flex items-start gap-2 text-[13px] text-slate-600 font-medium">
+                    <li key={i} className="flex items-start gap-2 text-sm text-slate-600 font-medium">
                       <CheckCircle2 className="w-3.5 h-3.5 mt-0.5 shrink-0" style={{ color: featured.tagColor }} />
                       {pt}
                     </li>
@@ -149,8 +149,8 @@ export default function Blogs() {
                 <div className="grid grid-cols-3 gap-3 mb-6">
                   {(featured as typeof featured & { stats: { value: string; label: string }[] }).stats.map((s, i) => (
                     <div key={i} className="rounded-2xl px-3 py-3 text-center" style={{ background: `${featured.tagColor}08`, border: `1px solid ${featured.tagColor}20` }}>
-                      <p className="text-lg font-black font-figtree" style={{ color: featured.tagColor }}>{s.value}</p>
-                      <p className="text-[9px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">{s.label}</p>
+                      <p className="text-lg font-black" style={{ color: featured.tagColor }}>{s.value}</p>
+                      <p className="text-xs text-slate-400 font-bold uppercase tracking-widest mt-0.5">{s.label}</p>
                     </div>
                   ))}
                 </div>
@@ -163,16 +163,16 @@ export default function Blogs() {
                     IN
                   </div>
                   <div>
-                    <p className="text-[11px] font-bold text-slate-700">Inaipi Editorial</p>
-                    <p className="text-[10px] text-slate-400">{featured.date}</p>
+                    <p className="text-xs font-bold text-slate-700">Inaipi Editorial</p>
+                    <p className="text-xs text-slate-400">{featured.date}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="flex items-center gap-1.5 text-[11px] text-slate-400 font-semibold">
+                  <div className="flex items-center gap-1.5 text-xs text-slate-400 font-semibold">
                     <Clock className="w-3 h-3" />
                     {featured.readTime}
                   </div>
-                  <a href="#" className="flex items-center gap-1 text-[11px] font-black uppercase tracking-widest group-hover:gap-2 transition-all"
+                  <a href="#" className="flex items-center gap-1 text-xs font-black uppercase tracking-widest group-hover:gap-2 transition-all"
                     style={{ color: featured.tagColor }}>
                     Read <ArrowRight className="w-3 h-3" />
                   </a>
@@ -211,16 +211,16 @@ export default function Blogs() {
                 </div>
 
                 <div className="p-6 flex flex-col flex-1">
-                  <h3 className="text-[16px] font-bold text-[#0f172a] leading-snug mb-2 group-hover:text-blue-600 transition-colors duration-200">
+                  <h3 className="text-lg font-bold text-[#0f172a] leading-snug mb-2 group-hover:text-blue-600 transition-colors duration-200">
                     {post.title}
                   </h3>
                   {'excerpt' in post && (
-                    <p className="text-xs text-slate-500 leading-relaxed mb-3">{post.excerpt}</p>
+                    <p className="text-sm text-slate-500 leading-relaxed mb-3">{post.excerpt}</p>
                   )}
                   {'keyPoints' in post && (
                     <ul className="space-y-1.5 mb-3">
                       {(post as typeof post & { keyPoints: string[] }).keyPoints.map((pt, j) => (
-                        <li key={j} className="flex items-start gap-1.5 text-[11px] text-slate-600 font-medium">
+                        <li key={j} className="flex items-start gap-1.5 text-sm text-slate-600 font-medium">
                           <CheckCircle2 className="w-3 h-3 mt-0.5 shrink-0" style={{ color: post.tagColor }} />
                           {pt}
                         </li>
@@ -228,11 +228,11 @@ export default function Blogs() {
                     </ul>
                   )}
                   <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-100">
-                    <div className="flex items-center gap-1.5 text-[11px] text-slate-400 font-semibold">
+                    <div className="flex items-center gap-1.5 text-xs text-slate-400 font-semibold">
                       <Clock className="w-3 h-3" />
                       {post.readTime}
                     </div>
-                    <span className="text-[11px] text-slate-400 font-semibold">{post.date}</span>
+                    <span className="text-xs text-slate-400 font-semibold">{post.date}</span>
                   </div>
                 </div>
               </motion.article>

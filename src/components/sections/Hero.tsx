@@ -113,10 +113,10 @@ const ZoomIcon = () => (
     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.5 13.5H8a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1h8.5c.28 0 .5.22.5.5v6.5a.5.5 0 0 1-.5.5zm2.5-1.25-2-1.5V11.25l2-1.5v4.5z" fill="#2D8CFF"/>
   </svg>
 );
-const AvyaIcon = () => (
+const AvayaIcon = () => (
   <svg viewBox="0 0 24 24" className="w-4 h-4" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="12" cy="12" r="10" fill="#4f46e5" />
-    <text x="12" y="16" textAnchor="middle" fontSize="9" fontWeight="900" fill="white" fontFamily="sans-serif">A</text>
+    <circle cx="12" cy="12" r="10" fill="#cc0000" />
+    <text x="12" y="16" textAnchor="middle" fontSize="8" fontWeight="900" fill="white" fontFamily="sans-serif">AV</text>
   </svg>
 );
 const SlackIcon = () => (
@@ -144,7 +144,7 @@ const INTEGRATIONS = [
   { name: 'HubSpot',         sub: 'CRM',          dot: 'bg-yellow-400', icon: HubSpotIcon    },
   { name: 'Zoom Phone',      sub: 'Telephony',     dot: 'bg-green-400',  icon: ZoomIcon       },
   { name: 'Slack',           sub: 'Collaboration', dot: 'bg-green-400',  icon: SlackIcon  },
-  { name: 'Avya',            sub: 'AI Platform',   dot: 'bg-indigo-400', icon: AvyaIcon   },
+  { name: 'Avaya',           sub: 'Telephony',     dot: 'bg-red-500',    icon: AvayaIcon  },
 ];
 
 const CSAT_BARS = [
