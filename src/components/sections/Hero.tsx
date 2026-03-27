@@ -382,7 +382,6 @@ export default function Hero() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-[10px] font-black text-slate-700">Sarah K.</p>
-                  <p className="text-[8px] text-slate-400 truncate">WhatsApp · +971 50 123 4567</p>
                 </div>
                 <div className="flex gap-1.5 shrink-0">
                   <motion.div animate={{ rotate: [0, 15, -15, 0] }} transition={{ duration: 0.5, repeat: Infinity, repeatDelay: 0.8 }}

@@ -41,12 +41,12 @@ export default function Architecture() {
         >
           <div className="relative rounded-[2.5rem] overflow-hidden shadow-2xl border border-gray-100 bg-white w-full">
             <Image
-              src="/arch.png"
+              src="/arch.jpeg"
               alt="Inaipi Architecture Diagram"
               width={1200}
-              height={450}
-              className="w-full object-cover" 
-              style={{ maxHeight: '440px' }}
+              height={800}
+              className="w-full object-cover"
+              style={{ maxHeight: '700px' }}
               priority
             />
           </div>

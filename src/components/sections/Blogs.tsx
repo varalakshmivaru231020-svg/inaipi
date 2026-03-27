@@ -128,7 +128,7 @@ export default function Blogs() {
               <h3 className="text-xl font-bold text-[#0f172a] leading-snug mb-3 group-hover:text-blue-600 transition-colors duration-200">
                 {featured.title}
               </h3>
-              <p className="text-sm text-slate-500 leading-relaxed mb-5">
+              <p className="text-[15px] text-slate-500 leading-relaxed mb-5">
                 {featured.excerpt}
               </p>
 
@@ -136,7 +136,7 @@ export default function Blogs() {
               {'keyPoints' in featured && (
                 <ul className="space-y-2 mb-6">
                   {(featured as typeof featured & { keyPoints: string[] }).keyPoints.map((pt, i) => (
-                    <li key={i} className="flex items-start gap-2 text-xs text-slate-600 font-medium">
+                    <li key={i} className="flex items-start gap-2 text-[13px] text-slate-600 font-medium">
                       <CheckCircle2 className="w-3.5 h-3.5 mt-0.5 shrink-0" style={{ color: featured.tagColor }} />
                       {pt}
                     </li>
@@ -211,7 +211,7 @@ export default function Blogs() {
                 </div>
 
                 <div className="p-6 flex flex-col flex-1">
-                  <h3 className="text-base font-bold text-[#0f172a] leading-snug mb-2 group-hover:text-blue-600 transition-colors duration-200">
+                  <h3 className="text-[16px] font-bold text-[#0f172a] leading-snug mb-2 group-hover:text-blue-600 transition-colors duration-200">
                     {post.title}
                   </h3>
                   {'excerpt' in post && (

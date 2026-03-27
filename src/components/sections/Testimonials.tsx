@@ -186,7 +186,7 @@ export default function Testimonials() {
           Trusted by customer experience<br className="hidden sm:block" /> leaders worldwide.
         </motion.h2>
         <motion.p initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.15 }}
-          className="text-base text-slate-500 max-w-[560px] mx-auto leading-relaxed">
+          className="text-lg text-slate-500 max-w-[560px] mx-auto leading-relaxed">
           Trusted by contact centers across healthcare, insurance, hospitality and government sectors.
         </motion.p>
       </div>
@@ -205,8 +205,8 @@ export default function Testimonials() {
             <div style={{ width: 34, height: 34, borderRadius: '50%', background: 'rgba(59,130,246,0.12)', border: '2px solid rgba(59,130,246,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.8rem', fontWeight: 700, color: '#3b82f6', marginLeft: -8, flexShrink: 0 }}>+</div>
           </div>
           <div className="flex flex-col gap-0.5">
-            <strong style={{ color: '#0f172a', fontWeight: 800, fontSize: '0.95rem', lineHeight: 1.2 }}>669k+ Active</strong>
-            <span style={{ color: '#475569', fontSize: '0.85rem', lineHeight: 1.2, whiteSpace: 'nowrap' }}>users world-wide</span>
+            <strong style={{ color: '#0f172a', fontWeight: 800, fontSize: '1rem', lineHeight: 1.2, fontFamily: 'var(--font-figtree), Figtree, sans-serif' }}>669k+ Active</strong>
+            <span style={{ color: '#475569', fontSize: '0.875rem', lineHeight: 1.2, whiteSpace: 'nowrap', fontFamily: 'var(--font-figtree), Figtree, sans-serif' }}>users world-wide</span>
           </div>
           <motion.a href="#" whileHover={{ x: 4 }}
             style={{ width: 32, height: 32, borderRadius: '50%', background: 'rgba(59,130,246,0.1)', border: '1px solid rgba(59,130,246,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#3b82f6', textDecoration: 'none', fontSize: '0.9rem', flexShrink: 0 }}>→</motion.a>
@@ -288,8 +288,8 @@ export default function Testimonials() {
 
                 {/* Name + role */}
                 <div style={{ position: 'relative', zIndex: 3 }}>
-                  <div style={{ fontSize: '0.97rem', fontWeight: 700, color: CARD.text, marginBottom: 3 }}>{t.name}</div>
-                  <div style={{ fontSize: '0.76rem', color: CARD.sub, lineHeight: 1.4 }}>{t.role}</div>
+                  <div style={{ fontSize: '1rem', fontWeight: 700, color: CARD.text, marginBottom: 3, fontFamily: 'var(--font-figtree), Figtree, sans-serif' }}>{t.name}</div>
+                  <div style={{ fontSize: '0.8rem', color: CARD.sub, lineHeight: 1.4, fontFamily: 'var(--font-figtree), Figtree, sans-serif' }}>{t.role}</div>
                 </div>
 
                 {/* Stars */}
@@ -305,10 +305,10 @@ export default function Testimonials() {
 
                 {/* Quote */}
                 <p style={{
-                  fontSize: '0.96rem', fontStyle: 'italic', fontWeight: 450,
+                  fontSize: '1rem', fontStyle: 'italic', fontWeight: 450,
                   lineHeight: 1.75, color: isCenter ? CARD.quote : CARD.sub,
                   margin: 0, flex: 1, position: 'relative', zIndex: 3,
-                  transition: 'color 0.45s',
+                  transition: 'color 0.45s', fontFamily: 'var(--font-figtree), Figtree, sans-serif',
                 }}>
                   &ldquo;{t.quote}&rdquo;
                 </p>
@@ -321,8 +321,8 @@ export default function Testimonials() {
                   transition: 'opacity 0.4s ease 0.1s, transform 0.4s cubic-bezier(0.22,1,0.36,1) 0.1s',
                 }}>
                   <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', background: `${CARD.accent}12`, border: `1px solid ${CARD.accent}30`, borderRadius: 9, padding: '0.25rem 0.8rem' }}>
-                    <span style={{ fontSize: '1.1rem', fontWeight: 900, color: CARD.accent }}>{t.stat}</span>
-                    <span style={{ fontSize: '0.7rem', fontWeight: 600, color: CARD.sub, textTransform: 'uppercase', letterSpacing: '0.06em' }}>{t.statLabel}</span>
+                    <span style={{ fontSize: '1.1rem', fontWeight: 900, color: CARD.accent, fontFamily: 'var(--font-figtree), Figtree, sans-serif' }}>{t.stat}</span>
+                    <span style={{ fontSize: '0.75rem', fontWeight: 600, color: CARD.sub, textTransform: 'uppercase', letterSpacing: '0.06em', fontFamily: 'var(--font-figtree), Figtree, sans-serif' }}>{t.statLabel}</span>
                   </div>
                 </div>
 

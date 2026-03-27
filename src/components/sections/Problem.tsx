@@ -145,7 +145,7 @@ export default function Problem() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.5 }}
           transition={{ duration: 2.0, delay: 1.6 }}
-          className="text-base sm:text-lg text-slate-500 leading-relaxed font-normal"
+          className="text-lg text-slate-500 leading-relaxed font-normal"
         >
           Disconnected tools and siloed systems break the journey at every stage.
           Bolting on AI doesn't fix it — it creates yet another silo.
