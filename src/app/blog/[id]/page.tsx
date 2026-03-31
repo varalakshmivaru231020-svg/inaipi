@@ -116,29 +116,30 @@ export default function BlogDetailPage() {
       </section>
 
       {/* Content */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-white relative overflow-visible">
         <div className="container mx-auto px-6 max-w-6xl">
-          <div className="lg:flex lg:gap-12">
+          <div className="grid lg:grid-cols-12 gap-12">
 
             {/* ── LEFT: Blog Content ── */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, ease }}
-              className="lg:flex-1 min-w-0 space-y-12"
-            >
+            <div className="lg:col-span-8 space-y-12">
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, ease }}
+                className="space-y-12"
+              >
               <div className="w-full aspect-video rounded-3xl overflow-hidden bg-slate-100 mb-10 border border-slate-100">
                 <img src={article.image} alt={article.title} className="w-full h-full object-cover" />
               </div>
 
               {/* Description */}
               <div className="prose prose-lg prose-slate max-w-none">
-                <p className="text-[20px] text-[#0f172a] font-medium leading-relaxed mb-8">
+                <p className="text-[16px] text-[#0f172a] font-medium leading-relaxed mb-8">
                   {article.excerpt}
                 </p>
                 {article.content.map((paragraph, i) => (
-                  <p key={i} className="text-[17px] text-slate-600 leading-[1.8] mb-6 last:mb-0">
+                  <p key={i} className="text-[16px] text-slate-600 leading-[1.8] mb-6 last:mb-0">
                     {paragraph}
                   </p>
                 ))}
@@ -170,11 +171,12 @@ export default function BlogDetailPage() {
                   <span className="relative z-10">Back to Articles</span>
                 </Link>
               </motion.div>
-            </motion.div>
+              </motion.div>
+            </div>
 
             {/* ── RIGHT: Sticky Sidebar ── */}
-            <div className="lg:w-[400px] lg:shrink-0 relative mt-12 lg:mt-0">
-              <div className="space-y-6 lg:sticky lg:top-32">
+            <div className="lg:col-span-4 relative mt-12 lg:mt-0">
+              <div className="space-y-6 lg:sticky lg:top-36 lg:h-fit self-start">
                 {/* Article Info Card (Modeled after Job Info Card) */}
                 <motion.div
                   initial={{ opacity: 0, x: 30 }}
@@ -201,7 +203,7 @@ export default function BlogDetailPage() {
                         </div>
                         <div>
                           <p className="text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-0.5">Written By</p>
-                          <p className="text-lg font-black text-[#0f172a]">{article.author}</p>
+                          <p className="text-lg font-bold text-[#0f172a]">{article.author}</p>
                         </div>
                       </div>
                       
@@ -231,7 +233,7 @@ export default function BlogDetailPage() {
                         <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
                         <span className="text-[10px] font-black uppercase tracking-widest text-white/70">Newsletter</span>
                       </div>
-                      <h3 className="text-2xl font-black text-white leading-snug">
+                      <h3 className="text-2xl font-bold text-white leading-snug">
                         Stay ahead of the<br />curve with our<br />
                         <span style={{ background: 'linear-gradient(90deg, #60a5fa 0%, #818cf8 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>latest insights.</span>
                       </h3>

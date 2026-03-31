@@ -96,7 +96,7 @@ export default function Industries() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold font-figtree tracking-[-0.03em] leading-[1.25] mb-5 pb-2 text-[#0f172a]"
+            className="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold font-figtree tracking-[-0.025em] leading-[1.1] mb-5 pb-2 text-[#0f172a]"
           >
             Built for every industry.
           </motion.h2>
@@ -105,7 +105,7 @@ export default function Industries() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.15 }}
-            className="text-lg text-slate-500 leading-relaxed"
+            className="text-[16px] text-slate-500 leading-relaxed"
           >
             Inaipi adapts to the compliance, workflows, and customer expectations of your specific domain.
           </motion.p>
@@ -173,7 +173,7 @@ export default function Industries() {
 
                 {/* Title with animated underline */}
                 <div className="relative z-10 mb-1">
-                  <h3 className="text-lg font-bold text-white leading-snug inline-block">{ind.name}</h3>
+                  <h3 className="text-lg font-bold font-figtree text-white leading-tight inline-block">{ind.name}</h3>
                   {/* underline draws on hover */}
                   <div className="h-[2px] rounded-full mt-1 bg-white/80 w-0 group-hover:w-full transition-all duration-500 ease-out" />
                 </div>
@@ -185,7 +185,7 @@ export default function Industries() {
                   {ind.useCases.map((uc, j) => (
                     <span
                       key={j}
-                      className="text-xs font-semibold uppercase tracking-wider text-white/80 px-2.5 py-1 rounded-full"
+                      className="text-[11px] font-bold uppercase tracking-widest text-white/80 px-2.5 py-1 rounded-full"
                       style={{ background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.18)', letterSpacing: '0.08em' }}
                     >
                       {uc}

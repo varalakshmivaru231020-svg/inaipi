@@ -129,11 +129,11 @@ export default function AgentDesktop() {
           Unified Workspace
         </motion.span>
         <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}
-          className="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold font-figtree tracking-[-0.03em] text-[#0f172a] leading-[1.25] mb-5">
+          className="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold font-figtree tracking-[-0.025em] text-[#0f172a] leading-[1.1] mb-5">
           The Agent Desktop.
         </motion.h2>
         <motion.p initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.15 }}
-          className="text-lg text-slate-500 leading-relaxed max-w-2xl mx-auto">
+          className="text-[16px] text-slate-500 leading-relaxed max-w-2xl mx-auto">
           Every channel, every customer, every insight — in one unified interface. No tab switching. No context loss.
         </motion.p>
       </div>

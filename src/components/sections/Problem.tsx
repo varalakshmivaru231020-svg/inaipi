@@ -115,7 +115,7 @@ export default function Problem() {
         >
           The Problem
         </motion.span>
-        <div className="mb-5 flex flex-col items-center gap-1 text-3xl sm:text-4xl lg:text-[2.75rem] font-bold font-figtree tracking-[-0.03em] leading-[1.25]">
+        <div className="mb-5 flex flex-col items-center gap-1 text-3xl sm:text-4xl lg:text-[2.75rem] font-bold font-figtree tracking-[-0.025em] leading-[1.1]">
           <div className="block whitespace-nowrap">
             {['Enterprises', 'invest', 'millions.'].map((word, i) => (
               <motion.span key={i} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.5 }}
@@ -145,7 +145,7 @@ export default function Problem() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.5 }}
           transition={{ duration: 0.4, delay: 0.6 }}
-          className="text-lg text-slate-500 leading-relaxed"
+          className="text-[16px] text-slate-500 leading-relaxed"
         >
           Disconnected tools and siloed systems break the journey at every stage.
           Bolting on AI doesn't fix it — it creates yet another silo.

@@ -107,7 +107,7 @@ export default function TrustMarquee() {
           <RightBracket />
           {/* page-color box hides strip behind the number */}
           <div style={{ background: PAGE_BG, height: '88px', display: 'flex', alignItems: 'center', padding: '0 32px' }}>
-            <span style={{ fontSize: '2rem', fontWeight: 800, color: '#1e40af', whiteSpace: 'nowrap', letterSpacing: '-0.03em', fontFamily: 'var(--font-figtree), Figtree, sans-serif' }}>
+            <span style={{ fontSize: '2rem', fontWeight: 700, color: '#1e40af', whiteSpace: 'nowrap', letterSpacing: '-0.03em', fontFamily: 'var(--font-figtree), Figtree, sans-serif' }}>
               15,000+
             </span>
           </div>

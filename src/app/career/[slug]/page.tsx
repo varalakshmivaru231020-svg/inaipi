@@ -233,18 +233,19 @@ export default function CareerDetailPage() {
       </section>
 
       {/* Content */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-white relative overflow-visible">
         <div className="container mx-auto px-6 max-w-6xl">
-          <div className="lg:flex lg:gap-12">
+          <div className="grid lg:grid-cols-12 gap-12">
 
             {/* ── LEFT: Job Content ── */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, ease }}
-              className="lg:flex-1 min-w-0 space-y-12"
-            >
+            <div className="lg:col-span-8 space-y-12">
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, ease }}
+                className="space-y-12"
+              >
               {/* Description */}
               <div>
                 <h2 className="text-2xl sm:text-3xl font-bold font-figtree tracking-[-0.025em] text-[#0f172a] leading-[1.1] mb-4">Job Description:</h2>
@@ -319,11 +320,12 @@ export default function CareerDetailPage() {
                   </span>
                 </Link>
               </motion.div>
-            </motion.div>
+              </motion.div>
+            </div>
 
             {/* ── RIGHT: Sticky Sidebar ── */}
-            <div className="lg:w-[400px] lg:shrink-0 relative mt-12 lg:mt-0">
-              <div className="space-y-6 lg:sticky lg:top-32">
+            <div className="lg:col-span-4 relative mt-12 lg:mt-0">
+              <div className="space-y-6 lg:sticky lg:top-36 lg:h-fit self-start">
 
                 {/* Job Info Card */}
               <motion.div

@@ -382,7 +382,7 @@ export default function PlatformCards() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.1, duration: 1.0, ease: [0.16, 1, 0.3, 1] }}
-          className="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold font-figtree tracking-[-0.03em] text-[#0f172a] leading-[1.25] mb-5"
+          className="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold font-figtree tracking-[-0.025em] text-[#0f172a] leading-[1.1] mb-5"
         >
           One platform. Every capability.
         </motion.h2>
@@ -391,7 +391,7 @@ export default function PlatformCards() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.2 }}
-          className="text-lg text-slate-500 leading-relaxed"
+          className="text-[16px] text-slate-500 leading-relaxed"
         >
           From live monitoring to outbound campaigns — every module is AI-native and connected through one intelligent core.
         </motion.p>
@@ -420,8 +420,8 @@ export default function PlatformCards() {
                     <span className={`inline-block text-[9px] font-black uppercase tracking-[0.3em] border px-2.5 py-1 rounded-full mb-2 ${card.tagBg}`}>
                       {card.tag}
                     </span>
-                    <h3 className="text-lg font-bold font-figtree text-[#0f172a]">{card.title}</h3>
-                    <p className="text-sm text-slate-400 mt-1">{card.desc}</p>
+                    <h3 className="text-lg font-bold font-figtree leading-tight text-[#0f172a]">{card.title}</h3>
+                    <p className="text-[16px] text-slate-400 mt-1">{card.desc}</p>
                   </div>
                   <div className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 ml-8" style={{ background: card.accent }}>
                     <span className="text-white font-black text-sm">0{i + 1}</span>

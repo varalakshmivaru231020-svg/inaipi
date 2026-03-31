@@ -121,11 +121,11 @@ export default function Analytics() {
             Unified Analytics
           </motion.p>
           <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}
-            className="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold font-figtree tracking-[-0.03em] text-white leading-[1.25] mb-5">
+            className="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold font-figtree tracking-[-0.025em] text-white leading-[1.1] mb-5">
             Every metric. One dashboard.
           </motion.h2>
           <motion.p initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.15 }}
-            className="text-lg text-slate-400 leading-relaxed">
+            className="text-[16px] text-slate-400 leading-relaxed">
             Real-time visibility across contact centre, cases, surveys, and campaigns — AI and human metrics side by side.
           </motion.p>
         </div>
@@ -172,7 +172,7 @@ export default function Analytics() {
                     <ArrowUpRight className="w-3 h-3" />{k.trend}
                   </span>
                 </div>
-                <div className="text-2xl sm:text-3xl font-black font-figtree text-white mb-1">
+                <div className="text-2xl sm:text-3xl font-bold font-figtree text-white mb-1">
                   {k.prefix}
                   {i === 0 ? (inView ? liveVal.toLocaleString() : '0') :
                    i === 1 ? c1 + k.suffix :

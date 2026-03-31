@@ -178,10 +178,10 @@ export default function Testimonials() {
       {/* ── Header ── */}
       <div className="relative z-10 text-center px-6 md:px-16">
         <span className="section-eyebrow wow wow-d1">What Our Clients Say</span>
-        <h2 className="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold font-figtree tracking-[-0.03em] text-[#0f172a] leading-[1.25] mb-5 wow wow-d2">
+        <h2 className="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold font-figtree tracking-[-0.025em] text-[#0f172a] leading-[1.1] mb-5 wow wow-d2">
           Trusted by CX leaders<br className="hidden sm:block" /> worldwide.
         </h2>
-        <p className="text-lg text-slate-500 max-w-xl mx-auto leading-relaxed wow wow-d3">
+        <p className="text-[16px] text-slate-500 max-w-xl mx-auto leading-relaxed wow wow-d3">
           Real results from healthcare, insurance, hospitality and government — see what AI-native CX looks like in practice.
         </p>
       </div>
@@ -199,7 +199,7 @@ export default function Testimonials() {
             <div style={{ width: 34, height: 34, borderRadius: '50%', background: 'rgba(59,130,246,0.12)', border: '2px solid rgba(59,130,246,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.8rem', fontWeight: 700, color: '#3b82f6', marginLeft: -8, flexShrink: 0 }}>+</div>
           </div>
           <div className="flex flex-col gap-0.5">
-            <strong className="text-base font-extrabold text-[#0f172a] leading-tight">669k+ Active</strong>
+            <strong className="text-base font-bold text-[#0f172a] leading-tight">669k+ Active</strong>
             <span className="text-sm text-slate-600 whitespace-nowrap leading-tight">users world-wide</span>
           </div>
           <motion.a href="#" whileHover={{ x: 4 }}

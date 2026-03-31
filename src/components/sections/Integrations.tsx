@@ -51,8 +51,8 @@ export default function Integrations() {
       <div className="container mx-auto px-6 relative z-10">
         <div className="text-center mb-20">
           <span className="section-eyebrow">Enterprise Ecosystem</span>
-          <h2 className="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold font-figtree tracking-[-0.03em] text-[#0f172a] leading-[1.25] mb-5">Seamlessly integrates with your existing stack.</h2>
-          <p className="text-lg text-slate-500 leading-relaxed">No more silos. Inaipi connects directly with your CRM, Telephony, and Collaboration tools.</p>
+          <h2 className="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold font-figtree tracking-[-0.025em] text-[#0f172a] leading-[1.1] mb-5">Seamlessly integrates with your existing stack.</h2>
+          <p className="text-[16px] text-slate-500 leading-relaxed">No more silos. Inaipi connects directly with your CRM, Telephony, and Collaboration tools.</p>
         </div>
 
         <div 

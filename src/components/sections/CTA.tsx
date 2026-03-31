@@ -55,7 +55,7 @@ export default function CTA() {
                 <motion.h2
                   initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
                   transition={{ duration: 0.6, ease: CUBE }}
-                  style={{ fontSize: 'clamp(30px,3.2vw,40px)', fontWeight: 800, lineHeight: 1.15, letterSpacing: '-1px', marginBottom: 22, color: '#fff', fontFamily: 'var(--font-figtree), Figtree, sans-serif' }}
+                  style={{ fontSize: 'clamp(30px,3.2vw,40px)', fontWeight: 700, lineHeight: 1.15, letterSpacing: '-1px', marginBottom: 22, color: '#fff', fontFamily: 'var(--font-figtree), Figtree, sans-serif' }}
                 >
                   Ready to transform your{' '}
                   <span style={{ color: '#4d8aff' }}>CX?</span>
