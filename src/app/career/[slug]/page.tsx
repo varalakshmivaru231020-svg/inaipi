@@ -6,6 +6,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
+import { useEffect } from 'react';
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -171,6 +172,18 @@ export default function CareerDetailPage() {
   const params = useParams();
   const slug = params.slug as string;
   const job = allJobs[slug];
+
+  useEffect(() => {
+    // Fix sticky positioning by switching root overflow from 'hidden' to 'clip'
+    // 'clip' behaves similarly to 'hidden' but doesn't break sticky elements.
+    document.documentElement.style.overflowX = 'clip';
+    document.body.style.overflowX = 'clip';
+    
+    return () => {
+      document.documentElement.style.overflowX = '';
+      document.body.style.overflowX = '';
+    };
+  }, []);
 
   if (!job) {
     return (
