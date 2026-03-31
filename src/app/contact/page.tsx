@@ -46,7 +46,7 @@ export default function ContactPage() {
         <div className="container mx-auto px-6 max-w-6xl relative z-10">
           {/* Breadcrumb */}
           <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }} className="flex items-center justify-center gap-2 mb-10">
-            <Link href="/" className="text-[11px] font-bold text-slate-400 hover:text-blue-600 transition-colors">Home</Link>
+            <Link href="/" className="text-[11px] font-bold text-[#0f172a] hover:text-blue-600 transition-colors">Home</Link>
             <svg className="w-3 h-3 text-slate-300" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
             <span className="text-[11px] font-bold text-blue-600">Contact Us</span>
           </motion.div>
@@ -61,17 +61,17 @@ export default function ContactPage() {
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1, ease }}
-              className="text-4xl sm:text-5xl lg:text-[4rem] font-bold font-figtree tracking-[-0.03em] text-[#0f172a] leading-[1.15] mb-6"
+              className="text-4xl sm:text-5xl lg:text-[4rem] xl:text-[4.5rem] font-bold font-figtree tracking-[-0.03em] mb-8 leading-[1.25] text-[#0f172a] max-w-5xl mx-auto"
             >
               One Platform. Every Channel.<br />
-              <span className="text-blue-600">Intelligent CX.</span>
+              <span className="inline-block bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent pb-2">Intelligent CX.</span>
             </motion.h1>
 
             <motion.p
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.4 }}
-              className="text-[16px] text-slate-500 max-w-xl mx-auto leading-relaxed"
+              className="text-base sm:text-lg md:text-xl text-slate-500 leading-relaxed font-normal max-w-2xl mx-auto"
             >
               Have a question, need a demo, or want to explore how Inaipi can transform your CX? We&apos;d love to hear from you.
             </motion.p>
@@ -97,11 +97,12 @@ export default function ContactPage() {
                 <span className="text-[11px] font-bold uppercase tracking-widest text-blue-500">Get In Touch</span>
               </div>
 
-              <h2 className="text-2xl sm:text-3xl font-bold font-figtree tracking-[-0.025em] text-[#0f172a] leading-[1.1] mb-5">
-                Let&apos;s Make Something<br />Awesome Together
+              <h2 className="text-2xl sm:text-3xl font-bold font-figtree tracking-[-0.025em] leading-[1.15] mb-5">
+                <span className="text-[#0f172a]">Let&apos;s Make Something<br /></span>
+                <span className="bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent">Awesome Together</span>
               </h2>
 
-              <p className="text-[16px] text-slate-500 leading-relaxed mb-10 max-w-md">
+              <p className="text-base sm:text-lg text-slate-500 leading-relaxed mb-10 max-w-md">
                 Have a project in mind or need help bringing your digital vision to life? We&apos;d love to hear from you! Whether you&apos;re starting fresh or scaling fast.
               </p>
 
@@ -143,28 +144,29 @@ export default function ContactPage() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.7, ease }}
-              className="bg-[#f8faff] border border-slate-100 rounded-[2rem] p-8 lg:p-10"
+              className="border border-slate-200 shadow-sm rounded-[2rem] p-8 lg:p-10"
+              style={{ background: 'linear-gradient(145deg, #dde6ff 0%, #d5dcff 50%, #ddd4ff 100%)' }}
             >
               <h3 className="text-[22px] font-bold font-figtree text-[#0f172a] leading-tight mb-2">Get in Touch</h3>
-              <p className="text-[16px] text-slate-500 leading-relaxed mb-8">Let&apos;s build something impactful together.</p>
+              <p className="text-base sm:text-lg text-slate-500 leading-relaxed mb-8">Let&apos;s build something impactful together.</p>
 
               <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
                 <div>
                   <label className="block text-[13px] font-bold text-[#0f172a] mb-2">Full Name*</label>
                   <input type="text" required placeholder="Steven L. Manzo"
-                    className="w-full px-5 py-3.5 rounded-xl bg-blue-50/50 border border-slate-200 text-[15px] text-[#0f172a] placeholder:text-slate-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 transition-all duration-200" />
+                    className="w-full px-5 py-3.5 rounded-xl bg-white border border-slate-200 text-[15px] text-[#0f172a] placeholder:text-slate-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 transition-all duration-200" />
                 </div>
 
                 <div>
                   <label className="block text-[13px] font-bold text-[#0f172a] mb-2">Email Address*</label>
                   <input type="email" required placeholder="Enter your email"
-                    className="w-full px-5 py-3.5 rounded-xl bg-blue-50/50 border border-slate-200 text-[15px] text-[#0f172a] placeholder:text-slate-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 transition-all duration-200" />
+                    className="w-full px-5 py-3.5 rounded-xl bg-white border border-slate-200 text-[15px] text-[#0f172a] placeholder:text-slate-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 transition-all duration-200" />
                 </div>
 
                 <div>
                   <label className="block text-[13px] font-bold text-[#0f172a] mb-2">Subject*</label>
                   <input type="text" required placeholder="I would like to discuss"
-                    className="w-full px-5 py-3.5 rounded-xl bg-blue-50/50 border border-slate-200 text-[15px] text-[#0f172a] placeholder:text-slate-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 transition-all duration-200" />
+                    className="w-full px-5 py-3.5 rounded-xl bg-white border border-slate-200 text-[15px] text-[#0f172a] placeholder:text-slate-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 transition-all duration-200" />
                 </div>
 
                 <div>
@@ -174,15 +176,17 @@ export default function ContactPage() {
                 </div>
 
                 <motion.button
-                  whileHover={{ scale: 1.02, y: -2 }}
-                  whileTap={{ scale: 0.98 }}
+                  whileHover={{ scale: 1.05, y: -2 }}
+                  whileTap={{ scale: 0.96, y: 0 }}
                   type="submit"
-                  className="relative group overflow-hidden bg-[#0f172a] hover:bg-[#1e293b] text-white px-7 py-3.5 rounded-full font-bold text-[14px] transition-all duration-200 flex items-center gap-3 shadow-lg"
+                  className="relative group overflow-hidden bg-[#2563eb] hover:bg-[#1d4ed8] text-white min-h-[44px] px-6 py-2.5 rounded-full font-black font-figtree text-[11px] uppercase tracking-widest transition-all duration-200 flex items-center gap-2 shadow-md shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/40"
                 >
-                  <span className="absolute inset-0 -skew-x-12 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:translate-x-[200%] transition-transform duration-500 ease-in-out pointer-events-none" />
-                  <span className="relative z-10">Send Message Us</span>
-                  <span className="relative z-10 w-8 h-8 rounded-full bg-white flex items-center justify-center">
-                    <ArrowRight className="w-4 h-4 text-[#0f172a]" />
+                  <span className="absolute inset-0 -skew-x-12 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover:translate-x-[200%] transition-transform duration-500 ease-in-out pointer-events-none" />
+                  <span className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none" style={{ boxShadow: '0 0 0 4px rgba(37,99,235,0.25)' }} />
+                  <span className="relative z-10">Send Message</span>
+                  <span className="relative z-10 w-5 h-5 rounded-full bg-white/20 flex items-center justify-center overflow-hidden group-hover:bg-white/30 transition-colors duration-200">
+                    <ArrowRight className="w-2.5 h-2.5 text-white translate-x-0 group-hover:translate-x-4 transition-transform duration-200 ease-in" />
+                    <ArrowRight className="w-2.5 h-2.5 text-white absolute -translate-x-4 group-hover:translate-x-0 transition-transform duration-200 ease-out" />
                   </span>
                 </motion.button>
               </form>

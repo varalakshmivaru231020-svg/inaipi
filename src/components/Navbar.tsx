@@ -29,7 +29,7 @@ export default function Navbar() {
   return (
     <>
       <motion.nav
-        className="fixed top-0 left-0 right-0 z-50 flex justify-center"
+        className="fixed top-0 left-0 right-0 z-50 flex justify-center font-figtree"
         initial={{ opacity: 0, y: -24 }}
         animate={{
           opacity: 1,
@@ -96,7 +96,7 @@ export default function Navbar() {
                 >
                   <Link
                     href={link.href}
-                    className="relative inline-flex items-center min-h-[44px] text-sm font-semibold text-[#0f172a]/60 hover:text-[#2563eb] transition-colors duration-200 tracking-normal whitespace-nowrap group focus-visible:outline-none focus-visible:text-[#2563eb]"
+                    className="relative inline-flex items-center min-h-[44px] text-[15px] font-semibold font-figtree text-[#0f172a]/60 hover:text-[#2563eb] transition-colors duration-200 tracking-normal whitespace-nowrap group focus-visible:outline-none focus-visible:text-[#2563eb]"
                   >
                     {link.name}
                     <span className="absolute -bottom-0.5 left-0 w-0 h-[1.5px] bg-blue-500 group-hover:w-full transition-all duration-200 rounded-full" />
@@ -114,7 +114,7 @@ export default function Navbar() {
               >
                 <Link
                   href="/login"
-                  className="text-[11px] font-black text-[#0f172a] hover:text-[#2563eb] hover:border-[#2563eb] transition-all duration-200 uppercase tracking-[0.15em] inline-flex items-center gap-2 border-2 border-[#0f172a]/30 min-h-[44px] px-5 py-2.5 rounded-full whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                  className="text-[11px] font-black font-figtree text-[#0f172a] hover:text-[#2563eb] hover:border-[#2563eb] transition-all duration-200 uppercase tracking-[0.15em] inline-flex items-center gap-2 border-2 border-[#0f172a]/30 min-h-[44px] px-5 py-2.5 rounded-full whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                 >
                   Log in
                   <ArrowRight className="w-3 h-3" />
@@ -128,7 +128,7 @@ export default function Navbar() {
                 whileTap={{ scale: 0.96, y: 0 }}
               >
                 <button
-                  className="relative group overflow-hidden bg-[#2563eb] hover:bg-[#1d4ed8] text-white min-h-[44px] px-5 py-2.5 rounded-full font-black text-[11px] uppercase tracking-widest transition-all duration-200 flex items-center gap-2 shadow-md shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/40 whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                  className="relative group overflow-hidden bg-[#2563eb] hover:bg-[#1d4ed8] text-white min-h-[44px] px-5 py-2.5 rounded-full font-black font-figtree text-[11px] uppercase tracking-widest transition-all duration-200 flex items-center gap-2 shadow-md shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/40 whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                   aria-label="Get started with Inaipi"
                 >
                   {/* Shimmer — fires on hover via group */}
@@ -171,7 +171,7 @@ export default function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -16 }}
             transition={{ duration: 0.25, ease: 'easeOut' }}
-            className="fixed top-[72px] left-0 right-0 z-40 bg-white border-b border-gray-100 p-8 shadow-2xl"
+            className="fixed top-[72px] left-0 right-0 z-40 bg-white border-b border-gray-100 p-8 shadow-2xl font-figtree"
           >
             <div className="flex flex-col space-y-2">
               {navLinks.map((link) => (

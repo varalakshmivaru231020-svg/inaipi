@@ -136,6 +136,10 @@ const AGENTS = [
   { name: 'Nancy',           dept: 'Sales',        ext: '2534', avatar: '/images/people/person_2.png', color: 'bg-violet-500', active: false },
   { name: 'Ravi Kumar',      dept: 'Support',      ext: '3301', avatar: '/images/people/person_3.png', color: 'bg-blue-600',   active: false },
   { name: 'Sara M.',         dept: 'Finance',      ext: '4420', avatar: '/images/people/person_4.png', color: 'bg-indigo-400', active: false },
+  { name: 'Marco Rossi',     dept: 'Tech Support', ext: '8821', avatar: '/images/people/person_2.png', color: 'bg-sky-500',    active: true  },
+  { name: 'Priya Nair',      dept: 'Success',      ext: '1205', avatar: '/images/people/person_3.png', color: 'bg-emerald-500', active: false },
+  { name: 'Zhang Wei',       dept: 'Operations',   ext: '4092', avatar: '/images/people/person_4.png', color: 'bg-amber-500',   active: false },
+  { name: 'Elena Petrova',   dept: 'Retention',    ext: '5501', avatar: '/images/people/person_1.png', color: 'bg-rose-500',    active: false },
 ];
 
 const INTEGRATIONS = [
@@ -301,7 +305,7 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 3.4, ease: [0.16, 1, 0.3, 1] }}
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.96, y: 0 }}
-            className="w-full sm:w-auto wow wow-d5"
+            className="w-full sm:w-auto"
           >
             <a
               href="#"
@@ -328,7 +332,7 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 3.55, ease: [0.16, 1, 0.3, 1] }}
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.96, y: 0 }}
-            className="w-full sm:w-auto wow wow-d6"
+            className="w-full sm:w-auto"
           >
             <a
               href="#"
@@ -353,7 +357,7 @@ export default function Hero() {
         <div className="absolute -inset-10 bg-blue-500/8 blur-[100px] rounded-full pointer-events-none" />
 
         {/* 3-panel container — flex so center is truly centered */}
-        <div className="flex items-start justify-center gap-0" style={{ minHeight: '520px' }}>
+        <div className="flex items-start justify-center gap-0" style={{ minHeight: '640px' }}>
 
           {/* ══ LEFT — two separate cards ══ */}
           <div className="flex flex-col gap-3 w-60 shrink-0 self-center z-20 -mr-5">
@@ -432,7 +436,7 @@ export default function Hero() {
             className="rounded-2xl bg-white border border-slate-200/80 z-10 flex flex-col overflow-hidden shrink-0"
             style={{
               width: '840px',
-              height: '480px',
+              height: '600px',
               boxShadow: '0 32px 80px -20px rgba(37,99,235,0.18), 0 8px 32px -4px rgba(0,0,0,0.08)',
             }}
           >

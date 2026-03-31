@@ -129,11 +129,11 @@ export default function AgentDesktop() {
           Unified Workspace
         </motion.span>
         <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}
-          className="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold font-figtree tracking-[-0.025em] text-[#0f172a] leading-[1.1] mb-5">
-          The Agent Desktop.
+          className="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold font-figtree tracking-[-0.025em] leading-[1.15] mb-5">
+          The <span className="bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent">Agent Desktop.</span>
         </motion.h2>
         <motion.p initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.15 }}
-          className="text-[16px] text-slate-500 leading-relaxed max-w-2xl mx-auto">
+          className="text-base sm:text-lg md:text-xl text-slate-500 leading-relaxed max-w-2xl mx-auto">
           Every channel, every customer, every insight — in one unified interface. No tab switching. No context loss.
         </motion.p>
       </div>
@@ -147,22 +147,25 @@ export default function AgentDesktop() {
           className="relative max-w-7xl mx-auto rounded-[2rem] overflow-hidden border border-gray-200 shadow-2xl bg-[#f8fafc]"
         >
           {/* ── Top Bar ── */}
-          <div className="flex items-center justify-between px-6 py-3 bg-[#0f172a] border-b border-white/5">
+          <div className="flex items-center justify-between px-6 py-3 border-b border-white/10" style={{ background: 'linear-gradient(135deg, #4f46e5 0%, #6366f1 60%, #7c3aed 100%)' }}>
             <div className="flex items-center gap-4">
-              <img
-                src="https://api.dicebear.com/7.x/thumbs/svg?seed=JamesDaemon&backgroundColor=dbeafe"
-                alt="James Daemon"
-                className="w-8 h-8 rounded-xl object-cover bg-slate-100"
-              />
+              <motion.div animate={{ scale: [1, 1.1, 1] }} transition={{ duration: 2, repeat: Infinity }}
+                className="w-8 h-8 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center shrink-0 overflow-hidden">
+                <img
+                  src="https://api.dicebear.com/7.x/thumbs/svg?seed=JamesDaemon&backgroundColor=dbeafe"
+                  alt="James Daemon"
+                  className="w-full h-full object-cover"
+                />
+              </motion.div>
               <div>
                 <p className="text-white text-xs font-bold">James Daemon</p>
                 <div className="flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
-                  <span className="text-[10px] text-blue-400 font-bold uppercase tracking-wider">Available</span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+                  <span className="text-[10px] text-white/70 font-bold uppercase tracking-wider">Available</span>
                 </div>
               </div>
-              <div className="h-8 w-px bg-white/10 mx-2" />
-              {[{ icon: Phone, count: 3, color: 'text-blue-400' }, { icon: MessageSquare, count: 5, color: 'text-blue-300' }, { icon: Mail, count: 8, color: 'text-blue-200' }]
+              <div className="h-8 w-px bg-white/20 mx-2" />
+              {[{ icon: Phone, count: 3, color: 'text-white/80' }, { icon: MessageSquare, count: 5, color: 'text-white/80' }, { icon: Mail, count: 8, color: 'text-white/80' }]
                 .map((s, i) => (
                   <div key={i} className="flex items-center gap-1.5">
                     <s.icon className={`w-3.5 h-3.5 ${s.color}`} />
@@ -173,23 +176,23 @@ export default function AgentDesktop() {
             <div className="flex items-center gap-6">
               <div className="text-center hidden sm:block">
                 <p className="text-white text-sm font-black">4.8</p>
-                <p className="text-white/30 text-[9px] uppercase tracking-wider">CSAT</p>
+                <p className="text-white/40 text-[9px] uppercase tracking-wider">CSAT</p>
               </div>
               <div className="text-center hidden sm:block">
                 <p className="text-white text-sm font-black">1m42s</p>
-                <p className="text-white/30 text-[9px] uppercase tracking-wider">Avg Handle</p>
+                <p className="text-white/40 text-[9px] uppercase tracking-wider">Avg Handle</p>
               </div>
               <motion.div
                 key={liveCount}
                 animate={{ scale: [1, 1.05, 1] }}
                 transition={{ duration: 0.3 }}
-                className="flex items-center gap-1.5 bg-blue-500/10 border border-blue-500/20 px-3 py-1.5 rounded-full"
+                className="flex items-center gap-1.5 bg-white/15 border border-white/20 px-3 py-1.5 rounded-full"
               >
-                <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
-                <span className="text-blue-400 text-[10px] font-black uppercase tracking-wider">Live: {liveCount.toLocaleString()}</span>
+                <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+                <span className="text-white text-[10px] font-black uppercase tracking-wider">Live: {liveCount.toLocaleString()}</span>
               </motion.div>
-              <Bell className="w-4 h-4 text-white/30 hover:text-white cursor-pointer transition-colors" />
-              <Settings className="w-4 h-4 text-white/30 hover:text-white cursor-pointer transition-colors" />
+              <Bell className="w-4 h-4 text-white/40 hover:text-white cursor-pointer transition-colors" />
+              <Settings className="w-4 h-4 text-white/40 hover:text-white cursor-pointer transition-colors" />
             </div>
           </div>
 

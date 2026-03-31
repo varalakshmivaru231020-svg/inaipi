@@ -78,8 +78,8 @@ export default function Blogs() {
         <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12 gap-6">
           <div>
             <span className="section-eyebrow wow wow-d1">From the Blog</span>
-            <h2 className="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold font-figtree tracking-[-0.03em] text-[#0f172a] leading-[1.25] wow wow-d2">
-              Insights &amp; Resources
+            <h2 className="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold font-figtree tracking-[-0.025em] leading-[1.15] wow wow-d2">
+              Insights &amp; <span className="bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent">Resources</span>
             </h2>
           </div>
           <motion.div
@@ -121,7 +121,7 @@ export default function Blogs() {
             viewport={{ once: true, margin: '-60px' }}
             whileHover={{ y: -6 }}
             transition={{ duration: 0.3 }}
-            className="lg:col-span-3 group bg-white rounded-3xl overflow-hidden border border-gray-100 hover:border-blue-500/25 shadow-sm hover:shadow-2xl hover:shadow-blue-600/15 hover:-translate-y-2 transition-all duration-300 cursor-pointer flex flex-col"
+            className="lg:col-span-3 group bg-[#f4f7ff] rounded-3xl overflow-hidden border border-slate-200 hover:border-blue-500/30 shadow-md hover:shadow-2xl hover:shadow-blue-600/15 hover:-translate-y-2 transition-all duration-300 cursor-pointer flex flex-col"
           >
             {/* Image */}
             <div className="relative h-60 sm:h-72 overflow-hidden bg-gray-100">
@@ -140,7 +140,7 @@ export default function Blogs() {
             </div>
 
             <div className="p-8 flex flex-col flex-1">
-              <h3 className="text-xl font-bold text-[#0f172a] leading-snug mb-3 group-hover:text-blue-600 transition-colors duration-200">
+              <h3 className="text-[18px] font-bold font-figtree text-[#0f172a] leading-tight mb-3 group-hover:text-blue-600 transition-colors duration-200">
                 {featured.title}
               </h3>
               <p className="text-base text-slate-500 leading-relaxed mb-5">
@@ -151,7 +151,7 @@ export default function Blogs() {
               {'keyPoints' in featured && (
                 <ul className="space-y-2 mb-6">
                   {(featured as typeof featured & { keyPoints: string[] }).keyPoints.map((pt, i) => (
-                    <li key={i} className="flex items-start gap-2 text-sm text-slate-600 font-medium">
+                    <li key={i} className="flex items-start gap-2 text-sm text-slate-500 font-medium">
                       <CheckCircle2 className="w-3.5 h-3.5 mt-0.5 shrink-0 text-blue-500" />
                       {pt}
                     </li>
@@ -206,7 +206,7 @@ export default function Blogs() {
                 viewport={{ once: true, margin: '-60px' }}
                 whileHover={{ y: -4 }}
                 transition={{ duration: 0.3 }}
-                className="group bg-white rounded-3xl overflow-hidden border border-gray-100 hover:border-blue-500/25 shadow-sm hover:shadow-2xl hover:shadow-blue-600/15 hover:-translate-y-2 transition-all duration-300 cursor-pointer flex flex-col flex-1"
+                className="group bg-[#f4f7ff] rounded-3xl overflow-hidden border border-slate-200 hover:border-blue-500/30 shadow-md hover:shadow-2xl hover:shadow-blue-600/15 hover:-translate-y-2 transition-all duration-300 cursor-pointer flex flex-col flex-1"
               >
                 {/* Image */}
                 <div className="relative h-40 overflow-hidden bg-gray-100">
@@ -223,7 +223,7 @@ export default function Blogs() {
                 </div>
 
                 <div className="p-6 flex flex-col flex-1">
-                  <h3 className="text-lg font-bold text-[#0f172a] leading-snug mb-2 group-hover:text-blue-600 transition-colors duration-200">
+                  <h3 className="text-[16px] font-bold font-figtree text-[#0f172a] leading-tight mb-2 group-hover:text-blue-600 transition-colors duration-200">
                     {post.title}
                   </h3>
                   {'excerpt' in post && (
@@ -232,7 +232,7 @@ export default function Blogs() {
                   {'keyPoints' in post && (
                     <ul className="space-y-1.5 mb-3">
                       {(post as typeof post & { keyPoints: string[] }).keyPoints.map((pt, j) => (
-                        <li key={j} className="flex items-start gap-1.5 text-sm text-slate-600 font-medium">
+                        <li key={j} className="flex items-start gap-1.5 text-sm text-slate-500 font-medium">
                           <CheckCircle2 className="w-3 h-3 mt-0.5 shrink-0 text-blue-500" />
                           {pt}
                         </li>

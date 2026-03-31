@@ -13,7 +13,7 @@ const leftTrack  = [...customers, ...customers, ...customers];
 const rightTrack = [...customers, ...customers, ...customers];
 
 const Item = ({ name }: { name: string }) => (
-  <span className="flex items-center gap-3 text-sm font-semibold text-white/75 whitespace-nowrap select-none cursor-default tracking-wide">
+  <span className="flex items-center gap-3 text-base font-bold text-white/75 whitespace-nowrap select-none cursor-default tracking-wide">
     <span className="w-1.5 h-1.5 rounded-full bg-white/35 shrink-0" />
     {name}
   </span>
@@ -21,7 +21,7 @@ const Item = ({ name }: { name: string }) => (
 
 const PAGE_BG = '#f8faff';
 
-const BRACKET_FILL = '#ffffff';
+const BRACKET_FILL = '#1e40af';
 
 const RightBracket = () => (
   <svg width="28" height="130" viewBox="0 0 28 130" fill="none" style={{ flexShrink: 0, display: 'block', marginRight: '-1px' }}>
@@ -62,7 +62,7 @@ export default function TrustMarquee() {
         className="text-center text-sm font-semibold text-slate-400 uppercase tracking-[0.2em] mb-12"
       >
         Trusted by{' '}
-        <span className="text-slate-700">15,000+ enterprise customers</span>
+        <span className="text-blue-600">500+ enterprise customers</span>
         {' '}across the region
       </motion.p>
 
@@ -108,7 +108,7 @@ export default function TrustMarquee() {
           {/* page-color box hides strip behind the number */}
           <div style={{ background: PAGE_BG, height: '88px', display: 'flex', alignItems: 'center', padding: '0 32px' }}>
             <span style={{ fontSize: '2rem', fontWeight: 700, color: '#1e40af', whiteSpace: 'nowrap', letterSpacing: '-0.03em', fontFamily: 'var(--font-figtree), Figtree, sans-serif' }}>
-              15,000+
+              500+
             </span>
           </div>
           <LeftBracket />

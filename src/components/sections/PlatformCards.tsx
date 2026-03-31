@@ -382,16 +382,16 @@ export default function PlatformCards() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.1, duration: 1.0, ease: [0.16, 1, 0.3, 1] }}
-          className="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold font-figtree tracking-[-0.025em] text-[#0f172a] leading-[1.1] mb-5"
+          className="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold font-figtree tracking-[-0.025em] leading-[1.15] mb-5"
         >
-          One platform. Every capability.
+          One platform. <span className="bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent">Every capability.</span>
         </motion.h2>
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.2 }}
-          className="text-[16px] text-slate-500 leading-relaxed"
+          className="text-base sm:text-lg md:text-xl text-slate-500 leading-relaxed"
         >
           From live monitoring to outbound campaigns — every module is AI-native and connected through one intelligent core.
         </motion.p>

@@ -46,7 +46,7 @@ export default function CareerPage() {
 
         <div className="container mx-auto px-6 max-w-6xl relative z-10">
           <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }} className="flex items-center justify-center gap-2 mb-10">
-            <Link href="/" className="text-[11px] font-bold text-slate-400 hover:text-blue-600 transition-colors">Home</Link>
+            <Link href="/" className="text-[11px] font-bold text-[#0f172a] hover:text-blue-600 transition-colors">Home</Link>
             <svg className="w-3 h-3 text-slate-300" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
             <span className="text-[11px] font-bold text-blue-600">Career</span>
           </motion.div>
@@ -61,18 +61,18 @@ export default function CareerPage() {
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1, ease }}
-              className="text-4xl sm:text-5xl lg:text-[4rem] font-bold font-figtree tracking-[-0.03em] text-[#0f172a] leading-[1.15] mb-6"
+              className="text-4xl sm:text-5xl lg:text-[4rem] xl:text-[4.5rem] font-bold font-figtree tracking-[-0.03em] mb-8 leading-[1.25] text-[#0f172a] max-w-5xl mx-auto"
             >
               Build the Future of<br />
-              <span style={{ background: 'linear-gradient(135deg, #2563eb 0%, #7c3aed 60%, #06b6d4 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Customer Experience.</span>
+              <span className="inline-block bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent pb-2">Customer Experience.</span>
             </motion.h1>
 
             <motion.p
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.4 }}
-              className="text-[16px] text-slate-500 max-w-xl mx-auto leading-relaxed"
-            >
+              className="text-base sm:text-lg md:text-xl text-slate-500 leading-relaxed font-normal max-w-2xl mx-auto"
+              >
               Join a team of CX, AI, and enterprise technology practitioners building the platform that replaces fragmented CX stacks.
             </motion.p>
           </div>  
@@ -101,8 +101,8 @@ export default function CareerPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.1 }}
                 transition={{ delay: i * 0.08, duration: 0.5, ease }}
-                className="group p-8 lg:p-10 border border-slate-100/80 rounded-[2rem] hover:border-blue-500/25 hover:shadow-2xl hover:shadow-blue-600/15 hover:-translate-y-2 transition-all duration-300 relative overflow-hidden"
-                style={{ background: 'linear-gradient(145deg, #f8faff 0%, #f0f4ff 50%, #faf5ff 100%)' }}
+                className="group p-8 lg:p-10 border border-slate-200 shadow-sm rounded-[2rem] hover:border-blue-500/25 hover:shadow-2xl hover:shadow-blue-600/15 hover:-translate-y-2 transition-all duration-300 relative overflow-hidden"
+                style={{ background: 'linear-gradient(145deg, #dde6ff 0%, #d5dcff 50%, #ddd4ff 100%)' }}
               >
                 {/* Card inner glow on hover */}
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-[2rem]" style={{ background: 'linear-gradient(135deg, #2563eb 0%, #4f46e5 60%, #7c3aed 100%)' }} />
@@ -112,7 +112,7 @@ export default function CareerPage() {
                 <div className="relative z-10">
                   {/* Type + Location badges */}
                   <div className="flex items-center gap-2 mb-5">
-                    <span className="inline-flex items-center px-3.5 py-1.5 bg-blue-50 border border-blue-100 rounded-full text-[11px] font-bold text-blue-500 uppercase tracking-widest group-hover:bg-white/20 group-hover:border-white/20 group-hover:text-white transition-all duration-300">
+                    <span className="inline-flex items-center px-3.5 py-1.5 bg-white border border-blue-100 rounded-full text-[11px] font-bold text-blue-500 uppercase tracking-widest group-hover:bg-white/20 group-hover:border-white/20 group-hover:text-white transition-all duration-300">
                       {job.type}
                     </span>
                     <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-slate-100 rounded-full text-[11px] font-bold text-slate-500 uppercase tracking-widest group-hover:bg-white/10 group-hover:text-blue-100 transition-all duration-300">
@@ -122,7 +122,7 @@ export default function CareerPage() {
                   </div>
 
                   <h3 className="text-[22px] font-bold font-figtree text-[#0f172a] leading-tight mb-3 group-hover:text-white transition-colors duration-300">{job.title}</h3>
-                  <p className="text-[16px] text-slate-500 leading-relaxed mb-8 group-hover:text-blue-100 transition-colors duration-300">{job.desc}</p>
+                  <p className="text-base text-slate-500 leading-relaxed mb-8 group-hover:text-blue-100 transition-colors duration-300">{job.desc}</p>
 
                   <div className="flex items-center justify-between">
                     <span className="flex items-center gap-1.5 text-[13px] font-bold text-slate-400 group-hover:text-blue-200 transition-colors duration-300">
@@ -131,11 +131,14 @@ export default function CareerPage() {
                     </span>
                     <Link
                       href={`/career/${job.slug}`}
-                      className="relative inline-flex items-center gap-2.5 bg-[#2563eb] group-hover:bg-white text-white group-hover:text-[#2563eb] px-5 py-2.5 rounded-full font-black text-[11px] uppercase tracking-widest transition-all duration-300 shadow-md shadow-blue-500/25 group-hover:shadow-lg group-hover:shadow-white/20"
+                      className="relative group/btn overflow-hidden bg-[#2563eb] hover:bg-[#1d4ed8] text-white min-h-[44px] px-5 py-2.5 rounded-full font-black font-figtree text-[11px] uppercase tracking-widest transition-all duration-200 inline-flex items-center gap-2 shadow-md shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/40"
                     >
-                      <span>View Details</span>
-                      <span className="w-6 h-6 rounded-full bg-white/15 group-hover:bg-blue-50 flex items-center justify-center transition-colors duration-300">
-                        <ArrowRight className="w-3 h-3" />
+                      <span className="absolute inset-0 -skew-x-12 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover/btn:translate-x-[200%] transition-transform duration-500 ease-in-out pointer-events-none" />
+                      <span className="absolute inset-0 rounded-full opacity-0 group-hover/btn:opacity-100 transition-opacity duration-200 pointer-events-none" style={{ boxShadow: '0 0 0 4px rgba(37,99,235,0.25)' }} />
+                      <span className="relative z-10">View Details</span>
+                      <span className="relative z-10 w-5 h-5 rounded-full bg-white/20 flex items-center justify-center overflow-hidden group-hover/btn:bg-white/30 transition-colors duration-200">
+                        <ArrowRight className="w-2.5 h-2.5 text-white translate-x-0 group-hover/btn:translate-x-4 transition-transform duration-200 ease-in" />
+                        <ArrowRight className="w-2.5 h-2.5 text-white absolute -translate-x-4 group-hover/btn:translate-x-0 transition-transform duration-200 ease-out" />
                       </span>
                     </Link>
                   </div>

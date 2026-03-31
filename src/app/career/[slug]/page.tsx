@@ -226,7 +226,7 @@ export default function CareerDetailPage() {
 
         <div className="container mx-auto px-6 max-w-6xl relative z-10">
           <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }} className="flex items-center gap-2 mb-10">
-            <Link href="/" className="text-[11px] font-bold text-slate-400 hover:text-blue-600 transition-colors">Home</Link>
+            <Link href="/" className="text-[11px] font-bold text-[#0f172a] hover:text-blue-600 transition-colors">Home</Link>
             <svg className="w-3 h-3 text-slate-300" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
             <Link href="/career" className="text-[11px] font-bold text-slate-400 hover:text-blue-600 transition-colors">Career</Link>
             <svg className="w-3 h-3 text-slate-300" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
@@ -261,9 +261,9 @@ export default function CareerDetailPage() {
               >
               {/* Description */}
               <div>
-                <h2 className="text-2xl sm:text-3xl font-bold font-figtree tracking-[-0.025em] text-[#0f172a] leading-[1.1] mb-4">Job Description:</h2>
-                <p className="text-[16px] text-slate-500 leading-relaxed mb-4">{job.desc}</p>
-                <p className="text-[16px] text-slate-500 leading-relaxed">
+                <h2 className="text-2xl sm:text-3xl font-bold font-figtree tracking-[-0.025em] text-[#0f172a] leading-[1.15] mb-4">Job Description:</h2>
+                <p className="text-base sm:text-lg text-slate-500 leading-relaxed mb-4">{job.desc}</p>
+                <p className="text-base sm:text-lg text-slate-500 leading-relaxed">
                   From day one, you'll work closely with cross-functional teams in a fast-paced, collaborative environment where your contributions directly shape the product and customer experience.
                 </p>
               </div>
@@ -273,10 +273,10 @@ export default function CareerDetailPage() {
 
               {/* Responsibilities */}
               <div>
-                <h2 className="text-2xl sm:text-3xl font-bold font-figtree tracking-[-0.025em] text-[#0f172a] leading-[1.1] mb-6">Key Responsibilities:</h2>
+                <h2 className="text-2xl sm:text-3xl font-bold font-figtree tracking-[-0.025em] text-[#0f172a] leading-[1.15] mb-6">Key Responsibilities:</h2>
                 <ul className="space-y-4">
                   {job.responsibilities.map((item, i) => (
-                    <li key={i} className="flex items-start gap-4 text-[16px] text-slate-500 leading-relaxed">
+                    <li key={i} className="flex items-start gap-4 text-base sm:text-lg text-slate-500 leading-relaxed">
                       <span className="mt-1 shrink-0 flex items-center justify-center w-5 h-5">
                         <svg viewBox="0 0 20 20" className="w-4 h-4 text-blue-500" fill="none"><path d="M7 10l2 2 4-4" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/><circle cx="10" cy="10" r="8.5" stroke="currentColor" strokeWidth="1.5" opacity="0.3"/></svg>
                       </span>
@@ -290,10 +290,10 @@ export default function CareerDetailPage() {
 
               {/* Requirements */}
               <div>
-                <h2 className="text-2xl sm:text-3xl font-bold font-figtree tracking-[-0.025em] text-[#0f172a] leading-[1.1] mb-6">Requirements:</h2>
+                <h2 className="text-2xl sm:text-3xl font-bold font-figtree tracking-[-0.025em] text-[#0f172a] leading-[1.15] mb-6">Requirements:</h2>
                 <ul className="space-y-4">
                   {job.requirements.map((item, i) => (
-                    <li key={i} className="flex items-start gap-4 text-[16px] text-slate-500 leading-relaxed">
+                    <li key={i} className="flex items-start gap-4 text-base sm:text-lg text-slate-500 leading-relaxed">
                       <span className="mt-1 shrink-0 flex items-center justify-center w-5 h-5">
                         <svg viewBox="0 0 20 20" className="w-4 h-4 text-indigo-500" fill="none"><path d="M7 10l2 2 4-4" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/><circle cx="10" cy="10" r="8.5" stroke="currentColor" strokeWidth="1.5" opacity="0.3"/></svg>
                       </span>
@@ -307,10 +307,10 @@ export default function CareerDetailPage() {
 
               {/* What We Offer */}
               <div>
-                <h2 className="text-2xl sm:text-3xl font-bold font-figtree tracking-[-0.025em] text-[#0f172a] leading-[1.1] mb-6">What We Offer:</h2>
+                <h2 className="text-2xl sm:text-3xl font-bold font-figtree tracking-[-0.025em] text-[#0f172a] leading-[1.15] mb-6">What We Offer:</h2>
                 <ul className="space-y-4">
                   {job.offers.map((item, i) => (
-                    <li key={i} className="flex items-start gap-4 text-[16px] text-slate-500 leading-relaxed">
+                    <li key={i} className="flex items-start gap-4 text-base sm:text-lg text-slate-500 leading-relaxed">
                       <span className="mt-1 shrink-0 flex items-center justify-center w-5 h-5">
                         <svg viewBox="0 0 20 20" className="w-4 h-4 text-sky-500" fill="none"><path d="M7 10l2 2 4-4" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/><circle cx="10" cy="10" r="8.5" stroke="currentColor" strokeWidth="1.5" opacity="0.3"/></svg>
                       </span>
@@ -345,8 +345,8 @@ export default function CareerDetailPage() {
                 initial={{ opacity: 0, x: 30 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.2, ease }}
-                className="rounded-[2rem] p-8 relative overflow-hidden border border-blue-100/60"
-                style={{ background: 'linear-gradient(145deg, #eff6ff 0%, #e0e7ff 50%, #f0f4ff 100%)' }}
+                className="rounded-[2rem] p-8 relative overflow-hidden border border-slate-200 shadow-sm"
+                style={{ background: 'linear-gradient(145deg, #dde6ff 0%, #d5dcff 50%, #ddd4ff 100%)' }}
               >
                 <div className="absolute -top-8 -right-8 w-40 h-40 rounded-full opacity-40" style={{ background: 'radial-gradient(circle, rgba(37,99,235,0.25) 0%, transparent 70%)', filter: 'blur(30px)' }} />
                 <div className="relative z-10">
@@ -387,12 +387,12 @@ export default function CareerDetailPage() {
                 <div className="relative z-10 p-8 flex flex-col justify-between h-full" style={{ minHeight: 280 }}>
                   <div className="mb-8">
                     <div className="inline-flex items-center gap-2 bg-white/10 border border-white/10 rounded-full px-3 py-1.5 mb-5">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#B7FF5E] animate-pulse" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
                       <span className="text-[11px] font-bold uppercase tracking-widest text-white/70">Now Hiring</span>
                     </div>
                     <h3 className="text-2xl font-black text-white leading-snug">
                       Looking for full&#8209;time<br />or part&#8209;time roles?<br />
-                      <span style={{ background: 'linear-gradient(90deg, #B7FF5E 0%, #34d399 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>This is the right place.</span>
+                      <span className="bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent">This is the right place.</span>
                     </h3>
                   </div>
                   <Link
@@ -428,9 +428,9 @@ export default function CareerDetailPage() {
               <span className="text-[11px] font-bold uppercase tracking-widest text-blue-500">More Openings</span>
             </motion.div>
             <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-              className="text-3xl sm:text-4xl font-bold font-figtree tracking-[-0.025em] leading-[1.1]">
+              className="text-3xl sm:text-4xl font-bold font-figtree tracking-[-0.025em] leading-[1.15]">
               <span className="text-[#0f172a]">Explore More </span>
-              <span style={{ background: 'linear-gradient(135deg, #2563eb 0%, #7c3aed 60%, #06b6d4 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Positions</span>
+              <span className="bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent">Positions</span>
             </motion.h2>
           </div>
           <div className="grid md:grid-cols-2 gap-6">
@@ -440,8 +440,8 @@ export default function CareerDetailPage() {
               return (
                 <motion.div key={s} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.1 }}
                   transition={{ delay: i * 0.08, duration: 0.5, ease }}
-                  className="group p-8 lg:p-10 border border-slate-100/80 rounded-[2rem] hover:border-blue-500/25 hover:shadow-2xl hover:shadow-blue-600/15 hover:-translate-y-2 transition-all duration-300 relative overflow-hidden"
-                  style={{ background: 'linear-gradient(145deg, #f8faff 0%, #f0f4ff 50%, #faf5ff 100%)' }}
+                  className="group p-8 lg:p-10 border border-slate-200 shadow-sm rounded-[2rem] hover:border-blue-500/25 hover:shadow-2xl hover:shadow-blue-600/15 hover:-translate-y-2 transition-all duration-300 relative overflow-hidden"
+                  style={{ background: 'linear-gradient(145deg, #dde6ff 0%, #d5dcff 50%, #ddd4ff 100%)' }}
                 >
                   <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-[2rem]" style={{ background: 'linear-gradient(135deg, #2563eb 0%, #4f46e5 60%, #7c3aed 100%)' }} />
                   <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-[2rem]" style={{ background: 'radial-gradient(ellipse 80% 50% at 20% 20%, rgba(255,255,255,0.12) 0%, transparent 60%)' }} />
@@ -455,7 +455,7 @@ export default function CareerDetailPage() {
                       </span>
                     </div>
                     <h3 className="text-[22px] font-bold font-figtree text-[#0f172a] leading-tight mb-3 group-hover:text-white transition-colors duration-300">{j.title}</h3>
-                    <p className="text-[16px] text-slate-500 leading-relaxed mb-8 group-hover:text-blue-100 transition-colors duration-300">{j.desc}</p>
+                    <p className="text-base sm:text-lg text-slate-500 leading-relaxed mb-8 group-hover:text-blue-100 transition-colors duration-300">{j.desc}</p>
                     <div className="flex items-center justify-between">
                       <span className="flex items-center gap-1.5 text-[13px] font-bold text-slate-400 group-hover:text-blue-200 transition-colors duration-300">
                         <Clock className="w-3.5 h-3.5" />{j.salary}

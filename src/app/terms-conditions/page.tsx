@@ -112,13 +112,13 @@ export default function TermsConditions() {
         <div className="container mx-auto px-6 max-w-7xl relative z-10">
           {/* Breadcrumb */}
           <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }} className="flex items-center gap-2 mb-10">
-            <Link href="/" className="text-[11px] font-bold text-slate-400 hover:text-blue-600 transition-colors">Home</Link>
+            <Link href="/" className="text-[11px] font-bold text-[#0f172a] hover:text-blue-600 transition-colors">Home</Link>
             <svg className="w-3 h-3 text-slate-300" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
             <span className="text-[11px] font-bold text-blue-600">Terms & Conditions</span>
           </motion.div>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="mb-16">
-            <h1 className="text-4xl sm:text-5xl lg:text-[4rem] font-bold font-figtree tracking-[-0.03em] text-[#0f172a] leading-[1.15] mb-6">Terms & Conditions</h1>
+            <h1 className="text-4xl sm:text-5xl lg:text-[4rem] font-bold font-figtree tracking-[-0.03em] text-[#0f172a] leading-[1.15] mb-6">Terms & <span className="inline-block bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent pb-2">Conditions</span></h1>
             <p className="text-[16px] text-slate-500 font-medium">Last updated: July 01, 2023</p>
           </motion.div>
 
@@ -141,7 +141,7 @@ export default function TermsConditions() {
 
             {sections.map((section, idx) => (
               <div key={idx} className="space-y-5 pb-10 border-b border-slate-100 last:border-0 last:pb-0">
-                <h2 className="text-2xl sm:text-3xl font-bold font-figtree tracking-[-0.025em] text-[#0f172a] leading-[1.1]">{section.title}</h2>
+                <h2 className="text-2xl sm:text-3xl font-bold font-figtree tracking-[-0.025em] text-[#0f172a] leading-[1.15]">{section.title}</h2>
                 <div className="space-y-4">
                   {section.content.map((text, pIdx) => (
                     <p key={pIdx} className="text-[16px] text-slate-600 leading-relaxed">

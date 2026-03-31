@@ -20,10 +20,10 @@ export default function Architecture() {
           className="text-center mb-12"
         >
           <span className="section-eyebrow wow wow-d1">Architecture</span>
-          <h2 className="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold font-figtree tracking-[-0.025em] text-[#0f172a] leading-[1.1] mb-5 wow wow-d2">
-            Inaipi Architecture
+          <h2 className="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold font-figtree tracking-[-0.025em] leading-[1.15] mb-5 wow wow-d2">
+            Inaipi <span className="bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent">Architecture</span>
           </h2>
-          <p className="text-[16px] text-slate-500 leading-relaxed max-w-2xl mx-auto wow wow-d3">
+          <p className="text-base sm:text-lg md:text-xl text-slate-500 leading-relaxed max-w-2xl mx-auto wow wow-d3">
             A single unified platform — every channel, AI layer, and enterprise
             integration connected through one intelligent core.
           </p>

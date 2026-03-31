@@ -68,8 +68,8 @@ export default function Careers() {
             >
               <Link
                 href={`/career/${job.slug}`}
-                className="group flex flex-col justify-between h-full border border-slate-100/80 hover:border-blue-500/25 hover:shadow-2xl hover:shadow-blue-600/15 hover:-translate-y-2 rounded-[2rem] p-8 transition-all duration-300 cursor-pointer relative overflow-hidden"
-                style={{ background: 'linear-gradient(145deg, #f8faff 0%, #f0f4ff 50%, #faf5ff 100%)' }}
+                className="group flex flex-col justify-between h-full border border-slate-200 hover:border-blue-500/30 shadow-sm hover:shadow-2xl hover:shadow-blue-600/15 hover:-translate-y-2 rounded-[2rem] p-8 transition-all duration-300 cursor-pointer relative overflow-hidden"
+                style={{ background: 'linear-gradient(145deg, #dde6ff 0%, #d5dcff 50%, #ddd4ff 100%)' }}
               >
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-[2rem]" style={{ background: 'linear-gradient(135deg, #2563eb 0%, #4f46e5 60%, #7c3aed 100%)' }} />
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-[2rem]" style={{ background: 'radial-gradient(ellipse 80% 50% at 20% 20%, rgba(255,255,255,0.12) 0%, transparent 60%)' }} />

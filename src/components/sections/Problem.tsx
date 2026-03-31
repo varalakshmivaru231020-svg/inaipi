@@ -115,7 +115,7 @@ export default function Problem() {
         >
           The Problem
         </motion.span>
-        <div className="mb-5 flex flex-col items-center gap-1 text-3xl sm:text-4xl lg:text-[2.75rem] font-bold font-figtree tracking-[-0.025em] leading-[1.1]">
+        <div className="mb-5 flex flex-col items-center gap-1 text-3xl sm:text-4xl lg:text-[2.75rem] font-bold font-figtree tracking-[-0.025em] leading-[1.15]">
           <div className="block whitespace-nowrap">
             {['Enterprises', 'invest', 'millions.'].map((word, i) => (
               <motion.span key={i} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.5 }}
@@ -145,7 +145,7 @@ export default function Problem() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.5 }}
           transition={{ duration: 0.4, delay: 0.6 }}
-          className="text-[16px] text-slate-500 leading-relaxed"
+          className="text-base sm:text-lg md:text-xl text-slate-500 leading-relaxed font-normal"
         >
           Disconnected tools and siloed systems break the journey at every stage.
           Bolting on AI doesn't fix it — it creates yet another silo.
@@ -202,13 +202,14 @@ export default function Problem() {
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.45, ease: [0.18, 0.82, 0.41, 1] }}
-              className="lg:col-span-3 bg-[#f8fafc] rounded-3xl p-8 sm:p-10 border border-gray-100"
+              className="lg:col-span-3 rounded-3xl p-8 sm:p-10 border border-slate-200 shadow-sm"
+              style={{ background: 'linear-gradient(145deg, #dde6ff 0%, #d5dcff 50%, #ddd4ff 100%)' }}
             >
-              <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest mb-6 bg-blue-50 text-blue-600 border border-blue-100">
+              <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest mb-6 bg-white/60 text-blue-600 border border-blue-200">
                 <current.icon className="w-3.5 h-3.5" />
                 When Customers Are {current.tag}
               </div>
-              <h3 className="text-xl sm:text-2xl font-bold font-figtree text-[#0f172a] mb-8 leading-snug">
+              <h3 className="text-[22px] font-bold font-figtree text-[#0f172a] mb-8 leading-tight">
                 {current.title}
               </h3>
               <ul className="space-y-4">
@@ -241,7 +242,7 @@ export default function Problem() {
                 initial={{ opacity: 0, scale: 0.96 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.4, delay: 0.15, ease: [0.18, 0.82, 0.41, 1] }}
-                className="rounded-3xl p-8 text-white flex-1 flex flex-col justify-between" style={{ background: 'linear-gradient(145deg, #1e40af 0%, #2563eb 60%, #3b82f6 100%)' }}>
+                className="rounded-3xl p-8 text-white flex-1 flex flex-col justify-between" style={{ background: 'linear-gradient(135deg, #2563eb 0%, #4f46e5 60%, #7c3aed 100%)' }}>
                 <div>
                   <p className="text-xs font-black uppercase tracking-widest text-white/60 mb-4">The Hidden Gap</p>
                   <p className="text-white leading-relaxed text-[15px]">{current.gap}</p>
@@ -275,7 +276,7 @@ export default function Problem() {
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
           className="rounded-[2.5rem] overflow-hidden relative group"
-          style={{ background: 'linear-gradient(145deg, #1e40af 0%, #2563eb 60%, #3b82f6 100%)' }}
+          style={{ background: 'linear-gradient(135deg, #2563eb 0%, #4f46e5 60%, #7c3aed 100%)' }}
         >
           {/* Industry-style dotted overlay with pulse */}
           <motion.div 
@@ -309,7 +310,7 @@ export default function Problem() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: 0.2, ease: [0.18, 0.82, 0.41, 1] }}
-                className="text-xl sm:text-2xl font-bold font-figtree text-white leading-tight mb-8"
+                className="text-[22px] font-bold font-figtree text-white leading-tight mb-8"
               >
                 Without a unified intelligent platform, organisations face:
               </motion.h3>

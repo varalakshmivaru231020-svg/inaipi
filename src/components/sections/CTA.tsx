@@ -76,26 +76,18 @@ export default function CTA() {
                   className="flex flex-col sm:flex-row items-center justify-center gap-3"
                 >
                   {/* Primary — full hover treatment */}
-                  <motion.div whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.96, y: 0 }} className="w-full sm:w-auto wow wow-d4">
+                  <motion.div whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.96, y: 0 }} className="w-full sm:w-auto">
                     <button className="relative group overflow-hidden bg-[#2563eb] hover:bg-[#1d4ed8] text-white min-h-[44px] px-5 py-2.5 rounded-full font-black text-[11px] uppercase tracking-widest transition-all duration-200 flex items-center justify-center gap-2 shadow-md shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/40 whitespace-nowrap w-full sm:w-auto">
                       {/* Shimmer fires on hover */}
                       <span className="absolute inset-0 -skew-x-12 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover:translate-x-[200%] transition-transform duration-500 ease-in-out pointer-events-none" />
                       {/* Glow ring */}
                       <span className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none" style={{ boxShadow: '0 0 0 4px rgba(37,99,235,0.3)' }} />
-                      <span className="relative z-10">Start Free Trial</span>
+                      <span className="relative z-10">Book Demo</span>
                       {/* Arrow shoots out and re-enters */}
                       <span className="relative z-10 w-5 h-5 rounded-full bg-white/20 flex items-center justify-center overflow-hidden group-hover:bg-white/30 transition-colors duration-200">
                         <ArrowRight className="w-2.5 h-2.5 text-white translate-x-0 group-hover:translate-x-4 transition-transform duration-200 ease-in" />
                         <ArrowRight className="w-2.5 h-2.5 text-white absolute -translate-x-4 group-hover:translate-x-0 transition-transform duration-200 ease-out" />
                       </span>
-                    </button>
-                  </motion.div>
-
-                  {/* Secondary */}
-                  <motion.div whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.96, y: 0 }} className="w-full sm:w-auto wow wow-d5">
-                    <button className="relative group text-[11px] font-black text-white hover:border-white/70 hover:bg-white/15 transition-all duration-200 uppercase tracking-[0.15em] flex items-center justify-center gap-2 border-2 border-white/30 min-h-[44px] px-5 py-2.5 rounded-full whitespace-nowrap w-full sm:w-auto">
-                      Book a Demo
-                      <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform duration-200" />
                     </button>
                   </motion.div>
                 </motion.div>
@@ -104,7 +96,7 @@ export default function CTA() {
                   initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.38 }}
                   style={{ display: 'flex', flexWrap: 'wrap', gap: '8px 20px', marginTop: 20, justifyContent: 'center' }}
                 >
-                  {['Cancel anytime', 'SOC 2 Certified', 'Live in 48 hours'].map((t, i) => (
+                  {['Cancel anytime', 'ISO Certified', 'Live in 48 hours'].map((t, i) => (
                     <motion.span key={i}
                       initial={{ opacity: 0, y: 6 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.4 + i * 0.07 }}
                       style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 13, color: 'rgba(255,255,255,0.38)', fontWeight: 600, fontFamily: 'var(--font-figtree), Figtree, sans-serif' }}

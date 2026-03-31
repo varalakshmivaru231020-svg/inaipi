@@ -96,16 +96,16 @@ export default function Industries() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold font-figtree tracking-[-0.025em] leading-[1.1] mb-5 pb-2 text-[#0f172a]"
+            className="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold font-figtree tracking-[-0.025em] leading-[1.15] mb-5 pb-2"
           >
-            Built for every industry.
+            Built for <span className="bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent">every industry.</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.15 }}
-            className="text-[16px] text-slate-500 leading-relaxed"
+            className="text-base sm:text-lg md:text-xl text-slate-500 leading-relaxed"
           >
             Inaipi adapts to the compliance, workflows, and customer expectations of your specific domain.
           </motion.p>

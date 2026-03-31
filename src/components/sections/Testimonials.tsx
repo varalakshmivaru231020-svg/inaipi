@@ -178,10 +178,10 @@ export default function Testimonials() {
       {/* ── Header ── */}
       <div className="relative z-10 text-center px-6 md:px-16">
         <span className="section-eyebrow wow wow-d1">What Our Clients Say</span>
-        <h2 className="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold font-figtree tracking-[-0.025em] text-[#0f172a] leading-[1.1] mb-5 wow wow-d2">
-          Trusted by CX leaders<br className="hidden sm:block" /> worldwide.
+        <h2 className="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold font-figtree tracking-[-0.025em] leading-[1.15] mb-5 wow wow-d2">
+          Trusted by CX leaders<br className="hidden sm:block" /> <span className="bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent">worldwide.</span>
         </h2>
-        <p className="text-[16px] text-slate-500 max-w-xl mx-auto leading-relaxed wow wow-d3">
+        <p className="text-base sm:text-lg md:text-xl text-slate-500 max-w-xl mx-auto leading-relaxed wow wow-d3">
           Real results from healthcare, insurance, hospitality and government — see what AI-native CX looks like in practice.
         </p>
       </div>

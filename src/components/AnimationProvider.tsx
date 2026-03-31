@@ -3,10 +3,13 @@
 import { ReactNode, useEffect, useLayoutEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
+import { usePathname } from 'next/navigation';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function AnimationProvider({ children }: { children: ReactNode }) {
+  const pathname = usePathname();
+
   useLayoutEffect(() => {
     return () => {
       ScrollTrigger.getAll().forEach((t) => t.kill());
@@ -29,12 +32,14 @@ export default function AnimationProvider({ children }: { children: ReactNode })
     );
 
     document.querySelectorAll('.wow').forEach((el) => {
-      (el as HTMLElement).style.visibility = 'hidden';
-      observer.observe(el);
+      if (!el.classList.contains('animated')) {
+        (el as HTMLElement).style.visibility = 'hidden';
+        observer.observe(el);
+      }
     });
 
     return () => observer.disconnect();
-  }, []);
+  }, [pathname]);
 
   return <>{children}</>;
 }

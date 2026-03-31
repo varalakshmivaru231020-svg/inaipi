@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Calendar, User, ArrowRight, Share2, Tag, Mail } from 'lucide-react';
+import { Calendar, User, ArrowRight, Share2 } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import Link from 'next/link';
@@ -50,7 +50,7 @@ const allBlogs: Record<string, {
     category: 'Design',
     author: 'Marc Wood',
     date: 'March 15, 2024',
-    image: 'https://images.unsplash.com/photo-1586717791821-3f44a563dc4c?q=80&w=2000&auto=format&fit=crop',
+    image: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?q=80&w=2000&auto=format&fit=crop',
     excerpt: 'Consistency and efficiency start with a robust design system.',
     tags: ['UX', 'Design', 'Architecture'],
     content: [
@@ -110,7 +110,7 @@ export default function BlogDetailPage() {
 
         <div className="container mx-auto px-6 max-w-6xl relative z-10">
           <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }} className="flex flex-wrap items-center gap-2 mb-10">
-            <Link href="/" className="text-xs font-bold text-slate-400 hover:text-blue-600 transition-colors">Home</Link>
+            <Link href="/" className="text-[11px] font-bold text-[#0f172a] hover:text-blue-600 transition-colors">Home</Link>
             <svg className="w-3 h-3 text-slate-300" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
             <Link href="/blog" className="text-xs font-bold text-slate-400 hover:text-blue-600 transition-colors">Blog</Link>
             <svg className="w-3 h-3 text-slate-300" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
@@ -120,7 +120,7 @@ export default function BlogDetailPage() {
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease }}>
             <span className="inline-block px-3 py-1 bg-blue-50 border border-blue-100 rounded-full text-[11px] font-bold text-blue-500 uppercase tracking-wider mb-5">{article.category}</span>
             <h1 className="text-4xl sm:text-5xl lg:text-[4rem] font-bold font-figtree tracking-[-0.03em] text-[#0f172a] leading-[1.15] mb-5 max-w-4xl">{article.title}</h1>
-            <div className="flex flex-wrap items-center gap-5 text-[14px] text-slate-500">
+            <div className="flex flex-wrap items-center gap-5 text-[15px] font-figtree text-slate-500">
               <span className="flex items-center gap-1.5"><User className="w-4 h-4" /> {article.author}</span>
               <span className="flex items-center gap-1.5"><Calendar className="w-4 h-4" /> {article.date}</span>
             </div>
@@ -148,11 +148,11 @@ export default function BlogDetailPage() {
 
               {/* Description */}
               <div className="prose prose-lg prose-slate max-w-none">
-                <p className="text-[16px] text-[#0f172a] font-medium leading-relaxed mb-8">
+                <p className="text-base sm:text-lg md:text-xl text-[#0f172a] font-medium leading-relaxed mb-8">
                   {article.excerpt}
                 </p>
                 {article.content.map((paragraph, i) => (
-                  <p key={i} className="text-[16px] text-slate-600 leading-[1.8] mb-6 last:mb-0">
+                  <p key={i} className="text-base sm:text-lg text-slate-600 leading-[1.8] mb-6 last:mb-0">
                     {paragraph}
                   </p>
                 ))}
@@ -175,11 +175,12 @@ export default function BlogDetailPage() {
               <motion.div whileHover={{ scale: 1.02, y: -2 }} whileTap={{ scale: 0.98 }} className="pt-4">
                 <Link
                   href="/blog"
-                  className="relative group overflow-hidden inline-flex items-center gap-3 bg-[#0f172a] hover:bg-[#1e293b] text-white px-8 py-4 rounded-full font-black text-[11px] uppercase tracking-widest transition-all duration-300 shadow-lg shadow-slate-900/10 hover:shadow-xl hover:shadow-slate-900/20"
+                  className="relative group overflow-hidden inline-flex items-center gap-2 bg-[#2563eb] hover:bg-[#1d4ed8] text-white min-h-[44px] px-5 py-2.5 rounded-full font-black font-figtree text-[11px] uppercase tracking-widest transition-all duration-200 shadow-md shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/40"
                 >
-                  <span className="absolute inset-0 -skew-x-12 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:translate-x-[200%] transition-transform duration-500 pointer-events-none" />
-                  <span className="relative z-10 w-8 h-8 rounded-full bg-white/20 group-hover:bg-white/30 flex items-center justify-center transition-colors duration-300">
-                    <ArrowRight className="w-3.5 h-3.5 rotate-180" />
+                  <span className="absolute inset-0 -skew-x-12 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover:translate-x-[200%] transition-transform duration-500 pointer-events-none" />
+                  <span className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none" style={{ boxShadow: '0 0 0 4px rgba(37,99,235,0.25)' }} />
+                  <span className="relative z-10 w-5 h-5 rounded-full bg-white/20 flex items-center justify-center overflow-hidden group-hover:bg-white/30 transition-colors duration-200">
+                    <ArrowRight className="w-2.5 h-2.5 rotate-180" />
                   </span>
                   <span className="relative z-10">Back to Articles</span>
                 </Link>
@@ -195,8 +196,8 @@ export default function BlogDetailPage() {
                   initial={{ opacity: 0, x: 30 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.6, delay: 0.2, ease }}
-                  className="rounded-[2rem] p-8 relative overflow-hidden border border-blue-100/60"
-                  style={{ background: 'linear-gradient(145deg, #eff6ff 0%, #e0e7ff 50%, #f0f4ff 100%)' }}
+                  className="rounded-[2rem] p-8 relative overflow-hidden border border-slate-200 shadow-sm"
+                  style={{ background: 'linear-gradient(145deg, #dde6ff 0%, #d5dcff 50%, #ddd4ff 100%)' }}
                 >
                   <div className="absolute -top-8 -right-8 w-40 h-40 rounded-full opacity-40" style={{ background: 'radial-gradient(circle, rgba(37,99,235,0.25) 0%, transparent 70%)', filter: 'blur(30px)' }} />
                   <div className="relative z-10">
@@ -227,41 +228,51 @@ export default function BlogDetailPage() {
                   </div>
                 </motion.div>
 
-                {/* Dark CTA Banner (Modeled after Career dark banner) */}
+                {/* Related Posts */}
                 <motion.div
                   initial={{ opacity: 0, x: 30 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.6, delay: 0.35, ease }}
-                  className="relative rounded-[2rem] overflow-hidden group"
-                  style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%)', minHeight: 280 }}
+                  className="rounded-[2rem] p-8 border border-slate-200 shadow-sm bg-white"
                 >
-                  {/* Gradient orbs */}
-                  <div className="absolute -top-10 -right-10 w-48 h-48 rounded-full opacity-40 group-hover:opacity-60 transition-opacity duration-500" style={{ background: 'radial-gradient(circle, rgba(139,92,246,0.5) 0%, transparent 70%)', filter: 'blur(40px)' }} />
-                  <div className="absolute -bottom-10 -left-10 w-48 h-48 rounded-full opacity-30 group-hover:opacity-50 transition-opacity duration-500" style={{ background: 'radial-gradient(circle, rgba(37,99,235,0.5) 0%, transparent 70%)', filter: 'blur(40px)' }} />
-                  <div className="absolute inset-0 opacity-[0.06]" style={{ backgroundImage: 'radial-gradient(rgba(255,255,255,0.8) 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
-
-                  <div className="relative z-10 p-8 flex flex-col justify-between h-full" style={{ minHeight: 280 }}>
-                    <div className="mb-8">
-                      <div className="inline-flex items-center gap-2 bg-white/10 border border-white/10 rounded-full px-3 py-1.5 mb-5">
-                        <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
-                        <span className="text-[10px] font-black uppercase tracking-widest text-white/70">Newsletter</span>
-                      </div>
-                      <h3 className="text-2xl font-bold text-white leading-snug">
-                        Stay ahead of the<br />curve with our<br />
-                        <span style={{ background: 'linear-gradient(90deg, #60a5fa 0%, #818cf8 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>latest insights.</span>
-                      </h3>
-                    </div>
-                    <div className="space-y-3">
-                      <div className="relative">
-                        <input type="email" placeholder="Your Email" className="w-full bg-white/5 border border-white/10 rounded-full py-3.5 px-6 text-sm text-white focus:outline-none focus:border-blue-400 font-medium" />
-                        <Mail className="absolute right-5 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
-                      </div>
-                      <button className="w-full inline-flex items-center justify-center gap-3 bg-[#2563eb] hover:bg-[#1d4ed8] text-white px-6 py-3.5 rounded-full font-black text-[11px] uppercase tracking-widest transition-all duration-300 shadow-lg shadow-blue-500/30">
-                        Subscribe
-                      </button>
-                    </div>
+                  <h3 className="text-[11px] font-black font-figtree text-[#0f172a] uppercase tracking-widest mb-6">Related Posts</h3>
+                  <div className="space-y-5">
+                    {relatedBlogIds.filter(s => s !== id).map((s) => {
+                      const b = allBlogs[s];
+                      if (!b) return null;
+                      return (
+                        <Link key={s} href={`/blog/${s}`} className="group flex gap-4 items-start hover:-translate-y-0.5 transition-transform duration-200">
+                          <div className="w-16 h-16 rounded-2xl overflow-hidden shrink-0 border border-slate-100">
+                            <img src={b.image} alt={b.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <span className="text-[10px] font-black font-figtree uppercase tracking-widest text-blue-500 mb-1 block">{b.category}</span>
+                            <p className="text-[13px] font-bold font-figtree text-[#0f172a] leading-snug group-hover:text-blue-600 transition-colors duration-200 line-clamp-2">{b.title}</p>
+                            <p className="text-[11px] font-figtree text-slate-400 mt-1">{b.date}</p>
+                          </div>
+                        </Link>
+                      );
+                    })}
                   </div>
                 </motion.div>
+
+                {/* Tags Card */}
+                <motion.div
+                  initial={{ opacity: 0, x: 30 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6, delay: 0.45, ease }}
+                  className="rounded-[2rem] p-8 border border-slate-200 shadow-sm bg-white"
+                >
+                  <h3 className="text-[11px] font-black font-figtree text-[#0f172a] uppercase tracking-widest mb-6">Tags</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {article.tags.map(tag => (
+                      <span key={tag} className="px-4 py-2 bg-slate-50 border border-slate-200 rounded-full text-[12px] font-bold font-figtree text-slate-500 hover:bg-[#0f172a] hover:text-white hover:border-transparent transition-all cursor-default">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </motion.div>
+
               </div>
             </div>
           </div>
@@ -283,9 +294,9 @@ export default function BlogDetailPage() {
               <span className="text-[11px] font-bold uppercase tracking-widest text-blue-500">Keep Reading</span>
             </motion.div>
             <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-              className="text-3xl sm:text-4xl font-bold font-figtree tracking-[-0.025em] leading-[1.1]">
+              className="text-3xl sm:text-4xl font-bold font-figtree tracking-[-0.025em] leading-[1.15]">
               <span className="text-[#0f172a]">Similar </span>
-              <span style={{ background: 'linear-gradient(135deg, #2563eb 0%, #7c3aed 60%, #06b6d4 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Articles</span>
+              <span className="bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent">Articles</span>
             </motion.h2>
           </div>
           <div className="grid md:grid-cols-2 gap-6">
@@ -295,8 +306,8 @@ export default function BlogDetailPage() {
               return (
                 <motion.div key={s} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.1 }}
                   transition={{ delay: i * 0.08, duration: 0.5, ease }}
-                  className="group p-8 lg:p-10 border border-slate-100/80 rounded-[2rem] hover:border-blue-500/25 hover:shadow-2xl hover:shadow-blue-600/15 hover:-translate-y-2 transition-all duration-300 relative overflow-hidden flex flex-col justify-between"
-                  style={{ background: 'linear-gradient(145deg, #f8faff 0%, #f0f4ff 50%, #faf5ff 100%)' }}
+                  className="group p-8 lg:p-10 border border-slate-200 shadow-sm rounded-[2rem] hover:border-blue-500/30 hover:shadow-2xl hover:shadow-blue-600/15 hover:-translate-y-2 transition-all duration-300 relative overflow-hidden flex flex-col justify-between"
+                  style={{ background: 'linear-gradient(145deg, #dde6ff 0%, #d5dcff 50%, #ddd4ff 100%)' }}
                 >
                   <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-[2rem]" style={{ background: 'linear-gradient(135deg, #2563eb 0%, #4f46e5 60%, #7c3aed 100%)' }} />
                   <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-[2rem]" style={{ background: 'radial-gradient(ellipse 80% 50% at 20% 20%, rgba(255,255,255,0.12) 0%, transparent 60%)' }} />
@@ -311,7 +322,7 @@ export default function BlogDetailPage() {
                       </span>
                     </div>
                     <h3 className="text-[22px] font-bold font-figtree text-[#0f172a] mb-3 group-hover:text-white transition-colors duration-300">{b.title}</h3>
-                    <p className="text-[14.5px] text-slate-500 leading-relaxed mb-8 group-hover:text-blue-100 transition-colors duration-300">{b.excerpt.substring(0, 80)}...</p>
+                    <p className="text-base text-slate-500 leading-relaxed mb-8 group-hover:text-blue-100 transition-colors duration-300">{b.excerpt.substring(0, 80)}...</p>
                     
                     <div className="flex items-center justify-between">
                       <span className="flex items-center gap-1.5 text-[13px] font-semibold text-slate-400 group-hover:text-blue-200 transition-colors duration-300">

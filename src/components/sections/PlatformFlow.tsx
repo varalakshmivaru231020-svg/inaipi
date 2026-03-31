@@ -586,11 +586,11 @@ function StageCard({ stage, index, total }: { stage: typeof stages[0]; index: nu
               {stage.id}
             </div>
             <p className="text-[11px] font-black uppercase tracking-[0.35em] mb-4" style={{ color: stage.color }}>{stage.tagline}</p>
-            <h3 className="text-2xl sm:text-3xl font-bold font-figtree text-[#0f172a] mb-6 leading-tight">{stage.title}</h3>
-            <p className="text-slate-500 leading-relaxed mb-8 text-[16px]">{stage.description}</p>
+            <h3 className="text-[22px] font-bold font-figtree text-[#0f172a] mb-6 leading-tight">{stage.title}</h3>
+            <p className="text-slate-600 leading-relaxed mb-8">{stage.description}</p>
             <ul className="space-y-3 mb-8">
               {stage.bullets.map((b, j) => (
-                <li key={j} className="flex items-start gap-3.5 text-[16px] text-slate-600 font-medium">
+                <li key={j} className="flex items-start gap-3.5 text-slate-600 leading-relaxed font-medium">
                   <div className="mt-1 w-5 h-5 rounded-full flex items-center justify-center shrink-0 shadow-sm" style={{ backgroundColor: stage.color }}>
                     <Check className="w-3 h-3 text-white" strokeWidth={3} />
                   </div>
@@ -645,16 +645,16 @@ export default function PlatformFlow() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.1 }}
-          className="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold font-figtree tracking-[-0.025em] text-[#0f172a] leading-[1.1] mb-5"
+          className="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold font-figtree tracking-[-0.025em] leading-[1.15] mb-5"
         >
-          One platform powering the entire customer lifecycle.
+          One platform powering the <span className="bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent">entire customer lifecycle.</span>
         </motion.h2>
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.15 }}
-          className="text-[16px] text-slate-500 leading-relaxed"
+          className="text-base sm:text-lg md:text-xl text-slate-500 leading-relaxed"
         >
           Every stage of the customer journey — from first contact to proactive engagement — connected through one AI-native engine.
         </motion.p>

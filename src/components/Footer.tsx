@@ -43,7 +43,7 @@ const socialLinks = [
 
 export default function Footer() {
   return (
-    <footer className="relative bg-[#fafbff] text-[#0f172a] overflow-hidden border-t border-slate-100/80">
+    <footer className="relative bg-[#fafbff] text-[#0f172a] overflow-hidden border-t border-slate-100/80 font-figtree">
 
       {/* Subtle top glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[200px] rounded-full bg-blue-50/40 blur-[80px] pointer-events-none" />
@@ -90,7 +90,7 @@ export default function Footer() {
                   <li key={lIdx}>
                     <Link
                       href={link.href}
-                      className="group inline-flex items-center gap-1 text-sm text-slate-600 hover:text-blue-600 transition-colors duration-200 font-medium"
+                      className="group inline-flex items-center gap-1 text-[15px] text-slate-600 hover:text-blue-600 transition-colors duration-200 font-medium"
                     >
                       <span>{link.name}</span>
                       <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-all duration-200 text-blue-500 translate-x-0 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />

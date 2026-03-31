@@ -3,7 +3,8 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Search, Calendar, User, MessageCircle, ArrowRight, Mail } from 'lucide-react';
+import { Search, Calendar, User, MessageCircle, ArrowRight } from 'lucide-react';
+import { useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
@@ -32,7 +33,7 @@ const BLOG_POSTS = [
     id: 3,
     title: 'Design Systems for Modern Web Apps',
     excerpt: 'Consistency and efficiency start with a robust design system. We break down the core components of successful systems used by top design teams to streamline their creative and engineering workflows.',
-    image: 'https://images.unsplash.com/photo-1586717791821-3f44a563dc4c?q=80&w=2000&auto=format&fit=crop',
+    image: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?q=80&w=2000&auto=format&fit=crop',
     category: 'Design',
     author: 'Marc Wood',
     date: 'March 15, 2024',
@@ -51,6 +52,18 @@ const CATEGORIES = [
 const TAGS = ['AI', 'SaaS', 'Marketing', 'Productivity', 'Growth', 'Strategy', 'UX', 'Cloud'];
 
 export default function BlogPage() {
+  useEffect(() => {
+    // Fix sticky positioning by switching root overflow from 'hidden' to 'clip'
+    // 'clip' behaves similarly to 'hidden' but doesn't break sticky elements.
+    document.documentElement.style.overflowX = 'clip';
+    document.body.style.overflowX = 'clip';
+    
+    return () => {
+      document.documentElement.style.overflowX = '';
+      document.body.style.overflowX = '';
+    };
+  }, []);
+
   return (
     <main className="min-h-screen bg-white font-figtree">
       <Navbar />
@@ -79,9 +92,9 @@ export default function BlogPage() {
         <div className="container mx-auto px-6 max-w-6xl relative z-10">
           {/* Breadcrumb */}
           <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }} className="flex items-center justify-center gap-2 mb-10">
-            <Link href="/" className="text-[11px] font-bold text-slate-400 hover:text-blue-600 transition-colors">Home</Link>
+            <Link href="/" className="text-[11px] font-bold text-[#0f172a] hover:text-blue-600 transition-colors">Home</Link>
             <svg className="w-3 h-3 text-slate-300" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
-            <span className="text-[11px] font-bold text-blue-600">Blog Standard</span>
+            <span className="text-[11px] font-bold text-blue-600">Blog</span>
           </motion.div>
 
           <div className="text-center">
@@ -94,17 +107,18 @@ export default function BlogPage() {
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-              className="text-4xl sm:text-5xl lg:text-[4rem] font-bold font-figtree tracking-[-0.03em] text-[#0f172a] leading-[1.15] mb-6"
+              className="text-4xl sm:text-5xl lg:text-[4rem] xl:text-[4.5rem] font-bold font-figtree tracking-[-0.03em] mb-8 leading-[1.25] max-w-5xl mx-auto"
             >
-              Insights & expertise.<br />
-              <span className="text-blue-600">Blog Standard.</span>
+              <span className="text-[#0f172a]">Insights &amp; expertise.</span><br />
+              <span className="inline-block bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent pb-2">Blog Standard.</span>
             </motion.h1>
 
             <motion.p
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.4 }}
-              className="text-[16px] text-slate-500 max-w-xl mx-auto leading-relaxed"
+
+              className="text-base sm:text-lg md:text-xl text-slate-500 leading-relaxed font-normal max-w-2xl mx-auto"
             >
               Discover the latest insights, news, and expert perspectives on autonomous intelligence, customer engagement, and the future of CX.
             </motion.p>
@@ -127,8 +141,8 @@ export default function BlogPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.7, delay: idx * 0.1 }}
-                  className="group border border-slate-100/80 rounded-[2.5rem] p-8 lg:p-10 hover:border-blue-500/25 hover:shadow-2xl hover:shadow-blue-600/15 hover:-translate-y-2 transition-all duration-300 relative overflow-hidden"
-                  style={{ background: 'linear-gradient(145deg, #f8faff 0%, #f0f4ff 50%, #faf5ff 100%)' }}
+                  className="group border border-slate-200 shadow-sm rounded-[2.5rem] p-8 lg:p-10 hover:border-blue-500/30 hover:shadow-2xl hover:shadow-blue-600/15 hover:-translate-y-2 transition-all duration-300 relative overflow-hidden"
+                  style={{ background: 'linear-gradient(145deg, #dde6ff 0%, #d5dcff 50%, #ddd4ff 100%)' }}
                 >
                   {/* Image Container */}
                   <div className="relative aspect-[16/9] mb-10 overflow-hidden rounded-[2rem] bg-slate-100 shadow-xl shadow-slate-200/40">
@@ -156,21 +170,23 @@ export default function BlogPage() {
                   </div>
 
                   {/* Content */}
-                  <h2 className="text-2xl sm:text-3xl font-bold font-figtree tracking-[-0.025em] text-[#0f172a] leading-[1.1] mb-6 group-hover:text-blue-600 transition-colors">
+                  <h2 className="text-2xl sm:text-3xl font-bold font-figtree tracking-[-0.025em] text-[#0f172a] leading-[1.15] mb-6 group-hover:text-blue-600 transition-colors">
                     <Link href={`/blog/${post.id}`}>{post.title}</Link>
                   </h2>
-                  <p className="text-[16px] text-slate-600 leading-relaxed max-w-3xl mb-10">
+                  <p className="text-base sm:text-lg text-slate-600 leading-relaxed max-w-3xl mb-10">
                     {post.excerpt}
                   </p>
 
                   <Link
                     href={`/blog/${post.id}`}
-                    className="relative group/btn inline-flex items-center gap-3 bg-[#0f172a] hover:bg-blue-700 text-white px-7 py-3 rounded-full font-bold text-[14px] transition-all duration-300 overflow-hidden shadow-lg shadow-slate-900/10"
+                    className="relative group/btn overflow-hidden bg-[#2563eb] hover:bg-[#1d4ed8] text-white min-h-[44px] px-5 py-2.5 rounded-full font-black font-figtree text-[11px] uppercase tracking-widest transition-all duration-200 inline-flex items-center gap-2 shadow-md shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/40"
                   >
-                    <span className="absolute inset-0 -skew-x-12 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover/btn:translate-x-[200%] transition-transform duration-500 ease-in-out pointer-events-none" />
-                    <span className="relative z-10 uppercase tracking-widest text-[11px] font-black">Read More</span>
-                    <span className="relative z-10 w-9 h-9 rounded-full bg-white/20 group-hover/btn:bg-white flex items-center justify-center transition-colors duration-300">
-                      <ArrowRight className="w-4 h-4 text-white group-hover/btn:text-blue-700" />
+                    <span className="absolute inset-0 -skew-x-12 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover/btn:translate-x-[200%] transition-transform duration-500 ease-in-out pointer-events-none" />
+                    <span className="absolute inset-0 rounded-full opacity-0 group-hover/btn:opacity-100 transition-opacity duration-200 pointer-events-none" style={{ boxShadow: '0 0 0 4px rgba(37,99,235,0.25)' }} />
+                    <span className="relative z-10">Read More</span>
+                    <span className="relative z-10 w-5 h-5 rounded-full bg-white/20 flex items-center justify-center overflow-hidden group-hover/btn:bg-white/30 transition-colors duration-200">
+                      <ArrowRight className="w-2.5 h-2.5 text-white translate-x-0 group-hover/btn:translate-x-4 transition-transform duration-200 ease-in" />
+                      <ArrowRight className="w-2.5 h-2.5 text-white absolute -translate-x-4 group-hover/btn:translate-x-0 transition-transform duration-200 ease-out" />
                     </span>
                   </Link>
                 </motion.article>
@@ -188,16 +204,16 @@ export default function BlogPage() {
 
             {/* ── SIDEBAR (STICKY) ── */}
             <div className="lg:col-span-4 relative">
-              <div className="space-y-12 sticky top-32">
+              <div className="space-y-12 lg:sticky lg:top-32 lg:h-fit self-start">
               
                 {/* Search */}
-                <div className="bg-slate-50 p-8 rounded-[2.5rem] border border-slate-100">
-                  <h3 className="text-[13px] font-black text-[#0f172a] mb-6 uppercase tracking-widest">Search</h3>
+                <div className="bg-white p-8 rounded-[2.5rem] border border-slate-200 shadow-sm">
+                  <h3 className="text-[11px] font-black font-figtree text-[#0f172a] mb-6 uppercase tracking-widest">Search</h3>
                   <div className="relative">
                     <input
                       type="text"
                       placeholder="Search posts..."
-                      className="w-full bg-white border border-slate-200 rounded-full py-4 pl-6 pr-14 text-sm focus:outline-none focus:border-blue-500 transition-colors font-medium text-slate-600"
+                      className="w-full bg-white border border-slate-200 rounded-full py-4 pl-6 pr-14 text-[15px] font-figtree font-medium text-slate-600 placeholder-slate-400 focus:outline-none focus:border-blue-500 transition-colors"
                     />
                     <button className="absolute right-2 top-2 w-10 h-10 bg-[#0f172a] rounded-full flex items-center justify-center text-white">
                       <Search className="w-4 h-4" />
@@ -206,14 +222,14 @@ export default function BlogPage() {
                 </div>
 
                 {/* Categories */}
-                <div className="bg-slate-50 p-8 rounded-[2.5rem] border border-slate-100">
-                  <h3 className="text-[13px] font-black text-[#0f172a] mb-6 uppercase tracking-widest">Categories</h3>
+                <div className="bg-white p-8 rounded-[2.5rem] border border-slate-200 shadow-sm">
+                  <h3 className="text-[11px] font-black font-figtree text-[#0f172a] mb-6 uppercase tracking-widest">Categories</h3>
                   <ul className="space-y-4">
                     {CATEGORIES.map(cat => (
                       <li key={cat.name}>
-                        <Link href={`/blog?category=${cat.name.toLowerCase()}`} className="flex justify-between items-center group font-bold text-[14px] text-slate-500 hover:text-blue-600 transition-all">
+                        <Link href={`/blog?category=${cat.name.toLowerCase()}`} className="flex justify-between items-center group font-semibold font-figtree text-[15px] text-slate-600 hover:text-blue-600 transition-all">
                           <span>{cat.name}</span>
-                          <div className="w-8 h-8 rounded-full bg-white border border-slate-100 flex items-center justify-center text-[10px] text-slate-400 group-hover:bg-blue-600 group-hover:text-white group-hover:border-transparent transition-all">
+                          <div className="w-8 h-8 rounded-full bg-slate-50 border border-slate-200 flex items-center justify-center text-[11px] font-black font-figtree text-slate-400 group-hover:bg-blue-600 group-hover:text-white group-hover:border-transparent transition-all">
                             {cat.count}
                           </div>
                         </Link>
@@ -223,14 +239,14 @@ export default function BlogPage() {
                 </div>
 
                 {/* Tags */}
-                <div className="bg-slate-50 p-8 rounded-[2.5rem] border border-slate-100">
-                  <h3 className="text-[13px] font-black text-[#0f172a] mb-6 uppercase tracking-widest">Tags</h3>
+                <div className="bg-white p-8 rounded-[2.5rem] border border-slate-200 shadow-sm">
+                  <h3 className="text-[11px] font-black font-figtree text-[#0f172a] mb-6 uppercase tracking-widest">Tags</h3>
                   <div className="flex flex-wrap gap-2">
                     {TAGS.map(tag => (
                       <Link
                         key={tag}
                         href={`/blog?tag=${tag.toLowerCase()}`}
-                        className="px-5 py-2 bg-white border border-slate-200 rounded-full text-[12px] font-bold text-slate-500 hover:bg-[#0f172a] hover:text-white hover:border-transparent transition-all"
+                        className="px-5 py-2 bg-white border border-slate-200 rounded-full text-[13px] font-bold font-figtree text-slate-500 hover:bg-[#0f172a] hover:text-white hover:border-transparent transition-all"
                       >
                         {tag}
                       </Link>
@@ -238,25 +254,6 @@ export default function BlogPage() {
                   </div>
                 </div>
 
-                {/* Newsletter */}
-                <div className="bg-[#0f172a] p-10 rounded-[2.5rem] text-white relative overflow-hidden group">
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/20 rounded-full blur-[60px]" />
-                  <h3 className="text-[22px] font-bold font-figtree text-white leading-tight mb-4 relative z-10">Subscribe to our Newsletters</h3>
-                  <p className="text-[16px] text-slate-400 mb-8 relative z-10 leading-relaxed">Stay updated with our latest news and blog posts directly to your inbox.</p>
-                  <div className="relative z-10">
-                    <div className="relative mb-4">
-                      <input
-                        type="email"
-                        placeholder="Your Email"
-                        className="w-full bg-white/5 border border-white/10 rounded-full py-4 px-6 text-sm text-white placeholder-white/30 focus:outline-none focus:border-blue-500 transition-colors font-medium"
-                      />
-                      <Mail className="absolute right-6 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
-                    </div>
-                    <button className="w-full bg-blue-600 text-white py-4 rounded-full font-black text-sm uppercase tracking-widest hover:bg-white hover:text-blue-700 transition-all transform hover:-translate-y-1 shadow-lg shadow-blue-500/20">
-                      Subscribe
-                    </button>
-                  </div>
-                </div>
 
               </div>
             </div>
@@ -265,29 +262,31 @@ export default function BlogPage() {
       </section>
 
       {/* ── CAREERS BANNER ── */}
-      <section className="py-20 bg-slate-50 border-t border-slate-100">
-        <div className="container mx-auto px-6 max-w-6xl">
+      <section className="py-20 relative overflow-hidden" style={{ background: 'linear-gradient(160deg, #f0f4ff 0%, #fafbff 40%, #f5f0ff 100%)' }}>
+        <div className="absolute inset-0 opacity-[0.025] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#0f172a 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
+        <div className="container mx-auto px-6 max-w-6xl relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 32 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="relative rounded-[2.5rem] overflow-hidden bg-[#0f172a] p-12 md:p-16 flex flex-col md:flex-row items-center justify-between gap-10"
+            className="relative rounded-[2.5rem] overflow-hidden p-12 md:p-16 flex flex-col md:flex-row items-center justify-between gap-10"
+            style={{ background: '#000', borderRadius: 30 }}
           >
-            {/* Background glow */}
-            <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/20 rounded-full blur-[120px] pointer-events-none" />
-            <div className="absolute bottom-0 left-0 w-64 h-64 bg-indigo-500/10 rounded-full blur-[80px] pointer-events-none" />
+            {/* CTA-style blobs */}
+            <div aria-hidden style={{ position: 'absolute', bottom: 0, left: 0, width: '63%', height: '100%', zIndex: 0, pointerEvents: 'none', background: 'radial-gradient(ellipse 90% 80% at 0% 100%,rgba(0,71,255,0.7),rgba(0,71,255,0.3) 35%,transparent 65%)', clipPath: 'ellipse(80% 90% at 10% 90%)' }} />
+            <div aria-hidden style={{ position: 'absolute', top: 0, right: 0, width: '39%', height: '100%', zIndex: 0, pointerEvents: 'none', background: 'radial-gradient(ellipse 100% 80% at 100% 0%,rgba(116,68,253,0.65),rgba(37,99,235,0.25) 45%,transparent 70%)', clipPath: 'ellipse(90% 80% at 90% 10%)' }} />
 
             <div className="relative z-10 max-w-xl">
               <div className="inline-flex items-center gap-2 bg-blue-500/20 border border-blue-400/20 rounded-full px-4 py-1.5 mb-5">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#B7FF5E] animate-pulse" />
+                <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
                 <span className="text-[11px] font-black uppercase tracking-widest text-blue-300">We're Hiring</span>
               </div>
-              <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight leading-tight mb-4">
-                Join the team building<br />
-                <span className="text-[#B7FF5E]">the future of AI.</span>
+              <h2 className="text-3xl sm:text-4xl font-bold font-figtree tracking-[-0.025em] leading-[1.15] mb-4">
+                <span className="text-white">Join the team building</span><br />
+                <span className="bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent">the future of AI.</span>
               </h2>
-              <p className="text-slate-400 text-base leading-relaxed">
+              <p className="text-slate-400 text-base sm:text-lg leading-relaxed">
                 We're looking for passionate people to help shape intelligent customer experiences. Explore open roles and grow with us.
               </p>
             </div>
@@ -295,10 +294,10 @@ export default function BlogPage() {
             <div className="relative z-10 flex-shrink-0">
               <Link
                 href="/career"
-                className="inline-flex items-center gap-3 bg-[#B7FF5E] hover:bg-white text-[#090909] font-black text-sm uppercase tracking-widest px-8 py-5 rounded-full transition-all duration-300 hover:-translate-y-1 shadow-xl shadow-[#B7FF5E]/20 group"
+                className="inline-flex items-center gap-3 bg-blue-600 hover:bg-blue-500 text-white font-black text-sm uppercase tracking-widest px-8 py-5 rounded-full transition-all duration-300 hover:-translate-y-1 shadow-xl shadow-blue-500/30 group"
               >
                 View Open Roles
-                <div className="w-8 h-8 rounded-full bg-[#090909]/10 flex items-center justify-center group-hover:bg-[#090909]/20 transition-colors">
+                <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center group-hover:bg-white/30 transition-colors">
                   <ArrowRight className="w-4 h-4" />
                 </div>
               </Link>

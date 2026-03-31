@@ -43,7 +43,7 @@ const platformCards = [
   { icon: FileText, title: 'Intelligent Case Management', desc: 'Every unresolved interaction auto-becomes a case — classified, routed, and tracked against SLA in real time. Escalation is automatic.', tag: 'SLA Tracking' },
   { icon: Activity, title: 'CSAT & NPS Surveys', desc: 'Automated satisfaction surveys deploy after every resolution. Sentiment analysis flags dissatisfied customers before they escalate.', tag: 'Automated Feedback' },
   { icon: PhoneCall, title: 'AI Voice Campaigns', desc: 'AI voice agents run outbound campaigns at unlimited scale — renewals, follow-ups, loyalty engagement. No human dialler needed.', tag: 'Outbound AI' },
-  { icon: LayoutGrid, title: 'Analytics & Governance', desc: 'Real-time dashboards across CSAT, NPS, handle time, and agent performance. One governance layer, SOC 2 certified.', tag: 'SOC 2 Certified' },
+  { icon: LayoutGrid, title: 'Analytics & Governance', desc: 'Real-time dashboards across CSAT, NPS, handle time, and agent performance. One governance layer, ISO Certified.', tag: 'ISO Certified' },
 ];
 
 const trustCards = [
@@ -110,7 +110,7 @@ export default function AboutPage() {
             transition={{ duration: 0.4 }}
             className="flex items-center justify-center gap-2 mb-10"
           >
-            <Link href="/" className="text-[11px] font-bold text-slate-400 hover:text-blue-600 transition-colors">Home</Link>
+            <Link href="/" className="text-[11px] font-bold text-[#0f172a] hover:text-blue-600 transition-colors">Home</Link>
             <ChevronIcon />
             <span className="text-[11px] font-bold text-blue-600">About Us</span>
           </motion.div>
@@ -121,16 +121,16 @@ export default function AboutPage() {
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, ease }}
-              className="text-4xl sm:text-5xl lg:text-[4rem] font-bold font-figtree tracking-[-0.03em] text-[#0f172a] leading-[1.15] mb-6"
+              className="text-4xl sm:text-5xl lg:text-[4rem] xl:text-[4.5rem] font-bold font-figtree tracking-[-0.03em] mb-8 leading-[1.25] text-[#0f172a] max-w-5xl mx-auto"
             >
               Empowering Intelligent<br />
-              <span className="text-blue-600">Customer Experiences.</span>
+              <span className="inline-block bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent pb-2">Customer Experiences.</span>
             </motion.h1>
             <motion.p
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.15, duration: 0.4 }}
-              className="text-[16px] text-slate-500 max-w-2xl mx-auto leading-relaxed"
+              className="text-base sm:text-lg md:text-xl text-slate-500 leading-relaxed font-normal max-w-2xl mx-auto"
             >
               We specialize in building scalable, AI-native CX solutions that help enterprises transform every interaction into an insight.
             </motion.p>
@@ -188,10 +188,10 @@ export default function AboutPage() {
                   <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
                   <span className="text-[11px] font-bold uppercase tracking-widest text-blue-500">Vision & Mission</span>
                 </div>
-                 <h2 className="text-2xl sm:text-3xl font-bold font-figtree tracking-[-0.025em] text-[#0f172a] leading-[1.1] mb-6">
-                  Why we exist.<br /><span className="bg-gradient-to-r from-blue-400 via-sky-400 to-indigo-400 bg-clip-text text-transparent">What drives us forward.</span>
+                 <h2 className="text-3xl sm:text-4xl lg:text-[2.85rem] font-bold font-figtree tracking-[-0.025em] leading-[1.15] mb-6">
+                  <span className="text-[#0f172a]">Why we exist.</span><br /><span className="bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent">What drives us forward.</span>
                 </h2>
-                <p className="text-[16px] text-slate-500 leading-relaxed mb-4 max-w-md">
+                <p className="text-base sm:text-lg md:text-xl text-slate-500 leading-relaxed mb-4 max-w-md">
                   A comprehensive statement outlining the organizational purpose and strategic direction for delivering intelligent customer experience solutions.
                 </p>
                
@@ -216,8 +216,8 @@ export default function AboutPage() {
                 initial={{ opacity: 0, x: "100vw" }}
                 animate={cardsInView ? { opacity: 1, x: 0 } : { opacity: 0, x: "100vw" }}
                 transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
-                className="group rounded-[2rem] p-10 relative overflow-hidden cursor-default hover:border-blue-500/25 hover:shadow-2xl hover:shadow-blue-600/15 hover:-translate-y-2 transition-all duration-300 border border-slate-100/80"
-                style={{ background: 'linear-gradient(145deg, #f8faff 0%, #f0f4ff 50%, #faf5ff 100%)' }}
+                className="group rounded-[2rem] p-10 relative overflow-hidden cursor-default hover:border-blue-500/30 shadow-sm hover:shadow-2xl hover:shadow-blue-600/15 hover:-translate-y-2 transition-all duration-300 border border-slate-200"
+                style={{ background: 'linear-gradient(145deg, #dde6ff 0%, #d5dcff 50%, #ddd4ff 100%)' }}
               >
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-[2rem]" style={{ background: 'linear-gradient(135deg, #2563eb 0%, #4f46e5 60%, #7c3aed 100%)' }} />
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-[2rem]" style={{ background: 'radial-gradient(ellipse 80% 50% at 20% 20%, rgba(255,255,255,0.12) 0%, transparent 60%)' }} />
@@ -227,7 +227,7 @@ export default function AboutPage() {
                 </div>
                 <div className="relative z-10 text-[11px] font-bold uppercase tracking-widest text-blue-500 mb-2 group-hover:text-blue-200 transition-colors duration-300">Vision</div>
                 <h3 className="relative z-10 text-[22px] font-bold font-figtree text-[#0f172a] leading-tight mb-3 group-hover:text-white transition-colors duration-300">Empowering Intelligent Experiences</h3>
-                <p className="relative z-10 text-[16px] text-slate-500 leading-relaxed group-hover:text-blue-100 transition-colors duration-300">
+                <p className="relative z-10 text-base text-slate-500 leading-relaxed group-hover:text-blue-100 transition-colors duration-300">
                   To empower enterprises to deliver seamless, intelligent, and outcome-driven customer experiences across every channel.
                 </p>
               </motion.div>
@@ -237,8 +237,8 @@ export default function AboutPage() {
                 initial={{ opacity: 0, x: "100vw" }}
                 animate={cardsInView ? { opacity: 1, x: 0 } : { opacity: 0, x: "100vw" }}
                 transition={{ duration: 0.85, delay: 0.18, ease: [0.22, 1, 0.36, 1] }}
-                className="group rounded-[2rem] p-10 relative overflow-hidden cursor-default hover:border-blue-500/25 hover:shadow-2xl hover:shadow-blue-600/15 hover:-translate-y-2 transition-all duration-300 border border-slate-100/80"
-                style={{ background: 'linear-gradient(145deg, #f8faff 0%, #f0f4ff 50%, #faf5ff 100%)' }}
+                className="group rounded-[2rem] p-10 relative overflow-hidden cursor-default hover:border-blue-500/30 shadow-sm hover:shadow-2xl hover:shadow-blue-600/15 hover:-translate-y-2 transition-all duration-300 border border-slate-200"
+                style={{ background: 'linear-gradient(145deg, #dde6ff 0%, #d5dcff 50%, #ddd4ff 100%)' }}
               >
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-[2rem]" style={{ background: 'linear-gradient(135deg, #2563eb 0%, #4f46e5 60%, #7c3aed 100%)' }} />
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-[2rem]" style={{ background: 'radial-gradient(ellipse 80% 50% at 20% 20%, rgba(255,255,255,0.12) 0%, transparent 60%)' }} />
@@ -248,7 +248,7 @@ export default function AboutPage() {
                 </div>
                 <div className="relative z-10 text-[11px] font-bold uppercase tracking-widest text-blue-500 mb-2 group-hover:text-blue-200 transition-colors duration-300">Mission</div>
                 <h3 className="relative z-10 text-[22px] font-bold font-figtree text-[#0f172a] leading-tight mb-3 group-hover:text-white transition-colors duration-300">Replacing Fragmented CX Stacks</h3>
-                <p className="relative z-10 text-[16px] text-slate-500 leading-relaxed group-hover:text-blue-100 transition-colors duration-300">
+                <p className="relative z-10 text-base text-slate-500 leading-relaxed group-hover:text-blue-100 transition-colors duration-300">
                   To replace fragmented CX stacks with a secure, AI-enabled omnichannel CXM platform that unifies engagement, operations, analytics, and integrations.
                 </p>
               </motion.div>
@@ -270,9 +270,9 @@ export default function AboutPage() {
             <motion.h2
               initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
               transition={{ delay: 0.1, duration: 0.5, ease }}
-              className="text-3xl sm:text-4xl lg:text-[2.85rem] font-extrabold font-figtree tracking-[-0.025em] text-[#0f172a] leading-[1.15]"
+              className="text-3xl sm:text-4xl lg:text-[2.85rem] font-bold font-figtree tracking-[-0.025em] leading-[1.15]"
             >
-              The problem we<br /><span className="bg-gradient-to-r from-blue-400 via-sky-400 to-indigo-400 bg-clip-text text-transparent">couldn&apos;t ignore.</span>
+              <span className="text-[#0f172a]">The problem we</span><br /><span className="bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent">couldn&apos;t ignore.</span>
             </motion.h2>
           </div>
 
@@ -309,7 +309,7 @@ export default function AboutPage() {
                         <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#2563eb] via-sky-400 to-transparent scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-500" />
                         <span className="lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-full bg-blue-50 border-2 border-blue-400 text-[13px] font-extrabold text-[#2563eb] mb-4">{step.num}</span>
                         <h4 className="text-[22px] font-bold font-figtree text-[#0f172a] leading-tight mb-3 group-hover:text-[#2563eb] transition-colors duration-300">{step.title}</h4>
-                        <p className="text-[16px] text-slate-500 leading-relaxed">{step.desc}</p>
+                        <p className="text-base sm:text-lg text-slate-500 leading-relaxed">{step.desc}</p>
                       </motion.div>
                     ) : <div className="hidden lg:block" />}
                   </div>
@@ -327,7 +327,7 @@ export default function AboutPage() {
                         <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-sky-400 to-[#2563eb] scale-x-0 origin-right group-hover:scale-x-100 transition-transform duration-500" />
                         <span className="lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-full bg-blue-50 border-2 border-blue-400 text-[13px] font-extrabold text-[#2563eb] mb-4">{step.num}</span>
                         <h4 className="text-[22px] font-bold font-figtree text-[#0f172a] leading-tight mb-3 group-hover:text-[#2563eb] transition-colors duration-300">{step.title}</h4>
-                        <p className="text-[16px] text-slate-500 leading-relaxed">{step.desc}</p>
+                        <p className="text-base sm:text-lg text-slate-500 leading-relaxed">{step.desc}</p>
                       </motion.div>
                     ) : <div className="hidden lg:block" />}
                   </div>
@@ -396,11 +396,11 @@ export default function AboutPage() {
             </div>
           </motion.div>
           <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1, duration: 0.4, ease }}
-            className="text-3xl sm:text-4xl lg:text-[2.85rem] font-bold font-figtree tracking-[-0.025em] text-[#0f172a] leading-[1.1] mb-5 text-center">
-            Expert-led.<br /><span className="bg-gradient-to-r from-blue-400 via-sky-400 to-indigo-400 bg-clip-text text-transparent">Experience-driven.</span>
+            className="text-3xl sm:text-4xl lg:text-[2.85rem] font-bold font-figtree tracking-[-0.025em] leading-[1.15] mb-5 text-center">
+            <span className="text-[#0f172a]">Expert-led.</span><br /><span className="bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent">Experience-driven.</span>
           </motion.h2>
           <motion.p initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.15, duration: 0.4 }}
-            className="text-[16px] text-slate-500 max-w-[560px] leading-relaxed mb-12 text-center mx-auto">
+            className="text-base sm:text-lg md:text-xl text-slate-500 max-w-[560px] leading-relaxed mb-12 text-center mx-auto">
             A team of CX, AI, and enterprise technology practitioners spanning sales, presales, engineering, customer success, and partner management across MEA and APAC.
           </motion.p>
 
@@ -545,11 +545,11 @@ export default function AboutPage() {
               <span className="text-[11px] font-bold uppercase tracking-widest text-blue-500">Leadership</span>
             </motion.div>
             <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1, duration: 0.4, ease }}
-              className="text-3xl sm:text-4xl lg:text-[2.85rem] font-bold font-figtree tracking-[-0.025em] text-[#0f172a] leading-[1.1] mb-5">
-              The team behind<br /><span className="bg-gradient-to-r from-blue-400 via-sky-400 to-indigo-400 bg-clip-text text-transparent">the platform.</span>
+              className="text-3xl sm:text-4xl lg:text-[2.85rem] font-bold font-figtree tracking-[-0.025em] leading-[1.15] mb-5">
+              <span className="text-[#0f172a]">The team behind</span><br /><span className="bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent">the platform.</span>
             </motion.h2>
             <motion.p initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.15, duration: 0.4 }}
-              className="text-[16px] text-slate-500 max-w-[620px] mx-auto leading-relaxed">
+              className="text-base sm:text-lg md:text-xl text-slate-500 max-w-[620px] mx-auto leading-relaxed">
               Seasoned CX and technology leaders with deep regional expertise — practitioners who lived the problem Inaipi was built to solve.
             </motion.p>
           </div>
@@ -614,9 +614,9 @@ export default function AboutPage() {
               <span className="text-[11px] font-bold uppercase tracking-widest text-blue-500">Global Presence</span>
             </motion.div>
             <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1, duration: 0.5 }}
-              className="text-3xl sm:text-4xl lg:text-[2.85rem] font-bold font-figtree tracking-[-0.025em] leading-[1.1]">
+              className="text-3xl sm:text-4xl lg:text-[2.85rem] font-bold font-figtree tracking-[-0.025em] leading-[1.15]">
               <span className="text-[#0f172a]">Serving clients </span>
-              <span style={{ background: 'linear-gradient(135deg, #2563eb 0%, #7c3aed 60%, #06b6d4 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>across the globe.</span>
+              <span className="bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent">across the globe.</span>
             </motion.h2>
           </div>
 
@@ -671,11 +671,11 @@ export default function AboutPage() {
               <span className="text-[11px] font-bold uppercase tracking-widest text-blue-500">Trust & Security</span>
             </motion.div>
             <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1, duration: 0.4, ease }}
-              className="text-3xl sm:text-4xl lg:text-[2.85rem] font-bold font-figtree tracking-[-0.025em] text-[#0f172a] leading-[1.1] mb-5">
-              Built on a foundation<br /><span className="bg-gradient-to-r from-blue-400 via-sky-400 to-indigo-400 bg-clip-text text-transparent">of trust.</span>
+              className="text-3xl sm:text-4xl lg:text-[2.85rem] font-bold font-figtree tracking-[-0.025em] leading-[1.15] mb-5">
+              <span className="text-[#0f172a]">Built on a foundation</span><br /><span className="bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent">of trust.</span>
             </motion.h2>
             <motion.p initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.15, duration: 0.4 }}
-              className="text-[16px] text-slate-500 max-w-[620px] mx-auto leading-relaxed">
+              className="text-base sm:text-lg md:text-xl text-slate-500 max-w-[620px] mx-auto leading-relaxed">
               When enterprises run their customer experience on Inaipi, they trust us with their most sensitive relationships. We take that seriously.
             </motion.p>
           </div>
@@ -687,8 +687,8 @@ export default function AboutPage() {
                 whileInView={{ opacity: 1, x: 0, rotateY: 0 }}
                 viewport={{ once: true, amount: 0.1 }}
                 transition={{ delay: i * 0.1, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-                className="group p-7 border border-slate-100/80 rounded-[2rem] hover:border-blue-500/25 hover:shadow-2xl hover:shadow-blue-600/15 hover:-translate-y-2 transition-all duration-300 relative overflow-hidden"
-                style={{ background: 'linear-gradient(145deg, #f8faff 0%, #f0f4ff 50%, #faf5ff 100%)' }}>
+                className="group p-7 border border-slate-200 shadow-sm rounded-[2rem] hover:border-blue-500/30 hover:shadow-2xl hover:shadow-blue-600/15 hover:-translate-y-2 transition-all duration-300 relative overflow-hidden"
+                style={{ background: 'linear-gradient(145deg, #dde6ff 0%, #d5dcff 50%, #ddd4ff 100%)' }}>
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-[2rem]" style={{ background: 'linear-gradient(135deg, #2563eb 0%, #4f46e5 60%, #7c3aed 100%)' }} />
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-[2rem]" style={{ background: 'radial-gradient(ellipse 80% 50% at 20% 20%, rgba(255,255,255,0.12) 0%, transparent 60%)' }} />
                 <div className="relative z-10 w-10 h-10 rounded-[11px] bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-400 mb-4 group-hover:bg-white/20 group-hover:border-white/30 group-hover:text-white transition-all duration-300">
@@ -702,7 +702,7 @@ export default function AboutPage() {
 
           <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.3, duration: 0.4 }}
             className="flex flex-wrap items-center justify-center gap-3">
-            {['SOC 2 Certified', 'GDPR Compliant', 'ISO 27001', 'MENA Regulatory Ready'].map(badge => (
+            {['ISO Certified', 'GDPR Compliant', 'ISO 27001', 'MENA Regulatory Ready'].map(badge => (
               <span key={badge} className="flex items-center gap-2 px-5 py-2.5 bg-white border border-slate-200 rounded-full text-[12px] font-bold text-slate-500">
                 <Shield className="w-4 h-4 text-blue-400" />
                 {badge}
