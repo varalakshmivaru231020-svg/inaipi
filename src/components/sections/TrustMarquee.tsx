@@ -13,8 +13,8 @@ const leftTrack  = [...customers, ...customers, ...customers];
 const rightTrack = [...customers, ...customers, ...customers];
 
 const Item = ({ name }: { name: string }) => (
-  <span className="flex items-center gap-4 text-base font-semibold text-white/70 whitespace-nowrap select-none cursor-default">
-    <span className="w-2 h-2 rounded-full bg-white/40 shrink-0" />
+  <span className="flex items-center gap-3 text-sm font-semibold text-white/75 whitespace-nowrap select-none cursor-default tracking-wide">
+    <span className="w-1.5 h-1.5 rounded-full bg-white/35 shrink-0" />
     {name}
   </span>
 );
@@ -51,7 +51,7 @@ export default function TrustMarquee() {
       viewport={{ once: true }}
       transition={{ duration: 0.6 }}
       style={{ background: '#f8faff' }}
-      className="relative py-16"
+      className="relative py-20"
     >
       {/* Headline */}
       <motion.p
@@ -59,15 +59,15 @@ export default function TrustMarquee() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
-        className="text-center text-base text-slate-500 mb-10"
+        className="text-center text-sm font-semibold text-slate-400 uppercase tracking-[0.2em] mb-12"
       >
         Trusted by{' '}
-        <span className="text-slate-900 font-bold">15,000+ customers</span>
+        <span className="text-slate-700">15,000+ enterprise customers</span>
         {' '}across the region
       </motion.p>
 
       {/* Strip — overflow visible so brackets protrude above & below */}
-      <div className="relative w-full" style={{ height: '100px', overflow: 'visible' }}>
+      <div className="relative w-full" style={{ height: '88px', overflow: 'visible' }}>
 
         {/* Strip background */}
         <div className="absolute inset-0" style={{ background: '#1e40af' }} />
@@ -106,8 +106,8 @@ export default function TrustMarquee() {
         >
           <RightBracket />
           {/* page-color box hides strip behind the number */}
-          <div style={{ background: PAGE_BG, height: '100px', display: 'flex', alignItems: 'center', padding: '0 28px' }}>
-            <span style={{ fontSize: '2.5rem', fontWeight: 800, color: '#1e40af', whiteSpace: 'nowrap', letterSpacing: '-0.02em' }}>
+          <div style={{ background: PAGE_BG, height: '88px', display: 'flex', alignItems: 'center', padding: '0 32px' }}>
+            <span style={{ fontSize: '2rem', fontWeight: 800, color: '#1e40af', whiteSpace: 'nowrap', letterSpacing: '-0.03em', fontFamily: 'var(--font-figtree), Figtree, sans-serif' }}>
               15,000+
             </span>
           </div>

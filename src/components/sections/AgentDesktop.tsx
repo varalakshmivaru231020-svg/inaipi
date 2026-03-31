@@ -118,23 +118,23 @@ export default function AgentDesktop() {
   const sentimentText  = sentiment >= 75 ? 'text-blue-600' : sentiment >= 50 ? 'text-blue-400' : 'text-slate-500';
 
   return (
-    <section className="py-10 overflow-hidden border-t border-blue-100/40 relative" id="solutions" ref={sectionRef} style={{ background: 'linear-gradient(160deg, #f0f4ff 0%, #fafbff 40%, #f5f0ff 100%)' }}>
+    <section className="py-20 lg:py-24 overflow-hidden border-t border-blue-100/40 relative" id="solutions" ref={sectionRef} style={{ background: 'linear-gradient(160deg, #f0f4ff 0%, #fafbff 40%, #f5f0ff 100%)' }}>
       <div className="absolute pointer-events-none" style={{ width: '46vw', height: '46vw', top: '-220px', right: '-300px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(37,99,235,0.06) 0%, transparent 70%)', border: '1px solid rgba(37,99,235,0.05)' }} />
       <div className="absolute pointer-events-none" style={{ width: '32vw', height: '32vw', bottom: '-160px', left: '-200px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(99,102,241,0.05) 0%, transparent 70%)' }} />
       <div className="absolute inset-0 opacity-[0.025] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#0f172a 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
       {/* Header */}
       <div className="container mx-auto px-6 text-center mb-14 max-w-4xl">
-        <motion.p initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-          className="text-xs font-black uppercase tracking-[0.4em] text-blue-600 mb-4">
+        <motion.span initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+          className="section-eyebrow">
           Unified Workspace
-        </motion.p>
+        </motion.span>
         <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}
           className="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold font-figtree tracking-[-0.03em] text-[#0f172a] leading-[1.25] mb-5">
           The Agent Desktop.
         </motion.h2>
         <motion.p initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.15 }}
-          className="text-lg text-slate-400 leading-relaxed max-w-2xl mx-auto">
-          Every channel. Every customer. Every insight — in one unified interface. No tab switching. No context loss.
+          className="text-lg text-slate-500 leading-relaxed max-w-2xl mx-auto">
+          Every channel, every customer, every insight — in one unified interface. No tab switching. No context loss.
         </motion.p>
       </div>
 

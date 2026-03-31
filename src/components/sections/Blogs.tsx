@@ -65,7 +65,7 @@ export default function Blogs() {
   const [featured, ...rest] = blogs;
 
   return (
-    <section className="py-10 relative overflow-hidden" style={{ background: 'linear-gradient(160deg, #f0f4ff 0%, #fafbff 40%, #f5f0ff 100%)' }}>
+    <section className="py-20 lg:py-24 relative overflow-hidden" style={{ background: 'linear-gradient(160deg, #f0f4ff 0%, #fafbff 40%, #f5f0ff 100%)' }}>
       <div className="absolute pointer-events-none" style={{ width: '42vw', height: '42vw', top: '-200px', right: '-260px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(37,99,235,0.07) 0%, transparent 70%)', border: '1px solid rgba(37,99,235,0.05)' }} />
       <div className="absolute pointer-events-none" style={{ width: '30vw', height: '30vw', bottom: '-140px', left: '-180px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(99,102,241,0.05) 0%, transparent 70%)' }} />
       {/* Subtle dot grid */}
@@ -77,20 +77,36 @@ export default function Blogs() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12 gap-6">
           <div>
-            <motion.p initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-              className="text-xs font-black uppercase tracking-[0.4em] text-blue-600 mb-3">
-              From the Blog
-            </motion.p>
-            <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}
-              className="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold font-figtree tracking-[-0.03em] text-[#0f172a] leading-[1.25]">
+            <span className="section-eyebrow wow wow-d1">From the Blog</span>
+            <h2 className="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold font-figtree tracking-[-0.03em] text-[#0f172a] leading-[1.25] wow wow-d2">
               Insights &amp; Resources
-            </motion.h2>
+            </h2>
           </div>
-          <motion.a href="#" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.2 }}
-            className="group flex items-center gap-2 text-sm font-black uppercase tracking-widest text-blue-600 hover:gap-3 transition-all shrink-0">
-            View all posts
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </motion.a>
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.96, y: 0 }}
+            className="shrink-0 wow wow-d3"
+          >
+            <a
+              href="#"
+              className="relative group overflow-hidden bg-[#2563eb] hover:bg-[#1d4ed8] text-white min-h-[44px] px-5 py-2.5 rounded-full font-black text-[11px] uppercase tracking-widest transition-all duration-200 flex items-center gap-2 shadow-md shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/40 whitespace-nowrap"
+            >
+              {/* Shimmer fires on hover */}
+              <span className="absolute inset-0 -skew-x-12 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover:translate-x-[200%] transition-transform duration-500 ease-in-out pointer-events-none" />
+              {/* Glow ring */}
+              <span className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none" style={{ boxShadow: '0 0 0 4px rgba(37,99,235,0.25)' }} />
+              <span className="relative z-10">View all posts</span>
+              {/* Arrow shoots out and re-enters */}
+              <span className="relative z-10 w-5 h-5 rounded-full bg-white/20 flex items-center justify-center overflow-hidden group-hover:bg-white/30 transition-colors duration-200">
+                <ArrowRight className="w-2.5 h-2.5 text-white translate-x-0 group-hover:translate-x-4 transition-transform duration-200 ease-in" />
+                <ArrowRight className="w-2.5 h-2.5 text-white absolute -translate-x-4 group-hover:translate-x-0 transition-transform duration-200 ease-out" />
+              </span>
+            </a>
+          </motion.div>
         </div>
 
         {/* Grid — featured left large, 2 stacked right */}
@@ -105,7 +121,7 @@ export default function Blogs() {
             viewport={{ once: true, margin: '-60px' }}
             whileHover={{ y: -6 }}
             transition={{ duration: 0.3 }}
-            className="lg:col-span-3 group bg-white rounded-3xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl transition-shadow duration-300 cursor-pointer flex flex-col"
+            className="lg:col-span-3 group bg-white rounded-3xl overflow-hidden border border-gray-100 hover:border-blue-500/25 shadow-sm hover:shadow-2xl hover:shadow-blue-600/15 hover:-translate-y-2 transition-all duration-300 cursor-pointer flex flex-col"
           >
             {/* Image */}
             <div className="relative h-60 sm:h-72 overflow-hidden bg-gray-100">
@@ -118,8 +134,7 @@ export default function Blogs() {
               {/* Gradient overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
               {/* Tag on image */}
-              <span className="absolute top-4 left-4 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest"
-                style={{ backgroundColor: featured.tagColor, color: '#fff' }}>
+              <span className="absolute top-4 left-4 px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest bg-[#2563eb] text-white">
                 {featured.tag}
               </span>
             </div>
@@ -137,7 +152,7 @@ export default function Blogs() {
                 <ul className="space-y-2 mb-6">
                   {(featured as typeof featured & { keyPoints: string[] }).keyPoints.map((pt, i) => (
                     <li key={i} className="flex items-start gap-2 text-sm text-slate-600 font-medium">
-                      <CheckCircle2 className="w-3.5 h-3.5 mt-0.5 shrink-0" style={{ color: featured.tagColor }} />
+                      <CheckCircle2 className="w-3.5 h-3.5 mt-0.5 shrink-0 text-blue-500" />
                       {pt}
                     </li>
                   ))}
@@ -148,8 +163,8 @@ export default function Blogs() {
               {'stats' in featured && (
                 <div className="grid grid-cols-3 gap-3 mb-6">
                   {(featured as typeof featured & { stats: { value: string; label: string }[] }).stats.map((s, i) => (
-                    <div key={i} className="rounded-2xl px-3 py-3 text-center" style={{ background: `${featured.tagColor}08`, border: `1px solid ${featured.tagColor}20` }}>
-                      <p className="text-lg font-black" style={{ color: featured.tagColor }}>{s.value}</p>
+                    <div key={i} className="rounded-2xl px-3 py-3 text-center bg-blue-50 border border-blue-100">
+                      <p className="text-lg font-black text-blue-600">{s.value}</p>
                       <p className="text-xs text-slate-400 font-bold uppercase tracking-widest mt-0.5">{s.label}</p>
                     </div>
                   ))}
@@ -158,8 +173,7 @@ export default function Blogs() {
 
               <div className="flex items-center justify-between mt-auto pt-5 border-t border-gray-100">
                 <div className="flex items-center gap-3">
-                  <div className="w-7 h-7 rounded-full flex items-center justify-center text-white text-[9px] font-black"
-                    style={{ backgroundColor: featured.tagColor }}>
+                  <div className="w-7 h-7 rounded-full flex items-center justify-center text-white text-[9px] font-black bg-[#2563eb]">
                     IN
                   </div>
                   <div>
@@ -172,8 +186,7 @@ export default function Blogs() {
                     <Clock className="w-3 h-3" />
                     {featured.readTime}
                   </div>
-                  <a href="#" className="flex items-center gap-1 text-xs font-black uppercase tracking-widest group-hover:gap-2 transition-all"
-                    style={{ color: featured.tagColor }}>
+                  <a href="#" className="flex items-center gap-1 text-xs font-black uppercase tracking-widest text-blue-600 group-hover:gap-2 transition-all duration-200">
                     Read <ArrowRight className="w-3 h-3" />
                   </a>
                 </div>
@@ -193,7 +206,7 @@ export default function Blogs() {
                 viewport={{ once: true, margin: '-60px' }}
                 whileHover={{ y: -4 }}
                 transition={{ duration: 0.3 }}
-                className="group bg-white rounded-3xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl transition-shadow duration-300 cursor-pointer flex flex-col flex-1"
+                className="group bg-white rounded-3xl overflow-hidden border border-gray-100 hover:border-blue-500/25 shadow-sm hover:shadow-2xl hover:shadow-blue-600/15 hover:-translate-y-2 transition-all duration-300 cursor-pointer flex flex-col flex-1"
               >
                 {/* Image */}
                 <div className="relative h-40 overflow-hidden bg-gray-100">
@@ -204,8 +217,7 @@ export default function Blogs() {
                     className="object-cover object-top group-hover:scale-105 transition-transform duration-700"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
-                  <span className="absolute top-3 left-3 px-2.5 py-1 rounded-full text-[9px] font-black uppercase tracking-widest"
-                    style={{ backgroundColor: post.tagColor, color: '#fff' }}>
+                  <span className="absolute top-3 left-3 px-2.5 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest bg-[#2563eb] text-white">
                     {post.tag}
                   </span>
                 </div>
@@ -221,7 +233,7 @@ export default function Blogs() {
                     <ul className="space-y-1.5 mb-3">
                       {(post as typeof post & { keyPoints: string[] }).keyPoints.map((pt, j) => (
                         <li key={j} className="flex items-start gap-1.5 text-sm text-slate-600 font-medium">
-                          <CheckCircle2 className="w-3 h-3 mt-0.5 shrink-0" style={{ color: post.tagColor }} />
+                          <CheckCircle2 className="w-3 h-3 mt-0.5 shrink-0 text-blue-500" />
                           {pt}
                         </li>
                       ))}

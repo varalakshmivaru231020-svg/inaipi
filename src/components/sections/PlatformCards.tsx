@@ -373,7 +373,7 @@ export default function PlatformCards() {
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-xs font-black uppercase tracking-[0.4em] text-blue-600 mb-4"
+          className="section-eyebrow"
         >
           The Platform
         </motion.p>
@@ -382,7 +382,7 @@ export default function PlatformCards() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.1, duration: 1.0, ease: [0.16, 1, 0.3, 1] }}
-          className="text-3xl sm:text-4xl font-bold font-figtree tracking-tight text-[#0f172a] mb-5"
+          className="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold font-figtree tracking-[-0.03em] text-[#0f172a] leading-[1.25] mb-5"
         >
           One platform. Every capability.
         </motion.h2>
@@ -391,7 +391,7 @@ export default function PlatformCards() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.2 }}
-          className="text-lg text-slate-400 leading-relaxed"
+          className="text-lg text-slate-500 leading-relaxed"
         >
           From live monitoring to outbound campaigns — every module is AI-native and connected through one intelligent core.
         </motion.p>

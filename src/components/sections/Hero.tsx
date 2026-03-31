@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
-import { Phone, MessageSquare, Mail, Globe, Brain, Star, Zap, Users, PhoneCall, PhoneIncoming } from 'lucide-react';
+import { Phone, MessageSquare, Mail, Globe, Brain, Star, Zap, Users, PhoneCall, PhoneIncoming, ArrowRight } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 
 /* ── Typewriter ── */
@@ -214,7 +214,7 @@ export default function Hero() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative min-h-[100vh] pt-28 pb-0 flex flex-col items-center overflow-visible" style={{ background: 'linear-gradient(160deg, #f0f4ff 0%, #fafbff 40%, #f5f0ff 100%)' }}>
+    <section ref={sectionRef} className="relative min-h-[100vh] pt-32 pb-0 flex flex-col items-center overflow-visible" style={{ background: 'linear-gradient(160deg, #f0f4ff 0%, #fafbff 40%, #f5f0ff 100%)' }}>
 
       {/* ── Background ── */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
@@ -264,7 +264,7 @@ export default function Hero() {
         <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
           className="inline-flex items-center space-x-3 px-5 py-2 rounded-full border border-blue-100 bg-white shadow-sm mb-8">
           <span className="flex h-1.5 w-1.5 rounded-full bg-blue-600 animate-pulse" />
-          <span className="text-[10px] font-black uppercase tracking-[0.4em] text-blue-600">The AI-Native CX Engine</span>
+          <span className="text-[10px] font-black uppercase tracking-[0.35em] text-blue-600">The AI-Native CX Engine</span>
         </motion.div>
 
         {/* Headline */}
@@ -285,33 +285,60 @@ export default function Hero() {
         </h1>
 
         {/* Subtext */}
-        <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.1, delay: 3.0, ease: [0.16, 1, 0.3, 1] }} className="mb-8">
-          <p className="text-base sm:text-lg text-slate-500 leading-relaxed font-normal whitespace-nowrap">
-            Inaipi transforms the customer experience journey into a single intelligent ecosystem.
-          </p>
-          <p className="text-base sm:text-lg text-slate-500 leading-relaxed font-normal whitespace-nowrap">
-            Unify every touchpoint with absolute precision and human-level empathy.
+        <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.1, delay: 3.0, ease: [0.16, 1, 0.3, 1] }} className="mb-10 px-4">
+          <p className="text-base sm:text-lg md:text-xl text-slate-500 leading-relaxed font-normal max-w-2xl mx-auto">
+            Inaipi transforms the customer experience journey into a single intelligent ecosystem — unifying every touchpoint with precision and human-level empathy.
           </p>
         </motion.div>
 
         {/* CTA Buttons */}
-        <div className="flex items-center justify-center gap-4 flex-wrap">
-          <motion.a href="#" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 3.4, ease: [0.16, 1, 0.3, 1] }} whileHover={{ scale: 1.05, y: -3 }} whileTap={{ scale: 0.97 }}
-            className="relative inline-flex items-center gap-2.5 px-7 py-3.5 bg-blue-600 text-white font-semibold text-sm rounded-full overflow-hidden shadow-lg shadow-blue-500/30 group">
-            <motion.span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12" initial={{ x: '-100%' }} animate={{ x: '200%' }} transition={{ duration: 1.6, delay: 4.2, repeat: Infinity, repeatDelay: 3, ease: 'easeInOut' }} />
-            <span className="relative z-10">Get Started Free</span>
-            <motion.svg className="w-4 h-4 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" animate={{ x: [0, 4, 0] }} transition={{ duration: 1.2, repeat: Infinity, repeatDelay: 2, ease: 'easeInOut' }}>
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </motion.svg>
-          </motion.a>
-          <motion.a href="#" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 3.55, ease: [0.16, 1, 0.3, 1] }} whileHover={{ scale: 1.05, y: -3 }} whileTap={{ scale: 0.97 }}
-            className="relative inline-flex items-center gap-2.5 px-7 py-3.5 bg-white text-[#0f172a] font-semibold text-sm rounded-full border border-slate-200 shadow-sm overflow-hidden group">
-            <span className="relative flex items-center justify-center w-6 h-6 shrink-0">
-              <motion.span className="absolute inline-flex w-full h-full rounded-full bg-blue-100" animate={{ scale: [1, 1.6], opacity: [0.6, 0] }} transition={{ duration: 1.4, repeat: Infinity, ease: 'easeOut' }} />
-              <svg className="w-4 h-4 text-blue-600 relative z-10" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
-            </span>
-            <span>Watch Demo</span>
-          </motion.a>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
+          {/* Primary — exact Navbar "Get Started" clone */}
+          {/* Primary — full hover treatment */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 3.4, ease: [0.16, 1, 0.3, 1] }}
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.96, y: 0 }}
+            className="w-full sm:w-auto wow wow-d5"
+          >
+            <a
+              href="#"
+              aria-label="Get started free"
+              className="relative group overflow-hidden bg-[#2563eb] hover:bg-[#1d4ed8] text-white min-h-[44px] px-5 py-2.5 rounded-full font-black text-[11px] uppercase tracking-widest transition-all duration-200 flex items-center justify-center gap-2 shadow-md shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/40 whitespace-nowrap w-full sm:w-auto"
+            >
+              {/* Shimmer fires on hover */}
+              <span className="absolute inset-0 -skew-x-12 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover:translate-x-[200%] transition-transform duration-500 ease-in-out pointer-events-none" />
+              {/* Glow ring */}
+              <span className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none" style={{ boxShadow: '0 0 0 4px rgba(37,99,235,0.25)' }} />
+              <span className="relative z-10">Get Started Free</span>
+              {/* Arrow shoots out and re-enters */}
+              <span className="relative z-10 w-5 h-5 rounded-full bg-white/20 flex items-center justify-center overflow-hidden group-hover:bg-white/30 transition-colors duration-200">
+                <ArrowRight className="w-2.5 h-2.5 text-white translate-x-0 group-hover:translate-x-4 transition-transform duration-200 ease-in" />
+                <ArrowRight className="w-2.5 h-2.5 text-white absolute -translate-x-4 group-hover:translate-x-0 transition-transform duration-200 ease-out" />
+              </span>
+            </a>
+          </motion.div>
+
+          {/* Secondary — border/text turns blue on hover */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 3.55, ease: [0.16, 1, 0.3, 1] }}
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.96, y: 0 }}
+            className="w-full sm:w-auto wow wow-d6"
+          >
+            <a
+              href="#"
+              aria-label="Watch product demo"
+              className="relative group text-[11px] font-black text-[#0f172a] hover:text-[#2563eb] hover:border-[#2563eb] hover:shadow-md hover:shadow-blue-500/15 transition-all duration-200 uppercase tracking-[0.15em] flex items-center justify-center gap-2 border-2 border-[#0f172a]/40 min-h-[44px] px-5 py-2.5 rounded-full whitespace-nowrap w-full sm:w-auto"
+            >
+              Watch Demo
+              <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform duration-200" />
+            </a>
+          </motion.div>
         </div>
       </div>
 
@@ -665,7 +692,7 @@ export default function Hero() {
 
       {/* Bottom tagline — below the dashboard image */}
       <div className="relative z-10 mt-16 text-center w-full max-w-[1400px] mx-auto px-10 pb-10">
-        <p className="text-[10px] sm:text-xs font-black text-blue-600 uppercase tracking-[0.4em] mb-4">One Intelligent Platform</p>
+        <p className="text-[10px] sm:text-xs font-black text-blue-600 uppercase tracking-[0.35em] mb-4">One Intelligent Platform</p>
         <p className="text-sm sm:text-base md:text-lg lg:text-xl text-slate-400 font-medium leading-relaxed max-w-5xl mx-auto tracking-tight">
           Powering the entire Customer Experience Lifecycle — seamlessly integrating AI Agents, Human Teams, and your Enterprise Stack.
         </p>

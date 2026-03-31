@@ -25,7 +25,7 @@ export default function Marquee() {
       <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
       <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
 
-      <p className="text-center text-[10px] font-black uppercase tracking-[0.4em] text-slate-300 mb-5">
+      <p className="text-center text-[10px] font-black uppercase tracking-[0.35em] text-slate-300 mb-5">
         Integrates with the tools you already use
       </p>
 

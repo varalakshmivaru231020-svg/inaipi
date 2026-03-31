@@ -585,7 +585,7 @@ function StageCard({ stage, index, total }: { stage: typeof stages[0]; index: nu
             <div className="inline-flex items-center justify-center w-12 h-12 rounded-full text-white text-base font-black mb-6 shrink-0 shadow-lg" style={{ backgroundColor: stage.color }}>
               {stage.id}
             </div>
-            <p className="text-[11px] font-black uppercase tracking-[0.4em] mb-4" style={{ color: stage.color }}>{stage.tagline}</p>
+            <p className="text-[11px] font-black uppercase tracking-[0.35em] mb-4" style={{ color: stage.color }}>{stage.tagline}</p>
             <h3 className="text-2xl sm:text-3xl font-bold font-figtree text-[#0f172a] mb-6 leading-tight">{stage.title}</h3>
             <p className="text-slate-500 leading-relaxed mb-8 text-base">{stage.description}</p>
             <ul className="space-y-3 mb-8">
@@ -636,7 +636,7 @@ export default function PlatformFlow() {
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-xs font-black uppercase tracking-[0.4em] text-blue-600 mb-4"
+          className="section-eyebrow"
         >
           Platform Architecture
         </motion.p>
@@ -645,7 +645,7 @@ export default function PlatformFlow() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.1 }}
-          className="text-3xl sm:text-4xl font-bold font-figtree tracking-tight text-[#0f172a] leading-[1.15] mb-5"
+          className="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold font-figtree tracking-[-0.03em] text-[#0f172a] leading-[1.25] mb-5"
         >
           One platform powering the entire customer lifecycle.
         </motion.h2>
@@ -654,7 +654,7 @@ export default function PlatformFlow() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.15 }}
-          className="text-lg text-slate-400 leading-relaxed"
+          className="text-lg text-slate-500 leading-relaxed"
         >
           Every stage of the customer journey — from first contact to proactive engagement — connected through one AI-native engine.
         </motion.p>

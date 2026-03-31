@@ -7,10 +7,12 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 const navLinks = [
-  { name: 'Platform', href: '#platform' },
-  { name: 'Features', href: '#features' },
-  { name: 'Solutions', href: '#solutions' },
-  { name: 'Analytics', href: '#analytics' },
+  { name: 'Platform', href: '/#platform' },
+  { name: 'Features', href: '/#features' },
+  { name: 'About Us', href: '/about' },
+  { name: 'Blog', href: '/blog' },
+  { name: 'Careers', href: '/career' },
+  { name: 'Contact', href: '/contact' },
 ];
 
 export default function Navbar() {
@@ -84,7 +86,7 @@ export default function Navbar() {
             </motion.div>
 
             {/* Nav links */}
-            <div className="hidden lg:flex items-center gap-8">
+            <div className="hidden lg:flex items-center gap-7">
               {navLinks.map((link, i) => (
                 <motion.div
                   key={link.name}
@@ -94,10 +96,10 @@ export default function Navbar() {
                 >
                   <Link
                     href={link.href}
-                    className="relative text-sm font-semibold text-[#0f172a]/60 hover:text-[#2563eb] transition-colors duration-300 tracking-normal whitespace-nowrap group"
+                    className="relative inline-flex items-center min-h-[44px] text-sm font-semibold text-[#0f172a]/60 hover:text-[#2563eb] transition-colors duration-200 tracking-normal whitespace-nowrap group focus-visible:outline-none focus-visible:text-[#2563eb]"
                   >
                     {link.name}
-                    <span className="absolute -bottom-0.5 left-0 w-0 h-[1.5px] bg-blue-500 group-hover:w-full transition-all duration-300 rounded-full" />
+                    <span className="absolute -bottom-0.5 left-0 w-0 h-[1.5px] bg-blue-500 group-hover:w-full transition-all duration-200 rounded-full" />
                   </Link>
                 </motion.div>
               ))}
@@ -112,7 +114,7 @@ export default function Navbar() {
               >
                 <Link
                   href="/login"
-                  className="text-[11px] font-black text-[#0f172a] hover:text-[#2563eb] hover:border-[#2563eb] transition-all duration-300 uppercase tracking-[0.15em] flex items-center gap-2 border-2 border-[#0f172a]/40 px-5 py-2.5 rounded-full whitespace-nowrap"
+                  className="text-[11px] font-black text-[#0f172a] hover:text-[#2563eb] hover:border-[#2563eb] transition-all duration-200 uppercase tracking-[0.15em] inline-flex items-center gap-2 border-2 border-[#0f172a]/30 min-h-[44px] px-5 py-2.5 rounded-full whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                 >
                   Log in
                   <ArrowRight className="w-3 h-3" />
@@ -122,19 +124,25 @@ export default function Navbar() {
                 initial={{ opacity: 0, x: 16 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, delay: 0.65, ease: [0.16, 1, 0.3, 1] }}
-                whileHover={{ scale: 1.04 }}
-                whileTap={{ scale: 0.97 }}
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.96, y: 0 }}
               >
-                <button className="relative group overflow-hidden bg-[#2563eb] hover:bg-[#1d4ed8] text-white px-5 py-2.5 rounded-full font-black text-[11px] uppercase tracking-widest transition-colors duration-300 flex items-center gap-2 shadow-md shadow-blue-500/25 whitespace-nowrap">
-                  <motion.span
-                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/15 to-transparent -skew-x-12"
-                    initial={{ x: '-100%' }}
-                    animate={{ x: '200%' }}
-                    transition={{ duration: 1.8, delay: 1.5, repeat: Infinity, repeatDelay: 4, ease: 'easeInOut' }}
-                  />
+                <button
+                  className="relative group overflow-hidden bg-[#2563eb] hover:bg-[#1d4ed8] text-white min-h-[44px] px-5 py-2.5 rounded-full font-black text-[11px] uppercase tracking-widest transition-all duration-200 flex items-center gap-2 shadow-md shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/40 whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                  aria-label="Get started with Inaipi"
+                >
+                  {/* Shimmer — fires on hover via group */}
+                  <span className="absolute inset-0 -skew-x-12 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover:translate-x-[200%] transition-transform duration-500 ease-in-out pointer-events-none" />
+
+                  {/* Glow ring that expands on hover */}
+                  <span className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none" style={{ boxShadow: '0 0 0 4px rgba(37,99,235,0.25)' }} />
+
                   <span className="relative z-10">Get Started</span>
-                  <span className="relative z-10 w-5 h-5 rounded-full bg-white/20 flex items-center justify-center group-hover:translate-x-0.5 transition-transform duration-300">
-                    <ArrowRight className="w-2.5 h-2.5 text-white" />
+
+                  {/* Arrow capsule — arrow slides out and back on hover */}
+                  <span className="relative z-10 w-5 h-5 rounded-full bg-white/20 flex items-center justify-center overflow-hidden group-hover:bg-white/30 transition-colors duration-200">
+                    <ArrowRight className="w-2.5 h-2.5 text-white translate-x-0 group-hover:translate-x-4 transition-transform duration-200 ease-in" />
+                    <ArrowRight className="w-2.5 h-2.5 text-white absolute -translate-x-4 group-hover:translate-x-0 transition-transform duration-200 ease-out" />
                   </span>
                 </button>
               </motion.div>
@@ -143,8 +151,10 @@ export default function Navbar() {
             {/* Mobile Toggle */}
             <div className="lg:hidden flex justify-end">
               <button
-                className="p-2 text-[#0f172a]"
+                className="min-w-[44px] min-h-[44px] flex items-center justify-center rounded-xl text-[#0f172a] hover:bg-slate-100 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+                aria-expanded={mobileMenuOpen}
               >
                 {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
               </button>
@@ -163,27 +173,29 @@ export default function Navbar() {
             transition={{ duration: 0.25, ease: 'easeOut' }}
             className="fixed top-[72px] left-0 right-0 z-40 bg-white border-b border-gray-100 p-8 shadow-2xl"
           >
-            <div className="flex flex-col space-y-6">
+            <div className="flex flex-col space-y-2">
               {navLinks.map((link) => (
                 <Link
                   key={link.name}
                   href={link.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="text-lg font-bold text-[#0f172a]"
+                  className="min-h-[52px] flex items-center text-base font-bold text-[#0f172a] hover:text-blue-600 transition-colors duration-200 px-2 rounded-xl hover:bg-slate-50"
                 >
                   {link.name}
                 </Link>
               ))}
-              <Link
-                href="/login"
-                onClick={() => setMobileMenuOpen(false)}
-                className="w-full py-3.5 border border-[#0f172a]/20 rounded-2xl font-black text-sm uppercase tracking-widest text-[#0f172a] flex items-center justify-center gap-2"
-              >
-                Log in <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
-              <button className="w-full py-4 bg-[#2563eb] text-white rounded-2xl font-black uppercase tracking-widest text-sm">
-                Get Started
-              </button>
+              <div className="pt-4 flex flex-col gap-3">
+                <Link
+                  href="/login"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="w-full min-h-[52px] border-2 border-[#0f172a]/20 rounded-2xl font-black text-sm uppercase tracking-widest text-[#0f172a] flex items-center justify-center gap-2 hover:border-blue-500 hover:text-blue-600 transition-all duration-200"
+                >
+                  Log in <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+                <button className="w-full min-h-[52px] bg-[#2563eb] hover:bg-[#1d4ed8] text-white rounded-2xl font-black uppercase tracking-widest text-sm transition-colors duration-200">
+                  Get Started
+                </button>
+              </div>
             </div>
           </motion.div>
         )}

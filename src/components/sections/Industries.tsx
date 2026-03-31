@@ -74,7 +74,7 @@ const industries = [
 
 export default function Industries() {
   return (
-    <section className="py-10 overflow-hidden relative" style={{ background: 'linear-gradient(160deg, #f0f4ff 0%, #fafbff 40%, #f5f0ff 100%)' }}>
+    <section className="py-20 lg:py-24 overflow-hidden relative" style={{ background: 'linear-gradient(160deg, #f0f4ff 0%, #fafbff 40%, #f5f0ff 100%)' }}>
       {/* Background orbs */}
       <div className="absolute pointer-events-none" style={{ width: '44vw', height: '44vw', top: '-180px', right: '-240px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(37,99,235,0.07) 0%, transparent 70%)', border: '1px solid rgba(37,99,235,0.05)' }} />
       <div className="absolute pointer-events-none" style={{ width: '30vw', height: '30vw', bottom: '-140px', left: '-160px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(99,102,241,0.06) 0%, transparent 70%)' }} />
@@ -83,14 +83,14 @@ export default function Industries() {
 
         {/* Header */}
         <div className="text-center mb-16 max-w-3xl mx-auto">
-          <motion.p
+          <motion.span
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-xs font-black uppercase tracking-[0.4em] text-blue-600 mb-4"
+            className="section-eyebrow"
           >
             Industry Use Cases
-          </motion.p>
+          </motion.span>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -105,7 +105,7 @@ export default function Industries() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.15 }}
-            className="text-lg text-slate-400 leading-relaxed"
+            className="text-lg text-slate-500 leading-relaxed"
           >
             Inaipi adapts to the compliance, workflows, and customer expectations of your specific domain.
           </motion.p>
@@ -128,7 +128,7 @@ export default function Industries() {
                   hidden: { opacity: 0, y: 40 },
                   visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.25, 0.1, 0.25, 1] } },
                 }}
-                whileHover={{ y: -6, boxShadow: '0 20px 60px rgba(37,99,235,0.35)', transition: { duration: 0.25, ease: 'easeOut' } }}
+                whileHover={{ y: -8, boxShadow: '0 24px 56px rgba(37,99,235,0.4)', transition: { duration: 0.2, ease: 'easeOut' } }}
                 className="group relative overflow-hidden cursor-default"
                 style={{
                   borderRadius: 16,

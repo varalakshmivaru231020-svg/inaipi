@@ -117,7 +117,7 @@ export default function Analytics() {
         {/* Header */}
         <div className="text-center mb-16 max-w-3xl mx-auto">
           <motion.p initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-            className="text-xs font-black uppercase tracking-[0.4em] text-blue-400 mb-4">
+            className="inline-flex items-center text-xs font-black uppercase tracking-[0.35em] text-blue-400 border border-blue-400/30 bg-blue-400/10 px-4 py-1.5 rounded-full mb-5">
             Unified Analytics
           </motion.p>
           <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}

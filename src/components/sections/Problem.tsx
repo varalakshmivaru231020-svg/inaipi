@@ -88,7 +88,7 @@ export default function Problem() {
   const current = painPoints[active];
 
   return (
-    <section className="py-16 relative overflow-hidden" style={{ background: 'linear-gradient(160deg, #f0f4ff 0%, #faf5ff 40%, #fff7ed 100%)' }}>
+    <section className="py-20 lg:py-24 relative overflow-hidden" style={{ background: 'linear-gradient(160deg, #f0f4ff 0%, #fafbff 40%, #f5f0ff 100%)' }}>
       {/* Background Patterns */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
         {/* Color overlays */}
@@ -107,19 +107,19 @@ export default function Problem() {
 
       {/* ── Header ── */}
       <div className="container mx-auto px-6 text-center mb-20 max-w-3xl">
-        <motion.p
+        <motion.span
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-xs font-black uppercase tracking-[0.4em] text-blue-600 mb-4"
+          className="section-eyebrow"
         >
           The Problem
-        </motion.p>
+        </motion.span>
         <div className="mb-5 flex flex-col items-center gap-1 text-3xl sm:text-4xl lg:text-[2.75rem] font-bold font-figtree tracking-[-0.03em] leading-[1.25]">
           <div className="block whitespace-nowrap">
             {['Enterprises', 'invest', 'millions.'].map((word, i) => (
-              <motion.span key={i} initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.5 }}
-                transition={{ duration: 1.5, delay: 0.2 + i * 0.2, ease: [0.16, 1, 0.3, 1] }}
+              <motion.span key={i} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.5 }}
+                transition={{ duration: 0.4, delay: 0.1 + i * 0.07, ease: [0.18, 0.82, 0.41, 1] }}
                 className="inline-block mr-[0.25em] last:mr-0 text-[#0f172a]">
                 {word}
               </motion.span>
@@ -127,14 +127,14 @@ export default function Problem() {
           </div>
           <div className="block whitespace-nowrap">
             {['Customers', 'still', 'get'].map((word, i) => (
-              <motion.span key={i} initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.5 }}
-                transition={{ duration: 1.5, delay: 0.8 + i * 0.2, ease: [0.16, 1, 0.3, 1] }}
+              <motion.span key={i} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.5 }}
+                transition={{ duration: 0.4, delay: 0.3 + i * 0.07, ease: [0.18, 0.82, 0.41, 1] }}
                 className="inline-block mr-[0.25em] text-[#0f172a]">
                 {word}
               </motion.span>
             ))}
-            <motion.span initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.5 }}
-              transition={{ duration: 1.5, delay: 1.4, ease: [0.16, 1, 0.3, 1] }}
+            <motion.span initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.5 }}
+              transition={{ duration: 0.4, delay: 0.52, ease: [0.18, 0.82, 0.41, 1] }}
               className="inline-block bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent">
               broken experiences.
             </motion.span>
@@ -144,8 +144,8 @@ export default function Problem() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.5 }}
-          transition={{ duration: 2.0, delay: 1.6 }}
-          className="text-lg text-slate-500 leading-relaxed font-normal"
+          transition={{ duration: 0.4, delay: 0.6 }}
+          className="text-lg text-slate-500 leading-relaxed"
         >
           Disconnected tools and siloed systems break the journey at every stage.
           Bolting on AI doesn't fix it — it creates yet another silo.
@@ -163,8 +163,8 @@ export default function Problem() {
               <button
                 key={i}
                 onClick={() => setActive(i)}
-                className={`relative flex flex-1 items-center justify-center gap-2 py-4 px-4 text-sm font-semibold transition-colors duration-300 ${
-                  isActive ? 'text-indigo-600' : 'text-slate-400 hover:text-slate-600'
+                className={`relative flex flex-1 items-center justify-center gap-2 py-4 px-4 text-sm font-semibold transition-colors duration-200 min-h-[52px] ${
+                  isActive ? 'text-blue-600' : 'text-slate-400 hover:text-slate-600'
                 }`}
               >
                 {isActive && (
@@ -177,7 +177,7 @@ export default function Problem() {
                 {isActive && (
                   <motion.div
                     layoutId="tab-top-line"
-                    className="absolute top-0 left-0 right-0 h-[2px] bg-indigo-400 z-10"
+                    className="absolute top-0 left-0 right-0 h-[2px] bg-blue-600 z-10"
                   />
                 )}
                 <Icon className="w-4 h-4 shrink-0 relative z-10" />
@@ -194,17 +194,17 @@ export default function Problem() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -16 }}
-            transition={{ duration: 0.8, ease: 'easeOut' }}
+            transition={{ duration: 0.4, ease: [0.18, 0.82, 0.41, 1] }}
             className="grid lg:grid-cols-5 gap-6"
           >
             {/* Left — problems list (3 cols) */}
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 2.0, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.45, ease: [0.18, 0.82, 0.41, 1] }}
               className="lg:col-span-3 bg-[#f8fafc] rounded-3xl p-8 sm:p-10 border border-gray-100"
             >
-              <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest mb-6" style={current.tagStyle}>
+              <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest mb-6 bg-blue-50 text-blue-600 border border-blue-100">
                 <current.icon className="w-3.5 h-3.5" />
                 When Customers Are {current.tag}
               </div>
@@ -217,7 +217,7 @@ export default function Problem() {
                     key={j}
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: j * 0.18 }}
+                    transition={{ delay: j * 0.06, duration: 0.35, ease: [0.18, 0.82, 0.41, 1] }}
                     className="flex items-start gap-4"
                   >
                     <div className="mt-0.5 shrink-0">
@@ -233,15 +233,15 @@ export default function Problem() {
             <motion.div
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 2.0, ease: [0.16, 1, 0.3, 1], delay: 0.4 }}
+              transition={{ duration: 0.45, ease: [0.18, 0.82, 0.41, 1], delay: 0.1 }}
               className="lg:col-span-2 flex flex-col gap-6"
             >
               {/* Gradient accent card */}
               <motion.div
                 initial={{ opacity: 0, scale: 0.96 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 1.4, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                className="rounded-3xl p-8 text-white flex-1 flex flex-col justify-between" style={current.gradientStyle}>
+                transition={{ duration: 0.4, delay: 0.15, ease: [0.18, 0.82, 0.41, 1] }}
+                className="rounded-3xl p-8 text-white flex-1 flex flex-col justify-between" style={{ background: 'linear-gradient(145deg, #1e40af 0%, #2563eb 60%, #3b82f6 100%)' }}>
                 <div>
                   <p className="text-xs font-black uppercase tracking-widest text-white/60 mb-4">The Hidden Gap</p>
                   <p className="text-white leading-relaxed text-[15px]">{current.gap}</p>
@@ -256,7 +256,7 @@ export default function Problem() {
 
               {/* Step indicator */}
               <div className="rounded-3xl bg-[#0f172a] p-6 flex items-center gap-5">
-                <span className="text-4xl font-black font-figtree opacity-30" style={{ color: current.accentColor }}>{current.number}</span>
+                <span className="text-4xl font-black font-figtree text-blue-400 opacity-40">{current.number}</span>
                 <div>
                   <p className="text-white/40 text-xs uppercase tracking-widest font-bold mb-1">Problem</p>
                   <p className="text-white font-bold text-sm">{current.tag}</p>
@@ -273,7 +273,7 @@ export default function Problem() {
           initial={{ opacity: 0, y: 60 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 2.2, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
           className="rounded-[2.5rem] overflow-hidden relative group"
           style={{ background: 'linear-gradient(145deg, #1e40af 0%, #2563eb 60%, #3b82f6 100%)' }}
         >
@@ -299,25 +299,20 @@ export default function Problem() {
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 2.0, ease: [0.22, 1, 0.36, 1], delay: 0.4 }}
+              transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
               className="p-10 sm:p-14 border-b lg:border-b-0 lg:border-r border-white/20"
             >
-              <motion.p initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 1.2, delay: 0.6 }}
-                className="text-xs font-black uppercase tracking-[0.4em] text-white/60 mb-5">The Result</motion.p>
-              <h3 className="text-xl sm:text-2xl font-bold font-figtree text-white leading-tight mb-8">
-                {"Without a unified intelligent platform, organisations face:".split(' ').map((word, i) => (
-                  <motion.span 
-                    key={i} 
-                    initial={{ opacity: 0, y: 15 }} 
-                    whileInView={{ opacity: 1, y: 0 }} 
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.8, delay: 0.8 + i * 0.12, ease: [0.16, 1, 0.3, 1] }}
-                    className="inline-block mr-[0.25em]"
-                  >
-                    {word}
-                  </motion.span>
-                ))}
-              </h3>
+              <motion.p initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.4, delay: 0.15 }}
+                className="text-xs font-black uppercase tracking-[0.35em] text-white/60 mb-5">The Result</motion.p>
+              <motion.h3
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: 0.2, ease: [0.18, 0.82, 0.41, 1] }}
+                className="text-xl sm:text-2xl font-bold font-figtree text-white leading-tight mb-8"
+              >
+                Without a unified intelligent platform, organisations face:
+              </motion.h3>
               <ul className="space-y-4">
                 {results.map((r, i) => (
                   <motion.li
@@ -325,7 +320,7 @@ export default function Problem() {
                     initial={{ opacity: 0, x: -30 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.6, delay: 0.4 + i * 0.15, ease: 'easeOut' }}
+                    transition={{ duration: 0.4, delay: 0.25 + i * 0.06, ease: [0.18, 0.82, 0.41, 1] }}
                     whileHover={{ x: 8 }}
                     className="flex items-center gap-4 group/item cursor-default"
                   >
@@ -342,37 +337,32 @@ export default function Problem() {
                 initial={{ opacity: 0, x: 50 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 2.0, ease: [0.22, 1, 0.36, 1], delay: 0.6 }}
+                transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
                 className="p-10 sm:p-14 flex flex-col gap-6"
               >
                 <div>
-                  <motion.p initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 1.2, delay: 1.0 }}
-                    className="text-xs font-black uppercase tracking-[0.4em] text-white/50 mb-7">The Root Cause</motion.p>
-                  <p className="text-white/70 leading-relaxed text-sm font-medium">
-                    {"Most platforms treat AI as an add-on. When AI is plugged in after the platform was built, it runs in a separate silo — disconnected from routing, cases, analytics, and real-time customer context.".split(' ').map((word, i) => (
-                      <motion.span 
-                        key={i} 
-                        initial={{ opacity: 0 }} 
-                        whileInView={{ opacity: 1 }} 
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.8, delay: 1.2 + i * 0.08 }}
-                        className="inline-block mr-[0.25em]"
-                      >
-                        {word}
-                      </motion.span>
-                    ))}
-                  </p>
+                  <motion.p initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4, delay: 0.2 }}
+                    className="text-xs font-black uppercase tracking-[0.35em] text-white/50 mb-7">The Root Cause</motion.p>
+                  <motion.p
+                    initial={{ opacity: 0, y: 12 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: 0.25, ease: [0.18, 0.82, 0.41, 1] }}
+                    className="text-white/70 leading-relaxed text-sm font-medium"
+                  >
+                    Most platforms treat AI as an add-on. When AI is plugged in after the platform was built, it runs in a separate silo — disconnected from routing, cases, analytics, and real-time customer context.
+                  </motion.p>
                 </div>
 
               <motion.div 
                 initial={{ opacity: 0, scale: 0.95 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true, amount: 0.8 }}
-                transition={{ duration: 1.4, delay: 1.8 }}
+                transition={{ duration: 0.4, delay: 0.35 }}
                 whileHover={{ scale: 1.02 }}
                 className="rounded-2xl border border-white/10 bg-white/10 p-7 shadow-[0_0_40px_rgba(0,0,0,0.15)] backdrop-blur-sm relative group overflow-hidden">
                 <motion.div className="absolute inset-0 bg-gradient-to-tr from-white/10 to-transparent pointer-events-none" animate={{ opacity: [0.3, 0.6, 0.3] }} transition={{ duration: 4, repeat: Infinity }} />
-                <p className="text-xs font-black uppercase tracking-[0.4em] text-white/80 mb-4 relative z-10">The Inaipi Way</p>
+                <p className="text-xs font-black uppercase tracking-[0.35em] text-white/80 mb-4 relative z-10">The Inaipi Way</p>
                 <p className="text-white/90 leading-relaxed text-sm mb-5 font-medium relative z-10">
                   Inaipi is AI-native — intelligence is embedded into every layer from day one. One platform.
                   One governance layer. Predictable costs. Zero customer data exposure.

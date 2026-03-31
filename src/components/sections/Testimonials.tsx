@@ -77,9 +77,9 @@ const FLAGS = [
   { src: 'https://flagcdn.com/w160/sg.png', alt: 'Singapore' },
 ];
 
-const CARD_W   = 400;
-const CARD_GAP = 28;
-const SPEED    = 0.6; // px per frame  ← adjust for faster/slower
+const CARD_W   = 420;
+const CARD_GAP = 24;
+const SPEED    = 0.55; // px per frame
 
 /* ── Animated progress dot ── */
 function ProgressDot({ active, onClick }: { active: boolean; onClick: () => void }) {
@@ -165,7 +165,7 @@ export default function Testimonials() {
   }, []);
 
   return (
-    <section className="py-16 relative overflow-hidden"
+    <section className="py-20 lg:py-24 relative overflow-hidden"
       style={{ background: 'linear-gradient(160deg, #f0f4ff 0%, #fafbff 40%, #f5f0ff 100%)' }}>
 
       {/* ── Glow behind slider ── */}
@@ -176,25 +176,19 @@ export default function Testimonials() {
       </div>
 
       {/* ── Header ── */}
-      <div className="relative z-10 text-center" style={{ padding: '0 8vw' }}>
-        <motion.p initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-          className="text-xs font-black uppercase tracking-[0.4em] text-blue-600 mb-4">
-          What Our Clients Say
-        </motion.p>
-        <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}
-          className="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold font-figtree tracking-[-0.03em] text-[#0f172a] leading-[1.25] mb-4">
-          Trusted by customer experience<br className="hidden sm:block" /> leaders worldwide.
-        </motion.h2>
-        <motion.p initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.15 }}
-          className="text-lg text-slate-500 max-w-[560px] mx-auto leading-relaxed">
-          Trusted by contact centers across healthcare, insurance, hospitality and government sectors.
-        </motion.p>
+      <div className="relative z-10 text-center px-6 md:px-16">
+        <span className="section-eyebrow wow wow-d1">What Our Clients Say</span>
+        <h2 className="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold font-figtree tracking-[-0.03em] text-[#0f172a] leading-[1.25] mb-5 wow wow-d2">
+          Trusted by CX leaders<br className="hidden sm:block" /> worldwide.
+        </h2>
+        <p className="text-lg text-slate-500 max-w-xl mx-auto leading-relaxed wow wow-d3">
+          Real results from healthcare, insurance, hospitality and government — see what AI-native CX looks like in practice.
+        </p>
       </div>
 
       {/* ── Pill + Flags ── */}
       <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}
-        className="relative z-10 flex items-center justify-between flex-wrap gap-6 mt-8 mb-10"
-        style={{ padding: '0 8vw' }}>
+        className="relative z-10 flex items-center justify-between flex-wrap gap-6 mt-10 mb-10 px-6 md:px-16">
         {/* Pill */}
         <div className="flex items-center rounded-full"
           style={{ background: 'rgba(59,130,246,0.07)', border: '1px solid rgba(59,130,246,0.18)', padding: '0.75rem 2rem 0.75rem 1.25rem', gap: '2rem' }}>
@@ -248,22 +242,22 @@ export default function Testimonials() {
                 style={{
                   width: CARD_W,
                   minWidth: CARD_W,
+                  minHeight: 340,
                   flexShrink: 0,
                   background: CARD.bg,
                   border: `1.5px solid ${isCenter ? CARD.accent + '80' : CARD.border}`,
-                  borderRadius: 22,
-                  padding: '2.2rem',
+                  borderRadius: 20,
+                  padding: '2rem 2.25rem',
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: '1.1rem',
+                  gap: '1rem',
                   position: 'relative',
                   overflow: 'hidden',
-                  /* scale + shadow via CSS transition for smoothness inside rAF */
-                  transform: isCenter ? 'scale(1.04) translateY(-6px)' : 'scale(0.96) translateY(2px)',
-                  opacity: isCenter ? 1 : 0.72,
+                  transform: isCenter ? 'scale(1.03) translateY(-6px)' : 'scale(0.97) translateY(2px)',
+                  opacity: isCenter ? 1 : 0.7,
                   boxShadow: isCenter
-                    ? `0 16px 48px ${CARD.glow}, 0 4px 16px rgba(0,0,0,0.3)`
-                    : '0 2px 12px rgba(0,0,0,0.15)',
+                    ? `0 20px 56px ${CARD.glow}, 0 4px 16px rgba(0,0,0,0.08)`
+                    : '0 2px 10px rgba(0,0,0,0.06)',
                   transition: 'transform 0.45s cubic-bezier(0.22,1,0.36,1), opacity 0.45s ease, box-shadow 0.45s ease, border-color 0.45s ease',
                   zIndex: isCenter ? 10 : 1,
                 }}

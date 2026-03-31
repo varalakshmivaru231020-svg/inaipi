@@ -12,6 +12,7 @@ import PlatformCards from "@/components/sections/PlatformCards";
 import Analytics from "@/components/sections/Analytics";
 import Testimonials from "@/components/sections/Testimonials";
 import Blogs from "@/components/sections/Blogs";
+import Careers from "@/components/sections/Careers";
 import CTA from "@/components/sections/CTA";
 import Footer from "@/components/Footer";
 
@@ -30,6 +31,7 @@ export default function Home() {
       {/* <Analytics /> */}
       <Testimonials />
       <Blogs />
+      <Careers />
       <CTA />
       <Footer />
     </main>
