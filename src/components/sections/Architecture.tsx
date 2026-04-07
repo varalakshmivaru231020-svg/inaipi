@@ -39,7 +39,7 @@ export default function Architecture() {
         >
           <div className="relative rounded-[2.5rem] overflow-hidden shadow-2xl border border-gray-100 bg-white w-full">
             <Image
-              src="/arch.jpeg"
+              src="/arch1.png"
               alt="Inaipi Architecture Diagram"
               width={1200}
               height={800}
