@@ -277,7 +277,7 @@ export default function Hero() {
             <motion.span initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }} className="inline-block mr-[0.25em]">
               Autonomous
             </motion.span>
-            <TypewriterWord word="Intelligence" delay={1.1} className="inline-block bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent pb-2 leading-none" />
+            <TypewriterWord word="Intelligence" delay={1.1} className="inline-block text-[#1447d4] pb-2 leading-none" />
           </div>
           <div className="block whitespace-nowrap">
             {['for', 'Every', 'Customer', 'Interaction'].map((word, i) => (
@@ -486,9 +486,9 @@ export default function Hero() {
                   initial={{ opacity: 0, scale: 0.85 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.55, delay: 1.05, ease: [0.22, 1, 0.36, 1] }}
-                  className="inline-block text-[#00e7ff]"
+                  className="inline-block text-[#1447d4]"
                   style={{
-                    textShadow: '0 0 24px rgba(0,231,255,0.55)',
+                    textShadow: 'none',
                   }}
                 >
                   —Seamlessly

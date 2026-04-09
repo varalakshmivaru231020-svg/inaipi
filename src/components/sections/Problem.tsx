@@ -228,11 +228,11 @@ export default function Problem() {
 
           {/* ── Content panel ── */}
           <div className="container mx-auto px-6 max-w-6xl flex-1 min-h-0 pt-3 pb-4 relative z-10 overflow-hidden">
-            <div key={active} className="grid lg:grid-cols-5 gap-4 h-full" style={{ animation: 'problemFadeIn 0.25s ease forwards' }}>
+            <div key={active} className="grid lg:grid-cols-5 gap-4" style={{ animation: 'problemFadeIn 0.25s ease forwards' }}>
                 {/* Left — problems */}
                 <div
                   className="lg:col-span-3 rounded-3xl p-7 flex flex-col"
-                  style={{ background: '#1447d4' }}
+                  style={{ background: '#1447d4', maxHeight: '420px' }}
                 >
                   <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest mb-5 bg-white/15 text-white border border-white/25 self-start font-figtree">
                     <current.icon className="w-3.5 h-3.5" />
@@ -250,7 +250,7 @@ export default function Problem() {
                 </div>
 
                 {/* Right — gap + step */}
-                <div className="lg:col-span-2 flex flex-col gap-3">
+                <div className="lg:col-span-2 flex flex-col gap-3" style={{ maxHeight: '420px' }}>
                   <div
                     className="rounded-3xl p-6 text-white flex flex-col flex-1"
                     style={{ background: '#1447d4' }}
@@ -330,7 +330,7 @@ export default function Problem() {
                 <div className="rounded-2xl border border-white/10 bg-white/10 p-7 backdrop-blur-sm relative overflow-hidden">
                   <motion.div className="absolute inset-0 bg-gradient-to-tr from-white/10 to-transparent pointer-events-none"
                     animate={{ opacity: [0.3, 0.6, 0.3] }} transition={{ duration: 4, repeat: Infinity }} />
-                  <p className="text-xs font-black uppercase tracking-[0.2em] text-[#00e7ff] mb-4 relative z-10">The Inaipi Way</p>
+                  <p className="text-xs font-black uppercase tracking-[0.2em] text-white mb-4 relative z-10">The Inaipi Way</p>
                   <p className="text-white/95 leading-relaxed text-sm mb-5 font-medium relative z-10">
                     Inaipi is AI-native — intelligence is embedded into every layer from day one. One platform.
                     One governance layer. Predictable costs. Zero customer data exposure.
