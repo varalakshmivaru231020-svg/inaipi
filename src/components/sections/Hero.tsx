@@ -506,6 +506,48 @@ export default function Hero() {
                 Inaipi unifies AI-driven automation with human intelligence to deliver faster resolutions and richer customer experiences.
               </motion.p>
             </div>
+
+            {/* ── Bottom-left floating stat card ── */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 1.4, ease: [0.22, 1, 0.36, 1] }}
+              className="absolute bottom-6 left-6 rounded-2xl px-5 py-4 flex items-center gap-4"
+              style={{
+                background: 'rgba(255,255,255,0.12)',
+                backdropFilter: 'blur(16px)',
+                WebkitBackdropFilter: 'blur(16px)',
+                border: '1px solid rgba(255,255,255,0.2)',
+                boxShadow: '0 8px 32px rgba(0,0,0,0.18)',
+              }}
+            >
+              {/* Satisfaction ring */}
+              <div className="relative w-12 h-12 shrink-0">
+                <svg viewBox="0 0 36 36" className="w-full h-full -rotate-90">
+                  <circle cx="18" cy="18" r="15" fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth="3" />
+                  <motion.circle
+                    cx="18" cy="18" r="15" fill="none"
+                    stroke="#00e7ff" strokeWidth="3"
+                    strokeLinecap="round"
+                    strokeDasharray="94.2"
+                    initial={{ strokeDashoffset: 94.2 }}
+                    animate={{ strokeDashoffset: 94.2 * 0.08 }}
+                    transition={{ duration: 1.2, delay: 1.6, ease: 'easeOut' }}
+                  />
+                </svg>
+                <span className="absolute inset-0 flex items-center justify-center text-[11px] font-black text-white">92%</span>
+              </div>
+              {/* Labels */}
+              <div>
+                <p className="text-white font-black text-sm leading-none mb-1">Customer Satisfaction</p>
+                <p className="text-white/60 text-[11px] font-medium">Avg. CSAT across all channels</p>
+                <div className="flex items-center gap-1.5 mt-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#00e7ff] animate-pulse" />
+                  <span className="text-[#00e7ff] text-[10px] font-black uppercase tracking-widest">Live</span>
+                </div>
+              </div>
+            </motion.div>
+
           </motion.div>
 
           {/* ══ RIGHT — two stacked cards ══ */}
