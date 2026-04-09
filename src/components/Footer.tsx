@@ -73,7 +73,7 @@ export default function Footer() {
                   key={label}
                   href={href}
                   aria-label={label}
-                  className="w-10 h-10 flex items-center justify-center rounded-xl bg-white border border-slate-200 text-slate-400 hover:text-blue-600 hover:border-blue-200 hover:shadow-md hover:shadow-blue-500/8 transition-all duration-200"
+                  className="w-10 h-10 flex items-center justify-center rounded-xl bg-white border border-slate-200 text-slate-400 hover:text-[#1447d4] hover:border-[#1447d4]/30 hover:shadow-md hover:shadow-blue-500/8 transition-all duration-200"
                 >
                   <Icon className="w-4 h-4" />
                 </a>
@@ -90,10 +90,10 @@ export default function Footer() {
                   <li key={lIdx}>
                     <Link
                       href={link.href}
-                      className="group inline-flex items-center gap-1 text-[15px] text-slate-600 hover:text-blue-600 transition-colors duration-200 font-medium"
+                      className="group inline-flex items-center gap-1 text-[15px] text-slate-600 hover:text-[#1447d4] transition-colors duration-200 font-medium"
                     >
                       <span>{link.name}</span>
-                      <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-all duration-200 text-blue-500 translate-x-0 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                      <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-all duration-200 text-[#1447d4] translate-x-0 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                     </Link>
                   </li>
                 ))}
@@ -108,10 +108,10 @@ export default function Footer() {
             © 2026 Inaipi Platform. All rights reserved.
           </p>
           <div className="flex items-center gap-6 sm:gap-8">
-            <Link href="/privacy-policy" className="text-xs font-semibold text-slate-400 hover:text-blue-600 transition-colors duration-200">
+            <Link href="/privacy-policy" className="text-xs font-semibold text-slate-400 hover:text-[#1447d4] transition-colors duration-200">
               Privacy Policy
             </Link>
-            <Link href="/terms-conditions" className="text-xs font-semibold text-slate-400 hover:text-blue-600 transition-colors duration-200">
+            <Link href="/terms-conditions" className="text-xs font-semibold text-slate-400 hover:text-[#1447d4] transition-colors duration-200">
               Terms &amp; Conditions
             </Link>
             <div className="flex items-center gap-1.5 text-slate-400 text-xs font-semibold">

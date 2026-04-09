@@ -19,9 +19,9 @@ const industries = [
     icon: ShieldHalf,
     name: 'Insurance',
     sub: 'Advisory & Claims',
-    color: '#7c3aed',
-    bg: '#f5f3ff',
-    border: '#ddd6fe',
+    color: '#006fff',
+    bg: '#eff6ff',
+    border: '#bfdbfe',
     stat: '02',
     desc: 'Claims triage, policy inquiry automation and AI-powered renewal follow-ups at scale.',
     useCases: ['Claims Servicing', 'Policy Inquiries', 'Renewal AI'],
@@ -74,10 +74,10 @@ const industries = [
 
 export default function Industries() {
   return (
-    <section className="py-20 lg:py-24 overflow-hidden relative" style={{ background: 'linear-gradient(160deg, #f0f4ff 0%, #fafbff 40%, #f5f0ff 100%)' }}>
+    <section className="py-20 lg:py-24 overflow-hidden relative" style={{ background: '#f8faff' }}>
       {/* Background orbs */}
       <div className="absolute pointer-events-none" style={{ width: '44vw', height: '44vw', top: '-180px', right: '-240px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(37,99,235,0.07) 0%, transparent 70%)', border: '1px solid rgba(37,99,235,0.05)' }} />
-      <div className="absolute pointer-events-none" style={{ width: '30vw', height: '30vw', bottom: '-140px', left: '-160px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(99,102,241,0.06) 0%, transparent 70%)' }} />
+      <div className="absolute pointer-events-none" style={{ width: '30vw', height: '30vw', bottom: '-140px', left: '-160px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(0,111,255,0.06) 0%, transparent 70%)' }} />
       <div className="absolute inset-0 opacity-[0.02] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#0f172a 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
       <div className="container mx-auto px-6 max-w-7xl">
 
@@ -98,14 +98,14 @@ export default function Industries() {
             transition={{ delay: 0.1 }}
             className="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold font-figtree tracking-[-0.025em] leading-[1.15] mb-5 pb-2"
           >
-            Built for <span className="bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent">every industry.</span>
+            Built for <span className="text-[#1447d4]">every industry.</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.15 }}
-            className="text-base sm:text-lg md:text-xl text-slate-500 leading-relaxed"
+            className="text-base sm:text-lg md:text-xl text-slate-500 leading-relaxed whitespace-nowrap"
           >
             Inaipi adapts to the compliance, workflows, and customer expectations of your specific domain.
           </motion.p>
@@ -128,73 +128,42 @@ export default function Industries() {
                   hidden: { opacity: 0, y: 40 },
                   visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.25, 0.1, 0.25, 1] } },
                 }}
-                whileHover={{ y: -8, boxShadow: '0 24px 56px rgba(37,99,235,0.4)', transition: { duration: 0.2, ease: 'easeOut' } }}
-                className="group relative overflow-hidden cursor-default"
+                whileHover={{ y: -6, boxShadow: '0 20px 48px rgba(20,71,212,0.16)', transition: { duration: 0.2, ease: 'easeOut' } }}
+                className="group relative overflow-hidden cursor-default bg-white hover:border-[#1447d4]/25"
                 style={{
-                  borderRadius: 16,
-                  border: '1px solid rgba(255,255,255,0.15)',
-                  background: 'linear-gradient(145deg, #1e40af 0%, #2563eb 60%, #3b82f6 100%)',
-                  padding: '24px 22px',
+                  borderRadius: 20,
+                  border: '1.5px solid rgba(20,71,212,0.10)',
+                  padding: '28px 24px',
+                  boxShadow: '0 2px 16px rgba(20,71,212,0.06)',
                 }}
               >
-                {/* Border draw on hover — top edge */}
-                <div className="absolute top-0 left-0 h-[2px] rounded-full pointer-events-none z-10 w-0 group-hover:w-full transition-all duration-500 ease-out" style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.85), transparent)' }} />
+                {/* Top accent line on hover */}
+                <div className="absolute top-0 left-0 right-0 h-[2.5px] rounded-t-[20px] opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ background: '#1447d4' }} />
 
-                {/* Hover shimmer sweep */}
-                <div className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.06) 0%, transparent 50%)', zIndex: 1 }} />
-
-                {/* Dotted texture overlay */}
-                <div className="absolute inset-0 pointer-events-none z-0 opacity-[0.15]" style={{ backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.8) 1.5px, transparent 1.5px)', backgroundSize: '14px 14px' }} />
-
-                {/* Top row: icon with rotating glow (wa-rotated from reference) */}
-                <div className="relative z-10 flex items-center justify-between mb-5">
-                  {/* Icon wrap — outer circle with spinning glow inside */}
-                  <div className="relative" style={{ width: 56, height: 56 }}>
-                    {/* Outer ring */}
-                    <div className="absolute inset-0 rounded-full" style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.06) 100%)', border: '1px solid rgba(255,255,255,0.22)' }} />
-                    {/* Inner icon circle */}
-                    <div className="absolute flex items-center justify-center rounded-full" style={{ top: 6, left: 6, width: 44, height: 44, background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.18)' }}>
-                      <Icon className="w-5 h-5 text-white" />
-                    </div>
-                    {/* Rotating glow — exact wa-rotated 7s from reference */}
-                    <motion.div
-                      className="absolute inset-0 rounded-full pointer-events-none"
-                      animate={{ rotate: 360 }}
-                      transition={{ duration: 7, ease: 'easeInOut', repeat: Infinity }}
-                      style={{ zIndex: -1 }}
-                    >
-                      {/* top glow blob */}
-                      <div style={{ position: 'absolute', top: 3, left: 19, width: 18, height: 10, background: 'rgba(255,255,255,0.7)', filter: 'blur(3px)', borderRadius: '50%' }} />
-                      {/* bottom glow blob */}
-                      <div style={{ position: 'absolute', bottom: 3, left: 19, width: 18, height: 10, background: 'rgba(255,255,255,0.5)', filter: 'blur(3px)', borderRadius: '50%' }} />
-                    </motion.div>
-                  </div>
+                {/* Icon */}
+                <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-6 transition-all duration-300 group-hover:scale-110"
+                  style={{ background: '#1447d4' }}>
+                  <Icon className="w-5 h-5 text-white" />
                 </div>
 
-                {/* Title with animated underline */}
-                <div className="relative z-10 mb-1">
-                  <h3 className="text-lg font-bold font-figtree text-white leading-tight inline-block">{ind.name}</h3>
-                  {/* underline draws on hover */}
-                  <div className="h-[2px] rounded-full mt-1 bg-white/80 w-0 group-hover:w-full transition-all duration-500 ease-out" />
-                </div>
+                {/* Title */}
+                <h3 className="text-[17px] font-bold font-figtree text-[#0f172a] leading-tight mb-2 group-hover:text-[#1447d4] transition-colors duration-300">{ind.name}</h3>
 
-                <p className="relative z-10 text-sm text-white/65 font-normal leading-relaxed mb-4">{ind.desc}</p>
+                {/* Desc */}
+                <p className="text-sm text-slate-500 leading-relaxed mb-5">{ind.desc}</p>
 
                 {/* Tags */}
-                <div className="relative z-10 flex flex-wrap gap-1.5">
+                <div className="flex flex-wrap gap-2">
                   {ind.useCases.map((uc, j) => (
                     <span
                       key={j}
-                      className="text-[11px] font-bold uppercase tracking-widest text-white/80 px-2.5 py-1 rounded-full"
-                      style={{ background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.18)', letterSpacing: '0.08em' }}
+                      className="text-[10px] font-black uppercase tracking-widest text-[#1447d4] px-3 py-1.5 rounded-full"
+                      style={{ background: 'rgba(20,71,212,0.07)', border: '1px solid rgba(20,71,212,0.15)' }}
                     >
                       {uc}
                     </span>
                   ))}
                 </div>
-
-                {/* Bottom glow */}
-                <div className="absolute pointer-events-none transition-opacity duration-300 opacity-60 group-hover:opacity-100" style={{ bottom: -20, right: -20, width: 100, height: 100, borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%)', zIndex: 0 }} />
               </motion.div>
             );
           })}

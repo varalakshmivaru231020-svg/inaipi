@@ -118,9 +118,9 @@ export default function AgentDesktop() {
   const sentimentText  = sentiment >= 75 ? 'text-blue-600' : sentiment >= 50 ? 'text-blue-400' : 'text-slate-500';
 
   return (
-    <section className="py-20 lg:py-24 overflow-hidden border-t border-blue-100/40 relative" id="solutions" ref={sectionRef} style={{ background: 'linear-gradient(160deg, #f0f4ff 0%, #fafbff 40%, #f5f0ff 100%)' }}>
+    <section className="py-20 lg:py-24 overflow-hidden border-t border-blue-100/40 relative" id="solutions" ref={sectionRef} style={{ background: '#f8faff' }}>
       <div className="absolute pointer-events-none" style={{ width: '46vw', height: '46vw', top: '-220px', right: '-300px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(37,99,235,0.06) 0%, transparent 70%)', border: '1px solid rgba(37,99,235,0.05)' }} />
-      <div className="absolute pointer-events-none" style={{ width: '32vw', height: '32vw', bottom: '-160px', left: '-200px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(99,102,241,0.05) 0%, transparent 70%)' }} />
+      <div className="absolute pointer-events-none" style={{ width: '32vw', height: '32vw', bottom: '-160px', left: '-200px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(0,111,255,0.05) 0%, transparent 70%)' }} />
       <div className="absolute inset-0 opacity-[0.025] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#0f172a 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
       {/* Header */}
       <div className="container mx-auto px-6 text-center mb-14 max-w-4xl">
@@ -130,7 +130,7 @@ export default function AgentDesktop() {
         </motion.span>
         <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}
           className="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold font-figtree tracking-[-0.025em] leading-[1.15] mb-5">
-          The <span className="bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent">Agent Desktop.</span>
+          The <span className="text-[#1447d4]">Agent Desktop.</span>
         </motion.h2>
         <motion.p initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.15 }}
           className="text-base sm:text-lg md:text-xl text-slate-500 leading-relaxed max-w-2xl mx-auto">
@@ -147,10 +147,10 @@ export default function AgentDesktop() {
           className="relative max-w-7xl mx-auto rounded-[2rem] overflow-hidden border border-gray-200 shadow-2xl bg-[#f8fafc]"
         >
           {/* ── Top Bar ── */}
-          <div className="flex items-center justify-between px-6 py-3 border-b border-white/10" style={{ background: 'linear-gradient(135deg, #4f46e5 0%, #6366f1 60%, #7c3aed 100%)' }}>
+          <div className="flex items-center justify-between px-6 py-3 border-b border-white/10" style={{ background: '#1447d4' }}>
             <div className="flex items-center gap-4">
               <motion.div animate={{ scale: [1, 1.1, 1] }} transition={{ duration: 2, repeat: Infinity }}
-                className="w-8 h-8 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center shrink-0 overflow-hidden">
+                className="w-8 h-8 rounded-xl bg-gradient-to-br from-[#1447d4] to-[#006fff] flex items-center justify-center shrink-0 overflow-hidden">
                 <img
                   src="https://api.dicebear.com/7.x/thumbs/svg?seed=JamesDaemon&backgroundColor=dbeafe"
                   alt="James Daemon"
@@ -208,7 +208,7 @@ export default function AgentDesktop() {
                 </div>
                 <div className="flex gap-2 mt-3">
                   {['All', 'Voice', 'Chat', 'Email'].map((f, i) => (
-                    <button key={i} className={`text-[9px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full transition-all ${i === 0 ? 'bg-blue-600 text-white' : 'bg-gray-100 text-slate-400 hover:bg-gray-200'}`}>{f}</button>
+                    <button key={i} className={`text-[9px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full transition-all ${i === 0 ? 'text-white' : 'bg-gray-100 text-slate-400 hover:bg-gray-200'}`} style={i === 0 ? { background: '#1447d4' } : {}}>{f}</button>
                   ))}
                 </div>
               </div>
@@ -289,7 +289,7 @@ export default function AgentDesktop() {
                         </div>
                       )}
                       {msg.side === 'agent' && (
-                        <div className="max-w-[72%] bg-blue-600 rounded-2xl rounded-tr-sm px-4 py-3">
+                        <div className="max-w-[72%] rounded-2xl rounded-tr-sm px-4 py-3" style={{ background: '#1447d4' }}>
                           <p className="text-sm text-white leading-relaxed">{msg.text}</p>
                           <p className="text-[9px] text-white/40 mt-1.5">10:45 AM</p>
                         </div>
@@ -320,7 +320,7 @@ export default function AgentDesktop() {
                       exit={{ opacity: 0 }}
                       className={`flex ${typingSide === 'agent' ? 'justify-end' : 'justify-start'}`}
                     >
-                      <div className={`px-4 py-3 rounded-2xl flex items-center gap-1 ${typingSide === 'agent' ? 'bg-blue-600' : 'bg-gray-100'}`}>
+                      <div className={`px-4 py-3 rounded-2xl flex items-center gap-1 ${typingSide === 'agent' ? '' : 'bg-gray-100'}`} style={typingSide === 'agent' ? { background: '#1447d4' } : {}}>
                         {[0, 1, 2].map(i => (
                           <motion.span
                             key={i}
@@ -343,7 +343,7 @@ export default function AgentDesktop() {
                   { icon: PhoneOff,       label: 'End',    danger: true },
                 ].map((ctrl, i) => (
                   <motion.button key={i} whileHover={{ scale: 1.08 }} whileTap={{ scale: 0.95 }}
-                    className={`flex flex-col items-center gap-1 px-3 py-2 rounded-xl text-[9px] font-black uppercase tracking-wider transition-colors ${'danger' in ctrl && ctrl.danger ? 'bg-red-100 text-red-500 hover:bg-red-200' : 'bg-white border border-gray-200 text-slate-500 hover:bg-gray-100'}`}>
+                    className={`flex flex-col items-center gap-1 px-3 py-2 rounded-xl text-[9px] font-black uppercase tracking-wider transition-colors ${'danger' in ctrl && ctrl.danger ? 'bg-slate-100 text-slate-600 hover:bg-slate-200' : 'bg-white border border-gray-200 text-slate-500 hover:bg-gray-100'}`}>
                     <ctrl.icon className="w-4 h-4" />
                     {ctrl.label}
                   </motion.button>
@@ -355,7 +355,7 @@ export default function AgentDesktop() {
                 <div className="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-2xl px-4 py-3">
                   <p className="flex-1 text-sm text-slate-300 select-none">Type or use <span className="text-blue-400 font-bold">/</span> for AI commands...</p>
                   <Paperclip className="w-4 h-4 text-slate-300 hover:text-blue-600 cursor-pointer transition-colors" />
-                  <motion.button whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} className="bg-blue-600 p-2 rounded-xl hover:bg-blue-700 transition-colors shadow-sm">
+                  <motion.button whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} className="p-2 rounded-xl transition-all hover:brightness-110 shadow-sm" style={{ background: '#1447d4' }}>
                     <Send className="w-3.5 h-3.5 text-white" />
                   </motion.button>
                 </div>
@@ -383,7 +383,7 @@ export default function AgentDesktop() {
                   ))}
                 </div>
                 <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}
-                  className="w-full mt-3 py-2.5 bg-blue-600 rounded-xl text-[10px] font-black uppercase tracking-wider text-white hover:bg-blue-700 transition-colors">
+                  className="w-full mt-3 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-wider text-white transition-all hover:brightness-110 hover:shadow-md hover:shadow-blue-700/30" style={{ background: '#1447d4' }}>
                   Apply Suggestion
                 </motion.button>
               </div>
@@ -427,7 +427,7 @@ export default function AgentDesktop() {
                 <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">CRM Integration</p>
                 <motion.div whileHover={{ borderColor: '#3b82f6' }}
                   className="flex items-center gap-2 bg-white border border-gray-200 rounded-xl px-3 py-2.5 cursor-pointer transition-colors group">
-                  <div className="w-5 h-5 bg-blue-600 rounded flex items-center justify-center">
+                  <div className="w-5 h-5 rounded flex items-center justify-center" style={{ background: '#1447d4' }}>
                     <span className="text-white text-[8px] font-black">SF</span>
                   </div>
                   <span className="text-xs font-bold text-[#0f172a] flex-1">View in Salesforce</span>

@@ -24,10 +24,10 @@ export default function Careers() {
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="inline-flex items-center gap-2 bg-blue-50 border border-blue-200/60 rounded-full px-4 py-1.5 mb-5"
+              className="inline-flex items-center gap-2 bg-[#eef4ff] border border-[#1447d4]/20 rounded-full px-4 py-1.5 mb-5"
             >
-              <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
-              <span className="text-[11px] font-bold uppercase tracking-widest text-blue-500">Join Our Team</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-[#1447d4] animate-pulse" />
+              <span className="text-[11px] font-bold uppercase tracking-widest text-[#1447d4]">Join Our Team</span>
             </motion.div>
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
@@ -37,7 +37,7 @@ export default function Careers() {
               className="text-4xl sm:text-5xl font-bold tracking-[-0.03em] text-[#0f172a] leading-[1.15]"
             >
               Build the future of<br />
-              <span className="text-blue-600">customer experience.</span>
+              <span className="text-[#1447d4]">customer experience.</span>
             </motion.h2>
           </div>
           <motion.div
@@ -48,7 +48,7 @@ export default function Careers() {
           >
             <Link
               href="/career"
-              className="inline-flex items-center gap-3 bg-[#0f172a] text-white px-7 py-4 rounded-full font-black text-xs uppercase tracking-widest hover:bg-[#2563eb] transition-colors duration-200 whitespace-nowrap"
+              className="inline-flex items-center gap-3 bg-[#1447d4] text-white px-7 py-4 rounded-full font-black text-xs uppercase tracking-widest hover:bg-[#0d3ab8] transition-colors duration-200 whitespace-nowrap"
             >
               View All Openings
               <ArrowRight className="w-4 h-4" />
@@ -68,32 +68,31 @@ export default function Careers() {
             >
               <Link
                 href={`/career/${job.slug}`}
-                className="group flex flex-col justify-between h-full border border-slate-200 hover:border-blue-500/30 shadow-sm hover:shadow-2xl hover:shadow-blue-600/15 hover:-translate-y-2 rounded-[2rem] p-8 transition-all duration-300 cursor-pointer relative overflow-hidden"
-                style={{ background: 'linear-gradient(145deg, #dde6ff 0%, #d5dcff 50%, #ddd4ff 100%)' }}
+                className="flex flex-col justify-between h-full rounded-[2rem] p-8 transition-all duration-300 cursor-pointer relative overflow-hidden hover:shadow-2xl hover:shadow-blue-900/20 hover:-translate-y-2"
+                style={{ background: '#1447d4' }}
               >
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-[2rem]" style={{ background: 'linear-gradient(135deg, #2563eb 0%, #4f46e5 60%, #7c3aed 100%)' }} />
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-[2rem]" style={{ background: 'radial-gradient(ellipse 80% 50% at 20% 20%, rgba(255,255,255,0.12) 0%, transparent 60%)' }} />
+                <div className="absolute inset-0 rounded-[2rem]" style={{ background: 'radial-gradient(ellipse 80% 50% at 20% 20%, rgba(255,255,255,0.08) 0%, transparent 60%)' }} />
                 <div className="relative z-10">
                   <div className="flex flex-wrap gap-2 mb-5">
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 border border-blue-100 rounded-full text-[11px] font-bold text-blue-500 uppercase tracking-widest group-hover:bg-white/20 group-hover:border-white/20 group-hover:text-white transition-all duration-300">
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white/20 border border-white/30 rounded-full text-[11px] font-bold text-white uppercase tracking-widest">
                       <Clock className="w-3 h-3" />
                       {job.type}
                     </span>
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 rounded-full text-[11px] font-bold text-slate-500 uppercase tracking-widest group-hover:bg-white/10 group-hover:text-blue-100 transition-all duration-300">
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white/15 rounded-full text-[11px] font-bold text-white/80 uppercase tracking-widest">
                       <MapPin className="w-3 h-3" />
                       {job.location}
                     </span>
                   </div>
-                  <h3 className="text-[22px] font-bold font-figtree text-[#0f172a] leading-tight mb-3 group-hover:text-white transition-colors duration-300">{job.title}</h3>
-                  <p className="text-[16px] text-slate-500 leading-relaxed group-hover:text-blue-100 transition-colors duration-300">{job.desc}</p>
+                  <h3 className="text-[22px] font-bold font-figtree text-white leading-tight mb-3">{job.title}</h3>
+                  <p className="text-[16px] text-white/80 leading-relaxed">{job.desc}</p>
                 </div>
                 <div className="relative z-10 mt-8 flex items-center justify-between">
-                  <span className="flex items-center gap-2 text-[11px] font-black uppercase tracking-widest text-blue-600 group-hover:text-white transition-colors duration-300">
+                  <span className="flex items-center gap-2 text-[11px] font-black uppercase tracking-widest text-white">
                     Apply Now
                     <ArrowRight className="w-3.5 h-3.5" />
                   </span>
-                  <span className="w-8 h-8 rounded-full bg-blue-50 group-hover:bg-white/20 flex items-center justify-center transition-colors duration-300">
-                    <ArrowRight className="w-3.5 h-3.5 text-blue-600 group-hover:text-white transition-colors duration-300" />
+                  <span className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
+                    <ArrowRight className="w-3.5 h-3.5 text-white" />
                   </span>
                 </div>
               </Link>

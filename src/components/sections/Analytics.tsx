@@ -23,10 +23,10 @@ function useCountUp(target: number, duration = 1800, started = false) {
 
 // ── data ────────────────────────────────────────────────
 const KPI = [
-  { label: 'Total Interactions', value: 48247, suffix: '', prefix: '', icon: Activity,  color: '#2563eb', trend: '+12.4%' },
-  { label: 'AI Automation Rate', value: 67,    suffix: '%', prefix: '', icon: Zap,       color: '#059669', trend: '+8.2%'  },
-  { label: 'Customer Satisfaction',value:4.6,  suffix: '★', prefix: '', icon: TrendingUp,color: '#f59e0b', trend: '+0.4'   },
-  { label: 'Avg Response Time',   value: 42,   suffix: 's', prefix: '', icon: Clock,     color: '#7c3aed', trend: '-18s'   },
+  { label: 'Total Interactions', value: 48247, suffix: '', prefix: '', icon: Activity,  color: '#1447d4', trend: '+12.4%' },
+  { label: 'AI Automation Rate', value: 67,    suffix: '%', prefix: '', icon: Zap,       color: '#006fff', trend: '+8.2%'  },
+  { label: 'Customer Satisfaction',value:4.6,  suffix: '★', prefix: '', icon: TrendingUp,color: '#00e7ff', trend: '+0.4'   },
+  { label: 'Avg Response Time',   value: 42,   suffix: 's', prefix: '', icon: Clock,     color: '#1447d4', trend: '-18s'   },
 ];
 
 const BARS = [
@@ -40,16 +40,16 @@ const BARS = [
 ];
 
 const CHANNELS = [
-  { label: 'WhatsApp', pct: 38, color: '#059669' },
-  { label: 'Voice',    pct: 28, color: '#2563eb' },
-  { label: 'Email',    pct: 20, color: '#7c3aed' },
-  { label: 'Social',   pct: 14, color: '#f59e0b' },
+  { label: 'WhatsApp', pct: 38, color: '#1447d4' },
+  { label: 'Voice',    pct: 28, color: '#006fff' },
+  { label: 'Email',    pct: 20, color: '#00e7ff' },
+  { label: 'Social',   pct: 14, color: '#94a3b8' },
 ];
 
 const SENTIMENT = [
-  { label: 'Positive', pct: 72, color: '#10b981' },
+  { label: 'Positive', pct: 72, color: '#006fff' },
   { label: 'Neutral',  pct: 22, color: '#94a3b8' },
-  { label: 'Negative', pct: 6,  color: '#f43f5e' },
+  { label: 'Negative', pct: 6,  color: '#1447d4' },
 ];
 
 const IMPACT = [
@@ -150,7 +150,7 @@ export default function Analytics() {
             <div className="flex items-center gap-2">
               {tabs.map((t, i) => (
                 <button key={i} onClick={() => setActiveTab(i)}
-                  className={`px-3 py-1.5 rounded-lg text-[11px] font-bold transition-all ${activeTab === i ? 'bg-blue-600 text-white' : 'text-white/30 hover:text-white/60'}`}>
+                  className={`px-3 py-1.5 rounded-lg text-[11px] font-bold transition-all ${activeTab === i ? 'bg-[#1447d4] text-white' : 'text-white/30 hover:text-white/60'}`}>
                   {t}
                 </button>
               ))}
@@ -195,7 +195,7 @@ export default function Analytics() {
                   <p className="text-[11px] text-white/30">Last 7 days · interactions handled</p>
                 </div>
                 <div className="flex items-center gap-4 text-[11px]">
-                  <span className="flex items-center gap-1.5 text-white/50"><span className="w-2.5 h-2.5 rounded-sm bg-blue-500 inline-block" />AI Agent</span>
+                  <span className="flex items-center gap-1.5 text-white/50"><span className="w-2.5 h-2.5 rounded-sm bg-[#1447d4] inline-block" />AI Agent</span>
                   <span className="flex items-center gap-1.5 text-white/50"><span className="w-2.5 h-2.5 rounded-sm bg-white/20 inline-block" />Human</span>
                 </div>
               </div>
@@ -208,7 +208,7 @@ export default function Analytics() {
                         initial={{ height: 0 }}
                         animate={barsIn ? { height: `${b.ai}%` } : { height: 0 }}
                         transition={{ duration: 0.7, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
-                        className="w-full rounded-t-md bg-blue-500 origin-bottom"
+                        className="w-full rounded-t-md bg-[#1447d4] origin-bottom"
                         style={{ height: `${b.ai * 0.32}rem` }}
                       />
                       {/* Human bar */}
@@ -248,7 +248,7 @@ export default function Analytics() {
                     <circle cx="50" cy="50" r="36" fill="none" stroke="white" strokeOpacity="0.05" strokeWidth="10" />
                     {/* Positive arc */}
                     <motion.circle cx="50" cy="50" r="36" fill="none"
-                      stroke="#10b981" strokeWidth="10" strokeLinecap="round"
+                      stroke="#006fff" strokeWidth="10" strokeLinecap="round"
                       strokeDasharray={donutPath(donutPct)}
                       strokeDashoffset="0"
                       style={{ transition: 'stroke-dasharray 0.05s linear' }}
@@ -261,7 +261,7 @@ export default function Analytics() {
                     />
                     {/* Negative arc offset */}
                     <circle cx="50" cy="50" r="36" fill="none"
-                      stroke="#f43f5e" strokeWidth="10" strokeLinecap="round"
+                      stroke="#1447d4" strokeWidth="10" strokeLinecap="round"
                       strokeDasharray={donutPath(6)}
                       strokeDashoffset={`-${((72 + 22) / 100) * 2 * Math.PI * 36}`}
                     />
@@ -331,7 +331,7 @@ export default function Analytics() {
                 <div className="relative w-32 h-16 overflow-hidden">
                   <svg viewBox="0 0 120 60" className="w-full">
                     <path d="M10,60 A50,50 0 0,1 110,60" fill="none" stroke="white" strokeOpacity="0.06" strokeWidth="12" strokeLinecap="round" />
-                    <motion.path d="M10,60 A50,50 0 0,1 110,60" fill="none" stroke="#2563eb" strokeWidth="12" strokeLinecap="round"
+                    <motion.path d="M10,60 A50,50 0 0,1 110,60" fill="none" stroke="#1447d4" strokeWidth="12" strokeLinecap="round"
                       initial={{ pathLength: 0 }}
                       animate={inView ? { pathLength: 0.942 } : {}}
                       transition={{ duration: 1.4, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
@@ -342,7 +342,7 @@ export default function Analytics() {
                       className="text-3xl font-black font-figtree text-white">94.2%</motion.p>
                   </div>
                 </div>
-                <p className="text-[11px] text-blue-300 mt-3 font-bold">0.8% below target</p>
+                <p className="text-[11px] text-[#00e7ff] mt-3 font-bold">0.8% below target</p>
               </div>
               <div className="grid grid-cols-2 gap-2 mt-4">
                 {[{ l: 'Resolved', v: '12,847' }, { l: 'Breached', v: '742' }].map((s, i) => (
@@ -360,10 +360,10 @@ export default function Analytics() {
               <p className="text-[11px] text-white/30 mb-5">By delivery channel</p>
               <div className="space-y-3">
                 {[
-                  { ch: 'AI Voice',  rate: 67, color: '#2563eb' },
-                  { ch: 'WhatsApp',  rate: 51, color: '#059669' },
-                  { ch: 'SMS',       rate: 38, color: '#7c3aed' },
-                  { ch: 'Email',     rate: 24, color: '#f59e0b' },
+                  { ch: 'AI Voice',  rate: 67, color: '#1447d4' },
+                  { ch: 'WhatsApp',  rate: 51, color: '#006fff' },
+                  { ch: 'SMS',       rate: 38, color: '#00e7ff' },
+                  { ch: 'Email',     rate: 24, color: '#94a3b8' },
                 ].map((s, i) => (
                   <div key={i} className="flex items-center gap-3">
                     <span className="text-[11px] text-white/40 w-16 shrink-0">{s.ch}</span>
@@ -390,7 +390,7 @@ export default function Analytics() {
                   </div>
                   <div className="text-right">
                     <p className="text-[10px] text-white/30 uppercase tracking-wider mb-1">Promoters</p>
-                    <p className="text-lg font-black text-blue-400">78%</p>
+                    <p className="text-lg font-black text-[#00e7ff]">78%</p>
                   </div>
                 </div>
               </div>
@@ -407,7 +407,7 @@ export default function Analytics() {
                 className="bg-[#0f172a] px-6 py-5 group hover:bg-white/[0.03] transition-colors"
               >
                 <p className="text-[10px] text-white/30 uppercase tracking-widest mb-2 font-bold">{imp.label}</p>
-                <p className="text-2xl font-black font-figtree text-blue-400 mb-1">{imp.value}</p>
+                <p className="text-2xl font-black font-figtree text-[#00e7ff] mb-1">{imp.value}</p>
                 <p className="text-[11px] text-white/20">{imp.sub}</p>
               </motion.div>
             ))}

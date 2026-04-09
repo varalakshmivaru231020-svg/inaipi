@@ -28,7 +28,7 @@ function MonitoringCard() {
       {/* Top bar */}
       <div className="flex items-center justify-between px-4 py-2.5 bg-[#0f172a] rounded-t-2xl">
         <div className="flex items-center gap-3">
-          <div className="w-6 h-6 rounded-lg bg-blue-600 flex items-center justify-center">
+          <div className="w-6 h-6 rounded-lg flex items-center justify-center" style={{ background: '#1447d4' }}>
             <Activity className="w-3 h-3 text-white" />
           </div>
           <span className="text-white text-[11px] font-bold">Interaction Monitoring Center</span>
@@ -69,7 +69,7 @@ function MonitoringCard() {
                 <div className={`ml-auto w-2 h-2 rounded-full ${a.status === 'active' ? 'bg-blue-500 animate-pulse' : a.status === 'idle' ? 'bg-blue-300' : 'bg-slate-300'}`} />
               </div>
               {a.status === 'active' && (
-                <div className="mt-1.5 bg-blue-600 rounded-lg px-2 py-1 flex items-center justify-between">
+                <div className="mt-1.5 rounded-lg px-2 py-1 flex items-center justify-between" style={{ background: '#1447d4' }}>
                   <span className="text-white text-[9px] font-bold">Active Call</span>
                   <span className="text-white/70 text-[9px]">1:26</span>
                 </div>
@@ -96,10 +96,10 @@ function InteractionsCard() {
       {/* Nav */}
       <div className="flex items-center gap-4 px-4 py-2.5 border-b border-gray-100">
         {['Monitoring', 'Interactions', 'Campaign', 'Analytics'].map((t, i) => (
-          <span key={i} className={`text-[10px] font-bold pb-1 ${i === 1 ? 'text-blue-600 border-b-2 border-blue-600' : 'text-slate-400'}`}>{t}</span>
+          <span key={i} className={`text-[10px] font-bold pb-1 ${i === 1 ? 'border-b-2' : 'text-slate-400'}`} style={i === 1 ? { color: '#1447d4', borderColor: '#1447d4' } : {}}>{t}</span>
         ))}
         <div className="ml-auto flex items-center gap-2">
-          <div className="w-5 h-5 rounded-full bg-blue-600 flex items-center justify-center text-white text-[8px] font-black">6</div>
+          <div className="w-5 h-5 rounded-full flex items-center justify-center text-white text-[8px] font-black" style={{ background: '#1447d4' }}>6</div>
           <span className="text-[9px] text-slate-500 font-bold">6013</span>
         </div>
       </div>
@@ -128,7 +128,7 @@ function InteractionsCard() {
               key={tick}
               animate={{ scale: [1, 1.04, 1] }}
               transition={{ duration: 0.3 }}
-              className="text-3xl font-black text-blue-600 font-mono mb-4"
+              className="text-3xl font-black font-mono mb-4" style={{ color: '#1447d4' }}
             >
               {mm}:{ss}
             </motion.p>
@@ -142,15 +142,19 @@ function InteractionsCard() {
                 </div>
               ))}
             </div>
-            <button className="bg-red-500 text-white text-[10px] font-black px-5 py-1.5 rounded-full">End Call</button>
+            <button className="bg-[#0f172a] text-white text-[10px] font-black px-5 py-1.5 rounded-full">End Call</button>
           </div>
         </div>
         {/* Right */}
         <div className="w-28 border-l border-gray-100 p-2 shrink-0">
           <p className="text-[8px] font-black uppercase tracking-widest text-slate-400 mb-2">Insights</p>
           <div className="space-y-1.5">
-            {[{ l: 'Interactions', v: '17', c: 'bg-blue-700' }, { l: 'Sentiment', v: 'Positive', c: 'bg-blue-500' }, { l: 'Last Contact', v: 'Mar 23', c: 'bg-blue-400' }].map((s, i) => (
-              <div key={i} className={`${s.c} rounded-lg px-2 py-1.5`}>
+            {[
+              { l: 'Interactions', v: '17',      bg: '#1447d4' },
+              { l: 'Sentiment',    v: 'Positive', bg: '#006fff' },
+              { l: 'Last Contact', v: 'Mar 23',   bg: '#006fff' },
+            ].map((s, i) => (
+              <div key={i} className="rounded-lg px-2 py-1.5" style={{ background: s.bg }}>
                 <p className="text-white/70 text-[7px] uppercase tracking-wider">{s.l}</p>
                 <p className="text-white text-[10px] font-black">{s.v}</p>
               </div>
@@ -170,7 +174,7 @@ function AnalyticsCard() {
     <div className="flex flex-col h-full bg-white rounded-2xl overflow-hidden">
       <div className="px-4 py-3 border-b border-gray-100 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <BarChart2 className="w-4 h-4 text-blue-600" />
+          <BarChart2 className="w-4 h-4" style={{ color: '#1447d4' }} />
           <span className="text-[11px] font-bold text-[#0f172a]">Analytics & Insights</span>
         </div>
         <span className="text-[9px] text-slate-400 bg-gray-100 px-2 py-0.5 rounded-full">This Week</span>
@@ -208,7 +212,7 @@ function AnalyticsCard() {
               >
                 <div
                   className="w-full rounded-t-lg"
-                  style={{ height: `${h}%`, background: i === 5 ? '#2563eb' : '#e2e8f0' }}
+                  style={{ height: `${h}%`, background: i === 5 ? '#1447d4' : '#e2e8f0' }}
                 />
                 <span className="text-[8px] text-slate-400">{days[i]}</span>
               </motion.div>
@@ -223,7 +227,7 @@ function AnalyticsCard() {
           <div className="flex gap-1 h-2 rounded-full overflow-hidden">
             <motion.div initial={{ width: 0 }} animate={{ width: '68%' }} transition={{ duration: 1, delay: 0.3 }} className="bg-blue-500 rounded-l-full" />
             <motion.div initial={{ width: 0 }} animate={{ width: '22%' }} transition={{ duration: 1, delay: 0.5 }} className="bg-blue-300" />
-            <motion.div initial={{ width: 0 }} animate={{ width: '10%' }} transition={{ duration: 1, delay: 0.7 }} className="bg-red-400 rounded-r-full" />
+            <motion.div initial={{ width: 0 }} animate={{ width: '10%' }} transition={{ duration: 1, delay: 0.7 }} className="bg-slate-300 rounded-r-full" />
           </div>
           <div className="flex gap-4 mt-1.5">
             {[['Positive', '68%', 'text-blue-600'], ['Neutral', '22%', 'text-blue-400'], ['Negative', '10%', 'text-slate-400']].map(([l, v, c], i) => (
@@ -258,11 +262,11 @@ function CampaignCard() {
           <Megaphone className="w-4 h-4 text-blue-600" />
           <span className="text-[11px] font-bold text-[#0f172a]">Campaign Manager</span>
         </div>
-        <button className="text-[9px] font-black text-white bg-blue-600 px-2.5 py-1 rounded-full">+ New</button>
+        <button className="text-[9px] font-black text-white px-2.5 py-1 rounded-full" style={{ background: '#1447d4' }}>+ New</button>
       </div>
       <div className="p-3 flex-1 flex flex-col gap-3">
         {/* Live counter */}
-        <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl p-3 flex items-center justify-between">
+        <div className="bg-gradient-to-r from-[#1447d4] to-[#006fff] rounded-xl p-3 flex items-center justify-between">
           <div>
             <p className="text-white/60 text-[9px] uppercase tracking-widest">Messages Sent Today</p>
             <motion.p key={sent} animate={{ scale: [1, 1.04, 1] }} transition={{ duration: 0.3 }}
@@ -326,8 +330,9 @@ const cards = [
     tag: 'Monitoring',
     title: 'Live Agent & Interaction Monitoring',
     desc: 'Supervisors get a real-time view of every agent, queue, and interaction — across all channels simultaneously.',
-    accent: '#2563eb',
-    tagBg: 'bg-blue-50 text-blue-600 border-blue-100',
+    accent: '#1447d4',
+    tagBg: 'border',
+    tagStyle: { background: '#eef4ff', color: '#1447d4', borderColor: 'rgba(20,71,212,0.2)' },
     bg: 'bg-[#f0f7ff]',
     UI: MonitoringCard,
   },
@@ -335,17 +340,19 @@ const cards = [
     tag: 'Interactions',
     title: 'Unified Agent Desktop',
     desc: 'Voice, chat, email and WhatsApp in one workspace. AI Co-Pilot surfaces context and suggestions in real time.',
-    accent: '#7c3aed',
-    tagBg: 'bg-blue-50 text-blue-600 border-blue-100',
-    bg: 'bg-[#f5f3ff]',
+    accent: '#006fff',
+    tagBg: 'border',
+    tagStyle: { background: '#eef4ff', color: '#1447d4', borderColor: 'rgba(20,71,212,0.2)' },
+    bg: 'bg-[#eff6ff]',
     UI: InteractionsCard,
   },
   {
     tag: 'Analytics',
     title: 'Real-Time Intelligence & Reporting',
     desc: 'Live dashboards, sentiment tracking, and AI-powered insights — so you never miss a trend or service risk.',
-    accent: '#0d9488',
-    tagBg: 'bg-blue-50 text-blue-600 border-blue-100',
+    accent: '#1447d4',
+    tagBg: 'border',
+    tagStyle: { background: '#eef4ff', color: '#1447d4', borderColor: 'rgba(20,71,212,0.2)' },
     bg: 'bg-[#f0fdfa]',
     UI: AnalyticsCard,
   },
@@ -353,8 +360,9 @@ const cards = [
     tag: 'Campaigns',
     title: 'AI-Driven Outbound Campaigns',
     desc: 'Reach customers at the right time, on the right channel — with AI that optimises send time, message and reach.',
-    accent: '#ea580c',
-    tagBg: 'bg-blue-50 text-blue-600 border-blue-100',
+    accent: '#1447d4',
+    tagBg: 'border',
+    tagStyle: { background: '#eef4ff', color: '#1447d4', borderColor: 'rgba(20,71,212,0.2)' },
     bg: 'bg-[#fff7ed]',
     UI: CampaignCard,
   },
@@ -362,10 +370,10 @@ const cards = [
 
 export default function PlatformCards() {
   return (
-    <section className="relative overflow-hidden" style={{ background: 'linear-gradient(160deg, #f0f4ff 0%, #fafbff 40%, #f5f0ff 100%)' }}>
+    <section className="relative overflow-hidden" style={{ background: '#f8faff' }}>
       {/* Background orbs */}
       <div className="absolute pointer-events-none" style={{ width: '50vw', height: '50vw', top: '-220px', left: '-300px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(37,99,235,0.07) 0%, transparent 70%)', border: '1px solid rgba(37,99,235,0.05)' }} />
-      <div className="absolute pointer-events-none" style={{ width: '36vw', height: '36vw', bottom: '-160px', right: '-200px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(99,102,241,0.06) 0%, transparent 70%)' }} />
+      <div className="absolute pointer-events-none" style={{ width: '36vw', height: '36vw', bottom: '-160px', right: '-200px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(0,111,255,0.06) 0%, transparent 70%)' }} />
       <div className="absolute inset-0 opacity-[0.02] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#0f172a 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
       {/* Header */}
       <div className="container mx-auto px-6 text-center pt-20 pb-16 max-w-3xl">
@@ -384,7 +392,7 @@ export default function PlatformCards() {
           transition={{ delay: 0.1, duration: 1.0, ease: [0.16, 1, 0.3, 1] }}
           className="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold font-figtree tracking-[-0.025em] leading-[1.15] mb-5"
         >
-          One platform. <span className="bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent">Every capability.</span>
+          One platform. <span className="text-[#1447d4]">Every capability.</span>
         </motion.h2>
         <motion.p
           initial={{ opacity: 0, y: 20 }}
@@ -407,7 +415,7 @@ export default function PlatformCards() {
           >
             <div className="container mx-auto px-6 max-w-5xl">
               <div
-                className="rounded-2xl overflow-hidden border border-gray-100 shadow-2xl bg-white"
+                className="rounded-2xl overflow-hidden border border-blue-100 shadow-2xl bg-white hover:border-blue-300 hover:shadow-blue-700/15 transition-all duration-300"
                 style={{ marginTop: i === 0 ? 0 : '-60vh' }}
               >
                 {/* UI mock */}
@@ -417,7 +425,7 @@ export default function PlatformCards() {
                 {/* Label bar */}
                 <div className="px-8 py-5 border-t border-gray-100 bg-white flex items-center justify-between">
                   <div>
-                    <span className={`inline-block text-[9px] font-black uppercase tracking-[0.3em] border px-2.5 py-1 rounded-full mb-2 ${card.tagBg}`}>
+                    <span className={`inline-block text-[9px] font-black uppercase tracking-[0.3em] border px-2.5 py-1 rounded-full mb-2`} style={card.tagStyle}>
                       {card.tag}
                     </span>
                     <h3 className="text-lg font-bold font-figtree leading-tight text-[#0f172a]">{card.title}</h3>

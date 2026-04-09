@@ -5,10 +5,10 @@ import { useRef, useState, useEffect } from 'react';
 
 /* ── Single unified card color — clean white with blue accent ── */
 const CARD = {
-  bg:     'linear-gradient(160deg, #ffffff 0%, #f0f6ff 100%)',
-  accent: '#2563eb',
-  border: 'rgba(37,99,235,0.15)',
-  glow:   'rgba(37,99,235,0.18)',
+  bg:     '#ffffff',
+  accent: '#1447d4',
+  border: 'rgba(20,71,212,0.15)',
+  glow:   'rgba(20,71,212,0.20)',
   text:   '#0f172a',
   sub:    '#64748b',
   quote:  '#1e293b',
@@ -97,7 +97,7 @@ function ProgressDot({ active, onClick }: { active: boolean; onClick: () => void
       onClick={onClick}
       animate={{ width: active ? 36 : 10 }}
       transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-      style={{ height: 10, borderRadius: 5, border: 'none', cursor: 'pointer', padding: 0, background: active ? CARD.accent : 'rgba(59,130,246,0.15)', position: 'relative', overflow: 'hidden' }}
+      style={{ height: 10, borderRadius: 5, border: 'none', cursor: 'pointer', padding: 0, background: active ? CARD.accent : 'rgba(20,71,212,0.15)', position: 'relative', overflow: 'hidden' }}
     >
       {active && (
         <motion.div style={{ position: 'absolute', inset: 0, borderRadius: 5, background: CARD.accent, scaleX: progress, originX: 0 }} />
@@ -166,12 +166,12 @@ export default function Testimonials() {
 
   return (
     <section className="py-20 lg:py-24 relative overflow-hidden"
-      style={{ background: 'linear-gradient(160deg, #f0f4ff 0%, #fafbff 40%, #f5f0ff 100%)' }}>
+      style={{ background: '#f8faff' }}>
 
       {/* ── Glow behind slider ── */}
       <div className="pointer-events-none absolute inset-0">
         <div style={{ position: 'absolute', top: '-10%', left: '15%', width: 700, height: 500, borderRadius: '50%', background: 'radial-gradient(circle, rgba(59,130,246,0.12) 0%, transparent 65%)', filter: 'blur(70px)' }} />
-        <div style={{ position: 'absolute', bottom: '-5%', right: '15%', width: 500, height: 400, borderRadius: '50%', background: 'radial-gradient(circle, rgba(99,102,241,0.1) 0%, transparent 65%)', filter: 'blur(70px)' }} />
+        <div style={{ position: 'absolute', bottom: '-5%', right: '15%', width: 500, height: 400, borderRadius: '50%', background: 'radial-gradient(circle, rgba(0,111,255,0.1) 0%, transparent 65%)', filter: 'blur(70px)' }} />
         <div className="absolute inset-0 opacity-[0.025]" style={{ backgroundImage: 'radial-gradient(#0f172a 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
       </div>
 
@@ -179,7 +179,7 @@ export default function Testimonials() {
       <div className="relative z-10 text-center px-6 md:px-16">
         <span className="section-eyebrow wow wow-d1">What Our Clients Say</span>
         <h2 className="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold font-figtree tracking-[-0.025em] leading-[1.15] mb-5 wow wow-d2">
-          Trusted by CX leaders<br className="hidden sm:block" /> <span className="bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent">worldwide.</span>
+          Trusted by CX leaders<br className="hidden sm:block" /> <span className="text-[#1447d4]">worldwide.</span>
         </h2>
         <p className="text-base sm:text-lg md:text-xl text-slate-500 max-w-xl mx-auto leading-relaxed wow wow-d3">
           Real results from healthcare, insurance, hospitality and government — see what AI-native CX looks like in practice.
@@ -191,19 +191,19 @@ export default function Testimonials() {
         className="relative z-10 flex items-center justify-between flex-wrap gap-6 mt-10 mb-10 px-6 md:px-16">
         {/* Pill */}
         <div className="flex items-center rounded-full"
-          style={{ background: 'rgba(59,130,246,0.07)', border: '1px solid rgba(59,130,246,0.18)', padding: '0.75rem 2rem 0.75rem 1.25rem', gap: '2rem' }}>
+          style={{ background: 'rgba(20,71,212,0.07)', border: '1px solid rgba(20,71,212,0.18)', padding: '0.75rem 2rem 0.75rem 1.25rem', gap: '2rem' }}>
           <div className="flex items-center">
             {AVATARS.map((src, i) => (
-              <img key={i} src={src} alt="" style={{ width: 34, height: 34, borderRadius: '50%', border: '2px solid rgba(59,130,246,0.25)', marginLeft: i === 0 ? 0 : -8, objectFit: 'cover' }} />
+              <img key={i} src={src} alt="" style={{ width: 34, height: 34, borderRadius: '50%', border: '2px solid rgba(20,71,212,0.25)', marginLeft: i === 0 ? 0 : -8, objectFit: 'cover' }} />
             ))}
-            <div style={{ width: 34, height: 34, borderRadius: '50%', background: 'rgba(59,130,246,0.12)', border: '2px solid rgba(59,130,246,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.8rem', fontWeight: 700, color: '#3b82f6', marginLeft: -8, flexShrink: 0 }}>+</div>
+            <div style={{ width: 34, height: 34, borderRadius: '50%', background: 'rgba(20,71,212,0.12)', border: '2px solid rgba(20,71,212,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.8rem', fontWeight: 700, color: '#1447d4', marginLeft: -8, flexShrink: 0 }}>+</div>
           </div>
           <div className="flex flex-col gap-0.5">
             <strong className="text-base font-bold text-[#0f172a] leading-tight">669k+ Active</strong>
             <span className="text-sm text-slate-600 whitespace-nowrap leading-tight">users world-wide</span>
           </div>
           <motion.a href="#" whileHover={{ x: 4 }}
-            style={{ width: 32, height: 32, borderRadius: '50%', background: 'rgba(59,130,246,0.1)', border: '1px solid rgba(59,130,246,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#3b82f6', textDecoration: 'none', fontSize: '0.9rem', flexShrink: 0 }}>→</motion.a>
+            style={{ width: 32, height: 32, borderRadius: '50%', background: 'rgba(20,71,212,0.1)', border: '1px solid rgba(20,71,212,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#1447d4', textDecoration: 'none', fontSize: '0.9rem', flexShrink: 0 }}>→</motion.a>
         </div>
 
         {/* Flags */}
@@ -215,7 +215,7 @@ export default function Testimonials() {
               viewport={{ once: true }}
               transition={{ delay: 0.3 + i * 0.07, type: 'spring', stiffness: 260, damping: 18 }}
               whileHover={{ scale: 1.18, y: -4, transition: { duration: 0.2 } }}
-              style={{ width: 50, height: 50, borderRadius: '50%', objectFit: 'cover', border: '2.5px solid rgba(59,130,246,0.18)', cursor: 'pointer' }} />
+              style={{ width: 50, height: 50, borderRadius: '50%', objectFit: 'cover', border: '2.5px solid rgba(20,71,212,0.18)', cursor: 'pointer' }} />
           ))}
         </div>
       </motion.div>
@@ -266,7 +266,7 @@ export default function Testimonials() {
                 <div style={{
                   position: 'absolute', top: 0, left: 0, right: 0, height: 3,
                   borderRadius: '22px 22px 0 0',
-                  background: `linear-gradient(90deg, ${CARD.accent}, ${CARD.accent}60)`,
+                  background: CARD.accent,
                   opacity: isCenter ? 1 : 0.25,
                   transform: `scaleX(${isCenter ? 1 : 0.4})`,
                   transformOrigin: 'left',
@@ -290,7 +290,7 @@ export default function Testimonials() {
                 <div style={{ display: 'flex', gap: 3, position: 'relative', zIndex: 3 }}>
                   {Array.from({ length: t.stars }).map((_, si) => (
                     <span key={si} style={{
-                      fontSize: '0.95rem', color: '#f59e0b', display: 'inline-block',
+                      fontSize: '0.95rem', color: '#1447d4', display: 'inline-block',
                       transform: isCenter ? 'scale(1.1)' : 'scale(1)',
                       transition: `transform 0.35s cubic-bezier(0.34,1.56,0.64,1) ${si * 0.05}s`,
                     }}>★</span>

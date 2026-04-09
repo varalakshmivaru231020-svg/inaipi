@@ -187,7 +187,7 @@ export default function CareerDetailPage() {
 
   if (!job) {
     return (
-      <main className="min-h-screen bg-white font-figtree">
+      <main className="min-h-screen bg-white">
         <Navbar />
         <div className="pt-40 pb-24 text-center">
           <h1 className="text-3xl font-bold text-[#0f172a] mb-4">Position Not Found</h1>
@@ -200,25 +200,25 @@ export default function CareerDetailPage() {
   }
 
   return (
-    <main className="min-h-screen bg-white font-figtree">
+    <main className="min-h-screen bg-white">
       <Navbar />
 
       {/* Hero */}
-      <section className="pt-36 pb-16 relative overflow-hidden" style={{ background: 'linear-gradient(160deg, #f0f4ff 0%, #fafbff 40%, #f5f0ff 100%)' }}>
+      <section className="pt-36 pb-16 relative overflow-hidden" style={{ background: '#f8faff' }}>
         <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
           <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 100% 60% at 50% 0%, rgba(37,99,235,0.18) 0%, transparent 70%)' }} />
           <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle, rgba(37,99,235,0.18) 1.2px, transparent 1.2px)', backgroundSize: '32px 32px', maskImage: 'radial-gradient(ellipse 100% 85% at 50% 10%, black 30%, transparent 100%)' }} />
           <div className="absolute inset-0" style={{ backgroundImage: 'repeating-linear-gradient(0deg, rgba(37,99,235,0.04) 0px, rgba(37,99,235,0.04) 1px, transparent 1px, transparent 32px), repeating-linear-gradient(90deg, rgba(37,99,235,0.04) 0px, rgba(37,99,235,0.04) 1px, transparent 1px, transparent 32px)', maskImage: 'radial-gradient(ellipse 100% 70% at 50% 0%, black 0%, transparent 100%)' }} />
-          <motion.div className="absolute rounded-full" style={{ width: 1100, height: 1100, top: '-35%', left: '50%', x: '-50%', background: 'radial-gradient(circle, rgba(37,99,235,0.32) 0%, rgba(99,102,241,0.18) 40%, transparent 70%)', filter: 'blur(90px)' }} animate={{ scale: [1, 1.12, 1], opacity: [0.8, 1, 0.8] }} transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }} />
-          <motion.div className="absolute rounded-full" style={{ width: 800, height: 800, top: '5%', left: '-20%', background: 'radial-gradient(circle, rgba(99,102,241,0.26) 0%, transparent 65%)', filter: 'blur(80px)' }} animate={{ x: [0, 60, 0], y: [0, 40, 0] }} transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }} />
-          <motion.div className="absolute rounded-full" style={{ width: 700, height: 700, top: '0%', right: '-15%', background: 'radial-gradient(circle, rgba(124,58,237,0.22) 0%, transparent 65%)', filter: 'blur(80px)' }} animate={{ x: [0, -60, 0], y: [0, 50, 0] }} transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut', delay: 2 }} />
+          <motion.div className="absolute rounded-full" style={{ width: 1100, height: 1100, top: '-35%', left: '50%', x: '-50%', background: 'radial-gradient(circle, rgba(37,99,235,0.32) 0%, rgba(0,111,255,0.18) 40%, transparent 70%)', filter: 'blur(90px)' }} animate={{ scale: [1, 1.12, 1], opacity: [0.8, 1, 0.8] }} transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }} />
+          <motion.div className="absolute rounded-full" style={{ width: 800, height: 800, top: '5%', left: '-20%', background: 'radial-gradient(circle, rgba(0,111,255,0.26) 0%, transparent 65%)', filter: 'blur(80px)' }} animate={{ x: [0, 60, 0], y: [0, 40, 0] }} transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }} />
+          <motion.div className="absolute rounded-full" style={{ width: 700, height: 700, top: '0%', right: '-15%', background: 'radial-gradient(circle, rgba(0,231,255,0.22) 0%, transparent 65%)', filter: 'blur(80px)' }} animate={{ x: [0, -60, 0], y: [0, 50, 0] }} transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut', delay: 2 }} />
           <motion.div className="absolute w-3 h-3 rounded-full bg-blue-500/40" style={{ top: '18%', left: '12%', filter: 'blur(2px)' }} animate={{ y: [0, -18, 0], opacity: [0.4, 0.9, 0.4] }} transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }} />
-          <motion.div className="absolute w-2 h-2 rounded-full bg-indigo-400/50" style={{ top: '28%', right: '14%', filter: 'blur(1px)' }} animate={{ y: [0, -14, 0], opacity: [0.5, 1, 0.5] }} transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut', delay: 1 }} />
-          <motion.div className="absolute w-4 h-4 rounded-full bg-violet-400/30" style={{ top: '10%', left: '38%', filter: 'blur(3px)' }} animate={{ y: [0, -22, 0], opacity: [0.3, 0.8, 0.3] }} transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }} />
+          <motion.div className="absolute w-2 h-2 rounded-full bg-[#006fff]/50" style={{ top: '28%', right: '14%', filter: 'blur(1px)' }} animate={{ y: [0, -14, 0], opacity: [0.5, 1, 0.5] }} transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut', delay: 1 }} />
+          <motion.div className="absolute w-4 h-4 rounded-full bg-[#00e7ff]/30" style={{ top: '10%', left: '38%', filter: 'blur(3px)' }} animate={{ y: [0, -22, 0], opacity: [0.3, 0.8, 0.3] }} transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }} />
           <motion.div className="absolute w-2 h-2 rounded-full bg-blue-400/50" style={{ top: '35%', left: '22%', filter: 'blur(1px)' }} animate={{ y: [0, -12, 0], opacity: [0.4, 0.9, 0.4] }} transition={{ duration: 3.8, repeat: Infinity, ease: 'easeInOut', delay: 1.5 }} />
-          <motion.div className="absolute w-3 h-3 rounded-full bg-indigo-500/35" style={{ top: '20%', right: '28%', filter: 'blur(2px)' }} animate={{ y: [0, -16, 0], opacity: [0.35, 0.8, 0.35] }} transition={{ duration: 5.5, repeat: Infinity, ease: 'easeInOut', delay: 0.8 }} />
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px]" style={{ background: 'conic-gradient(from 255deg at 50% 0%, transparent 15%, rgba(37,99,235,0.18) 30%, rgba(99,102,241,0.22) 50%, rgba(37,99,235,0.18) 70%, transparent 85%)', filter: 'blur(18px)' }} />
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-[35%]" style={{ background: 'linear-gradient(to bottom, rgba(99,102,241,0.6) 0%, transparent 100%)' }} />
+          <motion.div className="absolute w-3 h-3 rounded-full bg-[#006fff]/35" style={{ top: '20%', right: '28%', filter: 'blur(2px)' }} animate={{ y: [0, -16, 0], opacity: [0.35, 0.8, 0.35] }} transition={{ duration: 5.5, repeat: Infinity, ease: 'easeInOut', delay: 0.8 }} />
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px]" style={{ background: 'conic-gradient(from 255deg at 50% 0%, transparent 15%, rgba(37,99,235,0.18) 30%, rgba(0,111,255,0.22) 50%, rgba(37,99,235,0.18) 70%, transparent 85%)', filter: 'blur(18px)' }} />
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-[35%]" style={{ background: 'linear-gradient(to bottom, rgba(0,111,255,0.6) 0%, transparent 100%)' }} />
           <div className="absolute top-0 left-[42%] w-px h-[25%]" style={{ background: 'linear-gradient(to bottom, rgba(37,99,235,0.35) 0%, transparent 100%)', transform: 'rotate(6deg)', transformOrigin: 'top' }} />
           <div className="absolute top-0 left-[58%] w-px h-[25%]" style={{ background: 'linear-gradient(to bottom, rgba(37,99,235,0.35) 0%, transparent 100%)', transform: 'rotate(-6deg)', transformOrigin: 'top' }} />
           <div className="absolute bottom-0 left-0 right-0 h-40" style={{ background: 'linear-gradient(to top, white 0%, transparent 100%)' }} />
@@ -226,9 +226,9 @@ export default function CareerDetailPage() {
 
         <div className="container mx-auto px-6 max-w-6xl relative z-10">
           <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }} className="flex items-center gap-2 mb-10">
-            <Link href="/" className="text-[11px] font-bold text-[#0f172a] hover:text-blue-600 transition-colors">Home</Link>
+            <Link href="/" className="text-[11px] font-bold text-[#0f172a] hover:text-[#1447d4] transition-colors">Home</Link>
             <svg className="w-3 h-3 text-slate-300" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
-            <Link href="/career" className="text-[11px] font-bold text-slate-400 hover:text-blue-600 transition-colors">Career</Link>
+            <Link href="/career" className="text-[11px] font-bold text-slate-400 hover:text-[#1447d4] transition-colors">Career</Link>
             <svg className="w-3 h-3 text-slate-300" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
             <span className="text-[11px] font-bold text-blue-600">Career Details</span>
           </motion.div>
@@ -295,7 +295,7 @@ export default function CareerDetailPage() {
                   {job.requirements.map((item, i) => (
                     <li key={i} className="flex items-start gap-4 text-base sm:text-lg text-slate-500 leading-relaxed">
                       <span className="mt-1 shrink-0 flex items-center justify-center w-5 h-5">
-                        <svg viewBox="0 0 20 20" className="w-4 h-4 text-indigo-500" fill="none"><path d="M7 10l2 2 4-4" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/><circle cx="10" cy="10" r="8.5" stroke="currentColor" strokeWidth="1.5" opacity="0.3"/></svg>
+                        <svg viewBox="0 0 20 20" className="w-4 h-4 text-[#006fff]" fill="none"><path d="M7 10l2 2 4-4" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/><circle cx="10" cy="10" r="8.5" stroke="currentColor" strokeWidth="1.5" opacity="0.3"/></svg>
                       </span>
                       {item}
                     </li>
@@ -312,7 +312,7 @@ export default function CareerDetailPage() {
                   {job.offers.map((item, i) => (
                     <li key={i} className="flex items-start gap-4 text-base sm:text-lg text-slate-500 leading-relaxed">
                       <span className="mt-1 shrink-0 flex items-center justify-center w-5 h-5">
-                        <svg viewBox="0 0 20 20" className="w-4 h-4 text-sky-500" fill="none"><path d="M7 10l2 2 4-4" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/><circle cx="10" cy="10" r="8.5" stroke="currentColor" strokeWidth="1.5" opacity="0.3"/></svg>
+                        <svg viewBox="0 0 20 20" className="w-4 h-4 text-[#006fff]" fill="none"><path d="M7 10l2 2 4-4" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/><circle cx="10" cy="10" r="8.5" stroke="currentColor" strokeWidth="1.5" opacity="0.3"/></svg>
                       </span>
                       {item}
                     </li>
@@ -324,7 +324,7 @@ export default function CareerDetailPage() {
               <motion.div whileHover={{ scale: 1.02, y: -2 }} whileTap={{ scale: 0.98 }}>
                 <Link
                   href="/contact"
-                  className="relative group overflow-hidden inline-flex items-center gap-3 bg-[#2563eb] hover:bg-[#1d4ed8] text-white px-8 py-4 rounded-full font-black text-[11px] uppercase tracking-widest transition-all duration-300 shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-blue-500/40"
+                  className="relative group overflow-hidden inline-flex items-center gap-3 bg-[#1447d4] hover:bg-[#0d3ab8] text-white px-8 py-4 rounded-full font-black text-[11px] uppercase tracking-widest transition-all duration-300 shadow-lg shadow-blue-700/30 hover:shadow-xl hover:shadow-blue-700/40"
                 >
                   <span className="absolute inset-0 -skew-x-12 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover:translate-x-[200%] transition-transform duration-500 pointer-events-none" />
                   <span className="relative z-10">Apply for this Job</span>
@@ -346,7 +346,7 @@ export default function CareerDetailPage() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.2, ease }}
                 className="rounded-[2rem] p-8 relative overflow-hidden border border-slate-200 shadow-sm"
-                style={{ background: 'linear-gradient(145deg, #dde6ff 0%, #d5dcff 50%, #ddd4ff 100%)' }}
+                style={{ background: '#dde6ff' }}
               >
                 <div className="absolute -top-8 -right-8 w-40 h-40 rounded-full opacity-40" style={{ background: 'radial-gradient(circle, rgba(37,99,235,0.25) 0%, transparent 70%)', filter: 'blur(30px)' }} />
                 <div className="relative z-10">
@@ -360,7 +360,7 @@ export default function CareerDetailPage() {
                     </span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <div className="w-11 h-11 rounded-2xl bg-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/30">
+                    <div className="w-11 h-11 rounded-2xl bg-blue-600 flex items-center justify-center shadow-lg shadow-blue-700/30">
                       <Briefcase className="w-5 h-5 text-white" />
                     </div>
                     <div>
@@ -377,10 +377,10 @@ export default function CareerDetailPage() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.35, ease }}
                 className="relative rounded-[2rem] overflow-hidden"
-                style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%)', minHeight: 280 }}
+                style={{ background: '#0f172a', minHeight: 280 }}
               >
                 {/* Gradient orbs */}
-                <div className="absolute -top-10 -right-10 w-48 h-48 rounded-full opacity-40" style={{ background: 'radial-gradient(circle, rgba(139,92,246,0.5) 0%, transparent 70%)', filter: 'blur(40px)' }} />
+                <div className="absolute -top-10 -right-10 w-48 h-48 rounded-full opacity-40" style={{ background: 'radial-gradient(circle, rgba(0,111,255,0.5) 0%, transparent 70%)', filter: 'blur(40px)' }} />
                 <div className="absolute -bottom-10 -left-10 w-48 h-48 rounded-full opacity-30" style={{ background: 'radial-gradient(circle, rgba(37,99,235,0.5) 0%, transparent 70%)', filter: 'blur(40px)' }} />
                 <div className="absolute inset-0 opacity-[0.06]" style={{ backgroundImage: 'radial-gradient(rgba(255,255,255,0.8) 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
 
@@ -397,7 +397,7 @@ export default function CareerDetailPage() {
                   </div>
                   <Link
                     href="/career"
-                    className="inline-flex items-center gap-3 bg-[#2563eb] hover:bg-[#1d4ed8] text-white px-6 py-3.5 rounded-full font-black text-[11px] uppercase tracking-widest transition-all duration-300 hover:-translate-y-0.5 shadow-lg shadow-blue-500/30 self-start group"
+                    className="inline-flex items-center gap-3 bg-[#1447d4] hover:bg-[#0d3ab8] text-white px-6 py-3.5 rounded-full font-black text-[11px] uppercase tracking-widest transition-all duration-300 hover:-translate-y-0.5 shadow-lg shadow-blue-700/30 self-start group"
                   >
                     View All Jobs
                     <span className="w-7 h-7 rounded-full bg-white/20 group-hover:bg-white/30 flex items-center justify-center transition-colors">
@@ -414,11 +414,11 @@ export default function CareerDetailPage() {
       </section>
 
       {/* Related Jobs */}
-      <section className="py-24 relative overflow-hidden" style={{ background: 'linear-gradient(180deg, #ffffff 0%, #f0f5ff 40%, #f5f0ff 75%, #ffffff 100%)' }}>
+      <section className="py-24 relative overflow-hidden" style={{ background: '#f8faff' }}>
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-200/60 to-transparent" />
           <div className="absolute -top-40 -left-40 w-[500px] h-[500px] rounded-full opacity-30" style={{ background: 'radial-gradient(circle, rgba(37,99,235,0.18) 0%, transparent 70%)', filter: 'blur(60px)' }} />
-          <div className="absolute -bottom-40 -right-40 w-[500px] h-[500px] rounded-full opacity-30" style={{ background: 'radial-gradient(circle, rgba(139,92,246,0.18) 0%, transparent 70%)', filter: 'blur(60px)' }} />
+          <div className="absolute -bottom-40 -right-40 w-[500px] h-[500px] rounded-full opacity-30" style={{ background: 'radial-gradient(circle, rgba(0,111,255,0.18) 0%, transparent 70%)', filter: 'blur(60px)' }} />
           <div className="absolute inset-0 opacity-[0.018]" style={{ backgroundImage: 'radial-gradient(#0f172a 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
         </div>
         <div className="container mx-auto px-6 max-w-6xl relative z-10">
@@ -430,7 +430,7 @@ export default function CareerDetailPage() {
             <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
               className="text-3xl sm:text-4xl font-bold font-figtree tracking-[-0.025em] leading-[1.15]">
               <span className="text-[#0f172a]">Explore More </span>
-              <span className="bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent">Positions</span>
+              <span className="text-[#1447d4]">Positions</span>
             </motion.h2>
           </div>
           <div className="grid md:grid-cols-2 gap-6">
@@ -440,10 +440,10 @@ export default function CareerDetailPage() {
               return (
                 <motion.div key={s} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.1 }}
                   transition={{ delay: i * 0.08, duration: 0.5, ease }}
-                  className="group p-8 lg:p-10 border border-slate-200 shadow-sm rounded-[2rem] hover:border-blue-500/25 hover:shadow-2xl hover:shadow-blue-600/15 hover:-translate-y-2 transition-all duration-300 relative overflow-hidden"
-                  style={{ background: 'linear-gradient(145deg, #dde6ff 0%, #d5dcff 50%, #ddd4ff 100%)' }}
+                  className="group p-8 lg:p-10 border border-slate-200 shadow-sm rounded-[2rem] hover:border-blue-500/25 hover:shadow-2xl hover:shadow-blue-700/15 hover:-translate-y-2 transition-all duration-300 relative overflow-hidden"
+                  style={{ background: '#dde6ff' }}
                 >
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-[2rem]" style={{ background: 'linear-gradient(135deg, #2563eb 0%, #4f46e5 60%, #7c3aed 100%)' }} />
+                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-[2rem]" style={{ background: '#1447d4' }} />
                   <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-[2rem]" style={{ background: 'radial-gradient(ellipse 80% 50% at 20% 20%, rgba(255,255,255,0.12) 0%, transparent 60%)' }} />
                   <div className="relative z-10">
                     <div className="flex items-center gap-2 mb-5">
@@ -462,7 +462,7 @@ export default function CareerDetailPage() {
                       </span>
                       <Link
                         href={`/career/${s}`}
-                        className="inline-flex items-center gap-2.5 bg-[#2563eb] group-hover:bg-white text-white group-hover:text-[#2563eb] px-5 py-2.5 rounded-full font-black text-[11px] uppercase tracking-widest transition-all duration-300 shadow-md shadow-blue-500/25"
+                        className="inline-flex items-center gap-2.5 bg-[#2563eb] group-hover:bg-white text-white group-hover:text-[#2563eb] px-5 py-2.5 rounded-full font-black text-[11px] uppercase tracking-widest transition-all duration-300 shadow-md shadow-blue-700/25"
                       >
                         <span>View Details</span>
                         <span className="w-6 h-6 rounded-full bg-white/20 group-hover:bg-blue-50 flex items-center justify-center transition-colors duration-300">

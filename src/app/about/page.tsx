@@ -11,13 +11,13 @@ import Marquee from '@/components/sections/TrustMarquee';
 import CTA from '@/components/sections/CTA';
 
 const allLeaders = [
-    { name: 'Manikandan Karunakaran', title: 'Director — Finance & Operations', initials: 'MK', gradient: 'from-violet-600 to-purple-600', img: '/team/Image (5).JPG' },
-  { name: 'Sanju Sambasivan', title: 'Founder & CEO', initials: 'SS', gradient: 'from-blue-700 to-cyan-500', img: '/team/Image (3).JPG' },
-  { name: 'Bharath K Reddy', title: 'Chief Strategy Advisor', initials: 'BK', gradient: 'from-emerald-600 to-cyan-600', img: '/team/Image (4).JPG' },
-  { name: 'Wilson Xavier', title: 'Director — Sales & Partnerships', initials: 'WX', gradient: 'from-amber-600 to-amber-800', img: '/team/Image (5).JPG' },
-    { name: 'Monish', title: 'Product Head', initials: 'SS', gradient: 'from-blue-700 to-cyan-500', img: '/team/Image (3).JPG' },
-  { name: 'Sarath Kumar', title: 'Solution Architect', initials: 'BK', gradient: 'from-emerald-600 to-cyan-600', img: '/team/Image (4).JPG' },
-  { name: 'Shajith Navas', title: 'Head of Presales', initials: 'WX', gradient: 'from-amber-600 to-amber-800', img: '/team/Image (2).jpeg' },
+  { name: 'Manikandan Karunakaran', title: 'Chief Executive Officer', initials: 'MK', gradient: 'from-[#1447d4] to-[#006fff]', img: '/team/Manikandan Karunakaran.JPG' },
+  { name: 'Sanju Sambasivan', title: 'Business Growth Leader', initials: 'SS', gradient: 'from-blue-700 to-cyan-500', img: '/team/Sanju Sambasivan.JPG' },
+  { name: 'Bharath K Reddy', title: 'Director - Revenue and Operations', initials: 'BK', gradient: 'from-emerald-600 to-cyan-600', img: '/team/Bharath K Reddy.JPG' },
+  { name: 'Wilson Xavier', title: 'Chief Strategy Advisor', initials: 'WX', gradient: 'from-[#1447d4] to-[#006fff]', img: '/team/Wilson Xavier.jpeg' },
+  { name: 'Monish', title: 'Product and Growth Manager', initials: 'MO', gradient: 'from-[#006fff] to-[#00e7ff]', img: '/team/Monish.jpeg' },
+  { name: 'Sarath Kumar', title: 'Solution Architect', initials: 'SK', gradient: 'from-[#006fff] to-[#00e7ff]', img: '/team/Sarath Kumar.jpeg' },
+  { name: 'Shajith Navas', title: 'Head of Presales', initials: 'SN', gradient: 'from-[#1447d4] to-[#00e7ff]', img: '/team/Shajith Navas.jpeg' },
 ];
 
 const offices = [
@@ -43,11 +43,11 @@ const platformCards = [
   { icon: FileText, title: 'Intelligent Case Management', desc: 'Every unresolved interaction auto-becomes a case — classified, routed, and tracked against SLA in real time. Escalation is automatic.', tag: 'SLA Tracking' },
   { icon: Activity, title: 'CSAT & NPS Surveys', desc: 'Automated satisfaction surveys deploy after every resolution. Sentiment analysis flags dissatisfied customers before they escalate.', tag: 'Automated Feedback' },
   { icon: PhoneCall, title: 'AI Voice Campaigns', desc: 'AI voice agents run outbound campaigns at unlimited scale — renewals, follow-ups, loyalty engagement. No human dialler needed.', tag: 'Outbound AI' },
-  { icon: LayoutGrid, title: 'Analytics & Governance', desc: 'Real-time dashboards across CSAT, NPS, handle time, and agent performance. One governance layer, ISO Certified.', tag: 'ISO Certified' },
+  { icon: LayoutGrid, title: 'Analytics & Governance', desc: 'Real-time dashboards across CSAT, NPS, handle time, and agent performance. One governance layer, ISO 27001:2022 certified.', tag: 'ISO 27001:2022' },
 ];
 
 const trustCards = [
-  { icon: Shield, title: 'SOC 2 Type II Certified', desc: 'Enterprise-grade security controls, independently audited. Your data is protected at every layer.' },
+  { icon: Shield, title: 'ISO 27001:2022 Certified', desc: 'Certified against the 2022 revision of the international information security standard, with updated controls covering cloud security, threat intelligence, and data masking.' },
   { icon: Lock, title: 'Zero Data Exposure', desc: 'Customer data is never used for model training without explicit consent. Your interactions remain yours.' },
   { icon: CheckSquare, title: 'Single Governance Layer', desc: 'One framework managing compliance, access, and data policies across every channel and geography.' },
   { icon: Globe, title: 'Regional Compliance', desc: 'Built for UAE and MENA regulatory standards. Audit-ready from day one of deployment.' },
@@ -80,26 +80,26 @@ export default function AboutPage() {
       <Navbar />
 
       {/* ── HERO ── */}
-      <section className="pt-36 pb-24 relative overflow-x-clip overflow-y-visible" style={{ background: 'linear-gradient(160deg, #f0f4ff 0%, #fafbff 40%, #f5f0ff 100%)' }}>
+      <section className="pt-36 pb-24 relative overflow-x-clip overflow-y-visible" style={{ background: '#f8faff' }}>
         {/* Background */}
         <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
           <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 100% 60% at 50% 0%, rgba(37,99,235,0.18) 0%, transparent 70%)' }} />
           <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle, rgba(37,99,235,0.18) 1.2px, transparent 1.2px)', backgroundSize: '32px 32px', maskImage: 'radial-gradient(ellipse 100% 85% at 50% 10%, black 30%, transparent 100%)' }} />
           <div className="absolute inset-0" style={{ backgroundImage: 'repeating-linear-gradient(0deg, rgba(37,99,235,0.04) 0px, rgba(37,99,235,0.04) 1px, transparent 1px, transparent 32px), repeating-linear-gradient(90deg, rgba(37,99,235,0.04) 0px, rgba(37,99,235,0.04) 1px, transparent 1px, transparent 32px)', maskImage: 'radial-gradient(ellipse 100% 70% at 50% 0%, black 0%, transparent 100%)' }} />
-          <motion.div className="absolute rounded-full" style={{ width: 1100, height: 1100, top: '-35%', left: '50%', x: '-50%', background: 'radial-gradient(circle, rgba(37,99,235,0.32) 0%, rgba(99,102,241,0.18) 40%, transparent 70%)', filter: 'blur(90px)' }} animate={{ scale: [1, 1.12, 1], opacity: [0.8, 1, 0.8] }} transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }} />
-          <motion.div className="absolute rounded-full" style={{ width: 800, height: 800, top: '5%', left: '-20%', background: 'radial-gradient(circle, rgba(99,102,241,0.26) 0%, transparent 65%)', filter: 'blur(80px)' }} animate={{ x: [0, 60, 0], y: [0, 40, 0] }} transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }} />
-          <motion.div className="absolute rounded-full" style={{ width: 700, height: 700, top: '0%', right: '-15%', background: 'radial-gradient(circle, rgba(124,58,237,0.22) 0%, transparent 65%)', filter: 'blur(80px)' }} animate={{ x: [0, -60, 0], y: [0, 50, 0] }} transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut', delay: 2 }} />
+          <motion.div className="absolute rounded-full" style={{ width: 1100, height: 1100, top: '-35%', left: '50%', x: '-50%', background: 'radial-gradient(circle, rgba(37,99,235,0.32) 0%, rgba(0,111,255,0.18) 40%, transparent 70%)', filter: 'blur(90px)' }} animate={{ scale: [1, 1.12, 1], opacity: [0.8, 1, 0.8] }} transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }} />
+          <motion.div className="absolute rounded-full" style={{ width: 800, height: 800, top: '5%', left: '-20%', background: 'radial-gradient(circle, rgba(0,111,255,0.26) 0%, transparent 65%)', filter: 'blur(80px)' }} animate={{ x: [0, 60, 0], y: [0, 40, 0] }} transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }} />
+          <motion.div className="absolute rounded-full" style={{ width: 700, height: 700, top: '0%', right: '-15%', background: 'radial-gradient(circle, rgba(0,231,255,0.22) 0%, transparent 65%)', filter: 'blur(80px)' }} animate={{ x: [0, -60, 0], y: [0, 50, 0] }} transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut', delay: 2 }} />
           <motion.div className="absolute w-3 h-3 rounded-full bg-blue-500/40" style={{ top: '18%', left: '12%', filter: 'blur(2px)' }} animate={{ y: [0, -18, 0], opacity: [0.4, 0.9, 0.4] }} transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }} />
-          <motion.div className="absolute w-2 h-2 rounded-full bg-indigo-400/50" style={{ top: '28%', right: '14%', filter: 'blur(1px)' }} animate={{ y: [0, -14, 0], opacity: [0.5, 1, 0.5] }} transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut', delay: 1 }} />
-          <motion.div className="absolute w-4 h-4 rounded-full bg-violet-400/30" style={{ top: '10%', left: '38%', filter: 'blur(3px)' }} animate={{ y: [0, -22, 0], opacity: [0.3, 0.8, 0.3] }} transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }} />
+          <motion.div className="absolute w-2 h-2 rounded-full bg-[#006fff]/50" style={{ top: '28%', right: '14%', filter: 'blur(1px)' }} animate={{ y: [0, -14, 0], opacity: [0.5, 1, 0.5] }} transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut', delay: 1 }} />
+          <motion.div className="absolute w-4 h-4 rounded-full bg-[#00e7ff]/30" style={{ top: '10%', left: '38%', filter: 'blur(3px)' }} animate={{ y: [0, -22, 0], opacity: [0.3, 0.8, 0.3] }} transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }} />
           <motion.div className="absolute w-2 h-2 rounded-full bg-blue-400/50" style={{ top: '35%', left: '22%', filter: 'blur(1px)' }} animate={{ y: [0, -12, 0], opacity: [0.4, 0.9, 0.4] }} transition={{ duration: 3.8, repeat: Infinity, ease: 'easeInOut', delay: 1.5 }} />
-          <motion.div className="absolute w-3 h-3 rounded-full bg-indigo-500/35" style={{ top: '20%', right: '28%', filter: 'blur(2px)' }} animate={{ y: [0, -16, 0], opacity: [0.35, 0.8, 0.35] }} transition={{ duration: 5.5, repeat: Infinity, ease: 'easeInOut', delay: 0.8 }} />
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[800px]" style={{ background: 'conic-gradient(from 255deg at 50% 0%, transparent 15%, rgba(37,99,235,0.18) 30%, rgba(99,102,241,0.22) 50%, rgba(37,99,235,0.18) 70%, transparent 85%)', filter: 'blur(18px)' }} />
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[2px] h-[2px]" style={{ boxShadow: '0 0 180px 90px rgba(37,99,235,0.35), 0 0 280px 140px rgba(99,102,241,0.16)' }} />
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-[40%]" style={{ background: 'linear-gradient(to bottom, rgba(99,102,241,0.6) 0%, transparent 100%)' }} />
+          <motion.div className="absolute w-3 h-3 rounded-full bg-[#006fff]/35" style={{ top: '20%', right: '28%', filter: 'blur(2px)' }} animate={{ y: [0, -16, 0], opacity: [0.35, 0.8, 0.35] }} transition={{ duration: 5.5, repeat: Infinity, ease: 'easeInOut', delay: 0.8 }} />
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[800px]" style={{ background: 'conic-gradient(from 255deg at 50% 0%, transparent 15%, rgba(37,99,235,0.18) 30%, rgba(0,111,255,0.22) 50%, rgba(37,99,235,0.18) 70%, transparent 85%)', filter: 'blur(18px)' }} />
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[2px] h-[2px]" style={{ boxShadow: '0 0 180px 90px rgba(37,99,235,0.35), 0 0 280px 140px rgba(0,111,255,0.16)' }} />
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-[40%]" style={{ background: 'linear-gradient(to bottom, rgba(0,111,255,0.6) 0%, transparent 100%)' }} />
           <div className="absolute top-0 left-[42%] w-px h-[30%]" style={{ background: 'linear-gradient(to bottom, rgba(37,99,235,0.35) 0%, transparent 100%)', transform: 'rotate(6deg)', transformOrigin: 'top' }} />
           <div className="absolute top-0 left-[58%] w-px h-[30%]" style={{ background: 'linear-gradient(to bottom, rgba(37,99,235,0.35) 0%, transparent 100%)', transform: 'rotate(-6deg)', transformOrigin: 'top' }} />
-          <div className="absolute bottom-0 left-0 right-0 h-40" style={{ background: 'linear-gradient(to top, #f5f0ff 0%, transparent 100%)' }} />
+          <div className="absolute bottom-0 left-0 right-0 h-40" style={{ background: 'linear-gradient(to top, #e8f4ff 0%, transparent 100%)' }} />
         </div>
 
         <div className="container mx-auto px-6 max-w-6xl relative z-10">
@@ -110,9 +110,9 @@ export default function AboutPage() {
             transition={{ duration: 0.4 }}
             className="flex items-center justify-center gap-2 mb-10"
           >
-            <Link href="/" className="text-[11px] font-bold text-[#0f172a] hover:text-blue-600 transition-colors">Home</Link>
+            <Link href="/" className="text-[11px] font-bold text-[#0f172a] hover:text-[#1447d4] transition-colors">Home</Link>
             <ChevronIcon />
-            <span className="text-[11px] font-bold text-blue-600">About Us</span>
+            <span className="text-[11px] font-bold text-[#1447d4]">About Us</span>
           </motion.div>
 
           {/* Headline */}
@@ -124,7 +124,7 @@ export default function AboutPage() {
               className="text-4xl sm:text-5xl lg:text-[4rem] xl:text-[4.5rem] font-bold font-figtree tracking-[-0.03em] mb-8 leading-[1.25] text-[#0f172a] max-w-5xl mx-auto"
             >
               Empowering Intelligent<br />
-              <span className="inline-block bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent pb-2">Customer Experiences.</span>
+              <span className="inline-block text-[#1447d4] pb-2">Customer Experiences.</span>
             </motion.h1>
             <motion.p
               initial={{ opacity: 0, y: 16 }}
@@ -160,10 +160,10 @@ export default function AboutPage() {
                 &ldquo;We don&apos;t just build products; we build partnerships. Our mission is to empower businesses with AI that is as agile and ambitious as they are.&rdquo;
               </blockquote>
               <div className="flex items-center gap-4 mt-auto relative z-10">
-                <div className="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center font-black text-white text-sm shrink-0 shadow-lg shadow-blue-600/40">SS</div>
+                <div className="w-12 h-12 rounded-full bg-[#1447d4] flex items-center justify-center font-black text-white text-sm shrink-0 shadow-lg shadow-blue-900/25">MK</div>
                 <div>
-                  <div className="text-white font-bold text-sm">Sanju Sambasivan</div>
-                  <div className="text-slate-400 text-[10px] font-black uppercase tracking-widest">Founder & CEO</div>
+                  <div className="text-white font-bold text-sm">Manikandan Karunakaran</div>
+                  <div className="text-slate-400 text-[10px] font-black uppercase tracking-widest">Chief Executive Officer</div>
                 </div>
               </div>
             </motion.div>
@@ -172,7 +172,7 @@ export default function AboutPage() {
       </section>
 
       {/* ── VISION & MISSION ── */}
-      <section className="py-28 border-y border-slate-100 relative" style={{ background: 'linear-gradient(160deg, #f0f4ff 0%, #fafbff 50%, #f5f0ff 100%)' }}>
+      <section className="py-28 border-y border-slate-100 relative" style={{ background: '#f8faff' }}>
         <div className="absolute inset-0 opacity-[0.02] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#0f172a 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
         <div className="container mx-auto px-6 max-w-6xl relative z-10">
           <div className="grid lg:grid-cols-2 gap-16 items-start">
@@ -184,12 +184,12 @@ export default function AboutPage() {
                 viewport={{ once: true, amount: 0.2 }}
                 transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
               >
-                <div className="inline-flex items-center gap-2 bg-blue-50 border border-blue-200/60 rounded-full px-4 py-1.5 mb-6">
-                  <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
-                  <span className="text-[11px] font-bold uppercase tracking-widest text-blue-500">Vision & Mission</span>
+                <div className="inline-flex items-center gap-2 bg-[#eef4ff] border border-[#1447d4]/20 rounded-full px-4 py-1.5 mb-6">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#1447d4] animate-pulse" />
+                  <span className="text-[11px] font-bold uppercase tracking-widest text-[#1447d4]">Vision & Mission</span>
                 </div>
                  <h2 className="text-3xl sm:text-4xl lg:text-[2.85rem] font-bold font-figtree tracking-[-0.025em] leading-[1.15] mb-6">
-                  <span className="text-[#0f172a]">Why we exist.</span><br /><span className="bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent">What drives us forward.</span>
+                  <span className="text-[#0f172a]">Why we exist.</span><br /><span className="text-[#1447d4]">What drives us forward.</span>
                 </h2>
                 <p className="text-base sm:text-lg md:text-xl text-slate-500 leading-relaxed mb-4 max-w-md">
                   A comprehensive statement outlining the organizational purpose and strategic direction for delivering intelligent customer experience solutions.
@@ -216,18 +216,17 @@ export default function AboutPage() {
                 initial={{ opacity: 0, x: "100vw" }}
                 animate={cardsInView ? { opacity: 1, x: 0 } : { opacity: 0, x: "100vw" }}
                 transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
-                className="group rounded-[2rem] p-10 relative overflow-hidden cursor-default hover:border-blue-500/30 shadow-sm hover:shadow-2xl hover:shadow-blue-600/15 hover:-translate-y-2 transition-all duration-300 border border-slate-200"
-                style={{ background: 'linear-gradient(145deg, #dde6ff 0%, #d5dcff 50%, #ddd4ff 100%)' }}
+                className="rounded-[2rem] p-10 relative overflow-hidden cursor-default shadow-xl shadow-blue-900/15 hover:shadow-2xl hover:shadow-blue-900/20 hover:-translate-y-2 transition-all duration-300"
+                style={{ background: '#1447d4' }}
               >
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-[2rem]" style={{ background: 'linear-gradient(135deg, #2563eb 0%, #4f46e5 60%, #7c3aed 100%)' }} />
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-[2rem]" style={{ background: 'radial-gradient(ellipse 80% 50% at 20% 20%, rgba(255,255,255,0.12) 0%, transparent 60%)' }} />
-                <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-blue-400/10 rounded-full blur-[60px] group-hover:opacity-0 transition-all duration-500" />
-                <div className="relative z-10 w-14 h-14 rounded-2xl bg-blue-50 border border-blue-100 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-white/20 group-hover:border-white/30 transition-all duration-300">
-                  <Target className="w-7 h-7 text-blue-600 group-hover:text-white transition-colors duration-300" />
+                <div className="absolute inset-0 rounded-[2rem]" style={{ background: 'radial-gradient(ellipse 80% 50% at 20% 20%, rgba(255,255,255,0.1) 0%, transparent 60%)' }} />
+                <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-white/5 rounded-full blur-[60px]" />
+                <div className="relative z-10 w-14 h-14 rounded-2xl bg-white/15 border border-white/25 flex items-center justify-center mb-6">
+                  <Target className="w-7 h-7 text-white" />
                 </div>
-                <div className="relative z-10 text-[11px] font-bold uppercase tracking-widest text-blue-500 mb-2 group-hover:text-blue-200 transition-colors duration-300">Vision</div>
-                <h3 className="relative z-10 text-[22px] font-bold font-figtree text-[#0f172a] leading-tight mb-3 group-hover:text-white transition-colors duration-300">Empowering Intelligent Experiences</h3>
-                <p className="relative z-10 text-base text-slate-500 leading-relaxed group-hover:text-blue-100 transition-colors duration-300">
+                <div className="relative z-10 text-[11px] font-bold uppercase tracking-widest text-white/75 mb-2">Vision</div>
+                <h3 className="relative z-10 text-[22px] font-bold font-figtree text-white leading-tight mb-3">Empowering Intelligent Experiences</h3>
+                <p className="relative z-10 text-base text-white/80 leading-relaxed">
                   To empower enterprises to deliver seamless, intelligent, and outcome-driven customer experiences across every channel.
                 </p>
               </motion.div>
@@ -237,18 +236,17 @@ export default function AboutPage() {
                 initial={{ opacity: 0, x: "100vw" }}
                 animate={cardsInView ? { opacity: 1, x: 0 } : { opacity: 0, x: "100vw" }}
                 transition={{ duration: 0.85, delay: 0.18, ease: [0.22, 1, 0.36, 1] }}
-                className="group rounded-[2rem] p-10 relative overflow-hidden cursor-default hover:border-blue-500/30 shadow-sm hover:shadow-2xl hover:shadow-blue-600/15 hover:-translate-y-2 transition-all duration-300 border border-slate-200"
-                style={{ background: 'linear-gradient(145deg, #dde6ff 0%, #d5dcff 50%, #ddd4ff 100%)' }}
+                className="rounded-[2rem] p-10 relative overflow-hidden cursor-default shadow-xl shadow-blue-900/15 hover:shadow-2xl hover:shadow-blue-900/20 hover:-translate-y-2 transition-all duration-300"
+                style={{ background: '#1447d4' }}
               >
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-[2rem]" style={{ background: 'linear-gradient(135deg, #2563eb 0%, #4f46e5 60%, #7c3aed 100%)' }} />
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-[2rem]" style={{ background: 'radial-gradient(ellipse 80% 50% at 20% 20%, rgba(255,255,255,0.12) 0%, transparent 60%)' }} />
-                <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-blue-300/10 rounded-full blur-[60px] group-hover:opacity-0 transition-all duration-500" />
-                <div className="relative z-10 w-14 h-14 rounded-2xl bg-blue-50 border border-blue-100 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-white/20 group-hover:border-white/30 transition-all duration-300">
-                  <Zap className="w-7 h-7 text-blue-600 group-hover:text-white transition-colors duration-300" />
+                <div className="absolute inset-0 rounded-[2rem]" style={{ background: 'radial-gradient(ellipse 80% 50% at 20% 20%, rgba(255,255,255,0.1) 0%, transparent 60%)' }} />
+                <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-white/5 rounded-full blur-[60px]" />
+                <div className="relative z-10 w-14 h-14 rounded-2xl bg-white/15 border border-white/25 flex items-center justify-center mb-6">
+                  <Zap className="w-7 h-7 text-white" />
                 </div>
-                <div className="relative z-10 text-[11px] font-bold uppercase tracking-widest text-blue-500 mb-2 group-hover:text-blue-200 transition-colors duration-300">Mission</div>
-                <h3 className="relative z-10 text-[22px] font-bold font-figtree text-[#0f172a] leading-tight mb-3 group-hover:text-white transition-colors duration-300">Replacing Fragmented CX Stacks</h3>
-                <p className="relative z-10 text-base text-slate-500 leading-relaxed group-hover:text-blue-100 transition-colors duration-300">
+                <div className="relative z-10 text-[11px] font-bold uppercase tracking-widest text-white/75 mb-2">Mission</div>
+                <h3 className="relative z-10 text-[22px] font-bold font-figtree text-white leading-tight mb-3">Replacing Fragmented CX Stacks</h3>
+                <p className="relative z-10 text-base text-white/80 leading-relaxed">
                   To replace fragmented CX stacks with a secure, AI-enabled omnichannel CXM platform that unifies engagement, operations, analytics, and integrations.
                 </p>
               </motion.div>
@@ -258,28 +256,28 @@ export default function AboutPage() {
       </section>
 
       {/* ── OUR STORY — TIMELINE ── */}
-      <section className="py-28 border-b border-slate-100 relative overflow-hidden" style={{ background: 'linear-gradient(160deg, #f0f4ff 0%, #fafbff 50%, #eef2ff 100%)' }}>
+      <section className="py-28 border-b border-slate-100 relative overflow-hidden" style={{ background: '#f8faff' }}>
         <div className="absolute inset-0 opacity-[0.02] pointer-events-none" style={{ backgroundImage: 'linear-gradient(#0f172a 1px, transparent 1px), linear-gradient(90deg, #0f172a 1px, transparent 1px)', backgroundSize: '48px 48px', maskImage: 'radial-gradient(ellipse 60% 60% at 50% 50%, black 60%, transparent 100%)' }} />
         <div className="container mx-auto px-6 max-w-5xl relative z-10">
           {/* Header */}
           <div className="text-center mb-20">
-            <motion.div initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="inline-flex items-center gap-2 bg-blue-50 border border-blue-200/60 rounded-full px-4 py-1.5 mb-6">
-              <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
-              <span className="text-[11px] font-bold uppercase tracking-widest text-blue-500">Our Story</span>
+            <motion.div initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="inline-flex items-center gap-2 bg-[#eef4ff] border border-[#1447d4]/20 rounded-full px-4 py-1.5 mb-6">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#1447d4] animate-pulse" />
+              <span className="text-[11px] font-bold uppercase tracking-widest text-[#1447d4]">Our Story</span>
             </motion.div>
             <motion.h2
               initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
               transition={{ delay: 0.1, duration: 0.5, ease }}
               className="text-3xl sm:text-4xl lg:text-[2.85rem] font-bold font-figtree tracking-[-0.025em] leading-[1.15]"
             >
-              <span className="text-[#0f172a]">The problem we</span><br /><span className="bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent">couldn&apos;t ignore.</span>
+              <span className="text-[#0f172a]">The problem we</span><br /><span className="text-[#1447d4]">couldn&apos;t ignore.</span>
             </motion.h2>
           </div>
 
           {/* Timeline */}
           <div className="relative">
             {/* Vertical center line */}
-            <div className="absolute left-1/2 -translate-x-px top-0 bottom-0 w-[2px] bg-gradient-to-b from-blue-400 via-blue-200 to-transparent hidden lg:block" />
+            <div className="absolute left-1/2 -translate-x-px top-0 bottom-0 w-[2px] bg-gradient-to-b from-[#1447d4] via-[#006fff] to-transparent hidden lg:block" />
 
             {storySteps.map((step, i) => {
               const isLeft = i % 2 === 0;
@@ -293,7 +291,7 @@ export default function AboutPage() {
                     transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
                     className="hidden lg:flex absolute left-1/2 -translate-x-1/2 top-8 z-10 w-12 h-12 rounded-full bg-white border-[3px] border-blue-400 items-center justify-center shadow-lg shadow-blue-500/20"
                   >
-                    <span className="text-[14px] font-extrabold text-[#2563eb] font-figtree">{step.num}</span>
+                    <span className="text-[14px] font-extrabold text-[#1447d4] font-figtree">{step.num}</span>
                   </motion.div>
 
                   {/* Left column */}
@@ -306,9 +304,9 @@ export default function AboutPage() {
                         transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
                         className="group bg-white rounded-2xl border border-slate-100 p-8 relative overflow-hidden hover:border-blue-500/25 hover:shadow-xl hover:shadow-blue-500/10 hover:-translate-y-1 transition-all duration-300"
                       >
-                        <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#2563eb] via-sky-400 to-transparent scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-500" />
-                        <span className="lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-full bg-blue-50 border-2 border-blue-400 text-[13px] font-extrabold text-[#2563eb] mb-4">{step.num}</span>
-                        <h4 className="text-[22px] font-bold font-figtree text-[#0f172a] leading-tight mb-3 group-hover:text-[#2563eb] transition-colors duration-300">{step.title}</h4>
+                        <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#1447d4] via-[#006fff] to-transparent scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-500" />
+                        <span className="lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-full bg-[#eef4ff] border-2 border-[#1447d4] text-[13px] font-extrabold text-[#1447d4] mb-4">{step.num}</span>
+                        <h4 className="text-[22px] font-bold font-figtree text-[#0f172a] leading-tight mb-3 group-hover:text-[#1447d4] transition-colors duration-300">{step.title}</h4>
                         <p className="text-base sm:text-lg text-slate-500 leading-relaxed">{step.desc}</p>
                       </motion.div>
                     ) : <div className="hidden lg:block" />}
@@ -324,9 +322,9 @@ export default function AboutPage() {
                         transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
                         className="group bg-white rounded-2xl border border-slate-100 p-8 relative overflow-hidden hover:border-blue-500/25 hover:shadow-xl hover:shadow-blue-500/10 hover:-translate-y-1 transition-all duration-300"
                       >
-                        <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-sky-400 to-[#2563eb] scale-x-0 origin-right group-hover:scale-x-100 transition-transform duration-500" />
-                        <span className="lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-full bg-blue-50 border-2 border-blue-400 text-[13px] font-extrabold text-[#2563eb] mb-4">{step.num}</span>
-                        <h4 className="text-[22px] font-bold font-figtree text-[#0f172a] leading-tight mb-3 group-hover:text-[#2563eb] transition-colors duration-300">{step.title}</h4>
+                        <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#006fff] to-[#1447d4] scale-x-0 origin-right group-hover:scale-x-100 transition-transform duration-500" />
+                        <span className="lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-full bg-[#eef4ff] border-2 border-[#1447d4] text-[13px] font-extrabold text-[#1447d4] mb-4">{step.num}</span>
+                        <h4 className="text-[22px] font-bold font-figtree text-[#0f172a] leading-tight mb-3 group-hover:text-[#1447d4] transition-colors duration-300">{step.title}</h4>
                         <p className="text-base sm:text-lg text-slate-500 leading-relaxed">{step.desc}</p>
                       </motion.div>
                     ) : <div className="hidden lg:block" />}
@@ -348,7 +346,7 @@ export default function AboutPage() {
             <div className="absolute -bottom-16 -left-16 w-48 h-48 bg-indigo-600/15 rounded-full blur-[60px]" />
             <div className="absolute inset-0 opacity-[0.04] pointer-events-none" style={{ backgroundImage: 'radial-gradient(rgba(255,255,255,0.8) 1px, transparent 1px)', backgroundSize: '20px 20px' }} />
             <div className="relative z-10 text-center">
-              <div className="text-[11px] font-bold uppercase tracking-widest text-blue-400 mb-5">Core Belief</div>
+              <div className="text-[11px] font-bold uppercase tracking-widest text-[#00e7ff] mb-5">Core Belief</div>
               <p className="text-2xl lg:text-3xl font-bold font-figtree text-white leading-snug max-w-3xl mx-auto">
                 &ldquo;Inaipi doesn&apos;t add AI to a contact centre. Inaipi is an AI platform that runs a contact centre.&rdquo;
               </p>
@@ -371,10 +369,10 @@ export default function AboutPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.06, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                  className="group/cap flex items-center gap-3 p-5 bg-white border border-slate-100 rounded-xl hover:border-blue-500/25 hover:bg-[#2563eb] hover:-translate-y-0.5 hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-300 cursor-default"
+                  className="flex items-center gap-3 p-5 bg-[#1447d4] border border-[#1447d4] rounded-xl hover:-translate-y-0.5 hover:shadow-lg hover:shadow-blue-900/20 transition-all duration-300 cursor-default"
                 >
-                  <span className="w-2 h-2 rounded-full bg-blue-400 shrink-0 group-hover/cap:bg-white transition-colors duration-300" />
-                  <p className="text-[14px] text-slate-500 font-bold group-hover/cap:text-white transition-colors duration-300">{cap}</p>
+                  <span className="w-2 h-2 rounded-full bg-white shrink-0" />
+                  <p className="text-[14px] text-white font-bold">{cap}</p>
                 </motion.div>
               ))}
             </div>
@@ -385,19 +383,19 @@ export default function AboutPage() {
       <Marquee />
 
       {/* ── TEAM ── */}
-      <section ref={teamRef} className="py-24 border-y border-slate-100 relative overflow-x-clip" style={{ background: 'linear-gradient(160deg, #f0f4ff 0%, #fafbff 50%, #f5f0ff 100%)' }}>
+      <section ref={teamRef} className="py-24 border-y border-slate-100 relative overflow-x-clip" style={{ background: '#f8faff' }}>
         <div className="container mx-auto px-6 max-w-6xl relative z-10">
 
           {/* Section label + heading — centered */}
           <motion.div initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="flex justify-center mb-6">
-            <div className="inline-flex items-center gap-2 bg-blue-50 border border-blue-200/60 rounded-full px-4 py-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
-              <span className="text-[11px] font-bold uppercase tracking-widest text-blue-500">Our Team</span>
+            <div className="inline-flex items-center gap-2 bg-[#eef4ff] border border-[#1447d4]/20 rounded-full px-4 py-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#1447d4] animate-pulse" />
+              <span className="text-[11px] font-bold uppercase tracking-widest text-[#1447d4]">Our Team</span>
             </div>
           </motion.div>
           <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1, duration: 0.4, ease }}
             className="text-3xl sm:text-4xl lg:text-[2.85rem] font-bold font-figtree tracking-[-0.025em] leading-[1.15] mb-5 text-center">
-            <span className="text-[#0f172a]">Expert-led.</span><br /><span className="bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent">Experience-driven.</span>
+            <span className="text-[#0f172a]">Expert-led.</span><br /><span className="text-[#1447d4]">Experience-driven.</span>
           </motion.h2>
           <motion.p initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.15, duration: 0.4 }}
             className="text-base sm:text-lg md:text-xl text-slate-500 max-w-[560px] leading-relaxed mb-12 text-center mx-auto">
@@ -506,7 +504,7 @@ export default function AboutPage() {
                   initial={{ opacity: 0, x: "100vw" }}
                   animate={teamInView ? { opacity: 1, x: 0 } : { opacity: 0, x: "100vw" }}
                   transition={{ duration: 0.85, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
-                  className="bg-blue-600 rounded-[2rem] p-8 flex flex-col justify-between min-h-[200px] hover:bg-blue-500 hover:shadow-2xl hover:shadow-blue-600/30 hover:-translate-y-1 transition-all duration-300"
+                  className="bg-[#1447d4] rounded-[2rem] p-8 flex flex-col justify-between min-h-[200px] hover:bg-[#0d3ab8] hover:shadow-2xl hover:shadow-blue-900/20 hover:-translate-y-1 transition-all duration-300"
                 >
                   <div className="text-[3.8rem] font-bold font-figtree text-white leading-none">6</div>
                   <div className="text-[14px] text-blue-100 font-bold leading-snug">Office Locations<br />Globally</div>
@@ -529,7 +527,7 @@ export default function AboutPage() {
           <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.3, duration: 0.4 }}
             className="flex flex-wrap gap-2 justify-center mt-10">
             {funcTags.map(tag => (
-              <span key={tag} className="px-4 py-1.5 bg-white border border-slate-200 rounded-full text-[13px] text-slate-500 font-bold hover:border-blue-400/40 hover:text-blue-600 hover:bg-blue-50/50 transition-all duration-200 cursor-default">{tag}</span>
+              <span key={tag} className="px-4 py-1.5 bg-white border border-slate-200 rounded-full text-[13px] text-slate-500 font-bold hover:border-blue-400/40 hover:text-[#1447d4] hover:bg-blue-50/50 transition-all duration-200 cursor-default">{tag}</span>
             ))}
           </motion.div>
         </div>
@@ -540,13 +538,13 @@ export default function AboutPage() {
         <div className="absolute inset-0 opacity-[0.015] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#0f172a 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
         <div className="container mx-auto px-6 max-w-6xl relative z-10">
           <div className="text-center mb-16">
-            <motion.div initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="inline-flex items-center gap-2 bg-blue-50 border border-blue-200/60 rounded-full px-4 py-1.5 mb-6">
-              <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
-              <span className="text-[11px] font-bold uppercase tracking-widest text-blue-500">Leadership</span>
+            <motion.div initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="inline-flex items-center gap-2 bg-[#eef4ff] border border-[#1447d4]/20 rounded-full px-4 py-1.5 mb-6">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#1447d4] animate-pulse" />
+              <span className="text-[11px] font-bold uppercase tracking-widest text-[#1447d4]">Leadership</span>
             </motion.div>
             <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1, duration: 0.4, ease }}
               className="text-3xl sm:text-4xl lg:text-[2.85rem] font-bold font-figtree tracking-[-0.025em] leading-[1.15] mb-5">
-              <span className="text-[#0f172a]">The team behind</span><br /><span className="bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent">the platform.</span>
+              <span className="text-[#0f172a]">The team behind</span><br /><span className="text-[#1447d4]">the platform.</span>
             </motion.h2>
             <motion.p initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.15, duration: 0.4 }}
               className="text-base sm:text-lg md:text-xl text-slate-500 max-w-[620px] mx-auto leading-relaxed">
@@ -554,8 +552,7 @@ export default function AboutPage() {
             </motion.p>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 [&>*:nth-child(5)]:lg:col-start-1 [&>*:nth-child(n+5)]:lg:col-span-1">
-            {/* First row: 4 cards */}
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
             {allLeaders.slice(0, 4).map((l, i) => (
               <motion.div key={l.name + '-top'}
                 initial={{ opacity: 0, x: i % 2 === 0 ? -100 : 100 }}
@@ -565,20 +562,26 @@ export default function AboutPage() {
                 className="group cursor-default"
               >
                 <div className="relative rounded-2xl overflow-hidden mb-4 aspect-[3/4] bg-slate-100">
-                  <Image src={l.img} alt={l.name} fill sizes="(max-width: 768px) 50vw, 25vw" className="object-cover transition-transform duration-500 group-hover:scale-105" />
+                  {l.img ? (
+                    <Image src={l.img} alt={l.name} fill sizes="(max-width: 768px) 50vw, 25vw" className="object-cover transition-transform duration-500 group-hover:scale-105" />
+                  ) : (
+                    <div className={`w-full h-full bg-gradient-to-br ${l.gradient} flex items-center justify-center`}>
+                      <span className="text-5xl font-bold font-figtree text-white/90">{l.initials}</span>
+                    </div>
+                  )}
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0f172a]/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  <a href="#" className="absolute bottom-4 right-4 w-9 h-9 rounded-full bg-white flex items-center justify-center text-[#2563eb] opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 hover:bg-[#2563eb] hover:text-white shadow-lg z-10">
+                  <a href="#" className="absolute bottom-4 right-4 w-9 h-9 rounded-full bg-white flex items-center justify-center text-[#1447d4] opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 hover:bg-[#1447d4] hover:text-white shadow-lg z-10">
                     <Linkedin className="w-4 h-4" />
                   </a>
                 </div>
-                <h4 className="text-[18px] font-bold font-figtree text-[#0f172a] leading-tight mb-1 group-hover:text-[#2563eb] transition-colors duration-300">{l.name}</h4>
+                <h4 className="text-[18px] font-bold font-figtree text-[#0f172a] leading-tight mb-1 group-hover:text-[#1447d4] transition-colors duration-300">{l.name}</h4>
                 <p className="text-[13px] text-slate-500 font-bold">{l.title}</p>
               </motion.div>
             ))}
           </div>
 
           {/* Second row: 3 cards — centered */}
-          <div className="grid sm:grid-cols-3 lg:grid-cols-3 gap-6 lg:w-3/4 lg:mx-auto mt-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:max-w-[75%] lg:mx-auto">
             {allLeaders.slice(4).map((l, i) => (
               <motion.div key={l.name}
                 initial={{ opacity: 0, x: i % 2 === 0 ? -100 : 100 }}
@@ -588,13 +591,19 @@ export default function AboutPage() {
                 className="group cursor-default"
               >
                 <div className="relative rounded-2xl overflow-hidden mb-4 aspect-[3/4] bg-slate-100">
-                  <Image src={l.img} alt={l.name} fill sizes="(max-width: 768px) 33vw, 25vw" className="object-cover transition-transform duration-500 group-hover:scale-105" />
+                  {l.img ? (
+                    <Image src={l.img} alt={l.name} fill sizes="(max-width: 768px) 50vw, 33vw" className="object-cover transition-transform duration-500 group-hover:scale-105" />
+                  ) : (
+                    <div className={`w-full h-full bg-gradient-to-br ${l.gradient} flex items-center justify-center`}>
+                      <span className="text-5xl font-bold font-figtree text-white/90">{l.initials}</span>
+                    </div>
+                  )}
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0f172a]/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  <a href="#" className="absolute bottom-4 right-4 w-9 h-9 rounded-full bg-white flex items-center justify-center text-[#2563eb] opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 hover:bg-[#2563eb] hover:text-white shadow-lg z-10">
+                  <a href="#" className="absolute bottom-4 right-4 w-9 h-9 rounded-full bg-white flex items-center justify-center text-[#1447d4] opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 hover:bg-[#1447d4] hover:text-white shadow-lg z-10">
                     <Linkedin className="w-4 h-4" />
                   </a>
                 </div>
-                <h4 className="text-[18px] font-bold font-figtree text-[#0f172a] leading-tight mb-1 group-hover:text-[#2563eb] transition-colors duration-300">{l.name}</h4>
+                <h4 className="text-[18px] font-bold font-figtree text-[#0f172a] leading-tight mb-1 group-hover:text-[#1447d4] transition-colors duration-300">{l.name}</h4>
                 <p className="text-[13px] text-slate-500 font-bold">{l.title}</p>
               </motion.div>
             ))}
@@ -609,14 +618,14 @@ export default function AboutPage() {
         <div className="container mx-auto px-6 max-w-7xl relative z-10">
           {/* Section label */}
           <div className="text-center mb-14">
-            <motion.div initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="inline-flex items-center gap-2 bg-blue-50 border border-blue-200/60 rounded-full px-4 py-1.5 mb-5">
-              <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
-              <span className="text-[11px] font-bold uppercase tracking-widest text-blue-500">Global Presence</span>
+            <motion.div initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="inline-flex items-center gap-2 bg-[#eef4ff] border border-[#1447d4]/20 rounded-full px-4 py-1.5 mb-5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#1447d4] animate-pulse" />
+              <span className="text-[11px] font-bold uppercase tracking-widest text-[#1447d4]">Global Presence</span>
             </motion.div>
             <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1, duration: 0.5 }}
               className="text-3xl sm:text-4xl lg:text-[2.85rem] font-bold font-figtree tracking-[-0.025em] leading-[1.15]">
               <span className="text-[#0f172a]">Serving clients </span>
-              <span className="bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent">across the globe.</span>
+              <span className="text-[#1447d4]">across the globe.</span>
             </motion.h2>
           </div>
 
@@ -637,10 +646,10 @@ export default function AboutPage() {
                   <span className="text-2xl shrink-0 mt-0.5">{o.flag}</span>
                   <div className="min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <span className="text-[14px] font-bold text-[#0f172a] group-hover:text-blue-600 transition-colors duration-200">{o.city}</span>
-                      <span className="text-[10px] font-black uppercase tracking-widest text-blue-500 bg-blue-50 border border-blue-100 px-2 py-0.5 rounded-full">{o.type}</span>
+                      <span className="text-[17px] font-bold text-[#0f172a] group-hover:text-[#1447d4] transition-colors duration-200">{o.city}</span>
+                      <span className="text-[10px] font-black uppercase tracking-widest text-white bg-[#1447d4] px-2.5 py-0.5 rounded-full">{o.type}</span>
                     </div>
-                    {o.addr && <p className="text-[11.5px] text-slate-400 leading-snug mt-0.5 truncate">{o.addr}</p>}
+                    {o.addr && <p className="text-[13px] text-slate-600 leading-snug mt-1">{o.addr}</p>}
                   </div>
                 </motion.div>
               ))}
@@ -654,7 +663,7 @@ export default function AboutPage() {
               transition={{ duration: 0.7 }}
               className="lg:w-[72%] rounded-[2.5rem] overflow-hidden shadow-2xl shadow-blue-900/10 shrink-0"
             >
-              <Image src="/global.jpeg" alt="Inaipi Global Presence" width={1920} height={960} className="w-full h-full object-cover" />
+              <Image src="/global.jpeg" alt="Inaipi Global Presence" width={1920} height={960} className="w-full h-auto object-contain" />
             </motion.div>
 
           </div>
@@ -666,13 +675,13 @@ export default function AboutPage() {
         <div className="absolute inset-0 opacity-[0.015] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#0f172a 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
         <div className="container mx-auto px-6 max-w-6xl relative z-10">
           <div className="text-center mb-14">
-            <motion.div initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="inline-flex items-center gap-2 bg-blue-50 border border-blue-200/60 rounded-full px-4 py-1.5 mb-6">
-              <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
-              <span className="text-[11px] font-bold uppercase tracking-widest text-blue-500">Trust & Security</span>
+            <motion.div initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="inline-flex items-center gap-2 bg-[#eef4ff] border border-[#1447d4]/20 rounded-full px-4 py-1.5 mb-6">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#1447d4] animate-pulse" />
+              <span className="text-[11px] font-bold uppercase tracking-widest text-[#1447d4]">Trust & Security</span>
             </motion.div>
             <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1, duration: 0.4, ease }}
               className="text-3xl sm:text-4xl lg:text-[2.85rem] font-bold font-figtree tracking-[-0.025em] leading-[1.15] mb-5">
-              <span className="text-[#0f172a]">Built on a foundation</span><br /><span className="bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent">of trust.</span>
+              <span className="text-[#0f172a]">Built on a foundation</span><br /><span className="text-[#1447d4]">of trust.</span>
             </motion.h2>
             <motion.p initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.15, duration: 0.4 }}
               className="text-base sm:text-lg md:text-xl text-slate-500 max-w-[620px] mx-auto leading-relaxed">
@@ -687,24 +696,23 @@ export default function AboutPage() {
                 whileInView={{ opacity: 1, x: 0, rotateY: 0 }}
                 viewport={{ once: true, amount: 0.1 }}
                 transition={{ delay: i * 0.1, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-                className="group p-7 border border-slate-200 shadow-sm rounded-[2rem] hover:border-blue-500/30 hover:shadow-2xl hover:shadow-blue-600/15 hover:-translate-y-2 transition-all duration-300 relative overflow-hidden"
-                style={{ background: 'linear-gradient(145deg, #dde6ff 0%, #d5dcff 50%, #ddd4ff 100%)' }}>
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-[2rem]" style={{ background: 'linear-gradient(135deg, #2563eb 0%, #4f46e5 60%, #7c3aed 100%)' }} />
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-[2rem]" style={{ background: 'radial-gradient(ellipse 80% 50% at 20% 20%, rgba(255,255,255,0.12) 0%, transparent 60%)' }} />
-                <div className="relative z-10 w-10 h-10 rounded-[11px] bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-400 mb-4 group-hover:bg-white/20 group-hover:border-white/30 group-hover:text-white transition-all duration-300">
+                className="p-7 rounded-[2rem] hover:shadow-2xl hover:shadow-blue-900/18 hover:-translate-y-2 transition-all duration-300 relative overflow-hidden"
+                style={{ background: '#1447d4' }}>
+                <div className="absolute inset-0 rounded-[2rem]" style={{ background: 'radial-gradient(ellipse 80% 50% at 20% 20%, rgba(255,255,255,0.1) 0%, transparent 60%)' }} />
+                <div className="relative z-10 w-10 h-10 rounded-[11px] bg-white/15 border border-white/25 flex items-center justify-center text-white mb-4">
                   <Icon className="w-5 h-5" />
                 </div>
-                <h4 className="relative z-10 text-[16px] font-bold font-figtree text-[#0f172a] mb-2 leading-tight group-hover:text-white transition-colors duration-300">{title}</h4>
-                <p className="relative z-10 text-[14px] text-slate-500 leading-relaxed group-hover:text-blue-100 transition-colors duration-300">{desc}</p>
+                <h4 className="relative z-10 text-[16px] font-bold font-figtree text-white mb-2 leading-tight">{title}</h4>
+                <p className="relative z-10 text-[14px] text-white/80 leading-relaxed">{desc}</p>
               </motion.div>
             ))}
           </div>
 
           <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.3, duration: 0.4 }}
             className="flex flex-wrap items-center justify-center gap-3">
-            {['ISO Certified', 'GDPR Compliant', 'ISO 27001', 'MENA Regulatory Ready'].map(badge => (
-              <span key={badge} className="flex items-center gap-2 px-5 py-2.5 bg-white border border-slate-200 rounded-full text-[12px] font-bold text-slate-500">
-                <Shield className="w-4 h-4 text-blue-400" />
+            {['ISO 27001:2022', 'GDPR Compliant', 'ISO 27001:2022 Certified', 'MENA Regulatory Ready'].map(badge => (
+              <span key={badge} className="flex items-center gap-2 px-5 py-2.5 bg-[#eef4ff] border border-[#1447d4]/20 rounded-full text-[12px] font-bold text-[#1447d4]">
+                <Shield className="w-4 h-4 text-[#1447d4]" />
                 {badge}
               </span>
             ))}

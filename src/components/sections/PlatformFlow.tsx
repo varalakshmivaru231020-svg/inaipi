@@ -247,7 +247,7 @@ function AgentDesktopMockup() {
                 </div>
               ))}
             </div>
-            <button className="flex items-center gap-1.5 bg-red-500 text-white rounded-xl px-4 py-1.5 font-black text-[9px]">
+            <button className="flex items-center gap-1.5 bg-[#0f172a] text-white rounded-xl px-4 py-1.5 font-black text-[9px]">
               <PhoneOff className="w-3 h-3" /> End Call
             </button>
             <div className="w-full rounded-xl border border-blue-200 bg-blue-50/60 p-2.5">
@@ -626,10 +626,10 @@ function StageCard({ stage, index, total }: { stage: typeof stages[0]; index: nu
 // ─────────────────────────────────────────────
 export default function PlatformFlow() {
   return (
-    <section className="relative overflow-hidden" style={{ background: 'linear-gradient(160deg, #f0f4ff 0%, #fafbff 40%, #f5f0ff 100%)' }}>
+    <section className="relative overflow-hidden" style={{ background: '#f8faff' }}>
       {/* Background orbs */}
       <div className="absolute pointer-events-none" style={{ width: '46vw', height: '46vw', top: '-200px', right: '-280px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(37,99,235,0.07) 0%, transparent 70%)', border: '1px solid rgba(37,99,235,0.05)' }} />
-      <div className="absolute pointer-events-none" style={{ width: '34vw', height: '34vw', bottom: '-160px', left: '-180px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(99,102,241,0.06) 0%, transparent 70%)' }} />
+      <div className="absolute pointer-events-none" style={{ width: '34vw', height: '34vw', bottom: '-160px', left: '-180px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(0,111,255,0.06) 0%, transparent 70%)' }} />
       <div className="absolute inset-0 opacity-[0.02] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#0f172a 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
       <div className="container mx-auto px-6 max-w-3xl text-center pt-24 pb-16">
         <motion.p
@@ -647,7 +647,7 @@ export default function PlatformFlow() {
           transition={{ delay: 0.1 }}
           className="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold font-figtree tracking-[-0.025em] leading-[1.15] mb-5"
         >
-          One platform powering the <span className="bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent">entire customer lifecycle.</span>
+          One platform powering the <span className="text-[#1447d4]">entire customer lifecycle.</span>
         </motion.h2>
         <motion.p
           initial={{ opacity: 0, y: 20 }}

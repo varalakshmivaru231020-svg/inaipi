@@ -19,7 +19,7 @@ function TypewriterWord({ word, delay, className }: { word: string; delay: numbe
       {displayed}
       {displayed.length < word.length && started && (
         <motion.span animate={{ opacity: [1, 0] }} transition={{ duration: 0.5, repeat: Infinity, repeatType: 'reverse' }}
-          className="inline-block w-[3px] h-[0.85em] bg-blue-500 ml-[2px] align-middle" />
+          className="inline-block w-[3px] h-[0.85em] bg-[#1447d4] ml-[2px] align-middle" />
       )}
     </span>
   );
@@ -64,14 +64,14 @@ function AICopilotChat() {
           transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
           className={`flex ${msg.role === 'customer' ? 'justify-end' : 'justify-start'}`}>
           <div className={`max-w-[88%] px-2.5 py-1.5 rounded-xl text-[9px] leading-snug font-medium whitespace-pre-line ${
-            msg.role === 'customer' ? 'bg-blue-600 text-white rounded-br-none' : 'bg-slate-100 text-slate-600 rounded-bl-none'
+            msg.role === 'customer' ? 'bg-[#1447d4] text-white rounded-br-none' : 'bg-slate-100 text-slate-600 rounded-bl-none'
           }`}>{msg.text}</div>
         </motion.div>
       ))}
       {typing && (
         <div className="flex justify-start">
           <div className="bg-slate-100 rounded-xl rounded-bl-none px-3 py-2 flex gap-1 items-center">
-            {[0,1,2].map(i => <motion.span key={i} animate={{ y: [0,-3,0] }} transition={{ duration: 0.5, repeat: Infinity, delay: i * 0.15 }} className="w-1 h-1 rounded-full bg-blue-400 block" />)}
+            {[0,1,2].map(i => <motion.span key={i} animate={{ y: [0,-3,0] }} transition={{ duration: 0.5, repeat: Infinity, delay: i * 0.15 }} className="w-1 h-1 rounded-full bg-[#1447d4] block" />)}
           </div>
         </div>
       )}
@@ -81,10 +81,10 @@ function AICopilotChat() {
 
 /* ── Live Call Card ── */
 const CALLS = [
-  { id: 1, text: 'My order #1224 is delayed',    channel: 'WhatsApp', avatar: '/images/people/person_1.png', name: 'Sarah K.', color: 'bg-green-500', delay: 1000 },
-  { id: 2, text: 'Billing issue on my account',  channel: 'Voice',    avatar: '/images/people/person_2.png',  name: 'Marco R.', color: 'bg-blue-500', delay: 3200 },
-  { id: 3, text: 'Need API integration help',    channel: 'Email',    avatar: '/images/people/person_3.png',    name: 'Alex L.',  color: 'bg-indigo-500', delay: 5400 },
-  { id: 4, text: 'Complaint about service delay', channel: 'Chat',   avatar: '/images/people/person_4.png',   name: 'Priya N.', color: 'bg-violet-500', delay: 7600 },
+  { id: 1, text: 'My order #1224 is delayed',    channel: 'WhatsApp', avatar: '/images/people/person_1.png', name: 'Sarah K.', color: 'bg-[#006fff]', delay: 1000 },
+  { id: 2, text: 'Billing issue on my account',  channel: 'Voice',    avatar: '/images/people/person_2.png',  name: 'Marco R.', color: 'bg-[#006fff]', delay: 3200 },
+  { id: 3, text: 'Need API integration help',    channel: 'Email',    avatar: '/images/people/person_3.png',    name: 'Alex L.',  color: 'bg-[#006fff]', delay: 5400 },
+  { id: 4, text: 'Complaint about service delay', channel: 'Chat',   avatar: '/images/people/person_4.png',   name: 'Priya N.', color: 'bg-[#00e7ff]', delay: 7600 },
 ];
 
 const CH_ICONS: Record<string, React.ElementType> = { Voice: Phone, WhatsApp: MessageSquare, Email: Mail, Chat: Globe };
@@ -130,32 +130,32 @@ const SlackIcon = () => (
 
 /* ── Data ── */
 const AGENTS = [
-  { name: 'Jonathan Evans',  dept: 'Sales',        ext: '2309', avatar: '/images/agents/agent_1.png',  color: 'bg-blue-500',   active: false },
-  { name: 'Fatima Al-Rashid',dept: 'Front Office', ext: '6014', avatar: '/images/agents/agent_2.png',  color: 'bg-indigo-500', active: true  },
-  { name: 'Adam Smith',      dept: 'Loan Ops',     ext: '7756', avatar: '/images/people/person_1.png', color: 'bg-blue-400',   active: false },
-  { name: 'Nancy',           dept: 'Sales',        ext: '2534', avatar: '/images/people/person_2.png', color: 'bg-violet-500', active: false },
-  { name: 'Ravi Kumar',      dept: 'Support',      ext: '3301', avatar: '/images/people/person_3.png', color: 'bg-blue-600',   active: false },
-  { name: 'Sara M.',         dept: 'Finance',      ext: '4420', avatar: '/images/people/person_4.png', color: 'bg-indigo-400', active: false },
-  { name: 'Marco Rossi',     dept: 'Tech Support', ext: '8821', avatar: '/images/people/person_2.png', color: 'bg-sky-500',    active: true  },
-  { name: 'Priya Nair',      dept: 'Success',      ext: '1205', avatar: '/images/people/person_3.png', color: 'bg-emerald-500', active: false },
-  { name: 'Zhang Wei',       dept: 'Operations',   ext: '4092', avatar: '/images/people/person_4.png', color: 'bg-amber-500',   active: false },
-  { name: 'Elena Petrova',   dept: 'Retention',    ext: '5501', avatar: '/images/people/person_1.png', color: 'bg-rose-500',    active: false },
+  { name: 'Jonathan Evans',  dept: 'Sales',        ext: '2309', avatar: '/images/agents/agent_1.png',  color: 'bg-[#1447d4]',  active: false },
+  { name: 'Fatima Al-Rashid',dept: 'Front Office', ext: '6014', avatar: '/images/agents/agent_2.png',  color: 'bg-[#006fff]', active: true  },
+  { name: 'Adam Smith',      dept: 'Loan Ops',     ext: '7756', avatar: '/images/people/person_1.png', color: 'bg-[#006fff]',  active: false },
+  { name: 'Nancy',           dept: 'Sales',        ext: '2534', avatar: '/images/people/person_2.png', color: 'bg-[#00e7ff]', active: false },
+  { name: 'Ravi Kumar',      dept: 'Support',      ext: '3301', avatar: '/images/people/person_3.png', color: 'bg-[#1447d4]',   active: false },
+  { name: 'Sara M.',         dept: 'Finance',      ext: '4420', avatar: '/images/people/person_4.png', color: 'bg-[#006fff]', active: false },
+  { name: 'Marco Rossi',     dept: 'Tech Support', ext: '8821', avatar: '/images/people/person_2.png', color: 'bg-[#006fff]',    active: true  },
+  { name: 'Priya Nair',      dept: 'Success',      ext: '1205', avatar: '/images/people/person_3.png', color: 'bg-[#006fff]', active: false },
+  { name: 'Zhang Wei',       dept: 'Operations',   ext: '4092', avatar: '/images/people/person_4.png', color: 'bg-[#1447d4]',  active: false },
+  { name: 'Elena Petrova',   dept: 'Retention',    ext: '5501', avatar: '/images/people/person_1.png', color: 'bg-[#00e7ff]',  active: false },
 ];
 
 const INTEGRATIONS = [
-  { name: 'Salesforce',      sub: 'CRM',          dot: 'bg-green-400',  icon: SalesforceIcon },
-  { name: 'Microsoft Teams', sub: 'Collaboration', dot: 'bg-green-400',  icon: TeamsIcon      },
-  { name: 'HubSpot',         sub: 'CRM',          dot: 'bg-yellow-400', icon: HubSpotIcon    },
-  { name: 'Zoom Phone',      sub: 'Telephony',     dot: 'bg-green-400',  icon: ZoomIcon       },
-  { name: 'Slack',           sub: 'Collaboration', dot: 'bg-green-400',  icon: SlackIcon  },
-  { name: 'Avaya',           sub: 'Telephony',     dot: 'bg-red-500',    icon: AvayaIcon  },
+  { name: 'Salesforce',      sub: 'CRM',          dot: 'bg-[#00e7ff]',  icon: SalesforceIcon },
+  { name: 'Microsoft Teams', sub: 'Collaboration', dot: 'bg-[#00e7ff]',  icon: TeamsIcon      },
+  { name: 'HubSpot',         sub: 'CRM',          dot: 'bg-[#006fff]',  icon: HubSpotIcon    },
+  { name: 'Zoom Phone',      sub: 'Telephony',     dot: 'bg-[#00e7ff]',  icon: ZoomIcon       },
+  { name: 'Slack',           sub: 'Collaboration', dot: 'bg-[#00e7ff]',  icon: SlackIcon      },
+  { name: 'Avaya',           sub: 'Telephony',     dot: 'bg-slate-400',  icon: AvayaIcon      },
 ];
 
 const CSAT_BARS = [
-  { label: 'Very Satisfied', pct: 68, color: 'bg-blue-500' },
-  { label: 'Satisfied',      pct: 22, color: 'bg-blue-300' },
+  { label: 'Very Satisfied', pct: 68, color: 'bg-[#1447d4]' },
+  { label: 'Satisfied',      pct: 22, color: 'bg-[#006fff]' },
   { label: 'Neutral',        pct: 7,  color: 'bg-slate-300' },
-  { label: 'Dissatisfied',   pct: 3,  color: 'bg-red-300'  },
+  { label: 'Dissatisfied',   pct: 3,  color: 'bg-slate-300' },
 ];
 
 const RECENT_REVIEWS = [
@@ -163,6 +163,8 @@ const RECENT_REVIEWS = [
   { name: 'Sara M.',  stars: 4, time: '5m', avatar: '/images/people/person_2.png' },
   { name: 'Ahmed K.', stars: 5, time: '9m', avatar: '/images/people/person_3.png' },
 ];
+
+const CAMPAIGN_HEADING = 'Resolve Every Customer Interaction.';
 
 
 
@@ -179,6 +181,10 @@ export default function Hero() {
   const [resolvedCount, setResolvedCount] = useState(0);
   const [csatScore,     setCsatScore    ] = useState(4.6);
   const callListRef = useRef<HTMLDivElement>(null);
+
+  const [displayedHeading, setDisplayedHeading] = useState('');
+  const [showSubheading, setShowSubheading]     = useState(false);
+  const [showButton, setShowButton]             = useState(false);
 
   /* incoming calls */
   useEffect(() => {
@@ -217,8 +223,37 @@ export default function Hero() {
     return () => clearInterval(id);
   }, []);
 
+  /* campaign heading animation loop */
+  useEffect(() => {
+    const timers: ReturnType<typeof setTimeout>[] = [];
+    let charInterval: ReturnType<typeof setInterval> | null = null;
+    let idx = 0;
+    const runLoop = () => {
+      if (charInterval) clearInterval(charInterval);
+      idx = 0;
+      setDisplayedHeading('');
+      setShowSubheading(false);
+      setShowButton(false);
+      timers.push(setTimeout(() => {
+        charInterval = setInterval(() => {
+          idx++;
+          setDisplayedHeading(CAMPAIGN_HEADING.slice(0, idx));
+          if (idx >= CAMPAIGN_HEADING.length) {
+            if (charInterval) clearInterval(charInterval);
+            charInterval = null;
+            timers.push(setTimeout(() => setShowSubheading(true), 700));
+            timers.push(setTimeout(() => setShowButton(true), 1400));
+            timers.push(setTimeout(runLoop, 5500));
+          }
+        }, 55);
+      }, 1800));
+    };
+    runLoop();
+    return () => { timers.forEach(clearTimeout); if (charInterval) clearInterval(charInterval); };
+  }, []);
+
   return (
-    <section ref={sectionRef} className="relative min-h-[100vh] pt-32 pb-0 flex flex-col items-center overflow-visible" style={{ background: 'linear-gradient(160deg, #f0f4ff 0%, #fafbff 40%, #f5f0ff 100%)' }}>
+    <section ref={sectionRef} className="relative min-h-[100vh] pt-32 pb-0 flex flex-col items-center overflow-visible" style={{ background: '#f8faff' }}>
 
       {/* ── Background ── */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
@@ -233,32 +268,32 @@ export default function Hero() {
         <div className="absolute inset-0" style={{ backgroundImage: `repeating-linear-gradient(0deg, rgba(37,99,235,0.04) 0px, rgba(37,99,235,0.04) 1px, transparent 1px, transparent 32px), repeating-linear-gradient(90deg, rgba(37,99,235,0.04) 0px, rgba(37,99,235,0.04) 1px, transparent 1px, transparent 32px)`, maskImage: 'radial-gradient(ellipse 100% 70% at 50% 0%, black 0%, transparent 100%)' }} />
 
         {/* Large center aurora blob */}
-        <motion.div className="absolute rounded-full" style={{ width: 1100, height: 1100, top: '-35%', left: '50%', x: '-50%', background: 'radial-gradient(circle, rgba(37,99,235,0.32) 0%, rgba(99,102,241,0.18) 40%, transparent 70%)', filter: 'blur(90px)' }} animate={{ scale: [1, 1.12, 1], opacity: [0.8, 1, 0.8] }} transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }} />
+        <motion.div className="absolute rounded-full" style={{ width: 1100, height: 1100, top: '-35%', left: '50%', x: '-50%', background: 'radial-gradient(circle, rgba(37,99,235,0.32) 0%, rgba(0,111,255,0.18) 40%, transparent 70%)', filter: 'blur(90px)' }} animate={{ scale: [1, 1.12, 1], opacity: [0.8, 1, 0.8] }} transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }} />
 
-        {/* Left indigo blob */}
-        <motion.div className="absolute rounded-full" style={{ width: 800, height: 800, top: '5%', left: '-20%', background: 'radial-gradient(circle, rgba(99,102,241,0.26) 0%, transparent 65%)', filter: 'blur(80px)' }} animate={{ x: [0, 60, 0], y: [0, 40, 0] }} transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }} />
+        {/* Left blue blob */}
+        <motion.div className="absolute rounded-full" style={{ width: 800, height: 800, top: '5%', left: '-20%', background: 'radial-gradient(circle, rgba(0,111,255,0.26) 0%, transparent 65%)', filter: 'blur(80px)' }} animate={{ x: [0, 60, 0], y: [0, 40, 0] }} transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }} />
 
-        {/* Right violet blob */}
-        <motion.div className="absolute rounded-full" style={{ width: 700, height: 700, top: '0%', right: '-15%', background: 'radial-gradient(circle, rgba(124,58,237,0.22) 0%, transparent 65%)', filter: 'blur(80px)' }} animate={{ x: [0, -60, 0], y: [0, 50, 0] }} transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut', delay: 2 }} />
+        {/* Right cyan blob */}
+        <motion.div className="absolute rounded-full" style={{ width: 700, height: 700, top: '0%', right: '-15%', background: 'radial-gradient(circle, rgba(0,231,255,0.22) 0%, transparent 65%)', filter: 'blur(80px)' }} animate={{ x: [0, -60, 0], y: [0, 50, 0] }} transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut', delay: 2 }} />
 
         {/* Small floating orbs */}
         <motion.div className="absolute w-3 h-3 rounded-full bg-blue-500/40" style={{ top: '18%', left: '12%', filter: 'blur(2px)' }} animate={{ y: [0, -18, 0], opacity: [0.4, 0.9, 0.4] }} transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }} />
-        <motion.div className="absolute w-2 h-2 rounded-full bg-indigo-400/50" style={{ top: '28%', right: '14%', filter: 'blur(1px)' }} animate={{ y: [0, -14, 0], opacity: [0.5, 1, 0.5] }} transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut', delay: 1 }} />
-        <motion.div className="absolute w-4 h-4 rounded-full bg-violet-400/30" style={{ top: '10%', left: '38%', filter: 'blur(3px)' }} animate={{ y: [0, -22, 0], opacity: [0.3, 0.8, 0.3] }} transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }} />
+        <motion.div className="absolute w-2 h-2 rounded-full bg-[#006fff]/50" style={{ top: '28%', right: '14%', filter: 'blur(1px)' }} animate={{ y: [0, -14, 0], opacity: [0.5, 1, 0.5] }} transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut', delay: 1 }} />
+        <motion.div className="absolute w-4 h-4 rounded-full bg-[#00e7ff]/30" style={{ top: '10%', left: '38%', filter: 'blur(3px)' }} animate={{ y: [0, -22, 0], opacity: [0.3, 0.8, 0.3] }} transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }} />
         <motion.div className="absolute w-2 h-2 rounded-full bg-blue-400/50" style={{ top: '35%', left: '22%', filter: 'blur(1px)' }} animate={{ y: [0, -12, 0], opacity: [0.4, 0.9, 0.4] }} transition={{ duration: 3.8, repeat: Infinity, ease: 'easeInOut', delay: 1.5 }} />
-        <motion.div className="absolute w-3 h-3 rounded-full bg-indigo-500/35" style={{ top: '20%', right: '28%', filter: 'blur(2px)' }} animate={{ y: [0, -16, 0], opacity: [0.35, 0.8, 0.35] }} transition={{ duration: 5.5, repeat: Infinity, ease: 'easeInOut', delay: 0.8 }} />
+        <motion.div className="absolute w-3 h-3 rounded-full bg-[#006fff]/35" style={{ top: '20%', right: '28%', filter: 'blur(2px)' }} animate={{ y: [0, -16, 0], opacity: [0.35, 0.8, 0.35] }} transition={{ duration: 5.5, repeat: Infinity, ease: 'easeInOut', delay: 0.8 }} />
 
         {/* Spotlight cone */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[800px]" style={{ background: 'conic-gradient(from 255deg at 50% 0%, transparent 15%, rgba(37,99,235,0.18) 30%, rgba(99,102,241,0.22) 50%, rgba(37,99,235,0.18) 70%, transparent 85%)', filter: 'blur(18px)' }} />
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[2px] h-[2px]" style={{ boxShadow: '0 0 180px 90px rgba(37,99,235,0.35), 0 0 280px 140px rgba(99,102,241,0.16)' }} />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[800px]" style={{ background: 'conic-gradient(from 255deg at 50% 0%, transparent 15%, rgba(37,99,235,0.18) 30%, rgba(0,111,255,0.22) 50%, rgba(37,99,235,0.18) 70%, transparent 85%)', filter: 'blur(18px)' }} />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[2px] h-[2px]" style={{ boxShadow: '0 0 180px 90px rgba(37,99,235,0.35), 0 0 280px 140px rgba(0,111,255,0.16)' }} />
 
         {/* Thin light beams */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-[40%]" style={{ background: 'linear-gradient(to bottom, rgba(99,102,241,0.6) 0%, transparent 100%)' }} />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-[40%]" style={{ background: 'linear-gradient(to bottom, rgba(0,111,255,0.6) 0%, transparent 100%)' }} />
         <div className="absolute top-0 left-[42%] w-px h-[30%]" style={{ background: 'linear-gradient(to bottom, rgba(37,99,235,0.35) 0%, transparent 100%)', transform: 'rotate(6deg)', transformOrigin: 'top' }} />
         <div className="absolute top-0 left-[58%] w-px h-[30%]" style={{ background: 'linear-gradient(to bottom, rgba(37,99,235,0.35) 0%, transparent 100%)', transform: 'rotate(-6deg)', transformOrigin: 'top' }} />
 
         {/* Bottom fade */}
-        <div className="absolute bottom-0 left-0 right-0 h-80" style={{ background: 'linear-gradient(to top, #f5f0ff 0%, transparent 100%)' }} />
+        <div className="absolute bottom-0 left-0 right-0 h-80" style={{ background: 'linear-gradient(to top, #e8f4ff 0%, transparent 100%)' }} />
       </div>
 
       {/* ── Hero Text ── */}
@@ -266,9 +301,8 @@ export default function Hero() {
 
         {/* Badge */}
         <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-          className="inline-flex items-center space-x-3 px-5 py-2 rounded-full border border-blue-100 bg-white shadow-sm mb-8">
-          <span className="flex h-1.5 w-1.5 rounded-full bg-blue-600 animate-pulse" />
-          <span className="text-[10px] font-black uppercase tracking-[0.35em] text-blue-600">The AI-Native CX Engine</span>
+          className="inline-flex items-center space-x-3 px-5 py-2 rounded-full border border-[#1447d4]/20 bg-white shadow-sm mb-8">
+          <span className="text-[10px] font-black uppercase tracking-[0.35em] text-[#1447d4]">The AI-Native CX Engine</span>
         </motion.div>
 
         {/* Headline */}
@@ -277,7 +311,7 @@ export default function Hero() {
             <motion.span initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }} className="inline-block mr-[0.25em]">
               Autonomous
             </motion.span>
-            <TypewriterWord word="Intelligence" delay={1.1} className="inline-block bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent pb-2 leading-none" />
+            <TypewriterWord word="Intelligence" delay={1.1} className="inline-block text-[#1447d4] pb-2 leading-none" />
           </div>
           <div className="block whitespace-nowrap">
             {['for', 'Every', 'Customer', 'Interaction'].map((word, i) => (
@@ -290,7 +324,7 @@ export default function Hero() {
 
         {/* Subtext */}
         <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.1, delay: 3.0, ease: [0.16, 1, 0.3, 1] }} className="mb-10 px-4">
-          <p className="text-base sm:text-lg md:text-xl text-slate-500 leading-relaxed font-normal max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg md:text-xl text-slate-500 leading-relaxed font-normal max-w-3xl mx-auto">
             Inaipi transforms the customer experience journey into a single intelligent ecosystem — unifying every touchpoint with precision and human-level empathy.
           </p>
         </motion.div>
@@ -310,7 +344,7 @@ export default function Hero() {
             <a
               href="#"
               aria-label="Get started free"
-              className="relative group overflow-hidden bg-[#2563eb] hover:bg-[#1d4ed8] text-white min-h-[44px] px-5 py-2.5 rounded-full font-black text-[11px] uppercase tracking-widest transition-all duration-200 flex items-center justify-center gap-2 shadow-md shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/40 whitespace-nowrap w-full sm:w-auto"
+              className="relative group overflow-hidden bg-[#1447d4] hover:bg-[#0d3ab8] text-white min-h-[44px] px-5 py-2.5 rounded-full font-black text-[11px] uppercase tracking-widest transition-all duration-200 flex items-center justify-center gap-2 shadow-md shadow-blue-700/25 hover:shadow-xl hover:shadow-blue-700/40 whitespace-nowrap w-full sm:w-auto"
             >
               {/* Shimmer fires on hover */}
               <span className="absolute inset-0 -skew-x-12 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover:translate-x-[200%] transition-transform duration-500 ease-in-out pointer-events-none" />
@@ -337,7 +371,7 @@ export default function Hero() {
             <a
               href="#"
               aria-label="Watch product demo"
-              className="relative group text-[11px] font-black text-[#0f172a] hover:text-[#2563eb] hover:border-[#2563eb] hover:shadow-md hover:shadow-blue-500/15 transition-all duration-200 uppercase tracking-[0.15em] flex items-center justify-center gap-2 border-2 border-[#0f172a]/40 min-h-[44px] px-5 py-2.5 rounded-full whitespace-nowrap w-full sm:w-auto"
+              className="relative group text-[11px] font-black text-[#0f172a] hover:text-[#1447d4] hover:border-[#1447d4] hover:shadow-md hover:shadow-blue-700/15 transition-all duration-200 uppercase tracking-[0.15em] flex items-center justify-center gap-2 border-2 border-[#0f172a]/40 min-h-[44px] px-5 py-2.5 rounded-full whitespace-nowrap w-full sm:w-auto"
             >
               Watch Demo
               <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform duration-200" />
@@ -359,89 +393,84 @@ export default function Hero() {
         {/* 3-panel container — flex so center is truly centered */}
         <div className="flex items-start justify-center gap-0" style={{ minHeight: '640px' }}>
 
-          {/* ══ LEFT — two separate cards ══ */}
-          <div className="flex flex-col gap-3 w-60 shrink-0 self-center z-20 -mr-5">
-
-            {/* Card 1 — AI Copilot */}
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className="rounded-2xl border border-blue-100/60 flex flex-col overflow-hidden"
-              style={{ height: '280px', background: 'linear-gradient(160deg, #ffffff 0%, #f0f5ff 100%)', boxShadow: '0 20px 60px -10px rgba(37,99,235,0.20), 0 4px 20px -2px rgba(99,102,241,0.10)' }}
-            >
-              <div className="flex items-center gap-2 px-3 py-2 border-b border-blue-100/60 shrink-0">
-                <motion.div animate={{ scale: [1, 1.1, 1] }} transition={{ duration: 2, repeat: Infinity }}
-                  className="w-5 h-5 rounded-lg bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center shrink-0 overflow-hidden">
-                  <img src="/images/agents/agent_1.png" alt="AI Agent" className="w-full h-full object-cover" />
-                </motion.div>
-                <p className="text-[9px] font-black uppercase tracking-widest text-blue-600">AI Copilot</p>
-                <span className="ml-auto text-[8px] font-black text-blue-500 bg-blue-50 px-1.5 py-0.5 rounded-full">AI Powered</span>
+          {/* ══ LEFT — AI Campaign Panel ══ */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            className="flex flex-col w-64 shrink-0 self-center z-20 -mr-5 rounded-2xl overflow-hidden"
+            style={{ height: '560px', background: 'rgba(255,255,255,0.97)', boxShadow: '0 20px 60px -10px rgba(37,99,235,0.20), 0 4px 20px -2px rgba(0,111,255,0.10)', border: '1px solid rgba(219,234,254,0.8)' }}
+          >
+            <div className="flex items-center justify-between px-4 py-3 border-b border-slate-100 shrink-0">
+              <span className="text-[13px] font-black text-[#0f172a]">Hero</span>
+              <div className="w-6 h-6 rounded-full border border-slate-200 flex items-center justify-center cursor-pointer">
+                <svg className="w-3 h-3 text-slate-400" viewBox="0 0 24 24" fill="currentColor">
+                  <circle cx="5" cy="12" r="1.5" /><circle cx="12" cy="12" r="1.5" /><circle cx="19" cy="12" r="1.5" />
+                </svg>
               </div>
-              <div className="flex flex-col px-3 pt-2 pb-2 gap-1.5 flex-1 overflow-hidden">
-                <AICopilotChat />
-                <div className="flex items-center gap-2 bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 shrink-0">
-                  <span className="text-[10px] text-slate-300 flex-1">Ask anything...</span>
-                  <motion.div whileHover={{ scale: 1.1 }} className="w-5 h-5 rounded-lg bg-blue-600 flex items-center justify-center shrink-0 cursor-pointer">
-                    <svg className="w-2.5 h-2.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 12h14M12 5l7 7-7 7" /></svg>
-                  </motion.div>
-                </div>
+            </div>
+            <div className="px-3.5 pt-3 shrink-0">
+              <div className="flex items-center gap-2 bg-blue-50/70 rounded-xl px-2.5 py-2 border border-blue-100 mb-2.5">
+                <div className="w-5 h-5 rounded-full shrink-0" style={{ background: 'conic-gradient(from 180deg, #1447d4 0%, #006fff 40%, #00e7ff 70%, #1447d4 100%)' }} />
+                <span className="text-[9px] font-black text-[#1447d4] flex-1 truncate">Personalize Campaign</span>
+                <svg className="w-3 h-3 text-slate-400 cursor-pointer shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12"/></svg>
               </div>
-            </motion.div>
-
-            {/* Card 2 — Incoming Call */}
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
-              className="rounded-2xl border border-green-200/80 overflow-hidden shrink-0"
-              style={{ background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)', boxShadow: '0 12px 40px -8px rgba(34,197,94,0.18), 0 2px 12px -2px rgba(34,197,94,0.10)' }}
-            >
-              <div className="flex items-center gap-2 px-3 py-2 border-b border-green-100">
-                <PhoneIncoming className="w-3 h-3 text-green-600" />
-                <span className="text-[8px] font-black uppercase tracking-widest text-green-700">Incoming Call</span>
-                <motion.span animate={{ opacity: [1, 0.3, 1] }} transition={{ duration: 1, repeat: Infinity }}
-                  className="ml-auto text-[7px] font-black text-green-600 bg-green-100 px-1.5 py-0.5 rounded-full">Ringing...</motion.span>
+              <p className="text-[8.5px] text-slate-500 leading-relaxed mb-2.5">We can help create variations to personalize your customer engagement campaigns.</p>
+              <div className="w-full bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-2 mb-2 text-[8.5px] text-slate-400 leading-relaxed overflow-hidden" style={{ height: '58px' }}>
+                Unique messaging promoting a personal and realistic goal our users can be proud of.
               </div>
-              <div className="flex items-center gap-3 px-3 py-2.5">
-                <div className="relative shrink-0">
-                  <motion.div animate={{ scale: [1, 1.4, 1], opacity: [0.4, 0, 0.4] }} transition={{ duration: 1.2, repeat: Infinity }}
-                    className="absolute inset-0 rounded-full bg-green-400" />
-                  <div className="w-8 h-8 rounded-full overflow-hidden border-2 border-green-300 relative z-10">
-                    <img src="/images/people/person_1.png" alt="Caller" className="w-full h-full object-cover" />
+              <button className="w-full text-[10px] font-black text-white rounded-xl py-2 mb-3" style={{ background: '#1447d4' }}>
+                Generate
+              </button>
+            </div>
+            <div className="h-px bg-slate-100 mx-3.5 mb-3 shrink-0" />
+            <div className="px-3.5 flex-1 min-h-0 overflow-hidden flex flex-col">
+              <div className="flex items-center justify-between mb-2.5 shrink-0">
+                <span className="text-[10px] font-black text-[#0f172a]">1. Row</span>
+                <svg className="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7"/></svg>
+              </div>
+              <p className="text-[9px] font-bold text-slate-600 mb-1.5 shrink-0">Heading</p>
+              <div className="bg-white border border-slate-200 rounded-xl px-2.5 py-2 mb-3 min-h-[32px] flex items-center shrink-0">
+                <span className="text-[8.5px] text-[#0f172a] font-bold leading-snug">{displayedHeading}</span>
+                {displayedHeading.length > 0 && displayedHeading.length < CAMPAIGN_HEADING.length && (
+                  <motion.span animate={{ opacity: [1, 0] }} transition={{ duration: 0.5, repeat: Infinity, repeatType: 'reverse' }}
+                    className="inline-block w-[2px] h-2.5 bg-blue-500 ml-[1px] shrink-0" />
+                )}
+              </div>
+              <p className="text-[9px] font-bold text-slate-600 mb-2 shrink-0">Feature Image</p>
+              <div className="flex gap-2 min-h-0" style={{ flex: '1 1 0' }}>
+                <div className="flex-1 rounded-xl overflow-hidden border border-slate-200 bg-gradient-to-b from-blue-50/50 to-slate-50 flex flex-col min-h-0">
+                  <div className="flex-1 min-h-0 bg-gradient-to-br from-slate-100 to-blue-50/60" />
+                  <div className="flex items-center gap-1 px-2 py-1.5 shrink-0">
+                    <svg className="w-2 h-2 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" strokeWidth={2}/></svg>
+                    <span className="text-[6px] text-slate-400 font-bold truncate">Campaign_01.png</span>
                   </div>
                 </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-[10px] font-black text-slate-700">Sarah K.</p>
-                </div>
-                <div className="flex gap-1.5 shrink-0">
-                  <motion.div animate={{ rotate: [0, 15, -15, 0] }} transition={{ duration: 0.5, repeat: Infinity, repeatDelay: 0.8 }}
-                    className="w-7 h-7 rounded-full bg-green-500 flex items-center justify-center cursor-pointer">
-                    <Phone className="w-3 h-3 text-white" />
-                  </motion.div>
-                  <div className="w-7 h-7 rounded-full bg-red-400 flex items-center justify-center cursor-pointer">
-                    <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg>
-                  </div>
-                </div>
+                <AnimatePresence>
+                  {showSubheading && (
+                    <motion.div initial={{ opacity: 0, scale: 0.95, x: 8 }} animate={{ opacity: 1, scale: 1, x: 0 }}
+                      className="flex-1 rounded-xl overflow-hidden border border-blue-200 bg-gradient-to-b from-blue-50 to-cyan-50/50 flex flex-col min-h-0">
+                      <div className="flex-1 min-h-0 bg-gradient-to-br from-blue-100/50 to-cyan-50/30" />
+                      <div className="flex items-center gap-1 px-2 py-1.5 shrink-0">
+                        <svg className="w-2 h-2 text-blue-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" strokeWidth={2}/></svg>
+                        <span className="text-[6px] text-blue-500 font-bold truncate">Campaign_02.png</span>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
-            </motion.div>
+            </div>
+          </motion.div>
 
-          </div>
-
-          {/* ══ CENTER card ══ */}
+          {/* ══ CENTER — Website Preview ══ */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
             className="rounded-2xl bg-white border border-slate-200/80 z-10 flex flex-col overflow-hidden shrink-0"
-            style={{
-              width: '840px',
-              height: '600px',
-              boxShadow: '0 32px 80px -20px rgba(37,99,235,0.18), 0 8px 32px -4px rgba(0,0,0,0.08)',
-            }}
+            style={{ width: '840px', height: '600px', boxShadow: '0 32px 80px -20px rgba(37,99,235,0.18), 0 8px 32px -4px rgba(0,0,0,0.08)' }}
           >
-            {/* Center top bar */}
-            <div className="flex items-center px-5 py-3 shrink-0" style={{ background: 'linear-gradient(135deg, #4f46e5 0%, #6366f1 60%, #7c3aed 100%)' }}>
+            <div className="flex items-center px-5 py-3 shrink-0" style={{ background: '#1447d4' }}>
               <div className="flex items-center gap-3">
                 <span className="relative flex h-2 w-2">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75" />
@@ -449,245 +478,189 @@ export default function Hero() {
                 </span>
                 <span className="text-[10px] font-black uppercase tracking-[0.3em] text-white/80">Inaipi Platform — Live</span>
               </div>
-            </div>
-
-            {/* Center content header */}
-            <div className="px-5 pt-3.5 pb-3 border-b border-slate-100 shrink-0">
-              <div className="flex items-center justify-between mb-3">
-                <div>
-                  <p className="text-xs font-black text-[#0f172a]">Interaction Monitoring Center</p>
-                  <p className="text-[9px] text-slate-400 mt-0.5">Real-time omnichannel agent monitoring and operations</p>
-                </div>
-                <span className="text-[9px] font-black text-green-600 bg-green-50 border border-green-100 px-2 py-0.5 rounded-full flex items-center gap-1">
-                  <span className="w-1 h-1 rounded-full bg-green-500 inline-block animate-pulse" />All Systems Operational
-                </span>
-              </div>
-              {/* Live stats */}
-              <div className="grid grid-cols-5 gap-2">
-                {[
-                  { label: 'Active Agents', value: '2/16',                                    bg: 'bg-blue-50',   border: 'border-blue-100',   text: 'text-blue-700'  },
-                  { label: 'Interactions',  value: (48247 + resolvedCount).toLocaleString(),    bg: 'bg-indigo-50', border: 'border-indigo-100', text: 'text-indigo-700'},
-                  { label: 'Queue',         value: '0',                                         bg: 'bg-green-50',  border: 'border-green-100',  text: 'text-green-700' },
-                  { label: 'Satisfaction',  value: `${csatScore.toFixed(1)}/5.0`,               bg: 'bg-violet-50', border: 'border-violet-100', text: 'text-violet-700'},
-                  { label: 'Completion',    value: '90%',                                       bg: 'bg-sky-50',    border: 'border-sky-100',    text: 'text-sky-700'   },
-                ].map((s, i) => (
-                  <div key={i} className={`text-center rounded-xl border px-2 py-2 ${s.bg} ${s.border}`}>
-                    <motion.p key={s.value} initial={{ y: -4, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className={`text-sm font-black ${s.text}`}>{s.value}</motion.p>
-                    <p className="text-[8px] text-slate-500 leading-tight mt-0.5">{s.label}</p>
-                  </div>
-                ))}
+              <div className="ml-auto flex items-center gap-2">
+                <span className="text-[8px] font-bold text-white/60">AI Campaign Studio</span>
+                <span className="w-1.5 h-1.5 rounded-full bg-[#00e7ff] animate-pulse" />
               </div>
             </div>
-
-            {/* Agent cards grid */}
-            <div className="flex-1 p-3 grid grid-cols-2 gap-2 content-start overflow-hidden">
-              {AGENTS.map((agent, i) => {
-                const palette = [
-                  { bg: 'bg-blue-50',   border: 'border-blue-100',   activeBorder: 'rgba(37,99,235,0.55)'  },
-                  { bg: 'bg-indigo-50', border: 'border-indigo-100', activeBorder: 'rgba(99,102,241,0.55)' },
-                  { bg: 'bg-green-50',  border: 'border-green-100',  activeBorder: 'rgba(34,197,94,0.55)'  },
-                  { bg: 'bg-violet-50', border: 'border-violet-100', activeBorder: 'rgba(139,92,246,0.55)' },
-                  { bg: 'bg-sky-50',    border: 'border-sky-100',    activeBorder: 'rgba(14,165,233,0.55)' },
-                  { bg: 'bg-rose-50',   border: 'border-rose-100',   activeBorder: 'rgba(244,63,94,0.55)'  },
-                ][i % 6];
-                return (
-                  <motion.div key={i}
-                    animate={agent.active ? { borderColor: [palette.activeBorder.replace('0.55','0.15'), palette.activeBorder, palette.activeBorder.replace('0.55','0.15')] } : {}}
-                    transition={{ duration: 2, repeat: Infinity }}
-                    className={`p-2 rounded-xl border flex items-center gap-2 ${palette.bg} ${palette.border}`}>
-                    <div className="w-6 h-6 rounded-lg overflow-hidden shrink-0">
-                      <img src={agent.avatar} alt={agent.name} className="w-full h-full object-cover" />
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <p className="text-[9px] font-bold text-[#0f172a] truncate">{agent.name}</p>
-                      <div className="flex items-center gap-1">
-                        <PhoneCall className="w-2 h-2 text-slate-400 shrink-0" />
-                        <span className="text-[8px] text-slate-400">Ext: {agent.ext}</span>
-                      </div>
-                    </div>
-                    {agent.active ? (
-                      <div className="flex items-center gap-1 shrink-0">
-                        <motion.div className="flex items-end gap-[2px] h-3">
-                          {[1,2,3].map(b => (
-                            <motion.div key={b} className="w-[2px] bg-blue-500 rounded-full" animate={{ height: ['30%','100%','30%'] }} transition={{ duration: 0.8, repeat: Infinity, delay: b * 0.15 }} style={{ minHeight: 2 }} />
-                          ))}
-                        </motion.div>
-                        <span className="text-[7px] font-black text-blue-600 bg-blue-100 px-1 py-0.5 rounded-full">LIVE</span>
-                      </div>
-                    ) : (
-                      <span className="text-[7px] text-slate-300 font-bold shrink-0">idle</span>
-                    )}
-                  </motion.div>
-                );
-              })}
-            </div>
-
-            {/* AI Activity Central Section */}
-            <div className="px-5 mb-4 shrink-0">
-              <div className="max-w-[480px] mx-auto rounded-2xl border border-blue-100 overflow-hidden shadow-sm" style={{ background: 'linear-gradient(135deg, #f0f7ff 0%, #ffffff 100%)' }}>
-                <div className="flex items-center justify-center gap-2 py-1.5 border-b border-blue-100/40 bg-blue-50/20">
-                  <Brain className="w-3 h-3 text-blue-600" />
-                  <span className="text-[8px] font-black uppercase tracking-[0.2em] text-blue-700">AI Activity Insights</span>
-                  <div className="flex items-center gap-1.5 ml-2">
-                    <span className="w-1 h-1 rounded-full bg-green-500 animate-pulse" />
-                    <span className="text-[7px] font-bold text-green-600">LIVE</span>
+            <div className="flex-1 flex flex-col overflow-hidden relative" style={{ background: '#f8faff' }}>
+              <div className="flex items-center justify-between px-6 py-3 bg-white/90 border-b border-white/80 shrink-0">
+                <div className="flex items-center gap-2">
+                  <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-[#1447d4] to-[#006fff] flex items-center justify-center shrink-0">
+                    <span className="text-[7px] font-black text-white">IN</span>
                   </div>
+                  <span className="text-[12px] font-black text-[#0f172a] tracking-[-0.02em]">INAIPI</span>
                 </div>
-                <div className="grid grid-cols-3 divide-x divide-blue-50 py-2.5">
-                  {[
-                    { icon: Brain, label: 'AI Resolved',  value: (resolvedCount + 142).toString(), color: 'text-blue-600'  },
-                    { icon: Zap,   label: 'Avg Handle',   value: '1m 24s',                         color: 'text-indigo-600'},
-                    { icon: Star,  label: 'AI CSAT',      value: `${csatScore.toFixed(1)}★`,        color: 'text-violet-600'},
-                  ].map((item, i) => (
-                    <div key={i} className="flex flex-col items-center gap-0.5 px-1">
-                      <motion.span key={item.value} initial={{ y: -3, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className={`text-[11px] font-black leading-none ${item.color}`}>{item.value}</motion.span>
-                      <span className="text-[7px] text-slate-400 font-bold uppercase tracking-tight">{item.label}</span>
-                    </div>
+                <div className="flex items-center gap-5">
+                  {['Platform', 'Solutions', 'Pricing'].map(item => (
+                    <span key={item} className="text-[9px] font-bold text-slate-500">{item}</span>
                   ))}
                 </div>
-              </div>
-            </div>
-
-            {/* Pipeline bar */}
-            <div className="border-t border-slate-100 px-5 py-3 flex items-center gap-1 shrink-0">
-              {[
-                { label: 'Receive', color: 'bg-blue-500' },
-                { label: 'Route',   color: 'bg-blue-500' },
-                { label: 'Resolve', color: 'bg-blue-600' },
-                { label: 'Engage',  color: 'bg-blue-400' },
-              ].map((step, i) => (
-                <div key={i} className="flex items-center flex-1">
-                  <div className="flex flex-col items-center gap-1 flex-1">
-                    <motion.div
-                      animate={{ scale: pulseStage === i ? [1, 1.3, 1] : 1, boxShadow: pulseStage === i ? ['0 0 0 0 rgba(37,99,235,0)', '0 0 0 6px rgba(37,99,235,0.2)', '0 0 0 0 rgba(37,99,235,0)'] : '0 0 0 0 transparent' }}
-                      transition={{ duration: 0.6 }}
-                      className={`w-5 h-5 rounded-full ${step.color} flex items-center justify-center`}>
-                      <span className="w-2 h-2 rounded-full bg-white/80" />
-                    </motion.div>
-                    <span className="text-[8px] font-black uppercase tracking-wider text-slate-400">{step.label}</span>
-                  </div>
-                  {i < 3 && (
-                    <div className="relative h-[2px] flex-1 bg-slate-100 mx-1 rounded-full overflow-hidden">
-                      {pulseStage === i && (
-                        <motion.div className={`absolute top-1/2 -translate-y-1/2 w-2 h-2 rounded-full ${step.color}`} initial={{ left: '0%' }} animate={{ left: '100%' }} transition={{ duration: 0.8, ease: 'easeInOut' }} />
-                      )}
-                    </div>
-                  )}
+                <div className="px-3 py-1.5 rounded-full border border-[#1447d4] cursor-pointer">
+                  <span className="text-[8px] font-black text-[#1447d4]">Log in</span>
                 </div>
-              ))}
+              </div>
+              <div className="flex-1 flex overflow-hidden relative px-6 pt-5 pb-3">
+                <div className="flex-1 flex flex-col relative z-10 mr-4">
+                  <div className="mb-0.5">
+                    <span className="text-[8px] font-black text-white bg-[#1447d4] px-2 py-0.5 rounded-sm inline-block">Heading</span>
+                  </div>
+                  <div className="relative p-4 mb-3" style={{ border: '1.5px solid #1447d4', borderRadius: '4px', minHeight: '110px', background: 'rgba(20,71,212,0.015)' }}>
+                    {displayedHeading ? (
+                      <h2 className="text-[28px] font-black text-[#0f172a] leading-tight tracking-tight font-figtree">
+                        {displayedHeading}
+                        {displayedHeading.length < CAMPAIGN_HEADING.length && (
+                          <motion.span animate={{ opacity: [1, 0] }} transition={{ duration: 0.5, repeat: Infinity, repeatType: 'reverse' }}
+                            className="inline-block w-[3px] h-6 bg-[#1447d4] ml-1 align-middle" />
+                        )}
+                      </h2>
+                    ) : (
+                      <div className="space-y-2">
+                        <div className="h-6 w-3/4 bg-slate-100 rounded animate-pulse" />
+                        <div className="h-6 w-1/2 bg-slate-100 rounded animate-pulse" />
+                      </div>
+                    )}
+                  </div>
+                  <AnimatePresence>
+                    {showSubheading && (
+                      <motion.p initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                        className="text-[13px] text-slate-500 mb-4 font-medium leading-relaxed">
+                        One platform. Zero silos. Every interaction resolved.
+                      </motion.p>
+                    )}
+                  </AnimatePresence>
+                  <AnimatePresence>
+                    {showButton && (
+                      <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}>
+                        <button className="px-5 py-2 rounded-full text-[11px] font-black text-white" style={{ background: '#1447d4' }}>
+                          Get Started
+                        </button>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+                <div className="w-[45%] shrink-0 rounded-2xl overflow-hidden relative" style={{ background: '#dbeafe' }}>
+                  <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle, rgba(20,71,212,0.08) 1px, transparent 1px)', backgroundSize: '20px 20px' }} />
+                  <motion.div animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.5, 0.3] }} transition={{ duration: 4, repeat: Infinity }}
+                    className="absolute top-8 right-8 w-24 h-24 rounded-full" style={{ background: 'radial-gradient(circle, rgba(0,111,255,0.2) 0%, transparent 70%)', filter: 'blur(12px)' }} />
+                  <motion.div animate={{ scale: [1, 1.15, 1], opacity: [0.2, 0.4, 0.2] }} transition={{ duration: 5, repeat: Infinity, delay: 1 }}
+                    className="absolute bottom-8 left-8 w-20 h-20 rounded-full" style={{ background: 'radial-gradient(circle, rgba(0,231,255,0.25) 0%, transparent 70%)', filter: 'blur(10px)' }} />
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-3 opacity-50">
+                    <div className="w-16 h-16 rounded-2xl bg-white/60 border border-blue-100 flex items-center justify-center shadow-sm">
+                      <svg className="w-8 h-8 text-[#006fff]/50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                    </div>
+                    <div className="flex gap-2">
+                      <div className="w-10 h-10 rounded-xl bg-white/50 border border-blue-100" />
+                      <div className="w-10 h-10 rounded-xl bg-[#006fff]/10 border border-blue-200" />
+                      <div className="w-10 h-10 rounded-xl bg-[#00e7ff]/10 border border-cyan-200" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="border-t border-white/80 px-6 py-2.5 flex items-center gap-5 bg-white/80 shrink-0">
+                {[
+                  { label: 'AI Resolved',      value: (48247 + resolvedCount).toLocaleString(), color: 'text-[#1447d4]' },
+                  { label: 'Avg Handle',        value: '1m 24s',                                 color: 'text-[#006fff]'  },
+                  { label: 'CSAT Score',         value: `${csatScore.toFixed(1)}★`,         color: 'text-[#006fff]'  },
+                  { label: 'Campaigns Active',  value: '12',                                     color: 'text-[#1447d4]'  },
+                ].map((s, i) => (
+                  <div key={i} className="flex items-baseline gap-1.5">
+                    <motion.span key={s.value} initial={{ y: -3, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className={`text-[12px] font-black ${s.color}`}>{s.value}</motion.span>
+                    <span className="text-[7.5px] text-slate-400 font-bold">{s.label}</span>
+                  </div>
+                ))}
+                <div className="ml-auto flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#00e7ff] animate-pulse" />
+                  <span className="text-[7.5px] font-bold text-[#00e7ff]">All Systems Operational</span>
+                </div>
+              </div>
             </div>
           </motion.div>
 
-          {/* ══ RIGHT — two stacked cards ══ */}
+          {/* ══ RIGHT — Workflow Panel ══ */}
           <div className="flex flex-col gap-3 shrink-0 -mt-8 -ml-5 w-72 z-20">
-
-            {/* Card 1 — Enterprise Integrations */}
             <motion.div
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className="rounded-2xl border border-blue-100/80 overflow-hidden flex-1"
-              style={{ background: 'linear-gradient(135deg, #ffffff 0%, #eff6ff 50%, #eef2ff 100%)', boxShadow: '0 12px 40px -8px rgba(37,99,235,0.18), 0 2px 12px -2px rgba(99,102,241,0.10)' }}
+              className="rounded-2xl border border-blue-100/80 overflow-hidden"
+              style={{ background: '#ffffff', boxShadow: '0 12px 40px -8px rgba(37,99,235,0.18), 0 2px 12px -2px rgba(0,111,255,0.10)', height: '560px' }}
             >
-              {/* Header */}
-              <div className="flex items-center gap-2 px-3 py-2 border-b border-blue-100/60" style={{ background: 'linear-gradient(90deg, #dbeafe 0%, #e0e7ff 100%)' }}>
-                <Zap className="w-3 h-3 text-blue-600" />
-                <span className="text-[8px] font-black uppercase tracking-widest text-blue-700">Enterprise Integrations</span>
-                <span className="ml-auto text-[7px] font-black text-blue-500 bg-white/70 px-1.5 py-0.5 rounded-full">Connected</span>
+              <div className="flex items-center gap-2 px-3 py-2.5 border-b border-blue-100/60">
+                <span className="text-[8px] font-black text-white bg-[#1447d4] px-2.5 py-1 rounded-full">In Progress</span>
+                <div className="flex items-center gap-2 ml-auto">
+                  <svg className="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" strokeWidth={2}/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 2v4M8 2v4M3 10h18"/></svg>
+                  <span className="text-[7.5px] font-bold text-slate-500">This week</span>
+                  <svg className="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" strokeWidth={2}/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 2v4M8 2v4M3 10h18"/></svg>
+                  <span className="text-[7.5px] font-bold text-slate-500">Next week</span>
+                </div>
               </div>
-              <div className="grid grid-cols-2 gap-1.5 px-2.5 py-2.5">
-                {INTEGRATIONS.map((int, i) => (
-                  <motion.div key={i} initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.4, delay: 0.4 + i * 0.08 }}
-                    className="flex flex-col items-center gap-1 px-2 py-2 rounded-xl bg-white/70 border border-blue-50 hover:border-blue-200 transition-colors">
-                    <div className="w-7 h-7 rounded-lg flex items-center justify-center bg-white border border-slate-100">
-                      <int.icon />
+              <div className="flex items-center gap-4 px-3 py-2 border-b border-blue-50">
+                <span className="text-[9px] font-black text-[#1447d4] pb-1 border-b-2 border-[#1447d4]">Workflow</span>
+                <span className="text-[9px] font-bold text-slate-400">Comments</span>
+                <svg className="w-3 h-3 text-slate-400 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 5l7 7-7 7M5 5l7 7-7 7"/></svg>
+              </div>
+              <div className="px-3 py-3">
+                <div className="flex items-center gap-2 mb-4">
+                  <span className="text-[9px] font-black text-[#0f172a]">Campaign Launch</span>
+                  <svg className="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg>
+                  <div className="ml-auto flex items-center -space-x-1">
+                    {[0, 1, 2].map(j => (
+                      <div key={j} className="w-4 h-4 rounded-full border-2 border-white" style={{ background: `hsl(${210 + j * 20}, 70%, 65%)` }} />
+                    ))}
+                  </div>
+                </div>
+                {[
+                  { num: 1, label: 'Design',  done: true,  badge: null,        badgeClass: '' },
+                  { num: 2, label: 'Test',    done: true,  badge: null,        badgeClass: '' },
+                  { num: 3, label: 'Publish', done: false, badge: 'Yesterday', badgeClass: 'text-slate-400 font-bold' },
+                ].map((item, i) => (
+                  <motion.div key={i}
+                    initial={{ opacity: 0, x: 10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.4, delay: 0.5 + i * 0.12 }}
+                    className="flex items-center gap-2 py-2.5 border-b border-slate-50 last:border-0"
+                  >
+                    <svg className="w-2.5 h-2.5 text-slate-300 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7"/></svg>
+                    <div className={`w-4 h-4 rounded-full flex items-center justify-center shrink-0 ${item.done ? 'bg-[#006fff]' : 'border-2 border-slate-300'}`}>
+                      {item.done && <svg className="w-2.5 h-2.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7"/></svg>}
                     </div>
-                    <p className="text-[8px] font-bold text-[#0f172a] truncate w-full text-center">{int.name}</p>
-                    <div className="flex items-center gap-1">
-                      <motion.span animate={{ opacity: [0.4, 1, 0.4], scale: [0.9, 1.1, 0.9] }} transition={{ duration: 2, repeat: Infinity, delay: i * 0.3 }}
-                        className={`w-1.5 h-1.5 rounded-full shrink-0 ${int.dot}`} />
-                      <p className="text-[7px] text-slate-400">{int.sub}</p>
+                    <span className="text-[9.5px] font-bold text-[#0f172a] flex-1">{item.num}. {item.label}</span>
+                    {item.badge && <span className={`text-[8px] ${item.badgeClass}`}>{item.badge}</span>}
+                    <div className="flex items-center -space-x-1 shrink-0">
+                      {[0, 1].map(j => (
+                        <div key={j} className="w-4 h-4 rounded-full border-2 border-white" style={{ background: `hsl(${190 + j * 30 + i * 15}, 65%, 60%)` }} />
+                      ))}
                     </div>
                   </motion.div>
                 ))}
               </div>
-            </motion.div>
-
-            {/* Card 2 — Customer Satisfaction */}
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
-              className="rounded-2xl border border-violet-100/80 overflow-hidden flex-1"
-              style={{ background: 'linear-gradient(135deg, #ffffff 0%, #faf5ff 50%, #f5f0ff 100%)', boxShadow: '0 12px 40px -8px rgba(124,58,237,0.15), 0 2px 12px -2px rgba(99,102,241,0.10)' }}
-            >
-              {/* Header */}
-              <div className="flex items-center gap-2 px-3 py-2.5 border-b border-violet-100/60" style={{ background: 'linear-gradient(90deg, #ede9fe 0%, #fce7f3 100%)' }}>
-                <Star className="w-3 h-3 text-violet-600" />
-                <span className="text-[9px] font-black uppercase tracking-widest text-violet-700">Customer Satisfaction</span>
-              </div>
-              <div className="px-3 py-2.5 flex flex-col gap-2">
-                {/* Donut + bars */}
-                <div className="flex items-center gap-3">
-                  <div className="relative w-14 h-14 shrink-0">
-                    <svg viewBox="0 0 36 36" className="w-full h-full -rotate-90">
-                      <circle cx="18" cy="18" r="14" fill="none" stroke="#ede9fe" strokeWidth="4" />
-                      <motion.circle cx="18" cy="18" r="14" fill="none" stroke="url(#csatGrad)" strokeWidth="4" strokeLinecap="round"
-                        strokeDasharray="87.96" initial={{ strokeDashoffset: 87.96 }} animate={{ strokeDashoffset: 87.96 * 0.1 }}
-                        transition={{ duration: 1.5, delay: 0.5, ease: 'easeOut' }} />
-                      <defs>
-                        <linearGradient id="csatGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                          <stop offset="0%" stopColor="#7c3aed" />
-                          <stop offset="100%" stopColor="#2563eb" />
-                        </linearGradient>
-                      </defs>
-                    </svg>
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <span className="text-[10px] font-black text-violet-600">90%</span>
-                    </div>
-                  </div>
-                  <div className="flex-1 flex flex-col gap-1">
-                    {CSAT_BARS.map((row, i) => (
-                      <div key={i} className="flex items-center gap-1">
-                        <span className="text-[7px] text-slate-400 w-12 truncate shrink-0">{row.label}</span>
-                        <div className="flex-1 h-1 bg-violet-50 rounded-full overflow-hidden">
-                          <motion.div initial={{ width: 0 }} animate={{ width: `${row.pct}%` }} transition={{ duration: 1, delay: 0.5 + i * 0.1, ease: 'easeOut' }}
-                            className={`h-full rounded-full ${row.color}`} />
+              <AnimatePresence>
+                {showButton && (
+                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
+                    className="mx-3 rounded-xl border border-blue-100 bg-white/80 p-3">
+                    <p className="text-[8px] font-black text-slate-500 uppercase tracking-wider mb-2">Sankey</p>
+                    <div className="space-y-1.5">
+                      {[
+                        { label: 'AI Resolved', pct: 72, color: 'bg-[#00e7ff]' },
+                        { label: 'Transferred', pct: 18, color: 'bg-[#006fff]' },
+                        { label: 'Pending',     pct: 10, color: 'bg-slate-200' },
+                      ].map((row, i) => (
+                        <div key={i} className="flex items-center gap-2">
+                          <span className="text-[7px] text-slate-400 w-14 truncate shrink-0">{row.label}</span>
+                          <div className="flex-1 h-2 bg-slate-100 rounded-full overflow-hidden">
+                            <motion.div initial={{ width: 0 }} animate={{ width: `${row.pct}%` }}
+                              transition={{ duration: 1, delay: i * 0.1, ease: 'easeOut' }}
+                              className={`h-full rounded-full ${row.color}`} />
+                          </div>
+                          <span className="text-[7px] font-bold text-slate-400 w-5 text-right shrink-0">{row.pct}%</span>
                         </div>
-                        <span className="text-[7px] font-bold text-slate-400 w-5 text-right shrink-0">{row.pct}%</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                {/* NPS row */}
-                <div className="grid grid-cols-3 gap-1.5">
-                  {[
-                    { label: 'NPS',       value: '72',  color: 'text-violet-600', bg: 'from-violet-50 to-blue-50' },
-                    { label: 'Passive',   value: '18%', color: 'text-slate-500',  bg: 'from-slate-50 to-slate-50' },
-                    { label: 'Detractor',value: '10%',  color: 'text-red-400',    bg: 'from-red-50 to-pink-50' },
-                  ].map((n, i) => (
-                    <div key={i} className={`bg-gradient-to-br ${n.bg} border border-white rounded-xl p-1.5 text-center`}>
-                      <p className={`text-sm font-black ${n.color}`}>{n.value}</p>
-                      <p className="text-[7px] text-slate-400 uppercase tracking-wider">{n.label}</p>
+                      ))}
                     </div>
-                  ))}
-                </div>
-                {/* Recent reviews */}
-                <div className="flex flex-col gap-1">
-                  {RECENT_REVIEWS.map((r, i) => (
-                    <div key={i} className="flex items-center gap-1.5 px-1.5 py-1 rounded-lg bg-white/60">
-                      <div className="w-4 h-4 rounded-full flex items-center justify-center shrink-0 overflow-hidden" style={{ background: 'linear-gradient(135deg, #ede9fe, #dbeafe)' }}>
-                        <img src={r.avatar} alt={r.name} className="w-full h-full object-cover" />
-                      </div>
-                      <span className="text-[9px] font-bold text-slate-600 flex-1">{r.name}</span>
-                      <span className="text-[8px] text-yellow-400">{'★'.repeat(r.stars)}</span>
-                      <span className="text-[7px] text-slate-300">{r.time}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </motion.div>
-
           </div>
 
         </div>

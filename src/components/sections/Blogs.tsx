@@ -28,8 +28,8 @@ const blogs = [
   },
   {
     tag: 'Omnichannel',
-    tagColor: '#7c3aed',
-    tagBg: '#f5f3ff',
+    tagColor: '#006fff',
+    tagBg: '#eff6ff',
     title: 'Unifying Voice, Chat & Email: The Architecture Behind Modern CX',
     excerpt: 'A deep dive into the technical challenges of building a true omnichannel experience — and how a unified platform solves them. When customers switch channels, context must follow seamlessly.',
 
@@ -52,22 +52,14 @@ const blogs = [
   },
 ];
 
-const cardVariants = {
-  hidden: { opacity: 0, y: 40 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] },
-  }),
-};
 
 export default function Blogs() {
   const [featured, ...rest] = blogs;
 
   return (
-    <section className="py-20 lg:py-24 relative overflow-hidden" style={{ background: 'linear-gradient(160deg, #f0f4ff 0%, #fafbff 40%, #f5f0ff 100%)' }}>
+    <section className="py-20 lg:py-24 relative overflow-hidden" style={{ background: '#f8faff' }}>
       <div className="absolute pointer-events-none" style={{ width: '42vw', height: '42vw', top: '-200px', right: '-260px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(37,99,235,0.07) 0%, transparent 70%)', border: '1px solid rgba(37,99,235,0.05)' }} />
-      <div className="absolute pointer-events-none" style={{ width: '30vw', height: '30vw', bottom: '-140px', left: '-180px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(99,102,241,0.05) 0%, transparent 70%)' }} />
+      <div className="absolute pointer-events-none" style={{ width: '30vw', height: '30vw', bottom: '-140px', left: '-180px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(0,111,255,0.05) 0%, transparent 70%)' }} />
       {/* Subtle dot grid */}
       <div className="absolute inset-0 opacity-[0.025] pointer-events-none"
         style={{ backgroundImage: 'radial-gradient(#0f172a 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
@@ -79,7 +71,7 @@ export default function Blogs() {
           <div>
             <span className="section-eyebrow wow wow-d1">From the Blog</span>
             <h2 className="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold font-figtree tracking-[-0.025em] leading-[1.15] wow wow-d2">
-              Insights &amp; <span className="bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent">Resources</span>
+              Insights &amp; <span className="text-[#1447d4]">Resources</span>
             </h2>
           </div>
           <motion.div
@@ -93,7 +85,8 @@ export default function Blogs() {
           >
             <a
               href="#"
-              className="relative group overflow-hidden bg-[#2563eb] hover:bg-[#1d4ed8] text-white min-h-[44px] px-5 py-2.5 rounded-full font-black text-[11px] uppercase tracking-widest transition-all duration-200 flex items-center gap-2 shadow-md shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/40 whitespace-nowrap"
+              className="relative group overflow-hidden text-white min-h-[44px] px-5 py-2.5 rounded-full font-black text-[11px] uppercase tracking-widest transition-all duration-200 flex items-center gap-2 shadow-md shadow-blue-700/25 hover:shadow-xl hover:shadow-blue-700/40 hover:brightness-110 whitespace-nowrap"
+              style={{ background: '#1447d4' }}
             >
               {/* Shimmer fires on hover */}
               <span className="absolute inset-0 -skew-x-12 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover:translate-x-[200%] transition-transform duration-500 ease-in-out pointer-events-none" />
@@ -114,14 +107,12 @@ export default function Blogs() {
 
           {/* Featured card */}
           <motion.article
-            custom={0}
-            variants={cardVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: '-60px' }}
-            whileHover={{ y: -6 }}
-            transition={{ duration: 0.3 }}
-            className="lg:col-span-3 group bg-[#f4f7ff] rounded-3xl overflow-hidden border border-slate-200 hover:border-blue-500/30 shadow-md hover:shadow-2xl hover:shadow-blue-600/15 hover:-translate-y-2 transition-all duration-300 cursor-pointer flex flex-col"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.05 }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            whileHover={{ y: -8, scale: 1.01 }}
+            className="lg:col-span-3 group bg-white rounded-3xl overflow-hidden border border-blue-100 hover:border-blue-400 shadow-md hover:shadow-2xl hover:shadow-blue-700/15 transition-all duration-300 cursor-pointer flex flex-col"
           >
             {/* Image */}
             <div className="relative h-60 sm:h-72 overflow-hidden bg-gray-100">
@@ -134,13 +125,13 @@ export default function Blogs() {
               {/* Gradient overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
               {/* Tag on image */}
-              <span className="absolute top-4 left-4 px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest bg-[#2563eb] text-white">
+              <span className="absolute top-4 left-4 px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest text-white" style={{ background: '#1447d4' }}>
                 {featured.tag}
               </span>
             </div>
 
             <div className="p-8 flex flex-col flex-1">
-              <h3 className="text-[18px] font-bold font-figtree text-[#0f172a] leading-tight mb-3 group-hover:text-blue-600 transition-colors duration-200">
+              <h3 className="text-[18px] font-bold font-figtree text-[#0f172a] leading-tight mb-3 group-hover:text-[#1447d4] transition-colors duration-200">
                 {featured.title}
               </h3>
               <p className="text-base text-slate-500 leading-relaxed mb-5">
@@ -163,8 +154,8 @@ export default function Blogs() {
               {'stats' in featured && (
                 <div className="grid grid-cols-3 gap-3 mb-6">
                   {(featured as typeof featured & { stats: { value: string; label: string }[] }).stats.map((s, i) => (
-                    <div key={i} className="rounded-2xl px-3 py-3 text-center bg-blue-50 border border-blue-100">
-                      <p className="text-lg font-black text-blue-600">{s.value}</p>
+                    <div key={i} className="rounded-2xl px-3 py-3 text-center border" style={{ background: '#eef4ff', borderColor: 'rgba(20,71,212,0.15)' }}>
+                      <p className="text-lg font-black" style={{ color: '#1447d4' }}>{s.value}</p>
                       <p className="text-xs text-slate-400 font-bold uppercase tracking-widest mt-0.5">{s.label}</p>
                     </div>
                   ))}
@@ -173,7 +164,7 @@ export default function Blogs() {
 
               <div className="flex items-center justify-between mt-auto pt-5 border-t border-gray-100">
                 <div className="flex items-center gap-3">
-                  <div className="w-7 h-7 rounded-full flex items-center justify-center text-white text-[9px] font-black bg-[#2563eb]">
+                  <div className="w-7 h-7 rounded-full flex items-center justify-center text-white text-[9px] font-black" style={{ background: '#1447d4' }}>
                     IN
                   </div>
                   <div>
@@ -186,7 +177,7 @@ export default function Blogs() {
                     <Clock className="w-3 h-3" />
                     {featured.readTime}
                   </div>
-                  <a href="#" className="flex items-center gap-1 text-xs font-black uppercase tracking-widest text-blue-600 group-hover:gap-2 transition-all duration-200">
+                  <a href="#" className="flex items-center gap-1 text-xs font-black uppercase tracking-widest group-hover:gap-2 transition-all duration-200" style={{ color: '#1447d4' }}>
                     Read <ArrowRight className="w-3 h-3" />
                   </a>
                 </div>
@@ -199,14 +190,12 @@ export default function Blogs() {
             {rest.map((post, i) => (
               <motion.article
                 key={i}
-                custom={i + 1}
-                variants={cardVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: '-60px' }}
-                whileHover={{ y: -4 }}
-                transition={{ duration: 0.3 }}
-                className="group bg-[#f4f7ff] rounded-3xl overflow-hidden border border-slate-200 hover:border-blue-500/30 shadow-md hover:shadow-2xl hover:shadow-blue-600/15 hover:-translate-y-2 transition-all duration-300 cursor-pointer flex flex-col flex-1"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.05 }}
+                transition={{ duration: 0.6, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+                whileHover={{ y: -6, scale: 1.02 }}
+                className="group bg-white rounded-3xl overflow-hidden border border-blue-100 hover:border-blue-400 shadow-md hover:shadow-2xl hover:shadow-blue-700/15 transition-all duration-300 cursor-pointer flex flex-col flex-1"
               >
                 {/* Image */}
                 <div className="relative h-40 overflow-hidden bg-gray-100">
@@ -217,13 +206,13 @@ export default function Blogs() {
                     className="object-cover object-top group-hover:scale-105 transition-transform duration-700"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
-                  <span className="absolute top-3 left-3 px-2.5 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest bg-[#2563eb] text-white">
+                  <span className="absolute top-3 left-3 px-2.5 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest text-white" style={{ background: '#1447d4' }}>
                     {post.tag}
                   </span>
                 </div>
 
                 <div className="p-6 flex flex-col flex-1">
-                  <h3 className="text-[16px] font-bold font-figtree text-[#0f172a] leading-tight mb-2 group-hover:text-blue-600 transition-colors duration-200">
+                  <h3 className="text-[16px] font-bold font-figtree text-[#0f172a] leading-tight mb-2 group-hover:text-[#1447d4] transition-colors duration-200">
                     {post.title}
                   </h3>
                   {'excerpt' in post && (

@@ -10,10 +10,10 @@ const CUBE: [number, number, number, number] = [0.18, 0.82, 0.41, 1];
 export default function CTA() {
 
   return (
-    <section className="py-16 px-6 relative overflow-hidden" style={{ background: 'linear-gradient(160deg, #f0f4ff 0%, #fafbff 40%, #f5f0ff 100%)' }}>
+    <section className="py-16 px-6 relative overflow-hidden" style={{ background: '#f8faff' }}>
       {/* Background orbs */}
       <div className="absolute pointer-events-none" style={{ width: '40vw', height: '40vw', top: '-160px', right: '-200px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(37,99,235,0.07) 0%, transparent 70%)' }} />
-      <div className="absolute pointer-events-none" style={{ width: '28vw', height: '28vw', bottom: '-120px', left: '-140px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(99,102,241,0.06) 0%, transparent 70%)' }} />
+      <div className="absolute pointer-events-none" style={{ width: '28vw', height: '28vw', bottom: '-120px', left: '-140px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(0,111,255,0.06) 0%, transparent 70%)' }} />
       <div className="absolute inset-0 opacity-[0.025] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#0f172a 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
       <div style={{ maxWidth: 1240, margin: '0 auto' }}>
         <div style={{ position: 'relative', overflow: 'hidden', borderRadius: 30 }}>
@@ -28,9 +28,9 @@ export default function CTA() {
             <div style={{ position: 'relative', width: '100%', height: '100%' }}>
               <div style={{ position: 'absolute', width: '70%', height: '80%', bottom: '-10%', left: '-5%', background: 'rgba(0,55,204,0.9)', borderRadius: '50%', filter: 'blur(55px)' }} />
               <div style={{ position: 'absolute', width: '45%', height: '120%', top: '-10%', left: '30%', background: 'linear-gradient(160deg,rgba(0,71,255,0.85),rgba(77,138,255,0.6),transparent)', borderRadius: '40% 60% 60% 40%/50%', filter: 'blur(45px)', transform: 'rotate(-15deg)' }} />
-              <div style={{ position: 'absolute', width: '55%', height: '70%', top: '-5%', right: '-5%', background: 'rgba(116,68,253,0.85)', borderRadius: '50%', filter: 'blur(50px)' }} />
-              <div style={{ position: 'absolute', width: '35%', height: '50%', top: '20%', left: '15%', background: 'rgba(56,189,248,0.4)', borderRadius: '50%', filter: 'blur(40px)' }} />
-              <div style={{ position: 'absolute', width: '30%', height: '90%', top: '5%', right: '15%', background: 'linear-gradient(180deg,rgba(99,102,241,0.7),rgba(0,71,255,0.4))', borderRadius: '40%', filter: 'blur(48px)', transform: 'rotate(10deg)' }} />
+              <div style={{ position: 'absolute', width: '55%', height: '70%', top: '-5%', right: '-5%', background: 'rgba(0,111,255,0.85)', borderRadius: '50%', filter: 'blur(50px)' }} />
+              <div style={{ position: 'absolute', width: '35%', height: '50%', top: '20%', left: '15%', background: 'rgba(0,231,255,0.4)', borderRadius: '50%', filter: 'blur(40px)' }} />
+              <div style={{ position: 'absolute', width: '30%', height: '90%', top: '5%', right: '15%', background: 'linear-gradient(180deg,rgba(0,111,255,0.7),rgba(0,71,255,0.4))', borderRadius: '40%', filter: 'blur(48px)', transform: 'rotate(10deg)' }} />
             </div>
           </motion.div>
 
@@ -44,8 +44,8 @@ export default function CTA() {
           >
             {/* Color glow LEFT — blue */}
             <div aria-hidden style={{ position: 'absolute', bottom: 0, left: 0, width: '63%', height: '100%', zIndex: 0, pointerEvents: 'none', background: 'radial-gradient(ellipse 90% 80% at 0% 100%,rgba(0,71,255,0.7),rgba(0,71,255,0.3) 35%,transparent 65%)', clipPath: 'ellipse(80% 90% at 10% 90%)' }} />
-            {/* Color glow RIGHT — purple */}
-            <div aria-hidden style={{ position: 'absolute', top: 0, right: 0, width: '39%', height: '100%', zIndex: 0, pointerEvents: 'none', background: 'radial-gradient(ellipse 100% 80% at 100% 0%,rgba(116,68,253,0.65),rgba(37,99,235,0.25) 45%,transparent 70%)', clipPath: 'ellipse(90% 80% at 90% 10%)' }} />
+            {/* Color glow RIGHT — cyan */}
+            <div aria-hidden style={{ position: 'absolute', top: 0, right: 0, width: '39%', height: '100%', zIndex: 0, pointerEvents: 'none', background: 'radial-gradient(ellipse 100% 80% at 100% 0%,rgba(0,231,255,0.5),rgba(0,111,255,0.25) 45%,transparent 70%)', clipPath: 'ellipse(90% 80% at 90% 10%)' }} />
 
             {/* Inner layout */}
             <div style={{ position: 'relative', zIndex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 40 }}>
@@ -77,7 +77,7 @@ export default function CTA() {
                 >
                   {/* Primary — full hover treatment */}
                   <motion.div whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.96, y: 0 }} className="w-full sm:w-auto">
-                    <button className="relative group overflow-hidden bg-[#2563eb] hover:bg-[#1d4ed8] text-white min-h-[44px] px-5 py-2.5 rounded-full font-black text-[11px] uppercase tracking-widest transition-all duration-200 flex items-center justify-center gap-2 shadow-md shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/40 whitespace-nowrap w-full sm:w-auto">
+                    <button className="relative group overflow-hidden text-white min-h-[44px] px-5 py-2.5 rounded-full font-black text-[11px] uppercase tracking-widest transition-all duration-200 flex items-center justify-center gap-2 shadow-md shadow-blue-700/30 hover:shadow-xl hover:shadow-blue-700/50 hover:brightness-110 whitespace-nowrap w-full sm:w-auto" style={{ background: '#1447d4' }}>
                       {/* Shimmer fires on hover */}
                       <span className="absolute inset-0 -skew-x-12 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover:translate-x-[200%] transition-transform duration-500 ease-in-out pointer-events-none" />
                       {/* Glow ring */}
@@ -96,7 +96,7 @@ export default function CTA() {
                   initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.38 }}
                   style={{ display: 'flex', flexWrap: 'wrap', gap: '8px 20px', marginTop: 20, justifyContent: 'center' }}
                 >
-                  {['Cancel anytime', 'ISO Certified', 'Live in 48 hours'].map((t, i) => (
+                  {['Cancel anytime', 'ISO 27001:2022', 'Live in 48 hours'].map((t, i) => (
                     <motion.span key={i}
                       initial={{ opacity: 0, y: 6 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.4 + i * 0.07 }}
                       style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 13, color: 'rgba(255,255,255,0.38)', fontWeight: 600, fontFamily: 'var(--font-figtree), Figtree, sans-serif' }}

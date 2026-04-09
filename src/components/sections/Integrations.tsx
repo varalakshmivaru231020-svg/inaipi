@@ -37,9 +37,9 @@ export default function Integrations() {
   }, []);
 
   return (
-    <section className="py-10 relative overflow-hidden" style={{ background: 'linear-gradient(160deg, #f0f4ff 0%, #fafbff 40%, #f5f0ff 100%)' }}>
+    <section className="py-10 relative overflow-hidden" style={{ background: '#f8faff' }}>
       <div className="absolute pointer-events-none" style={{ width: '48vw', height: '48vw', top: '-240px', left: '-320px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(37,99,235,0.06) 0%, transparent 70%)', border: '1px solid rgba(37,99,235,0.05)' }} />
-      <div className="absolute pointer-events-none" style={{ width: '36vw', height: '36vw', bottom: '-180px', right: '-220px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(99,102,241,0.05) 0%, transparent 70%)' }} />
+      <div className="absolute pointer-events-none" style={{ width: '36vw', height: '36vw', bottom: '-180px', right: '-220px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(0,111,255,0.05) 0%, transparent 70%)' }} />
       {/* Background connecting lines (Subtle) */}
       <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-[0.03] dark:opacity-[0.05]" viewBox="0 0 100 100">
         <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
@@ -66,14 +66,14 @@ export default function Integrations() {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ delay: idx * 0.05 }}
-              whileHover={{ scale: 1.1, backgroundColor: 'rgba(59, 130, 246, 0.05)' }}
-              className="glass aspect-square flex items-center justify-center p-6 rounded-3xl border border-white/50 dark:border-white/10 shadow-sm cursor-pointer transition-shadow hover:shadow-lg group"
+              whileHover={{ scale: 1.1, backgroundColor: 'rgba(20, 71, 212, 0.05)' }}
+              className="bg-white aspect-square flex items-center justify-center p-6 rounded-3xl border border-[#1447d4]/12 shadow-sm cursor-pointer transition-all hover:shadow-lg hover:border-[#1447d4]/25 group"
             >
                <div className="flex flex-col items-center">
-                  <div className="w-10 h-10 bg-gray-100 dark:bg-gray-800 rounded-full mb-3 flex items-center justify-center group-hover:bg-blue-500/10 group-hover:text-blue-500 transition-colors">
+                  <div className="w-10 h-10 bg-[#eef4ff] rounded-full mb-3 flex items-center justify-center group-hover:bg-[#1447d4]/10 group-hover:text-[#1447d4] transition-colors text-[#1447d4]">
                      <span className="text-[10px] font-black uppercase tracking-tighter">{name.substring(0, 2)}</span>
                   </div>
-                  <span className="text-[10px] font-bold text-foreground/40 uppercase tracking-widest group-hover:text-blue-500/70 transition-colors">{name}</span>
+                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest group-hover:text-[#1447d4] transition-colors">{name}</span>
                </div>
             </motion.div>
           ))}
@@ -83,9 +83,9 @@ export default function Integrations() {
         <div className="mt-20 flex flex-wrap justify-center gap-12 opacity-30 grayscale">
             {[1, 2, 3, 4, 5].map((it) => (
                 <div key={it} className="flex items-center space-x-2">
-                    <div className="h-10 w-24 bg-gray-200 dark:bg-gray-800 rounded-full" />
-                    <div className="w-2 h-2 rounded-full bg-blue-500 animate-ping" />
-                    <div className="h-10 w-24 bg-gray-200 dark:bg-gray-800 rounded-full" />
+                    <div className="h-10 w-24 bg-[#dde6ff] rounded-full" />
+                    <div className="w-2 h-2 rounded-full bg-[#1447d4] animate-ping" />
+                    <div className="h-10 w-24 bg-[#dde6ff] rounded-full" />
                 </div>
             ))}
         </div>

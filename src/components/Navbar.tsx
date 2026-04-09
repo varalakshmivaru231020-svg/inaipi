@@ -30,7 +30,7 @@ export default function Navbar() {
     <>
       <motion.nav
         className="fixed top-0 left-0 right-0 z-50 flex justify-center font-figtree"
-        initial={{ opacity: 0, y: -24 }}
+        initial={{ opacity: 0, y: -8 }}
         animate={{
           opacity: 1,
           y: 0,
@@ -38,19 +38,27 @@ export default function Navbar() {
           paddingLeft: scrolled ? 16 : 0,
           paddingRight: scrolled ? 16 : 0,
         }}
-        transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+        transition={{
+          opacity: { duration: 0.4, ease: 'easeOut' },
+          y: { duration: 0.4, ease: [0.16, 1, 0.3, 1] },
+          paddingTop: { duration: 0.35, ease: [0.25, 0.1, 0.25, 1] },
+          paddingLeft: { duration: 0.35, ease: [0.25, 0.1, 0.25, 1] },
+          paddingRight: { duration: 0.35, ease: [0.25, 0.1, 0.25, 1] },
+        }}
       >
         <motion.div
           className="w-full overflow-hidden"
           animate={{ maxWidth: scrolled ? '980px' : '100%' }}
-          transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+          transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
         >
           <motion.div
             className="relative grid items-center px-6 sm:px-10"
             style={{
               gridTemplateColumns: '1fr auto 1fr',
-              backdropFilter: scrolled ? 'blur(20px)' : 'none',
               borderStyle: 'solid',
+              backdropFilter: scrolled ? 'blur(20px)' : 'blur(0px)',
+              WebkitBackdropFilter: scrolled ? 'blur(20px)' : 'blur(0px)',
+              transition: 'backdrop-filter 0.35s ease, -webkit-backdrop-filter 0.35s ease',
             }}
             animate={{
               borderRadius: scrolled ? '9999px' : '0px',
@@ -63,7 +71,7 @@ export default function Navbar() {
               paddingTop: scrolled ? 10 : 18,
               paddingBottom: scrolled ? 10 : 18,
             }}
-            transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+            transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
           >
             {/* Logo */}
             <motion.div
@@ -96,10 +104,10 @@ export default function Navbar() {
                 >
                   <Link
                     href={link.href}
-                    className="relative inline-flex items-center min-h-[44px] text-[15px] font-semibold font-figtree text-[#0f172a]/60 hover:text-[#2563eb] transition-colors duration-200 tracking-normal whitespace-nowrap group focus-visible:outline-none focus-visible:text-[#2563eb]"
+                    className="relative inline-flex items-center min-h-[44px] text-[15px] font-semibold font-figtree text-[#0f172a]/60 hover:text-[#1447d4] transition-colors duration-200 tracking-normal whitespace-nowrap group focus-visible:outline-none focus-visible:text-[#1447d4]"
                   >
                     {link.name}
-                    <span className="absolute -bottom-0.5 left-0 w-0 h-[1.5px] bg-blue-500 group-hover:w-full transition-all duration-200 rounded-full" />
+                    <span className="absolute -bottom-0.5 left-0 w-0 h-[1.5px] bg-[#1447d4] group-hover:w-full transition-all duration-200 rounded-full" />
                   </Link>
                 </motion.div>
               ))}
@@ -114,7 +122,7 @@ export default function Navbar() {
               >
                 <Link
                   href="/login"
-                  className="text-[11px] font-black font-figtree text-[#0f172a] hover:text-[#2563eb] hover:border-[#2563eb] transition-all duration-200 uppercase tracking-[0.15em] inline-flex items-center gap-2 border-2 border-[#0f172a]/30 min-h-[44px] px-5 py-2.5 rounded-full whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                  className="text-[11px] font-black font-figtree text-[#0f172a] hover:text-[#1447d4] hover:border-[#2563eb] transition-all duration-200 uppercase tracking-[0.15em] inline-flex items-center gap-2 border-2 border-[#0f172a]/30 min-h-[44px] px-5 py-2.5 rounded-full whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                 >
                   Log in
                   <ArrowRight className="w-3 h-3" />
@@ -128,7 +136,7 @@ export default function Navbar() {
                 whileTap={{ scale: 0.96, y: 0 }}
               >
                 <button
-                  className="relative group overflow-hidden bg-[#2563eb] hover:bg-[#1d4ed8] text-white min-h-[44px] px-5 py-2.5 rounded-full font-black font-figtree text-[11px] uppercase tracking-widest transition-all duration-200 flex items-center gap-2 shadow-md shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/40 whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                  className="relative group overflow-hidden bg-[#1447d4] hover:bg-[#0d3ab8] text-white min-h-[44px] px-5 py-2.5 rounded-full font-black font-figtree text-[11px] uppercase tracking-widest transition-all duration-200 flex items-center gap-2 shadow-md shadow-blue-700/25 hover:shadow-xl hover:shadow-blue-700/40 whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                   aria-label="Get started with Inaipi"
                 >
                   {/* Shimmer — fires on hover via group */}
@@ -179,7 +187,7 @@ export default function Navbar() {
                   key={link.name}
                   href={link.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="min-h-[52px] flex items-center text-base font-bold text-[#0f172a] hover:text-blue-600 transition-colors duration-200 px-2 rounded-xl hover:bg-slate-50"
+                  className="min-h-[52px] flex items-center text-base font-bold text-[#0f172a] hover:text-[#1447d4] transition-colors duration-200 px-2 rounded-xl hover:bg-slate-50"
                 >
                   {link.name}
                 </Link>
@@ -188,11 +196,11 @@ export default function Navbar() {
                 <Link
                   href="/login"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="w-full min-h-[52px] border-2 border-[#0f172a]/20 rounded-2xl font-black text-sm uppercase tracking-widest text-[#0f172a] flex items-center justify-center gap-2 hover:border-blue-500 hover:text-blue-600 transition-all duration-200"
+                  className="w-full min-h-[52px] border-2 border-[#0f172a]/20 rounded-2xl font-black text-sm uppercase tracking-widest text-[#0f172a] flex items-center justify-center gap-2 hover:border-[#1447d4] hover:text-[#1447d4] transition-all duration-200"
                 >
                   Log in <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
-                <button className="w-full min-h-[52px] bg-[#2563eb] hover:bg-[#1d4ed8] text-white rounded-2xl font-black uppercase tracking-widest text-sm transition-colors duration-200">
+                <button className="w-full min-h-[52px] bg-[#1447d4] hover:bg-[#0d3ab8] text-white rounded-2xl font-black uppercase tracking-widest text-sm transition-colors duration-200">
                   Get Started
                 </button>
               </div>
