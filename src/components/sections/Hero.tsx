@@ -512,7 +512,7 @@ export default function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 1.4, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute bottom-6 left-6 rounded-2xl px-5 py-4 flex items-center gap-4"
+              className="absolute bottom-20 left-6 rounded-2xl px-5 py-4 flex items-center gap-4"
               style={{
                 background: 'rgba(255,255,255,0.12)',
                 backdropFilter: 'blur(16px)',
