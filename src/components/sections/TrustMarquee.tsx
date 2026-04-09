@@ -13,7 +13,7 @@ const leftTrack  = [...customers, ...customers, ...customers];
 const rightTrack = [...customers, ...customers, ...customers];
 
 const Item = ({ name }: { name: string }) => (
-  <span className="flex items-center gap-3 text-base font-bold text-white/75 whitespace-nowrap select-none cursor-default tracking-wide">
+  <span className="flex items-center gap-3 text-xl font-bold text-white/75 whitespace-nowrap select-none cursor-default tracking-wide">
     <span className="w-1.5 h-1.5 rounded-full bg-white/35 shrink-0" />
     {name}
   </span>
