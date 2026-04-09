@@ -86,7 +86,7 @@ export default function Problem() {
 
       const rect    = wrapper.getBoundingClientRect();
       const vh      = window.innerHeight;
-      const sectionH = Math.round(vh * 0.78);      // 78% of viewport — fits content snugly
+      const sectionH = Math.round(vh);      // 100% of viewport — fits content snugly
       const total   = wrapper.offsetHeight - vh;   // scrollable range (≈ 4 × vh)
 
       if (rect.top > 0) {
@@ -156,7 +156,7 @@ export default function Problem() {
             top        : 0,
             left       : 0,
             right      : 0,
-            height     : '78vh',
+            height     : '100vh',
             background : BG,
             zIndex     : 20,
           }}
@@ -227,43 +227,43 @@ export default function Problem() {
           </div>
 
           {/* ── Content panel ── */}
-          <div className="container mx-auto px-6 max-w-6xl flex-1 min-h-0 pt-4 pb-6 relative z-10 overflow-hidden">
-            <div key={active} className="grid lg:grid-cols-5 gap-5" style={{ animation: 'problemFadeIn 0.25s ease forwards' }}>
+          <div className="container mx-auto px-6 max-w-6xl flex-1 min-h-0 pt-3 pb-4 relative z-10 overflow-hidden">
+            <div key={active} className="grid lg:grid-cols-5 gap-4 h-full" style={{ animation: 'problemFadeIn 0.25s ease forwards' }}>
                 {/* Left — problems */}
                 <div
-                  className="lg:col-span-3 rounded-3xl p-9 sm:p-10 flex flex-col"
+                  className="lg:col-span-3 rounded-3xl p-7 flex flex-col"
                   style={{ background: '#1447d4' }}
                 >
-                  <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest mb-7 bg-white/15 text-white border border-white/25 self-start font-figtree">
+                  <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest mb-5 bg-white/15 text-white border border-white/25 self-start font-figtree">
                     <current.icon className="w-3.5 h-3.5" />
                     When Customers Are {current.tag}
                   </div>
-                  <h3 className="text-2xl font-bold text-white mb-7 leading-tight font-figtree">{current.title}</h3>
-                  <ul className="space-y-4">
+                  <h3 className="text-xl font-bold text-white mb-5 leading-tight font-figtree">{current.title}</h3>
+                  <ul className="space-y-3">
                     {current.problems.map((p, j) => (
                       <li key={j} className="flex items-start gap-4">
                         <XCircle className="w-5 h-5 text-white/50 mt-0.5 shrink-0" />
-                        <span className="text-white/85 leading-relaxed text-[15px] font-figtree">{p}</span>
+                        <span className="text-white/85 leading-relaxed text-[14px] font-figtree">{p}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
 
                 {/* Right — gap + step */}
-                <div className="lg:col-span-2 flex flex-col gap-4">
+                <div className="lg:col-span-2 flex flex-col gap-3">
                   <div
-                    className="rounded-3xl p-8 text-white flex flex-col"
+                    className="rounded-3xl p-6 text-white flex flex-col flex-1"
                     style={{ background: '#1447d4' }}
                   >
-                    <p className="text-xs font-black uppercase tracking-[0.2em] text-white/80 mb-4 font-figtree">The Hidden Gap</p>
-                    <p className="text-white/95 leading-relaxed text-[15px] font-medium mb-8 font-figtree">{current.gap}</p>
-                    <div className="pt-5 border-t border-white/20 flex items-center gap-3">
+                    <p className="text-xs font-black uppercase tracking-[0.2em] text-white/80 mb-3 font-figtree">The Hidden Gap</p>
+                    <p className="text-white/95 leading-relaxed text-[14px] font-medium mb-6 font-figtree">{current.gap}</p>
+                    <div className="pt-4 border-t border-white/20 flex items-center gap-3 mt-auto">
                       <Lightbulb className="w-4 h-4 text-[#00e7ff]" />
                       <span className="text-white/90 text-xs font-bold uppercase tracking-[0.15em] font-figtree">AI can solve this natively</span>
                     </div>
                   </div>
 
-                  <div className="rounded-3xl bg-[#0f172a] p-6 flex items-center gap-5">
+                  <div className="rounded-3xl bg-[#0f172a] p-5 flex items-center gap-5">
                     <span className="text-4xl font-black text-[#006fff] opacity-50 font-figtree">{current.number}</span>
                     <div>
                       <p className="text-white/50 text-xs uppercase tracking-[0.2em] font-bold mb-1 font-figtree">Problem</p>

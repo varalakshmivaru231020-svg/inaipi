@@ -655,15 +655,20 @@ export default function AboutPage() {
               ))}
             </div>
 
-            {/* Image — 75% width, on the right */}
+            {/* Image — right side */}
             <motion.div
               initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, amount: 0.1 }}
               transition={{ duration: 0.7 }}
-              className="lg:w-[72%] rounded-[2.5rem] overflow-hidden shadow-2xl shadow-blue-900/10 shrink-0"
+              className="lg:w-[55%] rounded-[2.5rem] overflow-hidden shadow-2xl shadow-blue-900/10 shrink-0 relative min-h-[420px]"
             >
-              <Image src="/global.jpeg" alt="Inaipi Global Presence" width={1920} height={960} className="w-full h-auto object-contain" />
+              <Image
+                src="/global1.jpeg"
+                alt="Inaipi Global Presence"
+                fill
+                className="object-cover object-center"
+              />
             </motion.div>
 
           </div>
