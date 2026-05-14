@@ -180,9 +180,9 @@ export default function Problem() {
           {/* ── Header ── */}
           <div className="container mx-auto px-6 text-center pt-8 pb-3 max-w-3xl relative z-10 shrink-0">
             <span className="section-eyebrow">The Problem</span>
-            <div className="mb-3 flex flex-col items-center gap-0.5 text-3xl sm:text-4xl lg:text-[2.6rem] font-bold font-figtree tracking-[-0.025em] leading-[1.15]">
-              <div className="block whitespace-nowrap text-[#0f172a]">Enterprises invest millions.</div>
-              <div className="block whitespace-nowrap">
+            <div className="mb-3 flex flex-col items-center gap-0.5 text-2xl sm:text-4xl lg:text-[2.6rem] font-bold font-figtree tracking-[-0.025em] leading-[1.2] text-center">
+              <div className="block text-[#0f172a]">Enterprises invest millions.</div>
+              <div className="block sm:whitespace-nowrap">
                 <span className="text-[#0f172a]">Customers still get </span>
                 <span className="text-[#1447d4]">broken experiences.</span>
               </div>
@@ -203,7 +203,7 @@ export default function Problem() {
                   <button
                     key={i}
                     onClick={() => setActive(i)}
-                    className={`relative flex flex-1 items-center justify-center gap-2 py-4 px-4 text-[13px] font-bold tracking-wide font-figtree transition-colors duration-200 min-h-[52px] ${
+                    className={`relative flex flex-1 items-center justify-center gap-1 sm:gap-2 py-3 sm:py-4 px-1 sm:px-4 text-[11px] sm:text-[13px] font-bold tracking-wide font-figtree transition-colors duration-200 min-h-[48px] sm:min-h-[52px] ${
                       isActive ? 'text-[#1447d4]' : 'text-slate-400 hover:text-slate-600'
                     }`}
                   >
@@ -219,7 +219,8 @@ export default function Problem() {
                       />
                     )}
                     <Icon className="w-4 h-4 shrink-0 relative z-10" />
-                    <span className="relative z-10">{p.tag}</span>
+                    <span className="relative z-10 hidden sm:inline">{p.tag}</span>
+                    <span className="relative z-10 sm:hidden text-[9px] leading-tight text-center">{p.tag.split(' ')[0]}</span>
                   </button>
                 );
               })}
@@ -227,47 +228,47 @@ export default function Problem() {
           </div>
 
           {/* ── Content panel ── */}
-          <div className="container mx-auto px-6 max-w-6xl flex-1 min-h-0 pt-3 pb-4 relative z-10 overflow-hidden">
-            <div key={active} className="grid lg:grid-cols-5 gap-4" style={{ animation: 'problemFadeIn 0.25s ease forwards' }}>
+          <div className="container mx-auto px-3 sm:px-6 max-w-6xl flex-1 min-h-0 pt-3 pb-4 relative z-10 overflow-hidden">
+            <div key={active} className="grid grid-cols-5 gap-1.5 sm:gap-4" style={{ animation: 'problemFadeIn 0.25s ease forwards' }}>
                 {/* Left — problems */}
                 <div
-                  className="lg:col-span-3 rounded-3xl p-7 flex flex-col"
-                  style={{ background: '#1447d4', maxHeight: '420px' }}
+                  className="col-span-3 rounded-xl sm:rounded-3xl p-3 sm:p-7 flex flex-col overflow-y-auto max-h-[220px] sm:max-h-[320px] lg:max-h-[420px]"
+                  style={{ background: '#1447d4' }}
                 >
-                  <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest mb-5 bg-white/15 text-white border border-white/25 self-start font-figtree">
-                    <current.icon className="w-3.5 h-3.5" />
-                    When Customers Are {current.tag}
+                  <div className="inline-flex items-center gap-1.5 px-2 sm:px-4 py-0.5 sm:py-1.5 rounded-full text-[8px] sm:text-xs font-black uppercase tracking-widest mb-2 sm:mb-5 bg-white/15 text-white border border-white/25 self-start font-figtree">
+                    <current.icon className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 shrink-0" />
+                    <span className="hidden sm:inline">When Customers Are </span>{current.tag}
                   </div>
-                  <h3 className="text-xl font-bold text-white mb-5 leading-tight font-figtree">{current.title}</h3>
-                  <ul className="space-y-3">
+                  <h3 className="text-[13px] sm:text-xl font-bold text-white mb-2 sm:mb-5 leading-tight font-figtree">{current.title}</h3>
+                  <ul className="space-y-1.5 sm:space-y-3">
                     {current.problems.map((p, j) => (
-                      <li key={j} className="flex items-start gap-4">
-                        <XCircle className="w-5 h-5 text-white/50 mt-0.5 shrink-0" />
-                        <span className="text-white/85 leading-relaxed text-[14px] font-figtree">{p}</span>
+                      <li key={j} className={`flex items-start gap-2 sm:gap-4 ${j >= 3 ? 'hidden sm:flex' : ''}`}>
+                        <XCircle className="w-3 h-3 sm:w-5 sm:h-5 text-white/50 mt-0.5 shrink-0" />
+                        <span className="text-white/85 leading-snug text-[11px] sm:text-[14px] font-figtree">{p}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
 
                 {/* Right — gap + step */}
-                <div className="lg:col-span-2 flex flex-col gap-3" style={{ maxHeight: '420px' }}>
+                <div className="col-span-2 flex flex-col gap-1.5 sm:gap-3 max-h-[220px] sm:max-h-[320px] lg:max-h-[420px]">
                   <div
-                    className="rounded-3xl p-6 text-white flex flex-col flex-1"
+                    className="rounded-xl sm:rounded-3xl p-2.5 sm:p-6 text-white flex flex-col flex-1 overflow-hidden"
                     style={{ background: '#1447d4' }}
                   >
-                    <p className="text-xs font-black uppercase tracking-[0.2em] text-white/80 mb-3 font-figtree">The Hidden Gap</p>
-                    <p className="text-white/95 leading-relaxed text-[14px] font-medium mb-6 font-figtree">{current.gap}</p>
-                    <div className="pt-4 border-t border-white/20 flex items-center gap-3 mt-auto">
-                      <Lightbulb className="w-4 h-4 text-[#00e7ff]" />
-                      <span className="text-white/90 text-xs font-bold uppercase tracking-[0.15em] font-figtree">AI can solve this natively</span>
+                    <p className="text-[8px] sm:text-xs font-black uppercase tracking-[0.2em] text-white/80 mb-1.5 sm:mb-3 font-figtree">The Hidden Gap</p>
+                    <p className="text-white/95 leading-relaxed text-[10px] sm:text-[14px] font-medium mb-2 sm:mb-6 line-clamp-2 sm:line-clamp-none font-figtree">{current.gap}</p>
+                    <div className="pt-2 sm:pt-4 border-t border-white/20 flex items-center gap-1.5 sm:gap-3 mt-auto">
+                      <Lightbulb className="w-3 h-3 sm:w-4 sm:h-4 text-[#00e7ff] shrink-0" />
+                      <span className="text-white/90 text-[8px] sm:text-xs font-bold uppercase tracking-[0.1em] sm:tracking-[0.15em] font-figtree leading-tight">AI can solve this natively</span>
                     </div>
                   </div>
 
-                  <div className="rounded-3xl bg-[#0f172a] p-5 flex items-center gap-5">
-                    <span className="text-4xl font-black text-[#006fff] opacity-50 font-figtree">{current.number}</span>
+                  <div className="rounded-xl sm:rounded-3xl bg-[#0f172a] p-2 sm:p-5 flex items-center gap-2 sm:gap-5 shrink-0">
+                    <span className="text-2xl sm:text-4xl font-black text-[#006fff] opacity-50 font-figtree">{current.number}</span>
                     <div>
-                      <p className="text-white/50 text-xs uppercase tracking-[0.2em] font-bold mb-1 font-figtree">Problem</p>
-                      <p className="text-white font-bold text-sm font-figtree">{current.tag}</p>
+                      <p className="text-white/50 text-[8px] sm:text-xs uppercase tracking-[0.2em] font-bold mb-0.5 sm:mb-1 font-figtree">Problem</p>
+                      <p className="text-white font-bold text-[10px] sm:text-sm font-figtree">{current.tag}</p>
                     </div>
                   </div>
                 </div>

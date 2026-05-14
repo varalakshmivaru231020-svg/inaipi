@@ -157,7 +157,7 @@ export default function Navbar() {
             </div>
 
             {/* Mobile Toggle */}
-            <div className="lg:hidden flex justify-end">
+            <div className="lg:hidden flex justify-end col-start-3">
               <button
                 className="min-w-[44px] min-h-[44px] flex items-center justify-center rounded-xl text-[#0f172a] hover:bg-slate-100 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}

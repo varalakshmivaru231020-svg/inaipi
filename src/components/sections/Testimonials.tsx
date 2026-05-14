@@ -77,7 +77,6 @@ const FLAGS = [
   { src: 'https://flagcdn.com/w160/sg.png', alt: 'Singapore' },
 ];
 
-const CARD_W   = 420;
 const CARD_GAP = 24;
 const SPEED    = 0.55; // px per frame
 
@@ -87,7 +86,7 @@ function ProgressDot({ active, onClick }: { active: boolean; onClick: () => void
   useEffect(() => {
     if (!active) { progress.set(0); return; }
     progress.set(0);
-    const duration = ((CARD_W + CARD_GAP) / SPEED) / 60 / 1000; // rough cycle ms→s
+    const duration = ((420 + CARD_GAP) / SPEED) / 60 / 1000; // rough cycle ms→s
     const ctrl = animate(progress, 1, { duration, ease: 'linear' });
     return () => ctrl.stop();
   }, [active, progress]);
@@ -116,22 +115,38 @@ export default function Testimonials() {
   const [centerIdx, setCenterIdx] = useState(0);
   const wrapRef = useRef<HTMLDivElement>(null);
 
+  /* Responsive card width */
+  const cardWRef = useRef(420);
+  const [cardW, setCardW] = useState(420);
+  useEffect(() => {
+    const update = () => {
+      const w = window.innerWidth < 640 ? Math.min(window.innerWidth - 48, 320) : 420;
+      cardWRef.current = w;
+      setCardW(w);
+    };
+    update();
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
+  }, []);
+
   const n = testimonials.length;
   /* Triple the array so we always have cards on both sides */
   const triple = [...testimonials, ...testimonials, ...testimonials];
-  const totalW = n * (CARD_W + CARD_GAP); // width of ONE set
+  const totalW = n * (cardW + CARD_GAP); // width of ONE set
 
   /* ── rAF loop ── */
   useEffect(() => {
     const tick = () => {
       if (!trackRef.current) { rafRef.current = requestAnimationFrame(tick); return; }
+      const cw = cardWRef.current;
+      const tw = n * (cw + CARD_GAP);
 
       if (!pausedRef.current) {
         xRef.current -= SPEED;
 
         /* Seamless loop: when we've scrolled a full set, reset by one set width */
-        if (Math.abs(xRef.current) >= totalW * 2) {
-          xRef.current += totalW;
+        if (Math.abs(xRef.current) >= tw * 2) {
+          xRef.current += tw;
         }
       }
 
@@ -143,7 +158,7 @@ export default function Testimonials() {
         let closest = 0;
         let minDist = Infinity;
         triple.forEach((_, i) => {
-          const cardCenter = xRef.current + i * (CARD_W + CARD_GAP) + CARD_W / 2;
+          const cardCenter = xRef.current + i * (cw + CARD_GAP) + cw / 2;
           const dist = Math.abs(cardCenter - vCenter);
           if (dist < minDist) { minDist = dist; closest = i % n; }
         });
@@ -154,8 +169,10 @@ export default function Testimonials() {
     };
 
     /* Start offset so first card is roughly centered */
+    const cw = cardWRef.current;
+    const tw = n * (cw + CARD_GAP);
     const initOffset = wrapRef.current
-      ? wrapRef.current.getBoundingClientRect().width / 2 - CARD_W / 2 - totalW
+      ? wrapRef.current.getBoundingClientRect().width / 2 - cw / 2 - tw
       : 0;
     xRef.current = initOffset;
 
@@ -188,26 +205,26 @@ export default function Testimonials() {
 
       {/* ── Pill + Flags ── */}
       <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}
-        className="relative z-10 flex items-center justify-between flex-wrap gap-6 mt-10 mb-10 px-6 md:px-16">
+        className="relative z-10 flex items-center justify-between flex-wrap gap-4 mt-10 mb-10 px-6 md:px-16">
         {/* Pill */}
         <div className="flex items-center rounded-full"
-          style={{ background: 'rgba(20,71,212,0.07)', border: '1px solid rgba(20,71,212,0.18)', padding: '0.75rem 2rem 0.75rem 1.25rem', gap: '2rem' }}>
+          style={{ background: 'rgba(20,71,212,0.07)', border: '1px solid rgba(20,71,212,0.18)', padding: '0.5rem 1rem 0.5rem 1rem', gap: '0.75rem' }}>
           <div className="flex items-center">
-            {AVATARS.map((src, i) => (
-              <img key={i} src={src} alt="" style={{ width: 34, height: 34, borderRadius: '50%', border: '2px solid rgba(20,71,212,0.25)', marginLeft: i === 0 ? 0 : -8, objectFit: 'cover' }} />
+            {AVATARS.slice(0, 4).map((src, i) => (
+              <img key={i} src={src} alt="" style={{ width: 30, height: 30, borderRadius: '50%', border: '2px solid rgba(20,71,212,0.25)', marginLeft: i === 0 ? 0 : -8, objectFit: 'cover' }} />
             ))}
-            <div style={{ width: 34, height: 34, borderRadius: '50%', background: 'rgba(20,71,212,0.12)', border: '2px solid rgba(20,71,212,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.8rem', fontWeight: 700, color: '#1447d4', marginLeft: -8, flexShrink: 0 }}>+</div>
+            <div style={{ width: 30, height: 30, borderRadius: '50%', background: 'rgba(20,71,212,0.12)', border: '2px solid rgba(20,71,212,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.75rem', fontWeight: 700, color: '#1447d4', marginLeft: -8, flexShrink: 0 }}>+</div>
           </div>
           <div className="flex flex-col gap-0.5">
-            <strong className="text-base font-bold text-[#0f172a] leading-tight">669k+ Active</strong>
-            <span className="text-sm text-slate-600 whitespace-nowrap leading-tight">users world-wide</span>
+            <strong className="text-sm font-bold text-[#0f172a] leading-tight">669k+ Active</strong>
+            <span className="text-xs text-slate-600 whitespace-nowrap leading-tight">users world-wide</span>
           </div>
           <motion.a href="#" whileHover={{ x: 4 }}
-            style={{ width: 32, height: 32, borderRadius: '50%', background: 'rgba(20,71,212,0.1)', border: '1px solid rgba(20,71,212,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#1447d4', textDecoration: 'none', fontSize: '0.9rem', flexShrink: 0 }}>→</motion.a>
+            style={{ width: 28, height: 28, borderRadius: '50%', background: 'rgba(20,71,212,0.1)', border: '1px solid rgba(20,71,212,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#1447d4', textDecoration: 'none', fontSize: '0.9rem', flexShrink: 0 }}>→</motion.a>
         </div>
 
         {/* Flags */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center flex-wrap gap-2">
           {FLAGS.map((f, i) => (
             <motion.img key={i} src={f.src} alt={f.alt}
               initial={{ opacity: 0, scale: 0.4, y: 12 }}
@@ -215,7 +232,7 @@ export default function Testimonials() {
               viewport={{ once: true }}
               transition={{ delay: 0.3 + i * 0.07, type: 'spring', stiffness: 260, damping: 18 }}
               whileHover={{ scale: 1.18, y: -4, transition: { duration: 0.2 } }}
-              style={{ width: 50, height: 50, borderRadius: '50%', objectFit: 'cover', border: '2.5px solid rgba(20,71,212,0.18)', cursor: 'pointer' }} />
+              style={{ width: 38, height: 38, borderRadius: '50%', objectFit: 'cover', border: '2.5px solid rgba(20,71,212,0.18)', cursor: 'pointer' }} />
           ))}
         </div>
       </motion.div>
@@ -240,8 +257,8 @@ export default function Testimonials() {
               <div
                 key={i}
                 style={{
-                  width: CARD_W,
-                  minWidth: CARD_W,
+                  width: cardW,
+                  minWidth: cardW,
                   minHeight: 340,
                   flexShrink: 0,
                   background: CARD.bg,

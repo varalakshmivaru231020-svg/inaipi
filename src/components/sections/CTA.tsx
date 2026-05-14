@@ -40,7 +40,8 @@ export default function CTA() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease: CUBE }}
-            style={{ position: 'relative', background: '#000', borderRadius: 30, padding: '80px', overflow: 'hidden', zIndex: 1 }}
+            className="px-6 py-12 sm:px-12 sm:py-16 md:px-16 md:py-20 lg:px-20 lg:py-[80px]"
+            style={{ position: 'relative', background: '#000', borderRadius: 30, overflow: 'hidden', zIndex: 1 }}
           >
             {/* Color glow LEFT — blue */}
             <div aria-hidden style={{ position: 'absolute', bottom: 0, left: 0, width: '63%', height: '100%', zIndex: 0, pointerEvents: 'none', background: 'radial-gradient(ellipse 90% 80% at 0% 100%,rgba(0,71,255,0.7),rgba(0,71,255,0.3) 35%,transparent 65%)', clipPath: 'ellipse(80% 90% at 10% 90%)' }} />

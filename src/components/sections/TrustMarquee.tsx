@@ -24,7 +24,7 @@ const PAGE_BG = '#f8faff';
 const BRACKET_FILL = '#1447d4';
 
 const RightBracket = () => (
-  <svg width="28" height="130" viewBox="0 0 28 130" fill="none" style={{ flexShrink: 0, display: 'block', marginRight: '-1px' }}>
+  <svg width="20" height="100" viewBox="0 0 28 130" fill="none" style={{ flexShrink: 0, display: 'block', marginRight: '-1px' }}>
     <rect width="28" height="130" fill={PAGE_BG} />
     <path
       d="M4 4 C4 4 20 4 20 4 C24 4 26 8 26 13 L26 117 C26 122 24 126 20 126 C20 126 4 126 4 126 C4 126 12 116 12 65 C12 14 4 4 4 4 Z"
@@ -34,7 +34,7 @@ const RightBracket = () => (
 );
 
 const LeftBracket = () => (
-  <svg width="28" height="130" viewBox="0 0 28 130" fill="none" style={{ flexShrink: 0, display: 'block', marginLeft: '-1px' }}>
+  <svg width="20" height="100" viewBox="0 0 28 130" fill="none" style={{ flexShrink: 0, display: 'block', marginLeft: '-1px' }}>
     <rect width="28" height="130" fill={PAGE_BG} />
     <path
       d="M24 4 C24 4 8 4 8 4 C4 4 2 8 2 13 L2 117 C2 122 4 126 8 126 C8 126 24 126 24 126 C24 126 16 116 16 65 C16 14 24 4 24 4 Z"
@@ -67,7 +67,7 @@ export default function TrustMarquee() {
       </motion.p>
 
       {/* Strip — overflow visible so brackets protrude above & below */}
-      <div className="relative w-full" style={{ height: '88px', overflow: 'visible' }}>
+      <div className="relative w-full" style={{ height: 'clamp(64px, 10vw, 88px)', overflow: 'visible' }}>
 
         {/* Strip background */}
         <div className="absolute inset-0" style={{ background: '#1447d4' }} />
@@ -106,8 +106,8 @@ export default function TrustMarquee() {
         >
           <RightBracket />
           {/* page-color box hides strip behind the number */}
-          <div style={{ background: PAGE_BG, height: '88px', display: 'flex', alignItems: 'center', padding: '0 32px' }}>
-            <span style={{ fontSize: '2rem', fontWeight: 700, color: '#1447d4', whiteSpace: 'nowrap', letterSpacing: '-0.03em', fontFamily: 'var(--font-figtree), Figtree, sans-serif' }}>
+          <div style={{ background: PAGE_BG, height: 'clamp(64px, 10vw, 88px)', display: 'flex', alignItems: 'center', padding: '0 clamp(12px, 3vw, 32px)' }}>
+            <span style={{ fontSize: 'clamp(1.25rem, 4vw, 2rem)', fontWeight: 700, color: '#1447d4', whiteSpace: 'nowrap', letterSpacing: '-0.03em', fontFamily: 'var(--font-figtree), Figtree, sans-serif' }}>
               500+
             </span>
           </div>

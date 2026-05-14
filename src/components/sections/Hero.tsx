@@ -279,7 +279,7 @@ export default function Hero() {
             </motion.span>
             <TypewriterWord word="Intelligence" delay={1.1} className="inline-block text-[#1447d4] pb-2 leading-none" />
           </div>
-          <div className="block whitespace-nowrap">
+          <div className="block sm:whitespace-nowrap">
             {['for', 'Every', 'Customer', 'Interaction'].map((word, i) => (
               <motion.span key={i} initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.0, delay: 2.4 + i * 0.12, ease: [0.16, 1, 0.3, 1] }} className="inline-block mr-[0.25em] last:mr-0">
                 {word}
@@ -357,10 +357,10 @@ export default function Hero() {
         <div className="absolute -inset-10 bg-blue-500/8 blur-[100px] rounded-full pointer-events-none" />
 
         {/* 3-panel container — flex so center is truly centered */}
-        <div className="flex items-start justify-center gap-0" style={{ minHeight: '640px' }}>
+        <div className="flex items-start justify-center gap-0 min-h-[280px] sm:min-h-[400px] lg:min-h-[640px]">
 
           {/* ══ LEFT — two separate cards ══ */}
-          <div className="flex flex-col gap-3 w-60 shrink-0 self-center z-20 -mr-5">
+          <div className="hidden lg:flex flex-col gap-3 w-60 shrink-0 self-center z-20 -mr-5">
 
             {/* Card 1 — AI Copilot */}
             <motion.div
@@ -433,10 +433,8 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-            className="rounded-2xl z-10 flex flex-col overflow-hidden shrink-0 relative"
+            className="rounded-2xl z-10 flex flex-col overflow-hidden relative w-full lg:w-[840px] h-[240px] sm:h-[360px] lg:h-[600px]"
             style={{
-              width: '840px',
-              height: '600px',
               boxShadow: '0 32px 80px -20px rgba(37,99,235,0.18), 0 8px 32px -4px rgba(0,0,0,0.08)',
             }}
           >
@@ -453,7 +451,7 @@ export default function Hero() {
             />
 
             {/* Animated text — moved down from top */}
-            <div className="absolute left-0 px-10 flex flex-col items-start" style={{ maxWidth: '500px', top: '22%' }}>
+            <div className="absolute left-0 px-4 sm:px-6 lg:px-10 flex flex-col items-start" style={{ maxWidth: '500px', top: '22%' }}>
               {/* Badge */}
               <motion.div
                 initial={{ opacity: 0, x: -24 }}
@@ -469,7 +467,7 @@ export default function Hero() {
               </motion.div>
 
               {/* Heading — word by word animation */}
-              <h2 className="font-black font-figtree leading-tight mb-5" style={{ fontSize: '2rem' }}>
+              <h2 className="font-black font-figtree leading-tight mb-3 sm:mb-5" style={{ fontSize: 'clamp(1rem, 3.5vw, 2rem)' }}>
                 {['From', 'Automation', 'to', 'Human', 'Connection'].map((word, i) => (
                   <motion.span
                     key={word}
@@ -512,7 +510,7 @@ export default function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 1.4, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute bottom-20 left-6 rounded-2xl px-5 py-4 flex items-center gap-4"
+              className="absolute bottom-2 sm:bottom-8 lg:bottom-20 left-3 sm:left-6 rounded-xl sm:rounded-2xl px-3 sm:px-5 py-2 sm:py-4 flex items-center gap-2 sm:gap-4"
               style={{
                 background: 'rgba(255,255,255,0.12)',
                 backdropFilter: 'blur(16px)',
@@ -551,7 +549,7 @@ export default function Hero() {
           </motion.div>
 
           {/* ══ RIGHT — two stacked cards ══ */}
-          <div className="flex flex-col gap-3 shrink-0 mt-6 -ml-5 w-72 z-20">
+          <div className="hidden lg:flex flex-col gap-3 shrink-0 mt-6 -ml-5 w-72 z-20">
 
             {/* Card 1 — Enterprise Integrations */}
             <motion.div

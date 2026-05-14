@@ -147,7 +147,7 @@ export default function AgentDesktop() {
           className="relative max-w-7xl mx-auto rounded-[2rem] overflow-hidden border border-gray-200 shadow-2xl bg-[#f8fafc]"
         >
           {/* ── Top Bar ── */}
-          <div className="flex items-center justify-between px-6 py-3 border-b border-white/10" style={{ background: '#1447d4' }}>
+          <div className="flex items-center justify-between px-3 sm:px-6 py-3 border-b border-white/10 overflow-hidden" style={{ background: '#1447d4' }}>
             <div className="flex items-center gap-4">
               <motion.div animate={{ scale: [1, 1.1, 1] }} transition={{ duration: 2, repeat: Infinity }}
                 className="w-8 h-8 rounded-xl bg-gradient-to-br from-[#1447d4] to-[#006fff] flex items-center justify-center shrink-0 overflow-hidden">
@@ -164,10 +164,10 @@ export default function AgentDesktop() {
                   <span className="text-[10px] text-white/70 font-bold uppercase tracking-wider">Available</span>
                 </div>
               </div>
-              <div className="h-8 w-px bg-white/20 mx-2" />
+              <div className="h-8 w-px bg-white/20 mx-2 hidden sm:block" />
               {[{ icon: Phone, count: 3, color: 'text-white/80' }, { icon: MessageSquare, count: 5, color: 'text-white/80' }, { icon: Mail, count: 8, color: 'text-white/80' }]
                 .map((s, i) => (
-                  <div key={i} className="flex items-center gap-1.5">
+                  <div key={i} className="hidden sm:flex items-center gap-1.5">
                     <s.icon className={`w-3.5 h-3.5 ${s.color}`} />
                     <span className="text-white/60 text-xs font-bold">{s.count}</span>
                   </div>
@@ -197,7 +197,7 @@ export default function AgentDesktop() {
           </div>
 
           {/* ── 3 Panel Body ── */}
-          <div className="grid grid-cols-12 h-[620px]">
+          <div className="grid grid-cols-12 h-[480px] sm:h-[560px] lg:h-[620px]">
 
             {/* LEFT — Queue */}
             <div className="col-span-3 border-r border-gray-100 flex-col bg-white hidden lg:flex">

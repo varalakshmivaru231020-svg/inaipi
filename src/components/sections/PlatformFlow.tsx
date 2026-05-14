@@ -564,8 +564,8 @@ const stages = [
 // ─────────────────────────────────────────────
 // Stacking card
 // ─────────────────────────────────────────────
-const CARD_TOP = 80;
-const CARD_OFFSET = 16;
+const CARD_TOP = 72;
+const CARD_OFFSET = 12;
 
 function StageCard({ stage, index, total }: { stage: typeof stages[0]; index: number; total: number }) {
   const cardRef = useRef<HTMLDivElement>(null);
@@ -581,7 +581,7 @@ function StageCard({ stage, index, total }: { stage: typeof stages[0]; index: nu
           style={{ backgroundColor: stage.bgLight, borderColor: stage.borderColor }}
         >
           {/* Text side */}
-          <div className="p-8 sm:p-12 flex flex-col justify-center">
+          <div className="p-6 sm:p-8 lg:p-12 flex flex-col justify-center">
             <div className="inline-flex items-center justify-center w-12 h-12 rounded-full text-white text-base font-black mb-6 shrink-0 shadow-lg" style={{ backgroundColor: stage.color }}>
               {stage.id}
             </div>
@@ -609,7 +609,7 @@ function StageCard({ stage, index, total }: { stage: typeof stages[0]; index: nu
           </div>
 
           {/* Mockup side */}
-          <div className="relative min-h-[360px] lg:min-h-0 overflow-hidden rounded-r-3xl border-l" style={{ borderColor: stage.borderColor }}>
+          <div className="relative min-h-[280px] sm:min-h-[360px] lg:min-h-0 overflow-hidden rounded-b-3xl lg:rounded-b-none lg:rounded-r-3xl border-t lg:border-t-0 lg:border-l" style={{ borderColor: stage.borderColor }}>
             <div className="absolute inset-0 pointer-events-none z-10" style={{ boxShadow: `inset 0 0 60px 0 ${stage.color}18` }} />
             <div className="absolute inset-3 rounded-2xl overflow-hidden border border-white/60 shadow-xl bg-white">
               <stage.Mockup />
