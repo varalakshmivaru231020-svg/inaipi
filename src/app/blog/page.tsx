@@ -4,42 +4,11 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Search, Calendar, User, MessageCircle, ArrowRight } from 'lucide-react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
-const BLOG_POSTS = [
-  {
-    id: 1,
-    title: 'The Future of AI in Customer Experience',
-    excerpt: 'Explore how artificial intelligence is transforming how businesses interact with their customers in 2024 and beyond. From predictive analytics to hyper-personalized support, discover why AI is no longer a luxury but a necessity for competitive edge.',
-    image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=2000&auto=format&fit=crop',
-    category: 'Technology',
-    author: 'Admin',
-    date: 'March 28, 2024',
-    comments: 4
-  },
-  {
-    id: 2,
-    title: 'Scaling Your SaaS Business: Key Strategies',
-    excerpt: 'Moving from early-stage to high-growth requires more than just a great product. Learn the operational and marketing shifts needed to sustain exponential growth while maintaining product quality and customer satisfaction.',
-    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2000&auto=format&fit=crop',
-    category: 'Business',
-    author: 'Sarah Chen',
-    date: 'March 24, 2024',
-    comments: 2
-  },
-  {
-    id: 3,
-    title: 'Design Systems for Modern Web Apps',
-    excerpt: 'Consistency and efficiency start with a robust design system. We break down the core components of successful systems used by top design teams to streamline their creative and engineering workflows.',
-    image: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?q=80&w=2000&auto=format&fit=crop',
-    category: 'Design',
-    author: 'Marc Wood',
-    date: 'March 15, 2024',
-    comments: 0
-  }
-];
+type BlogPost = { id: string; title: string; excerpt: string; image: string; category: string; author: string; date: string; comments: number };
 
 const CATEGORIES = [
   { name: 'Technology', count: 12 },
@@ -52,12 +21,12 @@ const CATEGORIES = [
 const TAGS = ['AI', 'SaaS', 'Marketing', 'Productivity', 'Growth', 'Strategy', 'UX', 'Cloud'];
 
 export default function BlogPage() {
+  const [BLOG_POSTS, setBlogPosts] = useState<BlogPost[]>([]);
+
   useEffect(() => {
-    // Fix sticky positioning by switching root overflow from 'hidden' to 'clip'
-    // 'clip' behaves similarly to 'hidden' but doesn't break sticky elements.
+    fetch('/api/blogs').then(r => r.json()).then(setBlogPosts);
     document.documentElement.style.overflowX = 'clip';
     document.body.style.overflowX = 'clip';
-    
     return () => {
       document.documentElement.style.overflowX = '';
       document.body.style.overflowX = '';

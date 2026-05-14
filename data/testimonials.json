@@ -1,0 +1,52 @@
+[
+  {
+    "id": "1",
+    "name": "Dr. Sarah Al Mansouri",
+    "role": "Chief Digital Officer · Aster DM Healthcare",
+    "stars": 5,
+    "quote": "Inaipi transformed how we handle patient communications. Our response time dropped from 12 minutes to under 45 seconds, and patient satisfaction scores have never been higher.",
+    "avatar": "https://i.pravatar.cc/150?img=25",
+    "stat": "94%",
+    "statLabel": "CSAT Score"
+  },
+  {
+    "id": "2",
+    "name": "Mohammed Al Rashid",
+    "role": "VP Customer Experience · Emirates NBD",
+    "stars": 5,
+    "quote": "We handle over 50,000 customer interactions daily across 8 channels. Inaipi unified everything into one platform — our agents are more productive and our customers are happier.",
+    "avatar": "https://i.pravatar.cc/150?img=60",
+    "stat": "67%",
+    "statLabel": "Cost Reduction"
+  },
+  {
+    "id": "3",
+    "name": "Priya Nambiar",
+    "role": "Head of Customer Operations · AXA Gulf Insurance",
+    "stars": 5,
+    "quote": "The AI co-pilot is a game changer. Our agents resolve complex insurance claims 3× faster with AI suggestions right in their workspace. Implementation was seamless.",
+    "avatar": "https://i.pravatar.cc/150?img=43",
+    "stat": "3×",
+    "statLabel": "Faster Resolution"
+  },
+  {
+    "id": "4",
+    "name": "Khalid Al-Mansouri",
+    "role": "Director of Digital Services · Abu Dhabi Municipality",
+    "stars": 5,
+    "quote": "Deploying across 14 regional offices felt impossible before Inaipi. Governance controls and multi-language support gave us compliance confidence we never had with our legacy system.",
+    "avatar": "https://i.pravatar.cc/150?img=15",
+    "stat": "14×",
+    "statLabel": "Offices Unified"
+  },
+  {
+    "id": "5",
+    "name": "James Thornton",
+    "role": "CX Strategy Lead · Majid Al Futtaim",
+    "stars": 5,
+    "quote": "Real-time sentiment analysis has been invaluable. We now catch dissatisfied customers before they escalate and the proactive outreach has dramatically improved our NPS.",
+    "avatar": "https://i.pravatar.cc/150?img=47",
+    "stat": "+42",
+    "statLabel": "NPS Improvement"
+  }
+]

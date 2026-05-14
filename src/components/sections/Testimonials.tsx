@@ -14,48 +14,7 @@ const CARD = {
   quote:  '#1e293b',
 };
 
-const testimonials = [
-  {
-    name: 'Dr. Sarah Al Mansouri',
-    role: 'Chief Digital Officer · Aster DM Healthcare',
-    stars: 5,
-    quote: 'Inaipi transformed how we handle patient communications. Our response time dropped from 12 minutes to under 45 seconds, and patient satisfaction scores have never been higher.',
-    avatar: 'https://i.pravatar.cc/150?img=25',
-    stat: '94%', statLabel: 'CSAT Score',
-  },
-  {
-    name: 'Mohammed Al Rashid',
-    role: 'VP Customer Experience · Emirates NBD',
-    stars: 5,
-    quote: 'We handle over 50,000 customer interactions daily across 8 channels. Inaipi unified everything into one platform — our agents are more productive and our customers are happier.',
-    avatar: 'https://i.pravatar.cc/150?img=60',
-    stat: '67%', statLabel: 'Cost Reduction',
-  },
-  {
-    name: 'Priya Nambiar',
-    role: 'Head of Customer Operations · AXA Gulf Insurance',
-    stars: 5,
-    quote: 'The AI co-pilot is a game changer. Our agents resolve complex insurance claims 3× faster with AI suggestions right in their workspace. Implementation was seamless.',
-    avatar: 'https://i.pravatar.cc/150?img=43',
-    stat: '3×', statLabel: 'Faster Resolution',
-  },
-  {
-    name: 'Khalid Al-Mansouri',
-    role: 'Director of Digital Services · Abu Dhabi Municipality',
-    stars: 5,
-    quote: 'Deploying across 14 regional offices felt impossible before Inaipi. Governance controls and multi-language support gave us compliance confidence we never had with our legacy system.',
-    avatar: 'https://i.pravatar.cc/150?img=15',
-    stat: '14×', statLabel: 'Offices Unified',
-  },
-  {
-    name: 'James Thornton',
-    role: 'CX Strategy Lead · Majid Al Futtaim',
-    stars: 5,
-    quote: 'Real-time sentiment analysis has been invaluable. We now catch dissatisfied customers before they escalate and the proactive outreach has dramatically improved our NPS.',
-    avatar: 'https://i.pravatar.cc/150?img=47',
-    stat: '+42', statLabel: 'NPS Improvement',
-  },
-];
+type Testimonial = { id: string; name: string; role: string; stars: number; quote: string; avatar: string; stat: string; statLabel: string };
 
 const AVATARS = [
   'https://i.pravatar.cc/150?img=11',
@@ -106,16 +65,19 @@ function ProgressDot({ active, onClick }: { active: boolean; onClick: () => void
 }
 
 export default function Testimonials() {
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+  useEffect(() => {
+    fetch('/api/testimonials').then(r => r.json()).then(setTestimonials);
+  }, []);
+
   const trackRef  = useRef<HTMLDivElement>(null);
   const rafRef    = useRef<number>(0);
   const pausedRef = useRef(false);
-  const xRef      = useRef(0); // current translateX (negative = scrolled right)
+  const xRef      = useRef(0);
 
-  /* centerIdx: which card (0..n-1) is closest to viewport center */
   const [centerIdx, setCenterIdx] = useState(0);
   const wrapRef = useRef<HTMLDivElement>(null);
 
-  /* Responsive card width */
   const cardWRef = useRef(420);
   const [cardW, setCardW] = useState(420);
   useEffect(() => {
@@ -130,7 +92,6 @@ export default function Testimonials() {
   }, []);
 
   const n = testimonials.length;
-  /* Triple the array so we always have cards on both sides */
   const triple = [...testimonials, ...testimonials, ...testimonials];
   const totalW = n * (cardW + CARD_GAP); // width of ONE set
 

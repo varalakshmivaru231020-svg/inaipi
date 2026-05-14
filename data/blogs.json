@@ -1,0 +1,53 @@
+[
+  {
+    "id": "1",
+    "title": "The Future of AI in Customer Experience",
+    "excerpt": "Explore how artificial intelligence is transforming how businesses interact with their customers in 2024 and beyond. From predictive analytics to hyper-personalized support, discover why AI is no longer a luxury but a necessity for competitive edge.",
+    "image": "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=2000&auto=format&fit=crop",
+    "category": "Technology",
+    "author": "Admin",
+    "date": "March 28, 2024",
+    "comments": 4,
+    "tags": ["AI", "CX", "Innovation"],
+    "content": [
+      "The landscape of customer experience (CX) is undergoing a monumental shift. Leading this charge is artificial intelligence, which is moving past basic automation and entering a new phase of proactive, empathetic, and hyper-personalized engagement.",
+      "Historically, contact centers have been reactive environments. A customer has a problem, they reach out, and an agent tries to solve it across disparate systems. Today, AI models are predicting customer friction before it happens, allowing enterprises to intercept issues and offer solutions proactively.",
+      "But the real magic happens when AI is blended with human empathy. Instead of replacing agents entirely, the most successful implementations are side-by-side: AI handles the repetitive triage and search tasks, while human agents are freed to handle complex, emotionally nuanced interactions.",
+      "As we look to the rest of 2024, the companies that thrive will be those that view AI not as a cost-cutting measure, but as an engine for deeper customer loyalty."
+    ]
+  },
+  {
+    "id": "2",
+    "title": "Scaling Your SaaS Business: Key Strategies",
+    "excerpt": "Moving from early-stage to high-growth requires more than just a great product. Learn the operational and marketing shifts needed to sustain exponential growth while maintaining product quality and customer satisfaction.",
+    "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2000&auto=format&fit=crop",
+    "category": "Business",
+    "author": "Sarah Chen",
+    "date": "March 24, 2024",
+    "comments": 2,
+    "tags": ["SaaS", "Growth", "Strategy"],
+    "content": [
+      "Transitioning from a promising startup to a scaling SaaS enterprise introduces a completely new set of challenges. Early on, founder-led sales and unscalable customer support might work, but growth demands systemic changes.",
+      "The first critical shift is moving from acquisition-only focus to a retention-first mentality. Because acquiring a new enterprise customer costs significantly more than retaining an existing one, your customer success motion becomes the heartbeat of the company.",
+      "Secondly, scaling requires breaking down data silos. Marketing, sales, and support must operate from a single source of truth. If your sales team doesn't know what tickets an enterprise account has filed, churn becomes inevitable.",
+      "Lastly, pricing and packaging must evolve. Moving upmarket means dealing with complex procurement requirements and deploying enterprise-grade governance. Building secure, compliant infrastructure early on pays massive dividends later."
+    ]
+  },
+  {
+    "id": "3",
+    "title": "Design Systems for Modern Web Apps",
+    "excerpt": "Consistency and efficiency start with a robust design system. We break down the core components of successful systems used by top design teams to streamline their creative and engineering workflows.",
+    "image": "https://images.unsplash.com/photo-1561070791-2526d30994b5?q=80&w=2000&auto=format&fit=crop",
+    "category": "Design",
+    "author": "Marc Wood",
+    "date": "March 15, 2024",
+    "comments": 0,
+    "tags": ["UX", "Design", "Architecture"],
+    "content": [
+      "A true design system is more than just a UI kit in Figma or a folder of components. It is the connective tissue between design, engineering, and product strategy.",
+      "When scaling an application, particularly an enterprise SaaS platform with hundreds of screens, establishing a shared vocabulary is critical. Without it, design debt accumulates rapidly, and every new feature takes progressively longer to release.",
+      "The best design systems act as boundaries that actually encourage creativity. Because designers no longer have to worry about padding, typography scales, or border states, they can focus entirely on solving deep user experience problems.",
+      "Building a system early, enforcing strict token adherence, and establishing clear contribution guidelines ensures your platform feels cohesive, premium, and trustworthy to every user who encounters it."
+    ]
+  }
+]
