@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import ImageUpload from '../components/ImageUpload';
 
 type T = { id: string; name: string; role: string; quote: string; avatar: string; stat: string; statLabel: string; stars: number };
 const blank = (): Omit<T, 'id'> => ({ name:'', role:'', quote:'', avatar:'', stat:'', statLabel:'', stars:5 });
@@ -75,7 +76,9 @@ export default function AdminTestimonials() {
                 {[5,4,3,2,1].map(n => <option key={n} value={n}>{n} ★</option>)}
               </select>
             </Field>
-            <Field label="Avatar URL"><input value={form.avatar} onChange={e => set('avatar', e.target.value)} placeholder="https://..." className={inp} /></Field>
+            <div className="sm:col-span-2">
+              <ImageUpload label="Avatar" value={form.avatar} onChange={url => set('avatar', url)} hint="Square image, min 100×100px" />
+            </div>
           </div>
           <Field label="Quote">
             <textarea value={form.quote} onChange={e => set('quote', e.target.value)} rows={3} placeholder="Customer testimonial..." className={`${inp} mt-4`} />

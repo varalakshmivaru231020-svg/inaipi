@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import ImageUpload from '../../components/ImageUpload';
 
 export default function NewBlog() {
   const router = useRouter();
@@ -38,29 +39,34 @@ export default function NewBlog() {
 
       <form onSubmit={submit} className="space-y-5">
         <Field label="Title" required>
-          <input value={form.title} onChange={e => set('title', e.target.value)} required placeholder="Post title" className={input} />
+          <input value={form.title} onChange={e => set('title', e.target.value)} required placeholder="Post title" className={inp} />
         </Field>
         <div className="grid sm:grid-cols-2 gap-4">
           <Field label="Category">
-            <select value={form.category} onChange={e => set('category', e.target.value)} className={input}>
+            <select value={form.category} onChange={e => set('category', e.target.value)} className={inp}>
               {['Technology','Business','Design','Updates','Innovation'].map(c => <option key={c}>{c}</option>)}
             </select>
           </Field>
           <Field label="Author">
-            <input value={form.author} onChange={e => set('author', e.target.value)} className={input} />
+            <input value={form.author} onChange={e => set('author', e.target.value)} className={inp} />
           </Field>
         </div>
-        <Field label="Image URL">
-          <input value={form.image} onChange={e => set('image', e.target.value)} placeholder="https://..." className={input} />
-        </Field>
+
+        <ImageUpload
+          label="Cover Image"
+          value={form.image}
+          onChange={url => set('image', url)}
+          hint="Recommended: 1200×630px, JPG or WebP"
+        />
+
         <Field label="Excerpt / Summary" required>
-          <textarea value={form.excerpt} onChange={e => set('excerpt', e.target.value)} required rows={3} placeholder="Short description..." className={input} />
+          <textarea value={form.excerpt} onChange={e => set('excerpt', e.target.value)} required rows={3} placeholder="Short description..." className={inp} />
         </Field>
         <Field label="Content (separate paragraphs with blank line)" required>
-          <textarea value={form.content} onChange={e => set('content', e.target.value)} required rows={10} placeholder="First paragraph...&#10;&#10;Second paragraph..." className={input} />
+          <textarea value={form.content} onChange={e => set('content', e.target.value)} required rows={10} placeholder="First paragraph...&#10;&#10;Second paragraph..." className={inp} />
         </Field>
         <Field label="Tags (comma-separated)">
-          <input value={form.tags} onChange={e => set('tags', e.target.value)} placeholder="AI, CX, Innovation" className={input} />
+          <input value={form.tags} onChange={e => set('tags', e.target.value)} placeholder="AI, CX, Innovation" className={inp} />
         </Field>
         <div className="flex gap-3 pt-2">
           <button type="submit" disabled={saving}
@@ -76,7 +82,7 @@ export default function NewBlog() {
   );
 }
 
-const input = 'w-full border border-slate-200 rounded-xl px-4 py-3 text-sm text-[#0f172a] focus:outline-none focus:border-[#1447d4] transition-colors resize-none';
+const inp = 'w-full border border-slate-200 rounded-xl px-4 py-3 text-sm text-[#0f172a] focus:outline-none focus:border-[#1447d4] transition-colors resize-none';
 
 function Field({ label, required, children }: { label: string; required?: boolean; children: React.ReactNode }) {
   return (

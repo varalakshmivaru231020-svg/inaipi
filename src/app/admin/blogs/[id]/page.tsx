@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
+import ImageUpload from '../../components/ImageUpload';
 
 export default function EditBlog() {
   const { id } = useParams<{ id: string }>();
@@ -65,9 +66,12 @@ export default function EditBlog() {
             <input value={form.author} onChange={e => set('author', e.target.value)} className={inp} />
           </Field>
         </div>
-        <Field label="Image URL">
-          <input value={form.image} onChange={e => set('image', e.target.value)} className={inp} />
-        </Field>
+        <ImageUpload
+          label="Cover Image"
+          value={form.image}
+          onChange={url => set('image', url)}
+          hint="Recommended: 1200×630px, JPG or WebP"
+        />
         <Field label="Excerpt" required>
           <textarea value={form.excerpt} onChange={e => set('excerpt', e.target.value)} required rows={3} className={inp} />
         </Field>
