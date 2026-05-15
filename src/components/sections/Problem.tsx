@@ -203,7 +203,7 @@ export default function Problem() {
       </section>
 
       {/* Result Banner */}
-      <div className="py-12 lg:py-16 relative z-10" style={{ background: BG }}>
+      <div className="py-20 lg:py-24 relative z-10" style={{ background: BG }}>
         <div className="container mx-auto px-6 max-w-6xl">
           <motion.div
             initial={{ opacity: 0, y: 60 }}

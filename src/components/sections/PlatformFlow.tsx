@@ -626,12 +626,12 @@ function StageCard({ stage, index, total }: { stage: typeof stages[0]; index: nu
 // ─────────────────────────────────────────────
 export default function PlatformFlow() {
   return (
-    <section id="platform" className="relative overflow-hidden" style={{ background: '#f8faff' }}>
+    <section id="platform" className="py-20 lg:py-24 relative overflow-hidden" style={{ background: '#f8faff' }}>
       {/* Background orbs */}
       <div className="absolute pointer-events-none" style={{ width: '46vw', height: '46vw', top: '-200px', right: '-280px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(37,99,235,0.07) 0%, transparent 70%)', border: '1px solid rgba(37,99,235,0.05)' }} />
       <div className="absolute pointer-events-none" style={{ width: '34vw', height: '34vw', bottom: '-160px', left: '-180px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(0,111,255,0.06) 0%, transparent 70%)' }} />
       <div className="absolute inset-0 opacity-[0.02] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#0f172a 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
-      <div className="container mx-auto px-6 max-w-3xl text-center pt-24 pb-16">
+      <div className="container mx-auto px-6 max-w-3xl text-center">
         <motion.p
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
