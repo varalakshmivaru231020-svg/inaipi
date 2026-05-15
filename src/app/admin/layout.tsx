@@ -8,6 +8,7 @@ const NAV = [
   { label: 'Dashboard',    href: '/admin',               icon: '▦' },
   { label: 'Blog Posts',   href: '/admin/blogs',         icon: '✎' },
   { label: 'Testimonials', href: '/admin/testimonials',  icon: '❝' },
+  { label: 'Section Images', href: '/admin/site-images', icon: '🖼' },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -56,7 +57,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       <main className="flex-1 overflow-auto">
         <header className="sticky top-0 z-10 bg-white border-b border-slate-100 px-8 py-4 flex items-center justify-between">
           <p className="text-sm font-bold text-slate-400 uppercase tracking-widest">
-            {NAV.find(n => n.href === pathname || (n.href !== '/admin' && pathname.startsWith(n.href)))?.label ?? 'Dashboard'}
+            {NAV.find(n => n.href === pathname || (n.href !== '/admin' && pathname.startsWith(n.href)))?.label ?? 'Admin'}
           </p>
           <Link href="/" target="_blank" className="text-xs font-bold text-[#1447d4] hover:underline">
             View Site ↗

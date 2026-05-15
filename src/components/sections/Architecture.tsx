@@ -1,9 +1,16 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import Image from 'next/image';
+import { useEffect, useState } from 'react';
 
 export default function Architecture() {
+  const [archImage, setArchImage] = useState('/arch1.png');
+
+  useEffect(() => {
+    fetch('/api/site-images')
+      .then(r => r.json())
+      .then(d => { if (d.architectureImage) setArchImage(d.architectureImage); });
+  }, []);
   return (
     <section className="py-20 lg:py-24 overflow-hidden relative" style={{ background: '#f8faff' }}>
       <div className="absolute pointer-events-none" style={{ width: '48vw', height: '48vw', top: '-200px', right: '-300px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(37,99,235,0.07) 0%, transparent 70%)', border: '1px solid rgba(37,99,235,0.06)' }} />
@@ -38,14 +45,11 @@ export default function Architecture() {
           className="flex justify-center"
         >
           <div className="relative rounded-[2.5rem] overflow-hidden shadow-2xl border bg-white w-full" style={{ borderColor: 'rgba(20,71,212,0.12)' }}>
-            <Image
-              src="/arch1.png"
+            <img
+              src={archImage}
               alt="Inaipi Architecture Diagram"
-              width={1200}
-              height={800}
               className="w-full object-cover"
               style={{ maxHeight: '700px' }}
-              priority
             />
           </div>
         </motion.div>

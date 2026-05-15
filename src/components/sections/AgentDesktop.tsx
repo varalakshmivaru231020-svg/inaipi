@@ -47,9 +47,16 @@ export default function AgentDesktop() {
   const [queue, setQueue]           = useState(INITIAL_QUEUE);
   const [arrivalIdx, setArrivalIdx] = useState(0);
   const [inView, setInView]         = useState(false);
+  const [desktopImage, setDesktopImage] = useState('');
   const sectionRef = useRef<HTMLDivElement>(null);
   const chatRef    = useRef<HTMLDivElement>(null);
   const timers     = useRef<ReturnType<typeof setTimeout>[]>([]);
+
+  useEffect(() => {
+    fetch('/api/site-images')
+      .then(r => r.json())
+      .then(d => { if (d.agentDesktopImage) setDesktopImage(d.agentDesktopImage); });
+  }, []);
 
   // Intersection observer — start only when visible
   useEffect(() => {
@@ -139,6 +146,17 @@ export default function AgentDesktop() {
       </div>
 
       <div className="container mx-auto px-4 sm:px-6">
+        {desktopImage ? (
+          <motion.div
+            initial={{ opacity: 0, y: 60 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            className="relative max-w-7xl mx-auto rounded-[2rem] overflow-hidden border border-gray-200 shadow-2xl"
+          >
+            <img src={desktopImage} alt="Agent Desktop" className="w-full object-cover" />
+          </motion.div>
+        ) : (
         <motion.div
           initial={{ opacity: 0, y: 60 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -447,6 +465,7 @@ export default function AgentDesktop() {
             </div>
           </div>
         </motion.div>
+        )}
       </div>
     </section>
   );
