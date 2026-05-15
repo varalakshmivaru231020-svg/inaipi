@@ -115,7 +115,7 @@ export default function Problem() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-            className="relative flex w-full border-b border-slate-200 mb-8"
+            className="grid grid-cols-2 sm:flex w-full border border-slate-200 sm:border-0 sm:border-b rounded-2xl sm:rounded-none overflow-hidden mb-8 bg-white sm:bg-transparent"
           >
             {painPoints.map((p, i) => {
               const Icon = p.icon;
@@ -124,24 +124,17 @@ export default function Problem() {
                 <button
                   key={i}
                   onClick={() => setActive(i)}
-                  className={`relative flex flex-1 items-center justify-center gap-1 sm:gap-2 py-3 sm:py-4 px-1 sm:px-4 text-[11px] sm:text-[13px] font-bold tracking-wide font-figtree transition-colors duration-200 min-h-[48px] ${
-                    isActive ? 'text-[#1447d4]' : 'text-slate-400 hover:text-slate-600'
-                  }`}
+                  className={`relative flex flex-1 items-center justify-center gap-2 py-3.5 sm:py-4 px-3 sm:px-4 text-[12px] sm:text-[13px] font-bold tracking-wide font-figtree transition-colors duration-200 min-h-[52px] border-b sm:border-b-0 border-slate-100 last:border-b-0 ${
+                    i % 2 === 0 ? 'border-r sm:border-r-0 border-slate-100' : ''
+                  } ${isActive ? 'text-[#1447d4] bg-blue-50 sm:bg-transparent' : 'text-slate-400 hover:text-slate-600'}`}
                 >
                   {isActive && (
-                    <motion.div layoutId="tab-bg"
-                      className="absolute inset-x-0 inset-y-0 bottom-[-1px] bg-white z-0"
-                      style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.06)' }}
-                    />
-                  )}
-                  {isActive && (
                     <motion.div layoutId="tab-line"
-                      className="absolute top-0 left-0 right-0 h-[2px] z-10 rounded-full" style={{ background: '#1447d4' }}
+                      className="absolute bottom-0 sm:top-0 left-0 right-0 h-[2px] sm:h-[2px] z-10 rounded-full hidden sm:block" style={{ background: '#1447d4' }}
                     />
                   )}
                   <Icon className="w-4 h-4 shrink-0 relative z-10" />
-                  <span className="relative z-10 hidden sm:inline">{p.tag}</span>
-                  <span className="relative z-10 sm:hidden text-[9px] leading-tight text-center">{p.tag.split(' ')[0]}</span>
+                  <span className="relative z-10">{p.tag}</span>
                 </button>
               );
             })}
@@ -155,11 +148,11 @@ export default function Problem() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
-              className="grid grid-cols-5 gap-3 sm:gap-5"
+              className="grid grid-cols-1 lg:grid-cols-5 gap-4 lg:gap-5"
             >
               {/* Left — problems */}
               <div
-                className="col-span-3 rounded-2xl sm:rounded-3xl p-4 sm:p-8 flex flex-col"
+                className="col-span-1 lg:col-span-3 rounded-2xl sm:rounded-3xl p-5 sm:p-8 flex flex-col"
                 style={{ background: '#1447d4' }}
               >
                 <div className="inline-flex items-center gap-1.5 px-3 sm:px-4 py-1 sm:py-1.5 rounded-full text-[9px] sm:text-xs font-black uppercase tracking-widest mb-4 sm:mb-6 bg-white/15 text-white border border-white/25 self-start font-figtree">
@@ -184,9 +177,9 @@ export default function Problem() {
               </div>
 
               {/* Right — gap + step */}
-              <div className="col-span-2 flex flex-col gap-3 sm:gap-4">
+              <div className="col-span-1 lg:col-span-2 flex flex-col sm:flex-row lg:flex-col gap-3 sm:gap-4">
                 <div
-                  className="rounded-2xl sm:rounded-3xl p-3 sm:p-7 text-white flex flex-col flex-1"
+                  className="rounded-2xl sm:rounded-3xl p-5 sm:p-7 text-white flex flex-col flex-1"
                   style={{ background: '#1447d4' }}
                 >
                   <p className="text-[9px] sm:text-xs font-black uppercase tracking-[0.2em] text-white/80 mb-2 sm:mb-3 font-figtree">The Hidden Gap</p>
