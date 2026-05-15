@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { PhoneCall, FileText, BarChart2, MessageSquare, XCircle, Lightbulb } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 
@@ -77,66 +77,43 @@ export default function Problem() {
   const wrapperRef = useRef<HTMLDivElement>(null);   // 500vh scroll tracker
   const sectionRef = useRef<HTMLElement>(null);       // visible panel
 
-  /* ── JavaScript-based sticky (works regardless of parent overflow) ── */
+  /* ── JavaScript-based sticky (RAF-throttled, skips redundant setActive calls) ── */
   useEffect(() => {
-    const onScroll = () => {
+    const lastActive = { current: -1 };
+    let raf = 0;
+
+    const compute = () => {
       const wrapper = wrapperRef.current;
       const section = sectionRef.current;
       if (!wrapper || !section) return;
 
       const rect    = wrapper.getBoundingClientRect();
       const vh      = window.innerHeight;
-      const sectionH = Math.round(vh);      // 100% of viewport — fits content snugly
-      const total   = wrapper.offsetHeight - vh;   // scrollable range (≈ 4 × vh)
+      const sectionH = Math.round(vh);
+      const total   = wrapper.offsetHeight - vh;
 
       if (rect.top > 0) {
-        /* ── not yet reached ── */
-        Object.assign(section.style, {
-          position : 'absolute',
-          top      : '0px',
-          bottom   : '',
-          left     : '0',
-          right    : '0',
-          width    : '100%',
-          height   : `${sectionH}px`,
-          zIndex   : '20',
-        });
-        setActive(0);
+        Object.assign(section.style, { position: 'absolute', top: '0px', bottom: '', left: '0', right: '0', width: '100%', height: `${sectionH}px`, zIndex: '20' });
+        if (lastActive.current !== 0) { lastActive.current = 0; setActive(0); }
       } else if (rect.top + wrapper.offsetHeight <= vh) {
-        /* ── already scrolled past ── */
-        Object.assign(section.style, {
-          position : 'absolute',
-          top      : '',
-          bottom   : '0px',
-          left     : '0',
-          right    : '0',
-          width    : '100%',
-          height   : `${sectionH}px`,
-          zIndex   : '20',
-        });
-        setActive(3);
+        Object.assign(section.style, { position: 'absolute', top: '', bottom: '0px', left: '0', right: '0', width: '100%', height: `${sectionH}px`, zIndex: '20' });
+        if (lastActive.current !== 3) { lastActive.current = 3; setActive(3); }
       } else {
-        /* ── pinned in viewport ── */
-        Object.assign(section.style, {
-          position : 'fixed',
-          top      : '0px',
-          bottom   : '',
-          left     : '0',
-          right    : '0',
-          width    : '100%',
-          height   : `${sectionH}px`,
-          zIndex   : '20',
-        });
-        const progress = Math.max(0, Math.min(1, (-rect.top) / total));
-        setActive(Math.min(3, Math.floor(progress * 4)));
+        Object.assign(section.style, { position: 'fixed', top: '0px', bottom: '', left: '0', right: '0', width: '100%', height: `${sectionH}px`, zIndex: '20' });
+        const progress  = Math.max(0, Math.min(1, (-rect.top) / total));
+        const newActive = Math.min(3, Math.floor(progress * 4));
+        if (lastActive.current !== newActive) { lastActive.current = newActive; setActive(newActive); }
       }
     };
 
+    const onScroll = () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(compute); };
+
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll, { passive: true });
-    onScroll(); // initialise immediately
+    compute();
 
     return () => {
+      cancelAnimationFrame(raf);
       window.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', onScroll);
     };
@@ -229,7 +206,15 @@ export default function Problem() {
 
           {/* ── Content panel ── */}
           <div className="container mx-auto px-3 sm:px-6 max-w-6xl flex-1 min-h-0 pt-3 pb-4 relative z-10 overflow-hidden">
-            <div key={active} className="grid grid-cols-5 gap-1.5 sm:gap-4" style={{ animation: 'problemFadeIn 0.25s ease forwards' }}>
+            <AnimatePresence mode="wait" initial={false}>
+            <motion.div
+              key={active}
+              initial={{ opacity: 0, x: 24 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -24 }}
+              transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
+              className="grid grid-cols-5 gap-1.5 sm:gap-4"
+            >
                 {/* Left — problems */}
                 <div
                   className="col-span-3 rounded-xl sm:rounded-3xl p-3 sm:p-7 flex flex-col overflow-y-auto max-h-[220px] sm:max-h-[320px] lg:max-h-[420px]"
@@ -272,7 +257,8 @@ export default function Problem() {
                     </div>
                   </div>
                 </div>
-            </div>
+            </motion.div>
+            </AnimatePresence>
           </div>
 
         </section>
