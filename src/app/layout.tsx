@@ -18,6 +18,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${figtree.variable} scroll-smooth`}>
+      <head>
+        <link rel="preload" as="image" href="/hero.png" fetchPriority="high" />
+        <link rel="preload" as="image" href="/arch1.png" />
+      </head>
       <body className="antialiased overflow-x-hidden">
         <AnimationProvider>
           <SmoothScroll>

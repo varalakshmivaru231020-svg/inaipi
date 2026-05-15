@@ -50,6 +50,8 @@ export default function Architecture() {
               alt="Inaipi Architecture Diagram"
               className="w-full object-cover"
               style={{ maxHeight: '700px' }}
+              loading="eager"
+              fetchPriority="high"
             />
           </div>
         </motion.div>

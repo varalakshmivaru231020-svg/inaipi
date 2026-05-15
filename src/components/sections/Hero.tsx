@@ -373,7 +373,7 @@ export default function Hero() {
               <div className="flex items-center gap-2 px-3 py-2 border-b border-blue-100/60 shrink-0">
                 <motion.div animate={{ scale: [1, 1.1, 1] }} transition={{ duration: 2, repeat: Infinity }}
                   className="w-5 h-5 rounded-lg bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center shrink-0 overflow-hidden">
-                  <img src="/images/agents/agent_1.png" alt="AI Agent" className="w-full h-full object-cover" />
+                  <img src="/images/agents/agent_1.png" alt="AI Agent" className="w-full h-full object-cover" loading="eager" />
                 </motion.div>
                 <p className="text-[9px] font-black uppercase tracking-widest text-blue-600">AI Copilot</p>
                 <span className="ml-auto text-[8px] font-black text-blue-500 bg-blue-50 px-1.5 py-0.5 rounded-full">AI Powered</span>
@@ -408,7 +408,7 @@ export default function Hero() {
                   <motion.div animate={{ scale: [1, 1.4, 1], opacity: [0.4, 0, 0.4] }} transition={{ duration: 1.2, repeat: Infinity }}
                     className="absolute inset-0 rounded-full bg-green-400" />
                   <div className="w-8 h-8 rounded-full overflow-hidden border-2 border-green-300 relative z-10">
-                    <img src="/images/people/person_1.png" alt="Caller" className="w-full h-full object-cover" />
+                    <img src="/images/people/person_1.png" alt="Caller" className="w-full h-full object-cover" loading="eager" />
                   </div>
                 </div>
                 <div className="flex-1 min-w-0">
@@ -443,6 +443,8 @@ export default function Hero() {
               src="/hero.png"
               alt="Inaipi Agent"
               className="absolute inset-0 w-full h-full object-cover"
+              loading="eager"
+              fetchPriority="high"
             />
 
             {/* Gradient overlay — left side for text legibility */}

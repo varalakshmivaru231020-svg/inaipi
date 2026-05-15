@@ -120,6 +120,7 @@ export default function Blogs() {
                 src={featured.image}
                 alt={featured.title}
                 fill
+                priority
                 className="object-cover object-top group-hover:scale-105 transition-transform duration-700"
               />
               {/* Gradient overlay */}
