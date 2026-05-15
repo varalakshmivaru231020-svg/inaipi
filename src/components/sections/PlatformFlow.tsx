@@ -626,7 +626,7 @@ function StageCard({ stage, index, total }: { stage: typeof stages[0]; index: nu
 // ─────────────────────────────────────────────
 export default function PlatformFlow() {
   return (
-    <section className="relative overflow-hidden" style={{ background: '#f8faff' }}>
+    <section id="platform" className="relative overflow-hidden" style={{ background: '#f8faff' }}>
       {/* Background orbs */}
       <div className="absolute pointer-events-none" style={{ width: '46vw', height: '46vw', top: '-200px', right: '-280px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(37,99,235,0.07) 0%, transparent 70%)', border: '1px solid rgba(37,99,235,0.05)' }} />
       <div className="absolute pointer-events-none" style={{ width: '34vw', height: '34vw', bottom: '-160px', left: '-180px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(0,111,255,0.06) 0%, transparent 70%)' }} />

@@ -5,6 +5,7 @@ import { Menu, X, ArrowRight } from 'lucide-react';
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 const navLinks = [
   { name: 'Platform', href: '/#platform' },
@@ -19,6 +20,19 @@ export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(true);
   const { scrollY } = useScroll();
+  const pathname = usePathname();
+
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (!href.startsWith('/#')) return;
+    e.preventDefault();
+    setMobileMenuOpen(false);
+    const id = href.slice(2);
+    if (pathname === '/') {
+      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+      window.location.href = href;
+    }
+  };
 
   useMotionValueEvent(scrollY, 'change', (latest) => {
     setScrolled(latest <= 60);
@@ -104,6 +118,7 @@ export default function Navbar() {
                 >
                   <Link
                     href={link.href}
+                    onClick={(e) => handleNavClick(e, link.href)}
                     className="relative inline-flex items-center min-h-[44px] text-[15px] font-semibold font-figtree text-[#0f172a]/60 hover:text-[#1447d4] transition-colors duration-200 tracking-normal whitespace-nowrap group focus-visible:outline-none focus-visible:text-[#1447d4]"
                   >
                     {link.name}
@@ -186,7 +201,7 @@ export default function Navbar() {
                 <Link
                   key={link.name}
                   href={link.href}
-                  onClick={() => setMobileMenuOpen(false)}
+                  onClick={(e) => handleNavClick(e, link.href)}
                   className="min-h-[52px] flex items-center text-base font-bold text-[#0f172a] hover:text-[#1447d4] transition-colors duration-200 px-2 rounded-xl hover:bg-slate-50"
                 >
                   {link.name}

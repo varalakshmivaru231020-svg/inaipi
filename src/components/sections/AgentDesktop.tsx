@@ -125,7 +125,7 @@ export default function AgentDesktop() {
   const sentimentText  = sentiment >= 75 ? 'text-blue-600' : sentiment >= 50 ? 'text-blue-400' : 'text-slate-500';
 
   return (
-    <section className="py-20 lg:py-24 overflow-hidden border-t border-blue-100/40 relative" id="solutions" ref={sectionRef} style={{ background: '#f8faff' }}>
+    <section className="py-20 lg:py-24 overflow-hidden border-t border-blue-100/40 relative" id="features" ref={sectionRef} style={{ background: '#f8faff' }}>
       <div className="absolute pointer-events-none" style={{ width: '46vw', height: '46vw', top: '-220px', right: '-300px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(37,99,235,0.06) 0%, transparent 70%)', border: '1px solid rgba(37,99,235,0.05)' }} />
       <div className="absolute pointer-events-none" style={{ width: '32vw', height: '32vw', bottom: '-160px', left: '-200px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(0,111,255,0.05) 0%, transparent 70%)' }} />
       <div className="absolute inset-0 opacity-[0.025] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#0f172a 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
