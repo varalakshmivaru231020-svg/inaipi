@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { Figtree } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
@@ -17,7 +17,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${figtree.variable} scroll-smooth`}>
+    <html lang="en" className={`${figtree.variable}`} style={{ scrollBehavior: "auto" }}>
       <head>
         <link rel="preload" as="image" href="/hero.png" fetchPriority="high" />
         <link rel="preload" as="image" href="/arch1.png" />
@@ -32,3 +32,4 @@ export default function RootLayout({
     </html>
   );
 }
+
