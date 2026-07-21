@@ -1,20 +1,25 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { readFileSync, writeFileSync } from 'fs';
-import { join } from 'path';
+import { prisma } from '@/lib/prisma';
 
-const FILE = join(process.cwd(), 'data', 'testimonials.json');
-const read = () => JSON.parse(readFileSync(FILE, 'utf-8'));
-const write = (data: unknown) => writeFileSync(FILE, JSON.stringify(data, null, 2));
+export const dynamic = 'force-dynamic';
 
 export async function GET() {
-  return NextResponse.json(read());
+  const list = await prisma.testimonial.findMany({ orderBy: { createdAt: 'asc' } });
+  return NextResponse.json(list);
 }
 
 export async function POST(req: NextRequest) {
-  const body = await req.json();
-  const list = read();
-  const item = { ...body, id: Date.now().toString(), stars: Number(body.stars) || 5 };
-  list.push(item);
-  write(list);
+  const b = await req.json();
+  const item = await prisma.testimonial.create({
+    data: {
+      name: b.name ?? '',
+      role: b.role ?? '',
+      quote: b.quote ?? '',
+      avatar: b.avatar ?? '',
+      stat: b.stat ?? '',
+      statLabel: b.statLabel ?? '',
+      stars: Number(b.stars) || 5,
+    },
+  });
   return NextResponse.json(item, { status: 201 });
 }

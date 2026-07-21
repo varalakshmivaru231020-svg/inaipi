@@ -1,13 +1,9 @@
 import { NextResponse } from 'next/server';
-import { readFileSync } from 'fs';
-import { join } from 'path';
+import { prisma } from '@/lib/prisma';
+
+export const dynamic = 'force-dynamic';
 
 export async function GET() {
-  try {
-    const file = join(process.cwd(), 'data', 'testimonials.json');
-    const testimonials = JSON.parse(readFileSync(file, 'utf-8'));
-    return NextResponse.json(testimonials);
-  } catch {
-    return NextResponse.json([], { status: 200 });
-  }
+  const list = await prisma.testimonial.findMany({ orderBy: { createdAt: 'asc' } });
+  return NextResponse.json(list);
 }

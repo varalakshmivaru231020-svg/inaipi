@@ -1,0 +1,65 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Blog {
+  id        String   @id @default(cuid())
+  title     String
+  excerpt   String   @default("")
+  image     String   @default("")
+  category  String   @default("")
+  author    String   @default("")
+  date      String   @default("")
+  comments  Int      @default(0)
+  tags      String[]
+  content   String[]
+  createdAt DateTime @default(now())
+}
+
+model Job {
+  id               String   @id @default(cuid())
+  slug             String   @unique
+  title            String
+  type             String   @default("Full time")
+  location         String   @default("")
+  salary           String   @default("")
+  desc             String   @default("")
+  responsibilities String[]
+  requirements     String[]
+  offers           String[]
+  createdAt        DateTime @default(now())
+}
+
+model Testimonial {
+  id        String   @id @default(cuid())
+  name      String
+  role      String   @default("")
+  quote     String   @default("")
+  avatar    String   @default("")
+  stat      String   @default("")
+  statLabel String   @default("")
+  stars     Int      @default(5)
+  createdAt DateTime @default(now())
+}
+
+model SiteImage {
+  key   String @id
+  value String @default("")
+}
+
+model Seo {
+  page          String  @id
+  title         String  @default("")
+  description   String  @default("")
+  keywords      String  @default("")
+  canonical     String  @default("")
+  ogTitle       String  @default("")
+  ogDescription String  @default("")
+  ogImage       String  @default("")
+  noindex       Boolean @default(false)
+}

@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { PhoneCall, FileText, BarChart2, MessageSquare, XCircle, Lightbulb } from 'lucide-react';
 import { useState } from 'react';
 
@@ -76,14 +76,15 @@ export default function Problem() {
   return (
     <>
       <section className="py-20 lg:py-24 overflow-hidden relative" style={{ background: BG }}>
-        {/* Background blobs */}
-        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+        {/* Background blobs — promoted to their own GPU layer so the expensive
+            blur is painted once and only composited (not repainted) during scroll */}
+        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none" style={{ transform: 'translateZ(0)' }}>
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] rounded-full blur-[80px]"
-            style={{ background: 'radial-gradient(ellipse, rgba(20,71,212,0.08) 0%, transparent 65%)' }} />
+            style={{ background: 'radial-gradient(ellipse, rgba(20,71,212,0.08) 0%, transparent 65%)', transform: 'translateZ(0)' }} />
           <div className="absolute top-[20%] left-[-5%] w-[500px] h-[500px] rounded-full blur-[90px]"
-            style={{ background: 'radial-gradient(circle, rgba(0,111,255,0.07) 0%, transparent 70%)' }} />
+            style={{ background: 'radial-gradient(circle, rgba(0,111,255,0.07) 0%, transparent 70%)', transform: 'translateZ(0)' }} />
           <div className="absolute bottom-[10%] right-[-5%] w-[450px] h-[450px] rounded-full blur-[80px]"
-            style={{ background: 'radial-gradient(circle, rgba(0,231,255,0.05) 0%, transparent 70%)' }} />
+            style={{ background: 'radial-gradient(circle, rgba(0,231,255,0.05) 0%, transparent 70%)', transform: 'translateZ(0)' }} />
         </div>
 
         <div className="container mx-auto px-6 max-w-6xl relative z-10">
@@ -140,14 +141,15 @@ export default function Problem() {
             })}
           </motion.div>
 
-          {/* Content panel */}
-          <AnimatePresence mode="wait" initial={false}>
+          {/* Content panel — keyed opacity fade (no AnimatePresence unmount) so the
+              panel height never collapses to 0 between tabs, which caused the white
+              gap / layout jump on mobile */}
+          <div className="relative">
             <motion.div
               key={active}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
               className="grid grid-cols-1 lg:grid-cols-5 gap-4 lg:gap-5"
             >
               {/* Left — problems */}
@@ -198,12 +200,12 @@ export default function Problem() {
                 </div>
               </div>
             </motion.div>
-          </AnimatePresence>
+          </div>
         </div>
       </section>
 
       {/* Result Banner */}
-      <div className="py-20 lg:py-24 relative z-10" style={{ background: BG }}>
+      <div className="pt-8 pb-20 lg:py-24 relative z-10" style={{ background: BG }}>
         <div className="container mx-auto px-6 max-w-6xl">
           <motion.div
             initial={{ opacity: 0, y: 60 }}
@@ -213,9 +215,8 @@ export default function Problem() {
             className="rounded-[2.5rem] overflow-hidden relative"
             style={{ background: '#1447d4' }}
           >
-            <motion.div animate={{ opacity: [0.08, 0.15, 0.08] }} transition={{ duration: 12, repeat: Infinity }}
-              className="absolute inset-0 pointer-events-none z-0"
-              style={{ backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.8) 1.2px, transparent 1.2px)', backgroundSize: '18px 18px' }} />
+            <div className="absolute inset-0 pointer-events-none z-0"
+              style={{ backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.8) 1.2px, transparent 1.2px)', backgroundSize: '18px 18px', opacity: 0.1 }} />
 
             <div className="grid lg:grid-cols-2 gap-0 relative z-10">
               <motion.div initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, amount: 0.3 }}
@@ -253,8 +254,7 @@ export default function Problem() {
                   </p>
                 </div>
                 <div className="rounded-2xl border border-white/10 bg-white/10 p-7 backdrop-blur-sm relative overflow-hidden">
-                  <motion.div className="absolute inset-0 bg-gradient-to-tr from-white/10 to-transparent pointer-events-none"
-                    animate={{ opacity: [0.3, 0.6, 0.3] }} transition={{ duration: 4, repeat: Infinity }} />
+                  <div className="absolute inset-0 bg-gradient-to-tr from-white/10 to-transparent pointer-events-none opacity-40" />
                   <p className="text-xs font-black uppercase tracking-[0.2em] text-white mb-4 relative z-10">The Inaipi Way</p>
                   <p className="text-white/95 leading-relaxed text-sm mb-5 font-medium relative z-10">
                     Inaipi is AI-native — intelligence is embedded into every layer from day one. One platform.

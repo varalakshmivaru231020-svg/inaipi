@@ -1,22 +1,29 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { readFileSync, writeFileSync } from 'fs';
-import { join } from 'path';
+import { prisma } from '@/lib/prisma';
 
-const FILE = join(process.cwd(), 'data', 'site-images.json');
+export const dynamic = 'force-dynamic';
 
-function read() {
-  try { return JSON.parse(readFileSync(FILE, 'utf-8')); }
-  catch { return { architectureImage: '/arch1.png', agentDesktopImage: '' }; }
+async function currentMap() {
+  const rows = await prisma.siteImage.findMany();
+  const map = Object.fromEntries(rows.map(r => [r.key, r.value]));
+  return {
+    architectureImage: map.architectureImage ?? '/arch1.png',
+    agentDesktopImage: map.agentDesktopImage ?? '',
+  };
 }
 
 export async function GET() {
-  return NextResponse.json(read());
+  return NextResponse.json(await currentMap());
 }
 
 export async function PUT(req: NextRequest) {
   const body = await req.json();
-  const current = read();
-  const updated = { ...current, ...body };
-  writeFileSync(FILE, JSON.stringify(updated, null, 2));
-  return NextResponse.json(updated);
+  for (const [key, value] of Object.entries(body)) {
+    await prisma.siteImage.upsert({
+      where: { key },
+      update: { value: String(value ?? '') },
+      create: { key, value: String(value ?? '') },
+    });
+  }
+  return NextResponse.json(await currentMap());
 }

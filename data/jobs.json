@@ -1,0 +1,182 @@
+[
+  {
+    "id": "1",
+    "slug": "senior-cx-consultant",
+    "title": "Senior CX Consultant",
+    "type": "Full time",
+    "location": "Dubai, UAE",
+    "salary": "Competitive",
+    "desc": "We're looking for a Senior CX Consultant to drive enterprise CX transformation with AI-native solutions, working directly with regional clients across MEA and APAC. You'll be the bridge between client needs and our platform capabilities.",
+    "responsibilities": [
+      "Lead CX strategy workshops with enterprise clients across MEA and APAC",
+      "Map customer journeys and identify optimization opportunities using our platform",
+      "Collaborate with product and engineering teams to translate client needs into solutions",
+      "Manage end-to-end implementation of omnichannel CX solutions",
+      "Build and maintain long-term client relationships at C-suite level"
+    ],
+    "requirements": [
+      "5+ years of experience in CX consulting or contact center transformation",
+      "Deep understanding of omnichannel customer engagement strategies",
+      "Experience working with enterprise clients in MEA or APAC regions",
+      "Familiarity with AI/ML applications in customer service",
+      "Excellent communication and presentation skills"
+    ],
+    "offers": [
+      "Work on cutting-edge AI-native CX technology",
+      "Collaborative, innovation-driven environment",
+      "Competitive compensation with performance bonuses",
+      "Opportunity to shape CX strategy for leading enterprises",
+      "Flexible work arrangements"
+    ]
+  },
+  {
+    "id": "2",
+    "slug": "product-designer",
+    "title": "Product Designer",
+    "type": "Full time",
+    "location": "Bengaluru, India",
+    "salary": "Competitive",
+    "desc": "We're looking for a creative and detail-oriented Product Designer to join our team. You'll be responsible for designing intuitive, user-centered digital experiences across web and mobile platforms for our AI-native CX platform.",
+    "responsibilities": [
+      "Translate product requirements into wireframes, prototypes, and high-fidelity designs",
+      "Design pixel-perfect UI for web and mobile applications",
+      "Collaborate with cross-functional teams including engineering and product",
+      "Conduct user research and usability testing to validate design decisions",
+      "Deliver well-organized Figma files with design systems and components"
+    ],
+    "requirements": [
+      "2–5+ years of experience in UI/UX or Product Design",
+      "Proficiency in Figma, Sketch, or similar design tools",
+      "Strong portfolio demonstrating user-centered design thinking",
+      "Understanding of UX principles, accessibility, and responsive design",
+      "Excellent visual design skills and attention to detail"
+    ],
+    "offers": [
+      "Collaborative and creative work culture",
+      "Direct impact on product design decisions",
+      "Competitive compensation and benefits",
+      "Learning and growth opportunities",
+      "Modern tech stack and tools"
+    ]
+  },
+  {
+    "id": "3",
+    "slug": "full-stack-developer",
+    "title": "Full Stack Developer",
+    "type": "Full time",
+    "location": "Chennai, India",
+    "salary": "Competitive",
+    "desc": "Build and scale our AI-native platform using modern frameworks, microservices architecture, and cloud infrastructure. You'll work on high-impact features that serve thousands of enterprise users.",
+    "responsibilities": [
+      "Develop and maintain full-stack features using React/Next.js and Node.js",
+      "Design and implement RESTful APIs and microservices",
+      "Collaborate with AI/ML team to integrate intelligent features",
+      "Write clean, testable, and well-documented code",
+      "Participate in code reviews and architectural discussions"
+    ],
+    "requirements": [
+      "3+ years of experience in full-stack development",
+      "Strong proficiency in TypeScript, React, and Node.js",
+      "Experience with cloud platforms (AWS/GCP/Azure)",
+      "Understanding of database design and optimization",
+      "Experience with CI/CD pipelines and DevOps practices"
+    ],
+    "offers": [
+      "Work on a platform used by 15,000+ enterprise customers",
+      "Modern tech stack with latest frameworks",
+      "Competitive salary and equity options",
+      "Remote-friendly work culture",
+      "Continuous learning and conference budgets"
+    ]
+  },
+  {
+    "id": "4",
+    "slug": "ai-ml-engineer",
+    "title": "AI/ML Engineer",
+    "type": "Full time",
+    "location": "Bengaluru, India",
+    "salary": "Competitive",
+    "desc": "Develop and deploy AI models for voice agents, sentiment analysis, and intelligent routing across our CX platform. You'll push the boundaries of what's possible in AI-powered customer experience.",
+    "responsibilities": [
+      "Design and train ML models for NLP, sentiment analysis, and voice AI",
+      "Build and optimize real-time inference pipelines",
+      "Collaborate with product teams to identify AI-driven feature opportunities",
+      "Evaluate and integrate third-party AI services and APIs",
+      "Monitor model performance and implement continuous improvement loops"
+    ],
+    "requirements": [
+      "3+ years of experience in ML/AI engineering",
+      "Strong proficiency in Python, TensorFlow/PyTorch",
+      "Experience with NLP, speech recognition, or conversational AI",
+      "Understanding of MLOps and model deployment practices",
+      "Published research or strong portfolio of ML projects is a plus"
+    ],
+    "offers": [
+      "Work at the intersection of AI and enterprise CX",
+      "Access to cutting-edge AI infrastructure",
+      "Competitive compensation and growth path",
+      "Collaborate with industry experts",
+      "Conference attendance and research time"
+    ]
+  },
+  {
+    "id": "5",
+    "slug": "sales-executive",
+    "title": "Sales Executive — MEA",
+    "type": "Full time",
+    "location": "Dubai, UAE",
+    "salary": "Competitive",
+    "desc": "Own the sales cycle for enterprise accounts across the Middle East and Africa, selling our AI-native CX platform to banks, telecoms, healthcare, and government entities.",
+    "responsibilities": [
+      "Identify and qualify enterprise prospects across MEA region",
+      "Lead product demonstrations and solution presentations",
+      "Manage full sales cycle from prospecting to contract closure",
+      "Build strategic relationships with C-suite decision makers",
+      "Collaborate with presales and solution architects on proposals"
+    ],
+    "requirements": [
+      "4+ years of enterprise SaaS sales experience in MEA",
+      "Track record of exceeding quota in B2B technology sales",
+      "Experience selling to financial services, telecom, or government sectors",
+      "Strong understanding of CX, contact center, or cloud communications",
+      "Arabic language skills are a strong plus"
+    ],
+    "offers": [
+      "Uncapped commission structure",
+      "Sell a differentiated AI-native platform",
+      "Regional travel opportunities",
+      "Collaborative sales culture with strong presales support",
+      "Career growth into leadership roles"
+    ]
+  },
+  {
+    "id": "6",
+    "slug": "customer-success-manager",
+    "title": "Customer Success Manager",
+    "type": "Full time",
+    "location": "Dubai, UAE",
+    "salary": "Competitive",
+    "desc": "Ensure enterprise clients achieve measurable outcomes with our platform through onboarding, training, and strategic guidance. You'll be the trusted advisor for our most valuable accounts.",
+    "responsibilities": [
+      "Onboard and train new enterprise clients on the platform",
+      "Develop and execute customer success plans with measurable KPIs",
+      "Conduct quarterly business reviews with client stakeholders",
+      "Identify upsell and expansion opportunities within accounts",
+      "Act as the voice of the customer internally to product and engineering"
+    ],
+    "requirements": [
+      "3+ years in customer success or account management for SaaS",
+      "Experience managing enterprise accounts with $100K+ ARR",
+      "Strong analytical skills and comfort with CX metrics",
+      "Excellent communication and relationship-building skills",
+      "Experience in CX, contact center, or related technology is preferred"
+    ],
+    "offers": [
+      "Work with leading enterprises across MEA and APAC",
+      "Direct impact on customer retention and growth",
+      "Competitive salary with performance bonuses",
+      "Professional development opportunities",
+      "Flexible working arrangements"
+    ]
+  }
+]

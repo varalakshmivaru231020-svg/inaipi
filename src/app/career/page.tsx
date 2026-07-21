@@ -6,19 +6,19 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import CTA from '@/components/sections/CTA';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
-const jobs = [
-  { slug: 'senior-cx-consultant', title: 'Senior CX Consultant', type: 'Full time', location: 'Dubai, UAE', salary: 'Competitive', desc: 'Drive enterprise CX transformation with AI-native solutions, working directly with regional clients across MEA and APAC.' },
-  { slug: 'product-designer', title: 'Product Designer', type: 'Full time', location: 'Bengaluru, India', salary: 'Competitive', desc: 'Design intuitive, user-centered experiences for our omnichannel CXM platform across web and mobile interfaces.' },
-  { slug: 'full-stack-developer', title: 'Full Stack Developer', type: 'Full time', location: 'Chennai, India', salary: 'Competitive', desc: 'Build and scale our AI-native platform using modern frameworks, microservices architecture, and cloud infrastructure.' },
-  { slug: 'ai-ml-engineer', title: 'AI/ML Engineer', type: 'Full time', location: 'Bengaluru, India', salary: 'Competitive', desc: 'Develop and deploy AI models for voice agents, sentiment analysis, and intelligent routing across our CX platform.' },
-  { slug: 'sales-executive', title: 'Sales Executive — MEA', type: 'Full time', location: 'Dubai, UAE', salary: 'Competitive', desc: 'Own the sales cycle for enterprise accounts across the Middle East and Africa, selling our AI-native CX platform.' },
-  { slug: 'customer-success-manager', title: 'Customer Success Manager', type: 'Full time', location: 'Dubai, UAE', salary: 'Competitive', desc: 'Ensure enterprise clients achieve measurable outcomes with our platform through onboarding, training, and strategic guidance.' },
-];
+type Job = { slug: string; title: string; type: string; location: string; salary: string; desc: string };
 
 export default function CareerPage() {
+  const [jobs, setJobs] = useState<Job[]>([]);
+
+  useEffect(() => {
+    fetch('/api/jobs').then(r => r.json()).then(setJobs).catch(() => setJobs([]));
+  }, []);
+
   return (
     <main className="min-h-screen bg-white">
       <Navbar />

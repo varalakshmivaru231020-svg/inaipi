@@ -1,29 +1,36 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { readFileSync, writeFileSync } from 'fs';
-import { join } from 'path';
+import { prisma } from '@/lib/prisma';
 
-const FILE = join(process.cwd(), 'data', 'blogs.json');
-const read = () => JSON.parse(readFileSync(FILE, 'utf-8'));
-const write = (data: unknown) => writeFileSync(FILE, JSON.stringify(data, null, 2));
+export const dynamic = 'force-dynamic';
 
 export async function GET(_: NextRequest, { params }: { params: { id: string } }) {
-  const blog = read().find((b: { id: string }) => b.id === params.id);
+  const blog = await prisma.blog.findUnique({ where: { id: params.id } });
   if (!blog) return NextResponse.json({ error: 'Not found' }, { status: 404 });
   return NextResponse.json(blog);
 }
 
 export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
-  const body = await req.json();
-  const blogs = read();
-  const idx = blogs.findIndex((b: { id: string }) => b.id === params.id);
-  if (idx === -1) return NextResponse.json({ error: 'Not found' }, { status: 404 });
-  blogs[idx] = { ...blogs[idx], ...body };
-  write(blogs);
-  return NextResponse.json(blogs[idx]);
+  const b = await req.json();
+  try {
+    const blog = await prisma.blog.update({
+      where: { id: params.id },
+      data: {
+        ...(b.title !== undefined && { title: b.title }),
+        ...(b.excerpt !== undefined && { excerpt: b.excerpt }),
+        ...(b.image !== undefined && { image: b.image }),
+        ...(b.category !== undefined && { category: b.category }),
+        ...(b.author !== undefined && { author: b.author }),
+        ...(Array.isArray(b.tags) && { tags: b.tags }),
+        ...(Array.isArray(b.content) && { content: b.content }),
+      },
+    });
+    return NextResponse.json(blog);
+  } catch {
+    return NextResponse.json({ error: 'Not found' }, { status: 404 });
+  }
 }
 
 export async function DELETE(_: NextRequest, { params }: { params: { id: string } }) {
-  const blogs = read().filter((b: { id: string }) => b.id !== params.id);
-  write(blogs);
+  await prisma.blog.delete({ where: { id: params.id } }).catch(() => {});
   return NextResponse.json({ ok: true });
 }

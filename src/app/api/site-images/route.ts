@@ -1,11 +1,16 @@
 import { NextResponse } from 'next/server';
-import { readFileSync } from 'fs';
-import { join } from 'path';
+import { prisma } from '@/lib/prisma';
+
+export const dynamic = 'force-dynamic';
 
 export async function GET() {
   try {
-    const raw = readFileSync(join(process.cwd(), 'data', 'site-images.json'), 'utf-8');
-    return NextResponse.json(JSON.parse(raw));
+    const rows = await prisma.siteImage.findMany();
+    const map = Object.fromEntries(rows.map(r => [r.key, r.value]));
+    return NextResponse.json({
+      architectureImage: map.architectureImage ?? '/arch1.png',
+      agentDesktopImage: map.agentDesktopImage ?? '',
+    });
   } catch {
     return NextResponse.json({ architectureImage: '/arch1.png', agentDesktopImage: '' });
   }

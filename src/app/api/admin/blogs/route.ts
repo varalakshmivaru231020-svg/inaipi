@@ -1,25 +1,27 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { readFileSync, writeFileSync } from 'fs';
-import { join } from 'path';
+import { prisma } from '@/lib/prisma';
 
-const FILE = join(process.cwd(), 'data', 'blogs.json');
-const read = () => JSON.parse(readFileSync(FILE, 'utf-8'));
-const write = (data: unknown) => writeFileSync(FILE, JSON.stringify(data, null, 2));
+export const dynamic = 'force-dynamic';
 
 export async function GET() {
-  return NextResponse.json(read());
+  const blogs = await prisma.blog.findMany({ orderBy: { createdAt: 'desc' } });
+  return NextResponse.json(blogs);
 }
 
 export async function POST(req: NextRequest) {
-  const body = await req.json();
-  const blogs = read();
-  const newBlog = {
-    ...body,
-    id: Date.now().toString(),
-    date: new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
-    comments: 0,
-  };
-  blogs.unshift(newBlog);
-  write(blogs);
-  return NextResponse.json(newBlog, { status: 201 });
+  const b = await req.json();
+  const blog = await prisma.blog.create({
+    data: {
+      title: b.title ?? '',
+      excerpt: b.excerpt ?? '',
+      image: b.image ?? '',
+      category: b.category ?? '',
+      author: b.author ?? '',
+      date: new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
+      comments: 0,
+      tags: Array.isArray(b.tags) ? b.tags : [],
+      content: Array.isArray(b.content) ? b.content : [],
+    },
+  });
+  return NextResponse.json(blog, { status: 201 });
 }
