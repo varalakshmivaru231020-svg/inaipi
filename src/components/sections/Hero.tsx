@@ -2,7 +2,7 @@
 
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { Phone, MessageSquare, Mail, Globe, Star, Zap, PhoneIncoming, ArrowRight } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
+import { Fragment, useEffect, useRef, useState } from 'react';
 
 /* ── Typewriter ── */
 function TypewriterWord({ word, delay, className }: { word: string; delay: number; className?: string }) {
@@ -21,9 +21,16 @@ function TypewriterWord({ word, delay, className }: { word: string; delay: numbe
         <motion.span animate={{ opacity: [1, 0] }} transition={{ duration: 0.5, repeat: Infinity, repeatType: 'reverse' }}
           className="inline-block w-[3px] h-[0.85em] bg-blue-500 ml-[2px] align-middle" />
       )}
+      {/* Untyped remainder stays in the DOM but transparent: keeps the whole word in the
+          text content (server HTML, copy/paste, screen readers) exactly once, and reserves
+          its width so the wrapped sentence doesn't reflow on every keystroke. */}
+      <span className="opacity-0">{word.slice(displayed.length)}</span>
     </span>
   );
 }
+
+/* Trailing words of the hero headline, animated in one at a time. */
+const HEADLINE_TAIL = ['with', 'Sovereign', 'Cloud', 'options', 'for', 'regulated', 'industries.'];
 
 /* ── AI Copilot Chat ── */
 // Each message: role, text, delay from start (ms), optional typingMs before it appears
@@ -272,20 +279,19 @@ export default function Hero() {
         </motion.div>
 
         {/* Headline */}
-        <h1 className="text-4xl sm:text-5xl lg:text-[4rem] xl:text-[4.5rem] font-bold font-figtree tracking-[-0.03em] mb-8 leading-[1.25] text-[#0f172a] max-w-5xl mx-auto overflow-visible">
-          <div className="block mb-1 overflow-visible pb-3">
-            <motion.span initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }} className="inline-block mr-[0.25em]">
-              AI Native and
-            </motion.span>
-            <TypewriterWord word="Cloud-First" delay={1.1} className="inline-block text-[#1447d4] pb-2 leading-none" />
-          </div>
-          <div className="block sm:whitespace-nowrap">
-            {['with', 'Sovereign', 'Cloud', 'Options'].map((word, i) => (
-              <motion.span key={i} initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.0, delay: 2.4 + i * 0.12, ease: [0.16, 1, 0.3, 1] }} className="inline-block mr-[0.25em] last:mr-0">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] xl:text-[3.5rem] font-bold font-figtree tracking-[-0.03em] mb-8 leading-[1.2] text-[#0f172a] max-w-5xl mx-auto overflow-visible text-balance">
+          <motion.span initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }} className="inline-block">
+            AI Native and
+          </motion.span>{' '}
+          <TypewriterWord word="Cloud-first" delay={1.1} className="inline-block text-[#1447d4]" />{' '}
+          {HEADLINE_TAIL.map((word, i) => (
+            <Fragment key={i}>
+              <motion.span initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.0, delay: 2.4 + i * 0.09, ease: [0.16, 1, 0.3, 1] }} className="inline-block">
                 {word}
               </motion.span>
-            ))}
-          </div>
+              {i < HEADLINE_TAIL.length - 1 ? ' ' : ''}
+            </Fragment>
+          ))}
         </h1>
 
         {/* Subtext */}
