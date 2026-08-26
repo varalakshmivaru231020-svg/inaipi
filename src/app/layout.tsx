@@ -11,8 +11,8 @@ const poppins = Poppins({ subsets: ["latin"], variable: "--font-poppins", weight
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://inaipi.zapeat.in"),
-  title: "Inaipi | Autonomous Intelligence for Every Customer Interaction",
-  description: "Inaipi transforms the customer experience journey into a single intelligent ecosystem. From first contact through resolution, AI-driven agents and human experts collaborate effortlessly.",
+  title: "Inaipi | AI-Native, Cloud-First CX with Sovereign Cloud",
+  description: "Inaipi is an AI-native, cloud-first customer experience platform with Sovereign Cloud options for regulated industries — data stays resident and compliant.",
 };
 
 export default function RootLayout({

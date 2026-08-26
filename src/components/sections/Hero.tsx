@@ -268,19 +268,19 @@ export default function Hero() {
         <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
           className="inline-flex items-center space-x-3 px-5 py-2 rounded-full border border-blue-100 bg-white shadow-sm mb-8">
           <span className="flex h-1.5 w-1.5 rounded-full bg-blue-600 animate-pulse" />
-          <span className="text-[10px] font-black uppercase tracking-[0.35em] text-blue-600">The AI-Native CX Engine</span>
+          <span className="text-[10px] font-black uppercase tracking-[0.35em] text-blue-600">Built for Regulated Industries</span>
         </motion.div>
 
         {/* Headline */}
         <h1 className="text-4xl sm:text-5xl lg:text-[4rem] xl:text-[4.5rem] font-bold font-figtree tracking-[-0.03em] mb-8 leading-[1.25] text-[#0f172a] max-w-5xl mx-auto overflow-visible">
           <div className="block mb-1 overflow-visible pb-3">
             <motion.span initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }} className="inline-block mr-[0.25em]">
-              Autonomous
+              AI Native and
             </motion.span>
-            <TypewriterWord word="Intelligence" delay={1.1} className="inline-block text-[#1447d4] pb-2 leading-none" />
+            <TypewriterWord word="Cloud-First" delay={1.1} className="inline-block text-[#1447d4] pb-2 leading-none" />
           </div>
           <div className="block sm:whitespace-nowrap">
-            {['for', 'Every', 'Customer', 'Interaction'].map((word, i) => (
+            {['with', 'Sovereign', 'Cloud', 'Options'].map((word, i) => (
               <motion.span key={i} initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.0, delay: 2.4 + i * 0.12, ease: [0.16, 1, 0.3, 1] }} className="inline-block mr-[0.25em] last:mr-0">
                 {word}
               </motion.span>
@@ -291,7 +291,7 @@ export default function Hero() {
         {/* Subtext */}
         <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.1, delay: 3.0, ease: [0.16, 1, 0.3, 1] }} className="mb-10 px-4">
           <p className="text-base sm:text-lg md:text-xl text-slate-500 leading-relaxed font-normal max-w-2xl mx-auto">
-            Inaipi transforms the customer experience journey into a single intelligent ecosystem — unifying every touchpoint with precision and human-level empathy.
+            Inaipi is an AI-native, cloud-first customer experience platform — with Sovereign Cloud options that keep data resident, compliant and fully under your control.
           </p>
         </motion.div>
 

@@ -26,9 +26,9 @@ export const SEO_PAGES: SeoPage[] = [
 
 export const SEO_DEFAULTS: Record<string, SeoEntry> = {
   home: {
-    title: 'Inaipi | Autonomous Intelligence for Every Customer Interaction',
+    title: 'Inaipi | AI-Native, Cloud-First CX with Sovereign Cloud',
     description:
-      'Inaipi transforms the customer experience journey into a single intelligent ecosystem. From first contact through resolution, AI-driven agents and human experts collaborate effortlessly.',
+      'Inaipi is an AI-native, cloud-first customer experience platform with Sovereign Cloud options for regulated industries — data stays resident and compliant.',
     ogImage: '/hero.png',
   },
   about: {
