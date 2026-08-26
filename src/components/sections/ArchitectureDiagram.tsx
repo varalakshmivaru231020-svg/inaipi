@@ -223,7 +223,6 @@ const HTML = `
             </div>
             <div>
               <div class="hub-title">Unified Engagement Platform</div>
-              <div class="hub-sub">Realtime · Secure · Scalable</div>
             </div>
           </div>
         </div>
@@ -325,38 +324,37 @@ const HTML = `
       <span class="title">Enterprise Integration Layer</span>
 
       <div class="group">
-        <h4>CRM Systems</h4>
+        <h4>CRM</h4>
         <div class="logos">
-          <div class="logo wide" style="color:#0078D4"><span class="lm" style="background:#0078D4">D</span>Microsoft Dynamics</div>
-          <div class="logo" style="color:#FF7A59"><span class="lm" style="background:#FF7A59">h</span>HubSpot</div>
-          <div class="logo" style="color:#E32118"><span class="lm" style="background:#E32118">Z</span>Zoho</div>
-          <div class="logo wide" style="color:#00A1E0"><span class="lm" style="background:#00A1E0">SF</span>Salesforce</div>
+          <div class="logo wide">Customer data and context</div>
+        </div>
+      </div>
+
+      <div class="group">
+        <h4>ERP</h4>
+        <div class="logos">
+          <div class="logo wide">Business processes</div>
         </div>
       </div>
 
       <div class="group">
         <h4>Telephony</h4>
         <div class="logos">
-          <div class="logo" style="color:#D6182A"><span class="lm" style="background:#D6182A">A</span>AVAYA</div>
-          <div class="logo" style="color:#2D8CFF"><span class="lm" style="background:#2D8CFF">Z</span>Zoom</div>
+          <div class="logo wide">SIP Trunks · PBX · UCaaS</div>
         </div>
       </div>
 
       <div class="group">
-        <h4>Collaboration</h4>
+        <h4>Business Applications</h4>
         <div class="logos">
-          <div class="logo" style="color:#4B53BC"><span class="lm" style="background:#4B53BC">T</span>Teams</div>
-          <div class="logo" style="color:#4A154B"><span class="lm" style="background:#4A154B">S</span>Slack</div>
+          <div class="logo wide">Custom apps and workflows</div>
         </div>
       </div>
 
       <div class="group">
-        <h4>Platform &amp; Analytics</h4>
+        <h4>Data Platforms</h4>
         <div class="logos">
-          <div class="logo" style="color:#95BF47"><span class="lm" style="background:#95BF47">S</span>Shopify</div>
-          <div class="logo" style="color:#F9AB00"><span class="lm" style="background:#F9AB00">G</span>GA4</div>
-          <div class="logo" style="color:#0FAAFF"><span class="lm" style="background:#0FAAFF;font-size:8px">SAP</span>SAP</div>
-          <div class="logo" style="color:#C74634"><span class="lm" style="background:#C74634">O</span>Oracle</div>
+          <div class="logo wide">Analytics and insights</div>
         </div>
       </div>
     </div>
