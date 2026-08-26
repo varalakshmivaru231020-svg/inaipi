@@ -39,7 +39,7 @@ export const SEO_DEFAULTS: Record<string, SeoEntry> = {
   blog: {
     title: 'Blog | Insights on AI & Customer Experience — Inaipi',
     description:
-      'Insights, news and expert perspectives on autonomous intelligence, customer engagement and the future of CX from the Inaipi team.',
+      'Insights, news and expert perspectives on AI-native CX, sovereign cloud and the future of customer engagement from the Inaipi team.',
   },
   career: {
     title: 'Careers | Build the Future of Customer Experience — Inaipi',

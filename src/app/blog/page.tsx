@@ -89,7 +89,7 @@ export default function BlogPage() {
 
               className="text-base sm:text-lg md:text-xl text-slate-500 leading-relaxed font-normal max-w-2xl mx-auto"
             >
-              Discover the latest insights, news, and expert perspectives on autonomous intelligence, customer engagement, and the future of CX.
+              Discover the latest insights, news, and expert perspectives on AI-native CX, sovereign cloud, and the future of customer engagement.
             </motion.p>
           </div>
         </div>
