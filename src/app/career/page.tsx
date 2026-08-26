@@ -24,7 +24,7 @@ export default function CareerPage() {
       <Navbar />
 
       {/* Hero */}
-      <section className="pt-36 pb-20 relative overflow-hidden" style={{ background: '#f8faff' }}>
+      <section className="pt-32 lg:pt-36 pb-14 relative overflow-hidden" style={{ background: '#f8faff' }}>
         <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
           <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 100% 60% at 50% 0%, rgba(37,99,235,0.14) 0%, transparent 70%)' }} />
           <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(#1447d4 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
@@ -67,7 +67,7 @@ export default function CareerPage() {
       </section>
 
       {/* Job Listings */}
-      <section className="py-24 relative overflow-hidden" style={{ background: '#f8faff' }}>
+      <section className="py-14 lg:py-16 relative overflow-hidden" style={{ background: '#f8faff' }}>
         {/* Background gradient orbs */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-200/60 to-transparent" />

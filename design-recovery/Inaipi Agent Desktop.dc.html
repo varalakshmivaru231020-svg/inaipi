@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Inaipi — Omnichannel Agent Desktop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  html,body{margin:0;padding:0;background:#E9EFF9;font-family:'Poppins',sans-serif;color:#0B1B3A;}
+  *{box-sizing:border-box;}
+  a{color:#2A63F6;text-decoration:none;} a:hover{color:#1E4FD0;}
+  ::-webkit-scrollbar{width:8px;height:8px;} ::-webkit-scrollbar-thumb{background:#CBD8EC;border-radius:8px;} ::-webkit-scrollbar-track{background:transparent;}
+  @keyframes wave{0%,100%{transform:scaleY(.3);}50%{transform:scaleY(1);}}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.35;}}
+  @keyframes blink{0%,100%{box-shadow:0 0 0 0 rgba(42,99,246,.35);}70%{box-shadow:0 0 0 8px rgba(42,99,246,0);}}
+  input::placeholder{color:#8FA1BE;font-family:'Poppins',sans-serif;}
+</style>
+</helmet>
+
+<div style="min-height:100vh;min-width:1360px;display:flex;flex-direction:column;background:linear-gradient(180deg,#E9EFF9 0%,#F2F6FC 100%)">
+
+  <!-- ============ TOP BAR ============ -->
+  <header style="height:64px;background:#FFFFFF;border-bottom:1px solid #E3EAF5;display:flex;align-items:center;gap:24px;padding:0 24px;position:sticky;top:0;z-index:40">
+    <div style="display:flex;align-items:center;gap:10px;min-width:150px">
+      <img src="uploads/logo.webp" alt="inaipi" style="height:38px;display:block">
+    </div>
+    <nav style="display:flex;gap:6px;background:#F1F5FC;padding:5px;border-radius:12px">
+      <button onClick="{{ goWorkspace }}" style="{{ tabWorkspaceStyle }}">Agent Workspace</button>
+      <button onClick="{{ goMonitoring }}" style="{{ tabMonitoringStyle }}">Monitoring</button>
+      <button onClick="{{ goCases }}" style="{{ tabCasesStyle }}">Cases</button>
+      <button onClick="{{ goAnalytics }}" style="{{ tabAnalyticsStyle }}">Analytics</button>
+    </nav>
+    <div style="flex:1"></div>
+    <div style="display:flex;align-items:center;gap:8px;background:#EAF6EE;border:1px solid #CBEBD6;border-radius:999px;padding:6px 14px 6px 8px">
+      <span style="width:9px;height:9px;border-radius:50%;background:#16A34A;margin-left:4px"></span>
+      <span style="font-weight:700;font-size:13px;color:#166534">Available</span>
+      <span style="color:#8FA1BE;font-size:12px">·</span>
+      <span style="font-weight:700;font-size:13px;color:#0B1B3A">02:14:08</span>
+    </div>
+    <button style="width:38px;height:38px;border-radius:11px;border:1px solid #E3EAF5;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;position:relative" style-hover="background:#F1F5FC">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#41537A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.7 21a2 2 0 0 1-3.4 0"></path></svg>
+      <span style="position:absolute;top:7px;right:8px;width:8px;height:8px;border-radius:50%;background:#E5484D;border:2px solid #fff"></span>
+    </button>
+    <div style="display:flex;align-items:center;gap:10px">
+      <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#2A63F6,#6C9BFF);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px">MA</div>
+      <div>
+        <div style="font-weight:800;font-size:13px;line-height:1.2">Mariam A.</div>
+        <div style="font-size:11px;color:#5B6B87;font-weight:600">Ext 6013</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============ AGENT WORKSPACE ============ -->
+  <sc-if value="{{ isWorkspace }}" hint-placeholder-val="{{ true }}">
+  <div style="flex:1;display:grid;grid-template-columns:318px 1fr 344px;gap:14px;padding:14px;min-height:0;align-items:stretch">
+
+    <!-- ── Left: omnichannel queue ── -->
+    <aside style="background:#fff;border:1px solid #E3EAF5;border-radius:16px;display:flex;flex-direction:column;overflow:hidden;min-height:0">
+      <div style="padding:16px 16px 10px">
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div style="font-weight:800;font-size:15px">Interaction Queue</div>
+          <span style="background:#EAF0FE;color:#2A63F6;font-weight:800;font-size:12px;padding:3px 9px;border-radius:999px">6 waiting</span>
+        </div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:12px">
+          <span style="padding:5px 11px;border-radius:999px;background:#2A63F6;color:#fff;font-weight:700;font-size:12px">All</span>
+          <span style="padding:5px 11px;border-radius:999px;background:#F1F5FC;color:#41537A;font-weight:700;font-size:12px">Voice</span>
+          <span style="padding:5px 11px;border-radius:999px;background:#F1F5FC;color:#41537A;font-weight:700;font-size:12px">Chat</span>
+          <span style="padding:5px 11px;border-radius:999px;background:#F1F5FC;color:#41537A;font-weight:700;font-size:12px">Social</span>
+          <span style="padding:5px 11px;border-radius:999px;background:#F1F5FC;color:#41537A;font-weight:700;font-size:12px">AI</span>
+        </div>
+      </div>
+      <div style="flex:1;overflow-y:auto;padding:6px 10px 12px;display:flex;flex-direction:column;gap:6px">
+        <sc-for list="{{ queue }}" as="q" hint-placeholder-count="6">
+          <div style="border:1px solid #EDF2FA;border-radius:12px;padding:11px 12px;display:flex;gap:10px;cursor:pointer;background:#fff" style-hover="border-color:#C7D8F9;background:#F7FAFF">
+            <div style="width:36px;height:36px;border-radius:11px;background:{{ q.chBg }};color:{{ q.chColor }};display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px;font-weight:800">{{ q.chGlyph }}</div>
+            <div style="flex:1;min-width:0">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+                <span style="font-weight:800;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ q.name }}</span>
+                <span style="font-size:11px;font-weight:700;color:#8FA1BE;flex-shrink:0">{{ q.wait }}</span>
+              </div>
+              <div style="font-size:12px;color:#5B6B87;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px">{{ q.preview }}</div>
+              <div style="display:flex;align-items:center;gap:6px;margin-top:6px">
+                <span style="font-size:10.5px;font-weight:800;color:{{ q.chColor }};background:{{ q.chBg }};padding:2px 8px;border-radius:999px">{{ q.channel }}</span>
+                <span style="width:7px;height:7px;border-radius:50%;background:{{ q.sentColor }}"></span>
+                <span style="font-size:10.5px;font-weight:700;color:#8FA1BE">{{ q.sentiment }}</span>
+              </div>
+            </div>
+          </div>
+        </sc-for>
+        <div style="border:1px dashed #C7D8F9;border-radius:12px;padding:11px 12px;display:flex;align-items:center;gap:10px;background:#F7FAFF">
+          <div style="width:36px;height:36px;border-radius:11px;background:#F3EDFE;color:#7C3AED;display:flex;align-items:center;justify-content:center;font-size:16px">✦</div>
+          <div>
+            <div style="font-weight:800;font-size:13px;color:#7C3AED">AI Virtual Agent</div>
+            <div style="font-size:11.5px;color:#5B6B87;font-weight:600">Handling 12 conversations · 68% contained</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ── Center: active interaction ── -->
+    <main style="display:flex;flex-direction:column;min-width:0;min-height:0;gap:10px">
+      <div style="display:flex;gap:8px">
+        <button onClick="{{ tabVoice }}" style="{{ convVoiceStyle }}">
+          <span style="width:8px;height:8px;border-radius:50%;background:#16A34A;animation:pulse 1.6s infinite"></span> Ahmed Al Rashid · Voice <b style="font-weight:800">{{ callTimer }}</b>
+        </button>
+        <button onClick="{{ tabWa }}" style="{{ convWaStyle }}">Sarah Mitchell · WhatsApp</button>
+        <button onClick="{{ tabChat }}" style="{{ convChatStyle }}">Priya Nair · Web Chat</button>
+      </div>
+
+      <!-- VOICE -->
+      <sc-if value="{{ isVoice }}" hint-placeholder-val="{{ true }}">
+      <div style="flex:1;display:flex;flex-direction:column;gap:12px;min-height:0">
+        <div style="background:linear-gradient(120deg,#1E4FD0 0%,#2A63F6 55%,#4C82FF 100%);border-radius:16px;padding:18px 20px;color:#fff;display:flex;align-items:center;gap:16px;box-shadow:0 12px 28px -14px rgba(42,99,246,.55)">
+          <div style="width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px;border:2px solid rgba(255,255,255,.4)">AR</div>
+          <div style="min-width:0">
+            <div style="font-weight:800;font-size:17px">Ahmed Al Rashid</div>
+            <div style="font-size:12.5px;opacity:.85;font-weight:600">+971 50 442 8817 · Billing queue · Gold tier</div>
+          </div>
+          <div style="display:flex;align-items:end;gap:3px;height:26px;margin-left:10px">
+            <span style="width:4px;height:100%;background:rgba(255,255,255,.85);border-radius:2px;animation:wave 1s .0s infinite;transform-origin:bottom"></span>
+            <span style="width:4px;height:100%;background:rgba(255,255,255,.85);border-radius:2px;animation:wave 1s .15s infinite;transform-origin:bottom"></span>
+            <span style="width:4px;height:100%;background:rgba(255,255,255,.85);border-radius:2px;animation:wave 1s .3s infinite;transform-origin:bottom"></span>
+            <span style="width:4px;height:100%;background:rgba(255,255,255,.85);border-radius:2px;animation:wave 1s .45s infinite;transform-origin:bottom"></span>
+            <span style="width:4px;height:100%;background:rgba(255,255,255,.85);border-radius:2px;animation:wave 1s .6s infinite;transform-origin:bottom"></span>
+          </div>
+          <div style="font-weight:800;font-size:22px;font-variant-numeric:tabular-nums;letter-spacing:.5px">{{ callTimer }}</div>
+          <div style="flex:1"></div>
+          <div style="display:flex;gap:8px">
+            <button title="Mute" style="width:42px;height:42px;border-radius:50%;border:none;background:rgba(255,255,255,.16);color:#fff;cursor:pointer;font-size:15px" style-hover="background:rgba(255,255,255,.3)">🎙</button>
+            <button title="Hold" style="width:42px;height:42px;border-radius:50%;border:none;background:rgba(255,255,255,.16);color:#fff;cursor:pointer;font-weight:800;font-size:13px" style-hover="background:rgba(255,255,255,.3)">II</button>
+            <button title="Transfer" style="width:42px;height:42px;border-radius:50%;border:none;background:rgba(255,255,255,.16);color:#fff;cursor:pointer;font-size:16px" style-hover="background:rgba(255,255,255,.3)">⇄</button>
+            <button title="End call" style="height:42px;padding:0 20px;border-radius:999px;border:none;background:#E5484D;color:#fff;cursor:pointer;font-weight:800;font-family:'Poppins',sans-serif;font-size:13px" style-hover="background:#C93A3F">End</button>
+          </div>
+        </div>
+
+        <div style="flex:1;background:#fff;border:1px solid #E3EAF5;border-radius:16px;display:flex;flex-direction:column;min-height:0;overflow:hidden">
+          <div style="padding:13px 18px;border-bottom:1px solid #EDF2FA;display:flex;align-items:center;gap:10px">
+            <span style="width:8px;height:8px;border-radius:50%;background:#E5484D;animation:pulse 1.2s infinite"></span>
+            <span style="font-weight:800;font-size:14px">Live Transcription</span>
+            <span style="font-size:11.5px;font-weight:700;color:#8FA1BE">English · auto-detected</span>
+            <div style="flex:1"></div>
+            <span style="background:#F3EDFE;color:#7C3AED;font-weight:800;font-size:11.5px;padding:4px 10px;border-radius:999px">✦ Intent: Billing dispute</span>
+          </div>
+          <div style="flex:1;overflow-y:auto;padding:16px 18px;display:flex;flex-direction:column;gap:14px">
+            <sc-for list="{{ transcript }}" as="t" hint-placeholder-count="5">
+              <div style="display:flex;gap:12px">
+                <span style="flex-shrink:0;margin-top:1px;font-size:10.5px;font-weight:800;padding:3px 9px;border-radius:999px;background:{{ t.tagBg }};color:{{ t.tagColor }};height:fit-content">{{ t.who }}</span>
+                <div style="min-width:0">
+                  <div style="font-size:13.5px;line-height:1.55;color:#22314F">{{ t.text }}</div>
+                  <div style="font-size:10.5px;color:#8FA1BE;font-weight:700;margin-top:3px">{{ t.time }}</div>
+                </div>
+              </div>
+            </sc-for>
+            <div style="display:flex;gap:12px;opacity:.6">
+              <span style="flex-shrink:0;font-size:10.5px;font-weight:800;padding:3px 9px;border-radius:999px;background:#EAF0FE;color:#2A63F6;height:fit-content">Customer</span>
+              <div style="font-size:13.5px;color:#22314F">speaking<span style="animation:pulse 1s infinite">…</span></div>
+            </div>
+          </div>
+          <div style="padding:12px 18px;border-top:1px solid #EDF2FA;display:flex;gap:8px;align-items:center">
+            <input placeholder="Add a note to this interaction…" style="flex:1;border:1px solid #E3EAF5;border-radius:11px;padding:11px 14px;font-size:13px;font-family:'Poppins',sans-serif;outline:none;background:#F7FAFF;color:#0B1B3A">
+            <button style="border:none;background:#0B1B3A;color:#fff;font-weight:800;font-family:'Poppins',sans-serif;font-size:13px;padding:11px 18px;border-radius:11px;cursor:pointer" style-hover="background:#22314F">Save note</button>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+
+      <!-- WHATSAPP -->
+      <sc-if value="{{ isWa }}" hint-placeholder-val="{{ false }}">
+      <div style="flex:1;background:#fff;border:1px solid #E3EAF5;border-radius:16px;display:flex;flex-direction:column;min-height:0;overflow:hidden">
+        <div style="padding:13px 18px;border-bottom:1px solid #EDF2FA;display:flex;align-items:center;gap:12px">
+          <div style="width:40px;height:40px;border-radius:50%;background:#E9F9EF;color:#1FA855;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px">SM</div>
+          <div>
+            <div style="font-weight:800;font-size:14.5px">Sarah Mitchell</div>
+            <div style="font-size:11.5px;color:#1FA855;font-weight:800">WhatsApp · online</div>
+          </div>
+          <div style="flex:1"></div>
+          <span style="width:8px;height:8px;border-radius:50%;background:#F59E0B"></span>
+          <span style="font-size:12px;font-weight:700;color:#8FA1BE">Neutral sentiment</span>
+        </div>
+        <div style="flex:1;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:10px;background:#F7FAFF">
+          <sc-for list="{{ waThread }}" as="m" hint-placeholder-count="4">
+            <div style="display:flex;justify-content:{{ m.justify }}">
+              <div style="max-width:68%;background:{{ m.bg }};color:{{ m.color }};border:1px solid {{ m.border }};border-radius:{{ m.radius }};padding:10px 14px;font-size:13.5px;line-height:1.5">
+                <sc-if value="{{ m.att }}" hint-placeholder-val="{{ false }}">
+                  <div style="display:flex;align-items:center;gap:8px;background:rgba(11,27,58,.07);border-radius:9px;padding:8px 11px;margin-bottom:7px;font-size:12px;font-weight:700">📎 {{ m.att }} <span style="font-weight:600;opacity:.6">· 214 KB</span></div>
+                </sc-if>
+                {{ m.text }}
+                <div style="font-size:10px;font-weight:700;opacity:.6;margin-top:4px;text-align:right">{{ m.time }}</div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="padding:12px 18px;border-top:1px solid #EDF2FA">
+          <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap">
+            <button onClick="{{ pickReply1 }}" style="border:1px solid #D9C9FB;background:#F9F6FF;color:#6D28D9;font-weight:700;font-family:'Poppins',sans-serif;font-size:12px;padding:7px 12px;border-radius:999px;cursor:pointer" style-hover="background:#F3EDFE">✦ Your order #4521 ships today — tracking link incoming</button>
+            <button onClick="{{ pickReply2 }}" style="border:1px solid #D9C9FB;background:#F9F6FF;color:#6D28D9;font-weight:700;font-family:'Poppins',sans-serif;font-size:12px;padding:7px 12px;border-radius:999px;cursor:pointer" style-hover="background:#F3EDFE">✦ Offer 10% voucher for the delay</button>
+          </div>
+          <div style="display:flex;gap:8px">
+            <button title="Emoji" style="width:42px;height:42px;flex-shrink:0;border:1px solid #E3EAF5;background:#fff;border-radius:11px;cursor:pointer;font-size:17px" style-hover="background:#F1F5FC">😊</button>
+            <button title="Attach file" style="width:42px;height:42px;flex-shrink:0;border:1px solid #E3EAF5;background:#fff;border-radius:11px;cursor:pointer;font-size:15px" style-hover="background:#F1F5FC">📎</button>
+            <input value="{{ waDraft }}" onChange="{{ setWaDraft }}" placeholder="Reply on WhatsApp…" style="flex:1;border:1px solid #E3EAF5;border-radius:11px;padding:11px 14px;font-size:13px;font-family:'Poppins',sans-serif;outline:none;color:#0B1B3A">
+            <button style="border:none;background:#1FA855;color:#fff;font-weight:800;font-family:'Poppins',sans-serif;font-size:13px;padding:11px 20px;border-radius:11px;cursor:pointer" style-hover="background:#178A45">Send</button>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+
+      <!-- WEB CHAT -->
+      <sc-if value="{{ isChat }}" hint-placeholder-val="{{ false }}">
+      <div style="flex:1;background:#fff;border:1px solid #E3EAF5;border-radius:16px;display:flex;flex-direction:column;min-height:0;overflow:hidden">
+        <div style="padding:13px 18px;border-bottom:1px solid #EDF2FA;display:flex;align-items:center;gap:12px">
+          <div style="width:40px;height:40px;border-radius:50%;background:#EAF0FE;color:#2A63F6;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px">PN</div>
+          <div>
+            <div style="font-weight:800;font-size:14.5px">Priya Nair</div>
+            <div style="font-size:11.5px;color:#2A63F6;font-weight:800">Web Chat · escalated from AI agent</div>
+          </div>
+          <div style="flex:1"></div>
+          <span style="width:8px;height:8px;border-radius:50%;background:#E5484D"></span>
+          <span style="font-size:12px;font-weight:700;color:#8FA1BE">Negative sentiment</span>
+        </div>
+        <div style="flex:1;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:10px;background:#F7FAFF">
+          <div style="align-self:center;background:#F3EDFE;color:#7C3AED;font-size:11px;font-weight:800;padding:5px 12px;border-radius:999px">✦ AI agent handled 4 turns · handed off with summary</div>
+          <sc-for list="{{ chatThread }}" as="m" hint-placeholder-count="3">
+            <div style="display:flex;justify-content:{{ m.justify }}">
+              <div style="max-width:68%;background:{{ m.bg }};color:{{ m.color }};border:1px solid {{ m.border }};border-radius:{{ m.radius }};padding:10px 14px;font-size:13.5px;line-height:1.5">
+                <sc-if value="{{ m.att }}" hint-placeholder-val="{{ false }}">
+                  <div style="display:flex;align-items:center;gap:8px;background:rgba(11,27,58,.07);border-radius:9px;padding:8px 11px;margin-bottom:7px;font-size:12px;font-weight:700">📎 {{ m.att }} <span style="font-weight:600;opacity:.6">· 214 KB</span></div>
+                </sc-if>
+                {{ m.text }}
+                <div style="font-size:10px;font-weight:700;opacity:.6;margin-top:4px;text-align:right">{{ m.time }}</div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="padding:12px 18px;border-top:1px solid #EDF2FA;display:flex;gap:8px">
+          <button title="Emoji" style="width:42px;height:42px;flex-shrink:0;border:1px solid #E3EAF5;background:#fff;border-radius:11px;cursor:pointer;font-size:17px" style-hover="background:#F1F5FC">😊</button>
+          <button title="Attach file" style="width:42px;height:42px;flex-shrink:0;border:1px solid #E3EAF5;background:#fff;border-radius:11px;cursor:pointer;font-size:15px" style-hover="background:#F1F5FC">📎</button>
+          <input placeholder="Reply in chat…" style="flex:1;border:1px solid #E3EAF5;border-radius:11px;padding:11px 14px;font-size:13px;font-family:'Poppins',sans-serif;outline:none;color:#0B1B3A">
+          <button style="border:none;background:#2A63F6;color:#fff;font-weight:800;font-family:'Poppins',sans-serif;font-size:13px;padding:11px 20px;border-radius:11px;cursor:pointer" style-hover="background:#1E4FD0">Send</button>
+        </div>
+      </div>
+      </sc-if>
+    </main>
+
+    <!-- ── Right: customer 360 + AI copilot ── -->
+    <sc-if value="{{ showCopilot }}" hint-placeholder-val="{{ true }}">
+    <aside style="display:flex;flex-direction:column;gap:12px;min-height:0;overflow-y:auto">
+      <div style="background:#fff;border:1px solid #E3EAF5;border-radius:16px;padding:16px">
+        <div style="display:flex;align-items:center;gap:12px">
+          <div style="width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,#0B1B3A,#41537A);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px">AR</div>
+          <div style="min-width:0">
+            <div style="font-weight:800;font-size:15px">Ahmed Al Rashid</div>
+            <div style="font-size:11.5px;color:#5B6B87;font-weight:700">Customer since 2021 · <span style="color:#B7791F">★ Gold</span></div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:14px">
+          <div style="background:#F7FAFF;border-radius:11px;padding:9px 10px;text-align:center">
+            <div style="font-weight:800;font-size:15px">23</div>
+            <div style="font-size:10px;font-weight:800;color:#8FA1BE;letter-spacing:.4px">ORDERS</div>
+          </div>
+          <div style="background:#F7FAFF;border-radius:11px;padding:9px 10px;text-align:center">
+            <div style="font-weight:800;font-size:15px">4.8</div>
+            <div style="font-size:10px;font-weight:800;color:#8FA1BE;letter-spacing:.4px">CSAT</div>
+          </div>
+          <div style="background:#F7FAFF;border-radius:11px;padding:9px 10px;text-align:center">
+            <div style="font-weight:800;font-size:15px">7</div>
+            <div style="font-size:10px;font-weight:800;color:#8FA1BE;letter-spacing:.4px">CONTACTS</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="background:#fff;border:1px solid #E3EAF5;border-radius:16px;padding:16px">
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div style="font-weight:800;font-size:14px">Live Sentiment</div>
+          <span style="background:#EAF6EE;color:#166534;font-weight:800;font-size:11.5px;padding:3px 10px;border-radius:999px">Improving ↗</span>
+        </div>
+        <div style="margin-top:14px;height:10px;border-radius:999px;background:linear-gradient(90deg,#E5484D,#F59E0B,#16A34A);position:relative">
+          <span style="position:absolute;left:{{ sentPos }};top:50%;transition:left 1.2s ease;transform:translate(-50%,-50%);width:18px;height:18px;border-radius:50%;background:#fff;border:4px solid #0B1B3A"></span>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:10.5px;font-weight:800;color:#8FA1BE">
+          <span>Negative</span><span>Neutral</span><span>Positive</span>
+        </div>
+        <div style="margin-top:10px;font-size:12px;color:#5B6B87;font-weight:600;line-height:1.5">Frustration detected at 01:12 over duplicate charge — recovered after refund was confirmed.</div>
+      </div>
+
+      <div style="background:#fff;border:1px solid #DCCEFB;border-radius:16px;overflow:hidden">
+        <div style="background:linear-gradient(120deg,#6D28D9,#8B5CF6);padding:12px 16px;display:flex;align-items:center;gap:8px">
+          <span style="color:#fff;font-size:15px">✦</span>
+          <span style="color:#fff;font-weight:800;font-size:14px">AI Copilot</span>
+          <div style="flex:1"></div>
+          <span style="background:rgba(255,255,255,.2);color:#fff;font-size:10.5px;font-weight:800;padding:3px 9px;border-radius:999px">LIVE</span>
+        </div>
+        <div style="padding:14px 16px;display:flex;flex-direction:column;gap:10px">
+          <div style="font-size:11px;font-weight:800;color:#8FA1BE;letter-spacing:.5px">NEXT BEST ACTION</div>
+          <div style="border:1px solid #EDE6FD;background:#FBFAFF;border-radius:12px;padding:11px 13px;font-size:12.5px;line-height:1.55;color:#22314F">
+            <b>Confirm refund of AED 249</b> to card ending 4417 — duplicate charge verified in billing system. Expected in 3–5 business days.
+          </div>
+          <div style="border:1px solid #EDE6FD;background:#FBFAFF;border-radius:12px;padding:11px 13px;font-size:12.5px;line-height:1.55;color:#22314F">
+            Offer <b>free expedited shipping</b> on his pending order #7789 as a goodwill gesture.
+          </div>
+          <div style="font-size:11px;font-weight:800;color:#8FA1BE;letter-spacing:.5px;margin-top:2px">KNOWLEDGE</div>
+          <a href="#" style="display:flex;align-items:center;gap:9px;border:1px solid #EDF2FA;border-radius:12px;padding:10px 13px;font-size:12.5px;font-weight:700" style-hover="background:#F7FAFF">
+            <span style="width:26px;height:26px;border-radius:8px;background:#EAF0FE;color:#2A63F6;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0">📄</span>
+            Refund policy — duplicate transactions
+          </a>
+          <button style="border:none;background:#6D28D9;color:#fff;font-weight:800;font-family:'Poppins',sans-serif;font-size:13px;padding:12px;border-radius:11px;cursor:pointer;margin-top:2px" style-hover="background:#5B21B6">✦ Generate wrap-up summary</button>
+        </div>
+      </div>
+
+      <div style="background:#fff;border:1px solid #E3EAF5;border-radius:16px;padding:16px">
+        <div style="font-weight:800;font-size:14px;margin-bottom:12px">Recent Journey</div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;gap:10px;align-items:center">
+            <span style="width:30px;height:30px;border-radius:9px;background:#E9F9EF;color:#1FA855;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0">💬</span>
+            <div style="flex:1"><div style="font-weight:700;font-size:12.5px">WhatsApp — delivery query</div><div style="font-size:11px;color:#8FA1BE;font-weight:700">Resolved by AI · 2 days ago</div></div>
+          </div>
+          <div style="display:flex;gap:10px;align-items:center">
+            <span style="width:30px;height:30px;border-radius:9px;background:#EAF0FE;color:#2A63F6;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0">📞</span>
+            <div style="flex:1"><div style="font-weight:700;font-size:12.5px">Voice — payment issue</div><div style="font-size:11px;color:#8FA1BE;font-weight:700">Resolved · CSAT 5 · last week</div></div>
+          </div>
+          <div style="display:flex;gap:10px;align-items:center">
+            <span style="width:30px;height:30px;border-radius:9px;background:#FEF3E2;color:#B7791F;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0">✉️</span>
+            <div style="flex:1"><div style="font-weight:700;font-size:12.5px">Email — invoice request</div><div style="font-size:11px;color:#8FA1BE;font-weight:700">Resolved · 3 weeks ago</div></div>
+          </div>
+        </div>
+      </div>
+    </aside>
+    </sc-if>
+  </div>
+  </sc-if>
+
+  <!-- ============ CASES ============ -->
+  <sc-if value="{{ isCases }}" hint-placeholder-val="{{ false }}">
+  <div style="flex:1;padding:18px 22px 28px;max-width:1520px;margin:0 auto;width:100%">
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px">
+      <div style="width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,#0B1B3A,#41537A);color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px">🗂</div>
+      <div>
+        <div style="font-weight:800;font-size:21px;letter-spacing:-.3px">Case &amp; Ticket Management</div>
+        <div style="font-size:12.5px;color:#5B6B87;font-weight:600">Auto-created from any channel · AI-classified · SLA tracked</div>
+      </div>
+      <div style="flex:1"></div>
+      <span style="display:flex;align-items:center;gap:7px;background:#F3EDFE;color:#7C3AED;border-radius:999px;padding:8px 15px;font-weight:800;font-size:12.5px">✦ AI resolving 3 routine cases in background</span>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:16px">
+      <sc-for list="{{ caseKpis }}" as="k" hint-placeholder-count="5">
+        <div style="background:#fff;border:1px solid #E3EAF5;border-radius:15px;padding:14px 15px">
+          <div style="display:flex;align-items:center;gap:8px">
+            <span style="width:26px;height:26px;border-radius:8px;background:{{ k.iconBg }};display:flex;align-items:center;justify-content:center;font-size:12px">{{ k.icon }}</span>
+            <span style="font-size:10px;font-weight:800;color:#8FA1BE;letter-spacing:.6px">{{ k.label }}</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:7px;margin-top:9px">
+            <span style="font-weight:800;font-size:23px;letter-spacing:-.5px;color:{{ k.color }}">{{ k.value }}</span>
+            <span style="font-size:11px;font-weight:800;color:{{ k.deltaColor }}">{{ k.delta }}</span>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="display:flex;gap:10px;margin-bottom:14px">
+      <div style="flex:1;display:flex;align-items:center;gap:10px;background:#fff;border:1px solid #E3EAF5;border-radius:12px;padding:0 14px">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8FA1BE" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.3-4.3"></path></svg>
+        <input value="{{ caseSearch }}" onChange="{{ setCaseSearch }}" placeholder="Search cases, customers or assignees…" style="flex:1;border:none;outline:none;font-size:13.5px;font-family:'Poppins',sans-serif;padding:12px 0;background:transparent;color:#0B1B3A">
+      </div>
+      <div style="display:flex;gap:6px;background:#fff;border:1px solid #E3EAF5;border-radius:12px;padding:5px;flex-shrink:0">
+        <sc-for list="{{ prioFilters }}" as="f" hint-placeholder-count="4">
+          <button onClick="{{ f.pick }}" style="{{ f.style }}">{{ f.label }}</button>
+        </sc-for>
+      </div>
+      <div style="display:flex;gap:4px;background:#fff;border:1px solid #E3EAF5;border-radius:12px;padding:5px;flex-shrink:0">
+        <button onClick="{{ goTable }}" style="{{ viewTableStyle }}">☰ Table</button>
+        <button onClick="{{ goBoard }}" style="{{ viewBoardStyle }}">▦ Board</button>
+      </div>
+    </div>
+
+    <sc-if value="{{ isTableView }}" hint-placeholder-val="{{ true }}">
+    <div style="background:#fff;border:1px solid #E3EAF5;border-radius:16px;overflow:hidden">
+      <div style="display:grid;grid-template-columns:105px 1.6fr 2.1fr 92px 1.2fr 92px 112px 90px;gap:10px;padding:12px 18px;border-bottom:1px solid #EDF2FA;font-size:10.5px;font-weight:800;color:#8FA1BE;letter-spacing:.5px">
+        <span>CASE ID</span><span>CUSTOMER</span><span>SUBJECT</span><span>PRIORITY</span><span>ASSIGNEE</span><span>SLA LEFT</span><span>STATUS</span><span>UPDATED</span>
+      </div>
+      <sc-for list="{{ caseRows }}" as="r" hint-placeholder-count="8">
+        <div onClick="{{ r.open }}" style="display:grid;grid-template-columns:105px 1.6fr 2.1fr 92px 1.2fr 92px 112px 90px;gap:10px;padding:13px 18px;border-bottom:1px solid #F3F7FD;align-items:center;cursor:pointer" style-hover="background:#F7FAFF">
+          <span style="font-weight:800;font-size:12.5px;color:#2A63F6">{{ r.id }}</span>
+          <span style="display:flex;align-items:center;gap:8px;min-width:0">
+            <span style="width:28px;height:28px;border-radius:9px;background:{{ r.chBg }};color:{{ r.chColor }};display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0">{{ r.chGlyph }}</span>
+            <span style="font-weight:700;font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ r.customer }}</span>
+          </span>
+          <span style="font-size:12.5px;color:#22314F;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ r.subject }}</span>
+          <span><span style="font-size:10.5px;font-weight:800;padding:4px 10px;border-radius:999px;background:{{ r.prioBg }};color:{{ r.prioColor }}">{{ r.prio }}</span></span>
+          <span style="font-size:12px;font-weight:700;color:#41537A;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ r.assignee }}</span>
+          <span style="font-size:12px;font-weight:800;font-variant-numeric:tabular-nums;color:{{ r.slaColor }}">{{ r.sla }}</span>
+          <span><span style="font-size:10.5px;font-weight:800;padding:4px 10px;border-radius:999px;background:{{ r.statusBg }};color:{{ r.statusColor }};white-space:nowrap">{{ r.status }}</span></span>
+          <span style="font-size:11.5px;font-weight:700;color:#8FA1BE;white-space:nowrap">{{ r.updated }}</span>
+        </div>
+      </sc-for>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ isBoardView }}" hint-placeholder-val="{{ false }}">
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;align-items:start">
+      <sc-for list="{{ boardCols }}" as="col" hint-placeholder-count="4">
+        <div style="background:#EFF4FB;border-radius:15px;padding:10px">
+          <div style="display:flex;align-items:center;gap:8px;padding:4px 6px 10px">
+            <span style="width:8px;height:8px;border-radius:50%;background:{{ col.dot }}"></span>
+            <span style="font-weight:800;font-size:12.5px">{{ col.name }}</span>
+            <span style="font-size:11px;font-weight:800;color:#8FA1BE">{{ col.count }}</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <sc-for list="{{ col.cases }}" as="c" hint-placeholder-count="2">
+              <div onClick="{{ c.open }}" style="background:#fff;border:1px solid #E3EAF5;border-radius:12px;padding:12px 13px;cursor:pointer" style-hover="box-shadow:0 10px 22px -14px rgba(11,27,58,.3)">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+                  <span style="font-weight:800;font-size:11.5px;color:#2A63F6">{{ c.id }}</span>
+                  <span style="font-size:10px;font-weight:800;padding:3px 9px;border-radius:999px;background:{{ c.prioBg }};color:{{ c.prioColor }}">{{ c.prio }}</span>
+                </div>
+                <div style="font-size:12.5px;font-weight:700;color:#22314F;line-height:1.4;margin-bottom:8px">{{ c.subject }}</div>
+                <div style="display:flex;align-items:center;gap:7px">
+                  <span style="width:24px;height:24px;border-radius:8px;background:{{ c.chBg }};color:{{ c.chColor }};display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0">{{ c.chGlyph }}</span>
+                  <span style="font-size:11.5px;font-weight:700;color:#5B6B87;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ c.customer }}</span>
+                  <span style="font-size:11px;font-weight:800;color:{{ c.slaColor }}">{{ c.sla }}</span>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ hasDrawer }}" hint-placeholder-val="{{ false }}">
+      <div onClick="{{ closeDrawer }}" style="position:fixed;inset:0;background:rgba(11,27,58,.38);z-index:70"></div>
+      <div style="position:fixed;top:0;right:0;height:100vh;width:432px;background:#fff;z-index:71;box-shadow:-24px 0 60px rgba(11,27,58,.25);display:flex;flex-direction:column">
+        <div style="padding:18px 20px;border-bottom:1px solid #EDF2FA;display:flex;align-items:start;gap:12px">
+          <div style="flex:1">
+            <div style="font-weight:800;font-size:12px;color:#2A63F6">{{ activeCase.id }}</div>
+            <div style="font-weight:800;font-size:16.5px;line-height:1.35;margin-top:3px">{{ activeCase.subject }}</div>
+            <div style="display:flex;gap:6px;margin-top:9px">
+              <span style="font-size:10.5px;font-weight:800;padding:4px 10px;border-radius:999px;background:{{ activeCase.statusBg }};color:{{ activeCase.statusColor }}">{{ activeCase.status }}</span>
+              <span style="font-size:10.5px;font-weight:800;padding:4px 10px;border-radius:999px;background:{{ activeCase.prioBg }};color:{{ activeCase.prioColor }}">{{ activeCase.prio }} priority</span>
+              <span style="font-size:10.5px;font-weight:800;padding:4px 10px;border-radius:999px;background:#F1F5FC;color:{{ activeCase.slaColor }}">SLA {{ activeCase.sla }}</span>
+            </div>
+          </div>
+          <button onClick="{{ closeDrawer }}" style="width:32px;height:32px;border-radius:9px;border:1px solid #E3EAF5;background:#fff;cursor:pointer;font-size:14px;color:#5B6B87;flex-shrink:0" style-hover="background:#F1F5FC">✕</button>
+        </div>
+        <div style="flex:1;overflow-y:auto;padding:18px 20px;display:flex;flex-direction:column;gap:14px">
+          <div style="display:flex;align-items:center;gap:11px;background:#F7FAFF;border:1px solid #EDF2FA;border-radius:13px;padding:12px 14px">
+            <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#0B1B3A,#41537A);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px">{{ activeCase.initials }}</div>
+            <div style="flex:1;min-width:0">
+              <div style="font-weight:800;font-size:13.5px">{{ activeCase.customer }}</div>
+              <div style="font-size:11px;color:#8FA1BE;font-weight:700">via {{ activeCase.channel }} · assignee: {{ activeCase.assignee }}</div>
+            </div>
+            <span style="width:30px;height:30px;border-radius:9px;background:{{ activeCase.chBg }};color:{{ activeCase.chColor }};display:flex;align-items:center;justify-content:center;font-size:13px">{{ activeCase.chGlyph }}</span>
+          </div>
+          <div style="border:1px solid #DCCEFB;border-radius:13px;overflow:hidden">
+            <div style="background:linear-gradient(120deg,#6D28D9,#8B5CF6);padding:9px 14px;color:#fff;font-weight:800;font-size:12.5px">✦ AI Case Summary</div>
+            <div style="padding:12px 14px;font-size:12.5px;line-height:1.6;color:#22314F">{{ activeCase.aiSummary }}</div>
+          </div>
+          <div>
+            <div style="font-size:11px;font-weight:800;color:#8FA1BE;letter-spacing:.5px;margin-bottom:10px">TIMELINE</div>
+            <div style="display:flex;flex-direction:column;gap:0">
+              <sc-for list="{{ activeCase.timeline }}" as="ev" hint-placeholder-count="4">
+                <div style="display:flex;gap:12px">
+                  <div style="display:flex;flex-direction:column;align-items:center">
+                    <span style="width:9px;height:9px;border-radius:50%;background:#2A63F6;border:2px solid #EAF0FE;flex-shrink:0;margin-top:3px"></span>
+                    <span style="width:2px;flex:1;background:#EDF2FA"></span>
+                  </div>
+                  <div style="padding-bottom:16px">
+                    <div style="font-size:12.5px;font-weight:600;color:#22314F;line-height:1.45">{{ ev.text }}</div>
+                    <div style="font-size:10.5px;font-weight:800;color:#8FA1BE;margin-top:2px">{{ ev.t }}</div>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+        <div style="padding:14px 20px;border-top:1px solid #EDF2FA;display:flex;gap:8px">
+          <button style="flex:1;border:none;background:#16A34A;color:#fff;font-weight:800;font-family:'Poppins',sans-serif;font-size:12.5px;padding:12px 0;border-radius:11px;cursor:pointer" style-hover="background:#128A3E">✓ Resolve</button>
+          <button style="flex:1;border:1px solid #E3EAF5;background:#fff;color:#41537A;font-weight:800;font-family:'Poppins',sans-serif;font-size:12.5px;padding:12px 0;border-radius:11px;cursor:pointer" style-hover="background:#F1F5FC">Reassign</button>
+          <button style="flex:1;border:1px solid #FBD9DA;background:#fff;color:#E5484D;font-weight:800;font-family:'Poppins',sans-serif;font-size:12.5px;padding:12px 0;border-radius:11px;cursor:pointer" style-hover="background:#FEF1F1">Escalate</button>
+        </div>
+      </div>
+    </sc-if>
+  </div>
+  </sc-if>
+
+  <!-- ============ MONITORING ============ -->
+  <sc-if value="{{ isMonitoring }}" hint-placeholder-val="{{ false }}">
+  <div style="flex:1;padding:18px 22px 28px;max-width:1520px;margin:0 auto;width:100%">
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px">
+      <div style="width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,#1E4FD0,#4C82FF);color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 10px 22px -10px rgba(42,99,246,.6)">📡</div>
+      <div>
+        <div style="font-weight:800;font-size:21px;letter-spacing:-.3px">Interaction Monitoring Center</div>
+        <div style="font-size:12.5px;color:#5B6B87;font-weight:600">Real-time omnichannel supervision across voice, chat, social &amp; AI</div>
+      </div>
+      <div style="flex:1"></div>
+      <span style="display:flex;align-items:center;gap:7px;background:#fff;border:1px solid #E3EAF5;border-radius:999px;padding:8px 15px;font-weight:800;font-size:12.5px"><span style="width:8px;height:8px;border-radius:50%;background:#16A34A;animation:pulse 1.4s infinite"></span>Live · refreshing every 2s</span>
+      <span style="background:#EAF0FE;color:#2A63F6;border-radius:999px;padding:9px 15px;font-weight:800;font-size:12.5px">7 Human</span>
+      <span style="background:#F3EDFE;color:#7C3AED;border-radius:999px;padding:9px 15px;font-weight:800;font-size:12.5px">✦ 3 AI</span>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:10px">
+      <sc-for list="{{ kpis }}" as="k" hint-placeholder-count="6">
+        <div style="background:#fff;border:1px solid #E3EAF5;border-radius:15px;padding:14px 15px 12px;position:relative;overflow:hidden" style-hover="box-shadow:0 12px 26px -16px rgba(11,27,58,.3)">
+          <div style="display:flex;align-items:center;gap:8px">
+            <span style="width:26px;height:26px;border-radius:8px;background:{{ k.iconBg }};display:flex;align-items:center;justify-content:center;font-size:12px">{{ k.icon }}</span>
+            <span style="font-size:10px;font-weight:800;color:#8FA1BE;letter-spacing:.6px">{{ k.label }}</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:7px;margin-top:9px">
+            <span style="font-weight:800;font-size:24px;letter-spacing:-.5px;color:{{ k.color }}">{{ k.value }}</span>
+            <span style="font-size:11px;font-weight:800;color:{{ k.deltaColor }}">{{ k.delta }}</span>
+          </div>
+          <div style="display:flex;align-items:end;gap:3px;height:26px;margin-top:10px">
+            <sc-for list="{{ k.bars }}" as="b" hint-placeholder-count="8">
+              <span style="flex:1;height:{{ b.h }};background:{{ b.bg }};border-radius:3px 3px 0 0"></span>
+            </sc-for>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="display:flex;gap:10px;margin-bottom:14px">
+      <div style="flex:1;display:flex;align-items:center;gap:10px;background:#fff;border:1px solid #E3EAF5;border-radius:12px;padding:0 14px">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8FA1BE" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.3-4.3"></path></svg>
+        <input value="{{ search }}" onChange="{{ setSearch }}" placeholder="Search agents, teams or extensions…" style="flex:1;border:none;outline:none;font-size:13.5px;font-family:'Poppins',sans-serif;padding:12px 0;background:transparent;color:#0B1B3A">
+      </div>
+      <div style="display:flex;gap:6px;background:#fff;border:1px solid #E3EAF5;border-radius:12px;padding:5px;flex-shrink:0">
+        <sc-for list="{{ statusFilters }}" as="f" hint-placeholder-count="4">
+          <button onClick="{{ f.pick }}" style="{{ f.style }}">{{ f.label }}</button>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 308px;gap:14px;align-items:start">
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+        <sc-for list="{{ agents }}" as="a" hint-placeholder-count="8">
+          <div style="background:#fff;border:1px solid #E8EEF8;border-top:3px solid {{ a.dotColor }};border-radius:16px;padding:15px 16px;display:flex;flex-direction:column;gap:11px" style-hover="box-shadow:0 14px 30px -16px rgba(11,27,58,.28);transform:translateY(-2px)">
+            <div style="display:flex;align-items:center;gap:11px">
+              <div style="width:42px;height:42px;border-radius:50%;background:{{ a.avatarBg }};color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;position:relative;flex-shrink:0;box-shadow:0 0 0 2px #fff,0 0 0 4px {{ a.dotColor }}">
+                {{ a.initials }}
+              </div>
+              <div style="min-width:0;flex:1">
+                <div style="font-weight:800;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ a.name }}</div>
+                <div style="font-size:11px;color:#8FA1BE;font-weight:700">{{ a.team }} · Ext {{ a.ext }}</div>
+              </div>
+              <span style="font-size:10.5px;font-weight:800;padding:4px 10px;border-radius:999px;background:{{ a.statusBg }};color:{{ a.statusColor }};white-space:nowrap">{{ a.status }}</span>
+            </div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap">
+              <sc-for list="{{ a.channels }}" as="c" hint-placeholder-count="3">
+                <span title="{{ c.name }}" style="display:flex;align-items:center;gap:5px;background:{{ c.bg }};color:{{ c.color }};font-size:11px;font-weight:800;padding:4px 9px;border-radius:8px">{{ c.glyph }} {{ c.count }}</span>
+              </sc-for>
+            </div>
+            <sc-if value="{{ a.current }}" hint-placeholder-val="{{ true }}">
+              <div style="background:#F7FAFF;border:1px solid #EDF2FA;border-radius:11px;padding:9px 12px;display:flex;align-items:center;gap:8px">
+                <span style="width:7px;height:7px;border-radius:50%;background:#16A34A;animation:pulse 1.5s infinite;flex-shrink:0"></span>
+                <span style="font-size:12px;font-weight:700;color:#22314F;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ a.current }}</span>
+                <span style="font-size:12px;font-weight:800;font-variant-numeric:tabular-nums">{{ a.currentTime }}</span>
+              </div>
+            </sc-if>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px">
+              <div style="background:#F7FAFF;border-radius:9px;padding:7px 4px;text-align:center">
+                <div style="font-weight:800;font-size:13px">{{ a.handled }}</div>
+                <div style="font-size:9px;font-weight:800;color:#8FA1BE;letter-spacing:.4px">HANDLED</div>
+              </div>
+              <div style="background:#F7FAFF;border-radius:9px;padding:7px 4px;text-align:center">
+                <div style="font-weight:800;font-size:13px">{{ a.aht }}</div>
+                <div style="font-size:9px;font-weight:800;color:#8FA1BE;letter-spacing:.4px">AHT</div>
+              </div>
+              <div style="background:#F7FAFF;border-radius:9px;padding:7px 4px;text-align:center">
+                <div style="font-weight:800;font-size:13px">{{ a.csat }}</div>
+                <div style="font-size:9px;font-weight:800;color:#8FA1BE;letter-spacing:.4px">CSAT</div>
+              </div>
+            </div>
+            <div>
+              <div style="display:flex;justify-content:space-between;font-size:10px;font-weight:800;color:#8FA1BE;margin-bottom:5px">
+                <span>OCCUPANCY</span><span style="color:#41537A">{{ a.occupancy }}%</span>
+              </div>
+              <div style="height:6px;border-radius:999px;background:#EDF2FA;overflow:hidden">
+                <div style="height:100%;width:{{ a.occWidth }};border-radius:999px;background:{{ a.occColor }};transition:width 1s ease"></div>
+              </div>
+            </div>
+            <div style="display:flex;gap:6px;border-top:1px solid #EDF2FA;padding-top:10px">
+              <button style="flex:1;border:1px solid #E3EAF5;background:#fff;color:#41537A;font-weight:800;font-family:'Poppins',sans-serif;font-size:11px;padding:7px 0;border-radius:9px;cursor:pointer" style-hover="background:#F1F5FC">👁 Listen</button>
+              <button style="flex:1;border:1px solid #E3EAF5;background:#fff;color:#41537A;font-weight:800;font-family:'Poppins',sans-serif;font-size:11px;padding:7px 0;border-radius:9px;cursor:pointer" style-hover="background:#F1F5FC">Whisper</button>
+              <button style="flex:1;border:1px solid #FBD9DA;background:#fff;color:#E5484D;font-weight:800;font-family:'Poppins',sans-serif;font-size:11px;padding:7px 0;border-radius:9px;cursor:pointer" style-hover="background:#FEF1F1">Barge</button>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+
+      <aside style="display:flex;flex-direction:column;gap:12px">
+        <div style="background:linear-gradient(120deg,#FFF7EA,#FFFDF8);border:1px solid #F5DFB8;border-radius:15px;padding:13px 15px;display:flex;gap:10px;align-items:center">
+          <span style="width:34px;height:34px;border-radius:10px;background:#FEF3E2;color:#B7791F;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0">⚠</span>
+          <div>
+            <div style="font-weight:800;font-size:12.5px;color:#92640D">SLA warning — Voice queue</div>
+            <div style="font-size:11.5px;color:#A97F2E;font-weight:600">Longest wait 1:12 · target is 0:60</div>
+          </div>
+        </div>
+        <div style="background:#fff;border:1px solid #E3EAF5;border-radius:16px;overflow:hidden">
+          <div style="padding:13px 16px;border-bottom:1px solid #EDF2FA;display:flex;align-items:center;gap:8px">
+            <span style="width:8px;height:8px;border-radius:50%;background:#2A63F6;animation:pulse 1.4s infinite"></span>
+            <span style="font-weight:800;font-size:13.5px">Live Activity</span>
+            <div style="flex:1"></div>
+            <span style="font-size:10.5px;font-weight:800;color:#8FA1BE">AUTO</span>
+          </div>
+          <div style="padding:10px 12px;display:flex;flex-direction:column;gap:6px">
+            <sc-for list="{{ feed }}" as="e" hint-placeholder-count="6">
+              <div style="display:flex;gap:10px;padding:8px 9px;border-radius:11px;background:{{ e.rowBg }}">
+                <span style="width:28px;height:28px;border-radius:9px;background:{{ e.bg }};color:{{ e.color }};display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0">{{ e.glyph }}</span>
+                <div style="min-width:0">
+                  <div style="font-size:11.5px;font-weight:600;color:#22314F;line-height:1.45">{{ e.text }}</div>
+                  <div style="font-size:10px;font-weight:800;color:#8FA1BE;margin-top:2px">{{ e.t }}</div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+  </sc-if>
+
+  <!-- ============ ANALYTICS ============ -->
+  <sc-if value="{{ isAnalytics }}" hint-placeholder-val="{{ false }}">
+  <div style="flex:1;padding:18px 22px 28px;max-width:1520px;margin:0 auto;width:100%">
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px">
+      <div style="width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,#6D28D9,#8B5CF6);color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px">📈</div>
+      <div>
+        <div style="font-weight:800;font-size:21px;letter-spacing:-.3px">Performance Analytics</div>
+        <div style="font-size:12.5px;color:#5B6B87;font-weight:600">Omnichannel volumes, agent performance &amp; AI impact</div>
+      </div>
+      <div style="flex:1"></div>
+      <div style="display:flex;gap:4px;background:#fff;border:1px solid #E3EAF5;border-radius:12px;padding:5px;flex-shrink:0">
+        <sc-for list="{{ rangeFilters }}" as="f" hint-placeholder-count="3">
+          <button onClick="{{ f.pick }}" style="{{ f.style }}">{{ f.label }}</button>
+        </sc-for>
+      </div>
+      <button style="border:1px solid #E3EAF5;background:#fff;color:#41537A;font-weight:800;font-family:'Poppins',sans-serif;font-size:12.5px;padding:10px 16px;border-radius:11px;cursor:pointer;flex-shrink:0" style-hover="background:#F1F5FC">⬇ Export</button>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:14px">
+      <sc-for list="{{ anKpis }}" as="k" hint-placeholder-count="5">
+        <div style="background:#fff;border:1px solid #E3EAF5;border-radius:15px;padding:14px 15px">
+          <div style="display:flex;align-items:center;gap:8px">
+            <span style="width:26px;height:26px;border-radius:8px;background:{{ k.iconBg }};display:flex;align-items:center;justify-content:center;font-size:12px">{{ k.icon }}</span>
+            <span style="font-size:10px;font-weight:800;color:#8FA1BE;letter-spacing:.6px">{{ k.label }}</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:7px;margin-top:9px">
+            <span style="font-weight:800;font-size:23px;letter-spacing:-.5px;color:{{ k.color }}">{{ k.value }}</span>
+            <span style="font-size:11px;font-weight:800;color:{{ k.deltaColor }}">{{ k.delta }}</span>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1.6fr 1fr;gap:12px;margin-bottom:12px">
+      <div style="background:#fff;border:1px solid #E3EAF5;border-radius:16px;padding:16px 18px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+          <div style="font-weight:800;font-size:14px">Interaction Volume by Hour</div>
+          <div style="display:flex;gap:12px;font-size:11px;font-weight:800;color:#8FA1BE">
+            <span style="display:flex;align-items:center;gap:5px"><span style="width:10px;height:10px;border-radius:3px;background:#2A63F6"></span>Human</span>
+            <span style="display:flex;align-items:center;gap:5px"><span style="width:10px;height:10px;border-radius:3px;background:#C9B4F7"></span>AI handled</span>
+          </div>
+        </div>
+        <div style="display:flex;align-items:end;gap:8px;height:180px">
+          <sc-for list="{{ hourly }}" as="h" hint-placeholder-count="12">
+            <div style="flex:1;display:flex;flex-direction:column;justify-content:end;gap:2px;height:100%">
+              <div style="height:{{ h.ai }};background:#C9B4F7;border-radius:4px 4px 0 0"></div>
+              <div style="height:{{ h.human }};background:#2A63F6;border-radius:0 0 3px 3px"></div>
+              <div style="text-align:center;font-size:9.5px;font-weight:800;color:#8FA1BE;margin-top:4px">{{ h.label }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      <div style="background:#fff;border:1px solid #E3EAF5;border-radius:16px;padding:16px 18px">
+        <div style="font-weight:800;font-size:14px;margin-bottom:14px">Channel Mix</div>
+        <div style="display:flex;flex-direction:column;gap:11px">
+          <sc-for list="{{ mix }}" as="c" hint-placeholder-count="6">
+            <div>
+              <div style="display:flex;justify-content:space-between;font-size:11.5px;font-weight:800;margin-bottom:4px">
+                <span style="color:#22314F">{{ c.glyph }} {{ c.name }}</span>
+                <span style="color:#8FA1BE">{{ c.count }} · {{ c.pct }}</span>
+              </div>
+              <div style="height:8px;border-radius:999px;background:#EDF2FA;overflow:hidden">
+                <div style="height:100%;width:{{ c.pct }};background:{{ c.color }};border-radius:999px;transition:width 1s ease"></div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
+      <div style="background:#fff;border:1px solid #E3EAF5;border-radius:16px;padding:16px 18px">
+        <div style="font-weight:800;font-size:14px;margin-bottom:12px">Agent Leaderboard</div>
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <sc-for list="{{ leaders }}" as="l" hint-placeholder-count="5">
+            <div style="display:flex;align-items:center;gap:10px">
+              <span style="width:22px;font-size:12px;font-weight:800;color:{{ l.rankColor }}">{{ l.rank }}</span>
+              <div style="width:30px;height:30px;border-radius:50%;background:{{ l.bg }};color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px;flex-shrink:0">{{ l.initials }}</div>
+              <div style="flex:1;min-width:0">
+                <div style="font-weight:800;font-size:12.5px">{{ l.name }}</div>
+                <div style="font-size:10.5px;color:#8FA1BE;font-weight:700">{{ l.handled }} handled · AHT {{ l.aht }}</div>
+              </div>
+              <span style="font-weight:800;font-size:13px;color:#B7791F">★ {{ l.csat }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      <div style="background:#fff;border:1px solid #DCCEFB;border-radius:16px;padding:16px 18px">
+        <div style="display:flex;align-items:center;gap:7px;margin-bottom:14px">
+          <span style="color:#7C3AED;font-size:14px">✦</span>
+          <span style="font-weight:800;font-size:14px">AI Impact</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:16px">
+          <div style="width:110px;height:110px;border-radius:50%;background:conic-gradient(#7C3AED 0 68%,#EDE6FD 68% 100%);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+            <div style="width:78px;height:78px;border-radius:50%;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center">
+              <span style="font-weight:800;font-size:19px;color:#7C3AED">68%</span>
+              <span style="font-size:9px;font-weight:800;color:#8FA1BE;letter-spacing:.4px">CONTAINED</span>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:9px;flex:1">
+            <div><div style="font-weight:800;font-size:15px">1,204</div><div style="font-size:10.5px;font-weight:800;color:#8FA1BE">RESOLVED BY AI THIS WEEK</div></div>
+            <div><div style="font-weight:800;font-size:15px">312 hrs</div><div style="font-size:10.5px;font-weight:800;color:#8FA1BE">AGENT TIME SAVED</div></div>
+            <div><div style="font-weight:800;font-size:15px;color:#16A34A">+9%</div><div style="font-size:10.5px;font-weight:800;color:#8FA1BE">CONTAINMENT VS LAST WEEK</div></div>
+          </div>
+        </div>
+      </div>
+      <div style="background:#fff;border:1px solid #E3EAF5;border-radius:16px;padding:16px 18px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+          <span style="font-weight:800;font-size:14px">CSAT Trend</span>
+          <span style="background:#EAF6EE;color:#166534;font-weight:800;font-size:11px;padding:3px 10px;border-radius:999px">4.6 avg ↗</span>
+        </div>
+        <div style="display:flex;align-items:end;gap:7px;height:120px">
+          <sc-for list="{{ csatTrend }}" as="d" hint-placeholder-count="7">
+            <div style="flex:1;display:flex;flex-direction:column;justify-content:end;height:100%">
+              <div style="text-align:center;font-size:10px;font-weight:800;color:#41537A;margin-bottom:3px">{{ d.val }}</div>
+              <div style="height:{{ d.h }};background:{{ d.color }};border-radius:5px 5px 0 0"></div>
+              <div style="text-align:center;font-size:9.5px;font-weight:800;color:#8FA1BE;margin-top:4px">{{ d.label }}</div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="margin-top:12px;border-top:1px solid #EDF2FA;padding-top:10px;font-size:11.5px;color:#5B6B87;font-weight:600;line-height:1.5">✦ AI insight: CSAT dips on Mondays correlate with voice queue waits over 60s — consider shifting one agent to the morning block.</div>
+      </div>
+    </div>
+  </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;defaultView&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;workspace&quot;, &quot;monitoring&quot;, &quot;cases&quot;, &quot;analytics&quot;], &quot;default&quot;: &quot;workspace&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Layout&quot;}, &quot;showCopilot&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Layout&quot;}}">
+class Component extends DCLogic {
+  state = { view: this.props.defaultView ?? "workspace", conv: "voice", search: "", statusFilter: "All", secs: 272, waDraft: "", tick: 0, caseView: "table", caseSearch: "", prioFilter: "All", openCase: null };
+
+  componentDidMount() {
+    this.timer = setInterval(() => this.setState(s => ({ secs: s.secs + 1 })), 1000);
+    this.anim = setInterval(() => this.setState(s => ({ tick: s.tick + 1 })), 2000);
+  }
+  componentWillUnmount() { clearInterval(this.timer); clearInterval(this.anim); }
+
+  fmt(s) { const m = Math.floor(s / 60), r = s % 60; return String(m).padStart(2, "0") + ":" + String(r).padStart(2, "0"); }
+
+  navStyle(on) {
+    return on
+      ? { border: "none", background: "#2A63F6", color: "#fff", fontFamily: "'Poppins',sans-serif", fontWeight: 700, fontSize: 14, padding: "8px 16px", borderRadius: 9, cursor: "pointer", boxShadow: "0 6px 14px -6px rgba(42,99,246,.5)" }
+      : { border: "none", background: "transparent", color: "#41537A", fontFamily: "'Poppins',sans-serif", fontWeight: 700, fontSize: 14, padding: "8px 16px", borderRadius: 9, cursor: "pointer" };
+  }
+  convStyle(on) {
+    return {
+      display: "flex", alignItems: "center", gap: 8, border: on ? "1px solid #2A63F6" : "1px solid #E3EAF5",
+      background: on ? "#fff" : "#F1F5FC", color: on ? "#0B1B3A" : "#5B6B87", fontFamily: "'Poppins',sans-serif",
+      fontWeight: 700, fontSize: 12.5, padding: "9px 15px", borderRadius: 11, cursor: "pointer", whiteSpace: "nowrap",
+      boxShadow: on ? "0 6px 16px -10px rgba(42,99,246,.5)" : "none"
+    };
+  }
+
+  renderVals() {
+    const S = this.state;
+    const showCopilot = this.props.showCopilot ?? true;
+
+    const queue = [
+      { name: "James Cooper", channel: "Email", chGlyph: "✉", chBg: "#FEF3E2", chColor: "#B7791F", preview: "Refund request for invoice #INV-2291…", wait: "4m", sentiment: "Neutral", sentColor: "#F59E0B" },
+      { name: "+971 55 210 4478", channel: "Voice", chGlyph: "📞", chBg: "#EAF0FE", chColor: "#2A63F6", preview: "Billing queue · IVR path 2-1", wait: "0:38", sentiment: "—", sentColor: "#CBD8EC" },
+      { name: "Lena Ortiz", channel: "Instagram", chGlyph: "◎", chBg: "#FDEBF3", chColor: "#DB2777", preview: "DM: Is the blue variant back in stock?", wait: "6m", sentiment: "Positive", sentColor: "#16A34A" },
+      { name: "Rakesh Kumar", channel: "WhatsApp", chGlyph: "💬", chBg: "#E9F9EF", chColor: "#1FA855", preview: "Sent a photo of the damaged package", wait: "2m", sentiment: "Negative", sentColor: "#E5484D" },
+      { name: "Live visitor #8812", channel: "Web Chat", chGlyph: "💬", chBg: "#EAF0FE", chColor: "#2A63F6", preview: "Browsing pricing page for 3 min", wait: "1m", sentiment: "—", sentColor: "#CBD8EC" },
+      { name: "Noura H.", channel: "X", chGlyph: "𝕏", chBg: "#F1F5FC", chColor: "#0B1B3A", preview: "@inaipi mentioned in a public post", wait: "9m", sentiment: "Negative", sentColor: "#E5484D" },
+    ];
+
+    const transcript = [
+      { who: "Agent", tagBg: "#F1F5FC", tagColor: "#41537A", text: "Thank you for calling Inaipi support, this is Mariam. How can I help you today?", time: "00:04" },
+      { who: "Customer", tagBg: "#EAF0FE", tagColor: "#2A63F6", text: "Hi, I was charged twice for my order last Friday. AED 249, two times, same day.", time: "00:19" },
+      { who: "Agent", tagBg: "#F1F5FC", tagColor: "#41537A", text: "I'm sorry about that, Ahmed. Let me pull up the transactions on your account right now.", time: "00:41" },
+      { who: "Customer", tagBg: "#EAF0FE", tagColor: "#2A63F6", text: "This is the second time it's happened. Honestly it's really frustrating.", time: "01:12" },
+      { who: "Agent", tagBg: "#F1F5FC", tagColor: "#41537A", text: "I completely understand. I can see the duplicate charge — I'm issuing a full refund to your card ending 4417 right now.", time: "02:03" },
+      { who: "Customer", tagBg: "#EAF0FE", tagColor: "#2A63F6", text: "Okay, that's great. How long will the refund take to appear?", time: "03:47" },
+    ];
+
+    const rQ = S.tick % queue.length;
+    const queueVis = queue.slice(rQ).concat(queue.slice(0, rQ));
+    const transcriptVis = transcript.slice(0, 3 + (S.tick % (transcript.length - 2)));
+    const sentPos = (62 + Math.round(14 * Math.sin(S.tick / 2))) + "%";
+
+    const bubble = (mine, text, time, brand) => ({
+      justify: mine ? "flex-end" : "flex-start",
+      bg: mine ? (brand || "#2A63F6") : "#fff",
+      color: mine ? "#fff" : "#22314F",
+      border: mine ? "transparent" : "#E3EAF5",
+      radius: mine ? "14px 14px 4px 14px" : "14px 14px 14px 4px",
+      text, time
+    });
+    const waThread = [
+      bubble(false, "Hi! Where is my order #4521? It said delivery by Friday.", "12:02"),
+      { ...bubble(false, "Here's my order confirmation 👇", "12:02"), att: "order_confirmation_4521.pdf" },
+      bubble(true, "Hi Sarah! Let me check that for you right away 👋", "12:03", "#1FA855"),
+      bubble(false, "Thanks 🙏 I need it before the weekend.", "12:03"),
+      bubble(true, S.waDraft ? S.waDraft : "It left our warehouse this morning — you'll get a tracking link within the hour.", "12:05", "#1FA855"),
+    ];
+    const chatThread = [
+      bubble(false, "Your bot couldn't help. I've been going in circles for 10 minutes.", "14:21"),
+      bubble(true, "Sorry about that, Priya — I have the full context from the assistant. You need to change the billing address on your subscription, correct?", "14:22"),
+      bubble(false, "Yes. And I want it applied before the next invoice.", "14:23"),
+    ];
+
+    const mkBars = (hs, color) => hs.map((h, i) => ({ h: h + "%", bg: i === hs.length - 1 ? color : "#E6EDF9" }));
+    const kpis = [
+      { label: "ACTIVE AGENTS", value: "7/9", delta: "", color: "#0B1B3A", deltaColor: "#16A34A", icon: "👥", iconBg: "#EAF0FE", bars: mkBars([45, 60, 55, 70, 60, 75, 70, 78], "#2A63F6") },
+      { label: "INTERACTIONS TODAY", value: String(247 + Math.floor(S.tick / 4)), delta: "+12%", color: "#0B1B3A", deltaColor: "#16A34A", icon: "🔁", iconBg: "#E9F9EF", bars: mkBars([30, 42, 38, 55, 62, 58, 74, 88], "#1FA855") },
+      { label: "IN QUEUE", value: "6", delta: "2 voice", color: "#2A63F6", deltaColor: "#8FA1BE", icon: "⏳", iconBg: "#EAF0FE", bars: mkBars([70, 55, 62, 40, 48, 35, 42, 50], "#2A63F6") },
+      { label: "AVG HANDLE TIME", value: "3:42", delta: "−0:18", color: "#0B1B3A", deltaColor: "#16A34A", icon: "⏱", iconBg: "#FEF3E2", bars: mkBars([80, 74, 70, 66, 60, 58, 52, 46], "#B7791F") },
+      { label: "AI CONTAINMENT", value: "68%", delta: "+5%", color: "#7C3AED", deltaColor: "#16A34A", icon: "✦", iconBg: "#F3EDFE", bars: mkBars([38, 44, 50, 55, 58, 62, 65, 68], "#7C3AED") },
+      { label: "CSAT TODAY", value: "4.6", delta: "of 5", color: "#0B1B3A", deltaColor: "#8FA1BE", icon: "★", iconBg: "#FEF3E2", bars: mkBars([76, 80, 78, 84, 82, 88, 86, 92], "#F59E0B") },
+    ];
+    const channelLoad = [
+      { name: "Voice", glyph: "📞", bg: "#EAF0FE", color: "#2A63F6", active: 3, load: "72%" },
+      { name: "WhatsApp", glyph: "💬", bg: "#E9F9EF", color: "#1FA855", active: 6, load: "58%" },
+      { name: "Web Chat", glyph: "🖥", bg: "#E7F6FD", color: "#0E7490", active: 4, load: "46%" },
+      { name: "Email", glyph: "✉", bg: "#FEF3E2", color: "#B7791F", active: 5, load: "40%" },
+      { name: "Social", glyph: "◎", bg: "#FDEBF3", color: "#DB2777", active: 2, load: "28%" },
+      { name: "AI Agent", glyph: "✦", bg: "#F3EDFE", color: "#7C3AED", active: 12, load: "64%" },
+    ];
+    const feedAll = [
+      { t: "just now", glyph: "📞", bg: "#EAF0FE", color: "#2A63F6", text: "Fatima answered a voice call from +971 50 442 8817" },
+      { t: "12s ago", glyph: "✦", bg: "#F3EDFE", color: "#7C3AED", text: "AI agent resolved a WhatsApp query — no handoff needed" },
+      { t: "31s ago", glyph: "⚠", bg: "#FEF3E2", color: "#B7791F", text: "Voice queue wait exceeded 60s — SLA warning raised" },
+      { t: "1m ago", glyph: "💬", bg: "#E9F9EF", color: "#1FA855", text: "Jonathan accepted a 3rd concurrent WhatsApp chat" },
+      { t: "2m ago", glyph: "★", bg: "#FEF3E2", color: "#B7791F", text: "CSAT 5/5 received for Grace Njeri — order change" },
+      { t: "3m ago", glyph: "◎", bg: "#FDEBF3", color: "#DB2777", text: "Instagram DM auto-assigned to Jonathan Reyes" },
+      { t: "4m ago", glyph: "⇄", bg: "#E7F6FD", color: "#0E7490", text: "Priyanka picked up web chat escalated from AI with summary" },
+    ];
+    const rF = S.tick % feedAll.length;
+    const feed = feedAll.slice(rF).concat(feedAll.slice(0, rF)).map((e, i) => ({ ...e, rowBg: i === 0 ? "#F3F7FE" : "transparent" }));
+
+    const ch = (name, glyph, bg, color, count) => ({ name, glyph, bg, color, count });
+    const voice = c => ch("Voice", "📞", "#EAF0FE", "#2A63F6", c);
+    const wa = c => ch("WhatsApp", "💬", "#E9F9EF", "#1FA855", c);
+    const mail = c => ch("Email", "✉", "#FEF3E2", "#B7791F", c);
+    const soc = c => ch("Social", "◎", "#FDEBF3", "#DB2777", c);
+    const ai = c => ch("AI assist", "✦", "#F3EDFE", "#7C3AED", c);
+
+    const ST = {
+      "On Call":   { bg: "#EAF0FE", color: "#2A63F6", dot: "#2A63F6", border: "#C7D8F9" },
+      "On Chat":   { bg: "#E9F9EF", color: "#1FA855", dot: "#1FA855", border: "#E3EAF5" },
+      "Available": { bg: "#EAF6EE", color: "#166534", dot: "#16A34A", border: "#E3EAF5" },
+      "After-Call":{ bg: "#FEF3E2", color: "#B7791F", dot: "#F59E0B", border: "#E3EAF5" },
+      "Break":     { bg: "#F1F5FC", color: "#5B6B87", dot: "#8FA1BE", border: "#E3EAF5" },
+    };
+    const AV = ["linear-gradient(135deg,#2A63F6,#6C9BFF)", "linear-gradient(135deg,#0B1B3A,#41537A)", "linear-gradient(135deg,#7C3AED,#A78BFA)", "linear-gradient(135deg,#0E7490,#22D3EE)", "linear-gradient(135deg,#B7791F,#F0B95B)", "linear-gradient(135deg,#DB2777,#F472B6)"];
+
+    const rawAgents = [
+      { name: "Fatima Zahra", team: "Front Office", ext: "6014", status: "On Call", channels: [voice(1), wa(2), ai(1)], current: "Voice · Ahmed Al Rashid", currentTime: this.fmt(S.secs), occupancy: 82, handled: 34, aht: "3:12", csat: "4.8" },
+      { name: "Mariam A.", team: "Billing", ext: "6013", status: "On Call", channels: [voice(1), wa(1), ai(1)], current: "Voice · billing dispute", currentTime: "02:41", occupancy: 76, handled: 29, aht: "4:05", csat: "4.6" },
+      { name: "Jonathan Reyes", team: "Sales", ext: "2309", status: "On Chat", channels: [wa(3), soc(1)], current: "WhatsApp · 3 concurrent", currentTime: "11:05", occupancy: 64, handled: 41, aht: "2:48", csat: "4.7" },
+      { name: "Priyanka Desai", team: "Support", ext: "6012", status: "On Chat", channels: [wa(2), mail(1), ai(1)], current: "Web chat · escalation", currentTime: "05:22", occupancy: 71, handled: 26, aht: "5:10", csat: "4.4" },
+      { name: "Omar Haddad", team: "Support", ext: "6004", status: "Available", channels: [voice(0), wa(0)], current: "", currentTime: "", occupancy: 38, handled: 18, aht: "3:40", csat: "4.5" },
+      { name: "Grace Njeri", team: "Sales", ext: "8003", status: "After-Call", channels: [voice(1), mail(2)], current: "Wrap-up · order change", currentTime: "00:48", occupancy: 57, handled: 22, aht: "3:55", csat: "5.0" },
+    ];
+
+    const q = S.search.trim().toLowerCase();
+    const agents = rawAgents
+      .filter(a => (S.statusFilter === "All" || a.status === S.statusFilter) && (!q || a.name.toLowerCase().includes(q) || a.team.toLowerCase().includes(q) || a.ext.includes(q)))
+      .map((a, i) => {
+        const st = ST[a.status];
+        const initials = a.name.split(" ").map(w => w[0]).join("").slice(0, 2).toUpperCase();
+        return { ...a, initials, avatarBg: AV[i % AV.length], statusBg: st.bg, statusColor: st.color, dotColor: st.dot, cardBorder: st.border, occWidth: a.occupancy + "%", occColor: a.occupancy > 75 ? "#E5484D" : a.occupancy > 55 ? "#2A63F6" : "#16A34A" };
+      });
+
+    const statusNames = ["All", "On Call", "On Chat", "Available", "Break"];
+    const statusFilters = statusNames.map(label => ({
+      label,
+      pick: () => this.setState({ statusFilter: label }),
+      style: S.statusFilter === label
+        ? { border: "none", background: "#0B1B3A", color: "#fff", fontFamily: "'Poppins',sans-serif", fontWeight: 800, fontSize: 12, padding: "8px 14px", borderRadius: 8, cursor: "pointer", whiteSpace: "nowrap" }
+        : { border: "none", background: "transparent", color: "#5B6B87", fontFamily: "'Poppins',sans-serif", fontWeight: 800, fontSize: 12, padding: "8px 14px", borderRadius: 8, cursor: "pointer", whiteSpace: "nowrap" }
+    }));
+
+    const CH = {
+      "Voice": { glyph: "📞", bg: "#EAF0FE", color: "#2A63F6" },
+      "WhatsApp": { glyph: "💬", bg: "#E9F9EF", color: "#1FA855" },
+      "Web Chat": { glyph: "🖥", bg: "#E7F6FD", color: "#0E7490" },
+      "Email": { glyph: "✉", bg: "#FEF3E2", color: "#B7791F" },
+      "Instagram": { glyph: "◎", bg: "#FDEBF3", color: "#DB2777" },
+      "X": { glyph: "𝕏", bg: "#F1F5FC", color: "#0B1B3A" },
+    };
+    const PR = { High: { bg: "#FEF1F1", color: "#E5484D" }, Medium: { bg: "#FEF3E2", color: "#B7791F" }, Low: { bg: "#F1F5FC", color: "#5B6B87" } };
+    const CS = { "Open": { bg: "#EAF0FE", color: "#2A63F6" }, "In Progress": { bg: "#FEF3E2", color: "#B7791F" }, "Waiting": { bg: "#F3EDFE", color: "#7C3AED" }, "Resolved": { bg: "#EAF6EE", color: "#166534" } };
+    const caseData = [
+      { id: "CSE-1048", customer: "Noura H.", channel: "X", subject: "Public complaint mention on X", prio: "High", status: "Open", sla: "0h 55m", assignee: "Unassigned", updated: "5m ago" },
+      { id: "CSE-1046", customer: "Ahmed Al Rashid", channel: "Voice", subject: "Duplicate charge refund — AED 249", prio: "High", status: "In Progress", sla: "0h 41m", assignee: "Fatima Zahra", updated: "just now" },
+      { id: "CSE-1041", customer: "Sarah K.", channel: "WhatsApp", subject: "Order #1224 delayed in transit", prio: "High", status: "Open", sla: "2h 14m", assignee: "Priyanka Desai", updated: "8m ago" },
+      { id: "CSE-1044", customer: "Priya N.", channel: "Web Chat", subject: "Service delay complaint", prio: "High", status: "Open", sla: "1h 05m", assignee: "Unassigned", updated: "14m ago" },
+      { id: "CSE-1042", customer: "Marco R.", channel: "Voice", subject: "Billing dispute — duplicate invoice", prio: "Medium", status: "In Progress", sla: "4h 00m", assignee: "Mariam A.", updated: "22m ago" },
+      { id: "CSE-1045", customer: "James T.", channel: "Email", subject: "Password reset issue", prio: "Low", status: "In Progress", sla: "5h 30m", assignee: "Omar Haddad", updated: "38m ago" },
+      { id: "CSE-1047", customer: "Lena Ortiz", channel: "Instagram", subject: "Stock inquiry — blue variant", prio: "Low", status: "Waiting", sla: "6h 20m", assignee: "Jonathan Reyes", updated: "46m ago" },
+      { id: "CSE-1043", customer: "Alex L.", channel: "Email", subject: "API integration help", prio: "Low", status: "Resolved", sla: "—", assignee: "Omar Haddad", updated: "1h ago" },
+    ];
+    const slaColor = sla => sla === "—" ? "#8FA1BE" : sla.startsWith("0h") ? "#E5484D" : (parseInt(sla) <= 2 ? "#B7791F" : "#41537A");
+    const deco = c => ({
+      ...c,
+      initials: c.customer.split(" ").map(w => w[0]).join("").slice(0, 2).toUpperCase(),
+      chGlyph: CH[c.channel].glyph, chBg: CH[c.channel].bg, chColor: CH[c.channel].color,
+      prioBg: PR[c.prio].bg, prioColor: PR[c.prio].color,
+      statusBg: CS[c.status].bg, statusColor: CS[c.status].color,
+      slaColor: slaColor(c.sla),
+      open: () => this.setState({ openCase: c.id }),
+    });
+    const cq = S.caseSearch.trim().toLowerCase();
+    const caseRows = caseData
+      .filter(c => (S.prioFilter === "All" || c.prio === S.prioFilter) && (!cq || (c.id + c.customer + c.subject + c.assignee).toLowerCase().includes(cq)))
+      .map(deco);
+    const boardCols = ["Open", "In Progress", "Waiting", "Resolved"].map(st => ({
+      name: st, dot: CS[st].color, cases: caseRows.filter(c => c.status === st), count: caseRows.filter(c => c.status === st).length,
+    }));
+    const caseKpis = [
+      { label: "OPEN CASES", value: "4", delta: "+2 today", icon: "📥", iconBg: "#EAF0FE", color: "#2A63F6", deltaColor: "#8FA1BE" },
+      { label: "IN PROGRESS", value: "3", delta: "", icon: "🔧", iconBg: "#FEF3E2", color: "#0B1B3A", deltaColor: "#8FA1BE" },
+      { label: "SLA AT RISK", value: "2", delta: "< 1 hour", icon: "⚠", iconBg: "#FEF1F1", color: "#E5484D", deltaColor: "#E5484D" },
+      { label: "RESOLVED TODAY", value: "12", delta: "+3 by AI", icon: "✓", iconBg: "#EAF6EE", color: "#166534", deltaColor: "#7C3AED" },
+      { label: "AVG RESOLUTION", value: "4h 06m", delta: "−32m", icon: "⏱", iconBg: "#F3EDFE", color: "#0B1B3A", deltaColor: "#16A34A" },
+    ];
+    const prioNames = ["All", "High", "Medium", "Low"];
+    const prioFilters = prioNames.map(label => ({
+      label,
+      pick: () => this.setState({ prioFilter: label }),
+      style: S.prioFilter === label
+        ? { border: "none", background: "#0B1B3A", color: "#fff", fontFamily: "'Poppins',sans-serif", fontWeight: 800, fontSize: 12, padding: "8px 14px", borderRadius: 8, cursor: "pointer", whiteSpace: "nowrap" }
+        : { border: "none", background: "transparent", color: "#5B6B87", fontFamily: "'Poppins',sans-serif", fontWeight: 800, fontSize: 12, padding: "8px 14px", borderRadius: 8, cursor: "pointer", whiteSpace: "nowrap" }
+    }));
+    const viewBtn = on => on
+      ? { border: "1px solid #2A63F6", background: "#EAF0FE", color: "#2A63F6", fontFamily: "'Poppins',sans-serif", fontWeight: 800, fontSize: 12, padding: "8px 16px", borderRadius: 8, cursor: "pointer", whiteSpace: "nowrap" }
+      : { border: "1px solid transparent", background: "transparent", color: "#5B6B87", fontFamily: "'Poppins',sans-serif", fontWeight: 800, fontSize: 12, padding: "8px 16px", borderRadius: 8, cursor: "pointer", whiteSpace: "nowrap" };
+    const ac0 = caseData.find(c => c.id === S.openCase);
+    const activeCase = ac0 ? {
+      ...deco(ac0),
+      aiSummary: ac0.id === "CSE-1046"
+        ? "Customer charged twice (AED 249) on Jul 17. Duplicate verified in billing system during live call. Refund initiated to card •••• 4417; ETA 3–5 business days. Goodwill expedited shipping offered on order #7789."
+        : "AI classified this case from the originating " + ac0.channel + " interaction. Suggested category and priority applied automatically; full conversation context and customer history are attached.",
+      timeline: [
+        { t: "09:12", text: "Case auto-created from " + ac0.channel + " interaction" },
+        { t: "09:12", text: "AI classified · priority " + ac0.prio + " · SLA timer started" },
+        { t: "09:15", text: ac0.assignee === "Unassigned" ? "Routing: awaiting assignment (skill: " + ac0.channel + ")" : "Assigned to " + ac0.assignee + " via skill-based routing" },
+        { t: "10:02", text: "Customer notified via " + ac0.channel },
+      ],
+    } : null;
+
+    const anKpis = [
+      { label: "TOTAL INTERACTIONS", value: "1,842", delta: "+14% wk", color: "#0B1B3A", deltaColor: "#16A34A", icon: "🔁", iconBg: "#EAF0FE" },
+      { label: "FIRST CONTACT RES.", value: "81%", delta: "+3%", color: "#0B1B3A", deltaColor: "#16A34A", icon: "🎯", iconBg: "#E9F9EF" },
+      { label: "AVG HANDLE TIME", value: "3:38", delta: "−0:22", color: "#0B1B3A", deltaColor: "#16A34A", icon: "⏱", iconBg: "#FEF3E2" },
+      { label: "SLA COMPLIANCE", value: "94%", delta: "target 90%", color: "#16A34A", deltaColor: "#8FA1BE", icon: "✓", iconBg: "#EAF6EE" },
+      { label: "AI CONTAINMENT", value: "68%", delta: "+9%", color: "#7C3AED", deltaColor: "#16A34A", icon: "✦", iconBg: "#F3EDFE" },
+    ];
+    const hourlyRaw = [[22, 8, "8a"], [38, 14, "9a"], [52, 20, "10a"], [61, 26, "11a"], [55, 30, "12p"], [44, 28, "1p"], [58, 32, "2p"], [66, 35, "3p"], [70, 38, "4p"], [54, 30, "5p"], [36, 22, "6p"], [24, 16, "7p"]];
+    const hourly = hourlyRaw.map(([h, a, label]) => ({ human: Math.round(h / 108 * 100) + "%", ai: Math.round(a / 108 * 100) + "%", label }));
+    const mix = [
+      { name: "Voice", glyph: "📞", color: "#2A63F6", count: 512, pct: "28%" },
+      { name: "WhatsApp", glyph: "💬", color: "#1FA855", count: 460, pct: "25%" },
+      { name: "Web Chat", glyph: "🖥", color: "#0E7490", count: 331, pct: "18%" },
+      { name: "Email", glyph: "✉", color: "#B7791F", count: 258, pct: "14%" },
+      { name: "Social", glyph: "◎", color: "#DB2777", count: 165, pct: "9%" },
+      { name: "SMS", glyph: "✆", color: "#41537A", count: 116, pct: "6%" },
+    ];
+    const leaders = [
+      { rank: "1", rankColor: "#B7791F", name: "Jonathan Reyes", handled: 41, aht: "2:48", csat: "4.7", initials: "JR", bg: AV[2] },
+      { rank: "2", rankColor: "#8FA1BE", name: "Fatima Zahra", handled: 34, aht: "3:12", csat: "4.8", initials: "FZ", bg: AV[0] },
+      { rank: "3", rankColor: "#8FA1BE", name: "Mariam A.", handled: 29, aht: "4:05", csat: "4.6", initials: "MA", bg: AV[1] },
+      { rank: "4", rankColor: "#8FA1BE", name: "Priyanka Desai", handled: 26, aht: "5:10", csat: "4.4", initials: "PD", bg: AV[3] },
+      { rank: "5", rankColor: "#8FA1BE", name: "Grace Njeri", handled: 22, aht: "3:55", csat: "5.0", initials: "GN", bg: AV[4] },
+    ];
+    const csatTrend = [["Mon", 4.2], ["Tue", 4.5], ["Wed", 4.4], ["Thu", 4.7], ["Fri", 4.6], ["Sat", 4.8], ["Sun", 4.6]].map(([label, v]) => ({
+      label, val: v.toFixed(1), h: Math.round((v - 3.5) / 1.5 * 100) + "%", color: v >= 4.5 ? "#16A34A" : "#F59E0B"
+    }));
+    const ranges = ["Today", "7 days", "30 days"];
+    const rangeFilters = ranges.map(label => ({
+      label,
+      pick: () => this.setState({ range: label }),
+      style: (S.range ?? "7 days") === label
+        ? { border: "none", background: "#0B1B3A", color: "#fff", fontFamily: "'Poppins',sans-serif", fontWeight: 800, fontSize: 12, padding: "8px 14px", borderRadius: 8, cursor: "pointer", whiteSpace: "nowrap" }
+        : { border: "none", background: "transparent", color: "#5B6B87", fontFamily: "'Poppins',sans-serif", fontWeight: 800, fontSize: 12, padding: "8px 14px", borderRadius: 8, cursor: "pointer", whiteSpace: "nowrap" }
+    }));
+
+    return {
+      isWorkspace: S.view === "workspace", isMonitoring: S.view === "monitoring",
+      isCases: S.view === "cases",
+      goCases: () => this.setState({ view: "cases" }),
+      tabCasesStyle: this.navStyle(S.view === "cases"),
+      caseKpis, caseRows, boardCols, prioFilters,
+      caseSearch: S.caseSearch,
+      setCaseSearch: e => this.setState({ caseSearch: e.target.value }),
+      isTableView: S.caseView === "table", isBoardView: S.caseView === "board",
+      goTable: () => this.setState({ caseView: "table" }),
+      goBoard: () => this.setState({ caseView: "board" }),
+      viewTableStyle: viewBtn(S.caseView === "table"),
+      viewBoardStyle: viewBtn(S.caseView === "board"),
+      activeCase, hasDrawer: !!activeCase,
+      closeDrawer: () => this.setState({ openCase: null }),
+      isAnalytics: S.view === "analytics",
+      goAnalytics: () => this.setState({ view: "analytics" }),
+      tabAnalyticsStyle: this.navStyle(S.view === "analytics"),
+      anKpis, hourly, mix, leaders, csatTrend, rangeFilters,
+      goWorkspace: () => this.setState({ view: "workspace" }),
+      goMonitoring: () => this.setState({ view: "monitoring" }),
+      tabWorkspaceStyle: this.navStyle(S.view === "workspace"),
+      tabMonitoringStyle: this.navStyle(S.view === "monitoring"),
+      isVoice: S.conv === "voice", isWa: S.conv === "wa", isChat: S.conv === "chat",
+      tabVoice: () => this.setState({ conv: "voice" }),
+      tabWa: () => this.setState({ conv: "wa" }),
+      tabChat: () => this.setState({ conv: "chat" }),
+      convVoiceStyle: this.convStyle(S.conv === "voice"),
+      convWaStyle: this.convStyle(S.conv === "wa"),
+      convChatStyle: this.convStyle(S.conv === "chat"),
+      callTimer: this.fmt(S.secs),
+      queue: queueVis, transcript: transcriptVis, sentPos, waThread, chatThread, kpis, feed, agents, statusFilters, showCopilot,
+      search: S.search,
+      setSearch: e => this.setState({ search: e.target.value }),
+      waDraft: S.waDraft,
+      setWaDraft: e => this.setState({ waDraft: e.target.value }),
+      pickReply1: () => this.setState({ waDraft: "Good news — order #4521 ships today. I'll send your tracking link within the hour." }),
+      pickReply2: () => this.setState({ waDraft: "For the delay, I've added a 10% voucher to your account — it applies automatically at checkout." }),
+    };
+  }
+}
+</script>
+</body>
+</html>

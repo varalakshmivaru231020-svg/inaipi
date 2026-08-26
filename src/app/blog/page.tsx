@@ -38,7 +38,7 @@ export default function BlogPage() {
       <Navbar />
 
       {/* ── HERO ── */}
-      <section className="pt-28 md:pt-36 pb-8 md:pb-14 relative overflow-hidden" style={{ background: '#f8faff' }}>
+      <section className="pt-32 lg:pt-36 pb-14 relative overflow-hidden" style={{ background: '#f8faff' }}>
         <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
           <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 100% 60% at 50% 0%, rgba(37,99,235,0.18) 0%, transparent 70%)' }} />
           <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle, rgba(37,99,235,0.18) 1.2px, transparent 1.2px)', backgroundSize: '32px 32px', maskImage: 'radial-gradient(ellipse 100% 85% at 50% 10%, black 30%, transparent 100%)' }} />
@@ -96,7 +96,7 @@ export default function BlogPage() {
       </section>
 
       {/* ── MAIN CONTENT ── */}
-      <section className="pt-8 md:pt-16 pb-24 bg-white relative overflow-visible">
+      <section className="py-14 lg:py-16 bg-white relative overflow-visible">
         <div className="absolute inset-0 opacity-[0.015] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#0f172a 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
         <div className="container mx-auto px-6 max-w-7xl relative z-10">
           <div className="grid lg:grid-cols-12 gap-16">
@@ -228,7 +228,7 @@ export default function BlogPage() {
       </section>
 
       {/* ── CAREERS BANNER ── */}
-      <section className="py-20 relative overflow-hidden" style={{ background: '#f8faff' }}>
+      <section className="py-14 lg:py-16 relative overflow-hidden" style={{ background: '#f8faff' }}>
         <div className="absolute inset-0 opacity-[0.025] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#0f172a 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
         <div className="container mx-auto px-6 max-w-6xl relative z-10">
           <motion.div

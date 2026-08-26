@@ -13,7 +13,7 @@ const jobs = [
 
 export default function Careers() {
   return (
-    <section className="py-28 bg-white relative overflow-hidden" id="careers">
+    <section className="py-14 lg:py-16 bg-white relative overflow-hidden" id="careers">
       <div className="absolute inset-0 opacity-[0.015] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#0f172a 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
 
       <div className="container mx-auto px-6 max-w-6xl relative z-10">

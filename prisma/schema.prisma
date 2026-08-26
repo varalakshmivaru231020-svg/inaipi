@@ -63,3 +63,24 @@ model Seo {
   ogImage       String  @default("")
   noindex       Boolean @default(false)
 }
+
+// Generic key/value store for site configuration (SMTP, analytics, etc.)
+model Setting {
+  key   String @id
+  value String @default("")
+}
+
+// Contact / enquiry form submissions
+model Enquiry {
+  id        String   @id @default(cuid())
+  name      String   @default("")
+  email     String   @default("")
+  subject   String   @default("")
+  message   String   @default("")
+  ip        String   @default("")
+  ua        String   @default("")
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+}

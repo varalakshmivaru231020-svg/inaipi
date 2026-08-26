@@ -3,6 +3,7 @@ import { Figtree, Poppins } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
 import AnimationProvider from "@/components/AnimationProvider";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
 
 const figtree = Figtree({ subsets: ["latin"], variable: "--font-figtree", weight: ["300","400","500","600","700","800","900"] });
 // Used by the Agent Desktop UI mockups in the PlatformFlow section (matches the source design)
@@ -26,6 +27,7 @@ export default function RootLayout({
         <link rel="preload" as="image" href="/arch1.png" />
       </head>
       <body className="antialiased overflow-x-hidden">
+        <GoogleAnalytics />
         <AnimationProvider>
           <SmoothScroll>
             {children}

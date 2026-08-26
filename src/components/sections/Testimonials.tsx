@@ -143,7 +143,7 @@ export default function Testimonials() {
   }, []);
 
   return (
-    <section className="py-20 lg:py-24 relative overflow-hidden"
+    <section className="py-14 lg:py-16 relative overflow-hidden"
       style={{ background: '#f8faff' }}>
 
       {/* ── Glow behind slider ── */}
@@ -166,7 +166,7 @@ export default function Testimonials() {
 
       {/* ── Pill + Flags ── */}
       <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}
-        className="relative z-10 flex items-center justify-between flex-wrap gap-4 mt-10 mb-10 px-6 md:px-16">
+        className={`relative z-10 flex items-center justify-between flex-wrap gap-4 mt-8 sm:mt-10 ${n > 0 ? 'mb-8 sm:mb-10' : 'mb-0'} px-6 md:px-16`}>
         {/* Pill */}
         <div className="flex items-center rounded-full"
           style={{ background: 'rgba(20,71,212,0.07)', border: '1px solid rgba(20,71,212,0.18)', padding: '0.5rem 1rem 0.5rem 1rem', gap: '0.75rem' }}>
@@ -198,6 +198,7 @@ export default function Testimonials() {
         </div>
       </motion.div>
 
+      {n > 0 && (<>
       {/* ── Infinite scroll track ── */}
       <div
         ref={wrapRef}
@@ -319,6 +320,7 @@ export default function Testimonials() {
           <ProgressDot key={i} active={i === centerIdx} onClick={() => {}} />
         ))}
       </div>
+      </>)}
 
       {/* ── Bottom strip ── */}
       <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 3, background: `linear-gradient(90deg, transparent 0%, ${CARD.accent} 30%, ${CARD.accent} 70%, transparent 100%)`, zIndex: 20 }} />

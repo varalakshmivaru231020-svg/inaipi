@@ -2,7 +2,8 @@
 
 import { motion } from 'framer-motion';
 import { PhoneCall, FileText, BarChart2, MessageSquare, XCircle, Lightbulb } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { getLenis } from '@/lib/lenis';
 
 const painPoints = [
   {
@@ -69,13 +70,181 @@ const results = [
 
 const BG = '#f8faff';
 
+const LAST = painPoints.length - 1;
+const COOLDOWN_MS = 520;   // one tab change per gesture; also lets the fade finish
+const TOUCH_STEP = 46;     // px of swipe that counts as one tab step
+const ENGAGE_BAND = 150;   // how far past the pin-top a downward gesture can still latch
+
 export default function Problem() {
   const [active, setActive] = useState(0);
   const current = painPoints[active];
 
+  /* ── Scroll-driven tabs ──────────────────────────────────────────────
+     Scrolling DOWN into the panel pins it and advances one tab per gesture;
+     after the last tab the page is released to the next section. Scrolling UP
+     never hijacks — it releases immediately and scrolls straight through,
+     leaving the tab untouched. Falls back to normal scrolling when the panel
+     can't fit the viewport (small screens) or reduced-motion is requested. */
+  const pinRef = useRef<HTMLDivElement>(null);
+  const resultRef = useRef<HTMLDivElement>(null);
+  const activeRef = useRef(0);
+  const lockedRef = useRef(false);
+  const coolingRef = useRef(false);
+  const touchYRef = useRef(0);
+  const touchAccRef = useRef(0);
+
+  useEffect(() => { activeRef.current = active; }, [active]);
+
+  useEffect(() => {
+    const pin = pinRef.current;
+    if (!pin) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const navH = () => document.querySelector('nav')?.getBoundingClientRect().height ?? 0;
+    const offset = () => navH() + 12;
+    // Only hijack when the panel actually fits under the navbar; otherwise leave
+    // native scrolling alone (very short viewports / large accessibility zoom).
+    const fits = () => pin.offsetHeight <= window.innerHeight - navH() + 12;
+
+    let cool: ReturnType<typeof setTimeout>;
+    const startCooldown = () => {
+      coolingRef.current = true;
+      clearTimeout(cool);
+      cool = setTimeout(() => { coolingRef.current = false; }, COOLDOWN_MS);
+    };
+    const advance = () => {
+      const next = Math.min(LAST, activeRef.current + 1);
+      activeRef.current = next;
+      setActive(next);
+      startCooldown();
+    };
+
+    /* Freeze the page (Lenis) and snap the panel just under the navbar. */
+    const lock = () => {
+      lockedRef.current = true;
+      document.body.style.userSelect = 'none';
+      const target = window.scrollY + pin.getBoundingClientRect().top - offset();
+      const lenis = getLenis();
+      if (lenis) {
+        lenis.stop();
+        lenis.scrollTo(target, { force: true, lock: true, duration: 0.35 });
+      } else {
+        window.scrollTo({ top: target, behavior: 'smooth' });
+      }
+    };
+    const unlock = () => {
+      lockedRef.current = false;
+      document.body.style.userSelect = '';
+      getLenis()?.start();
+    };
+    /* Release upward — smoothly scroll away above the section, tab untouched. */
+    const releaseUp = () => {
+      unlock();
+      const to = Math.max(0, window.scrollY - Math.round(window.innerHeight * 0.85));
+      const lenis = getLenis();
+      if (lenis) lenis.scrollTo(to, { duration: 0.6 });
+      else window.scrollTo({ top: to, behavior: 'smooth' });
+    };
+    /* Release downward after the last tab — continue into the next section. */
+    const releaseDown = () => {
+      unlock();
+      const lenis = getLenis();
+      if (resultRef.current) {
+        if (lenis) lenis.scrollTo(resultRef.current, { offset: -offset(), duration: 0.7 });
+        else resultRef.current.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        const to = window.scrollY + Math.round(window.innerHeight * 0.85);
+        if (lenis) lenis.scrollTo(to, { duration: 0.6 });
+        else window.scrollTo({ top: to, behavior: 'smooth' });
+      }
+    };
+    /* Is the panel sitting at the pin line while scrolling down? */
+    const canEngage = () => {
+      if (lockedRef.current || activeRef.current >= LAST || !fits()) return false;
+      const off = offset();
+      const top = pin.getBoundingClientRect().top;
+      return top <= off + 6 && top >= off - ENGAGE_BAND;
+    };
+
+    // Engagement + reset ride on Lenis's per-frame scroll event (falls back to a
+    // native scroll listener), so the pin latches precisely as the panel arrives.
+    const onScrollFrame = () => {
+      if (lockedRef.current) return;
+      const lenis = getLenis();
+      const dir = lenis ? lenis.direction : (window.scrollY > lastY ? 1 : -1);
+      lastY = window.scrollY;
+      if (dir === 1) {
+        if (canEngage()) lock();
+      } else if (pin.getBoundingClientRect().top > window.innerHeight * 0.9 && activeRef.current !== 0) {
+        activeRef.current = 0;
+        setActive(0);
+      }
+    };
+    let lastY = window.scrollY;
+
+    // While locked the page is frozen; these gestures only step / release tabs.
+    const onWheel = (e: WheelEvent) => {
+      if (!lockedRef.current) return;
+      e.preventDefault();
+      if (e.deltaY < 0) { releaseUp(); return; }
+      if (activeRef.current >= LAST) { releaseDown(); return; }
+      if (!coolingRef.current) advance();
+    };
+    const onTouchStart = (e: TouchEvent) => {
+      touchYRef.current = e.touches[0].clientY;
+      touchAccRef.current = 0;
+    };
+    const onTouchMove = (e: TouchEvent) => {
+      if (!lockedRef.current) return;
+      const y = e.touches[0].clientY;
+      const dy = touchYRef.current - y;               // >0 → swipe up → scroll-down intent
+      touchYRef.current = y;
+      e.preventDefault();
+      if (dy < -4) { releaseUp(); return; }
+      if (activeRef.current >= LAST) { if (dy > 4) releaseDown(); return; }
+      touchAccRef.current += dy;
+      if (!coolingRef.current && touchAccRef.current > TOUCH_STEP) {
+        advance();
+        touchAccRef.current = 0;
+      }
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (!lockedRef.current) return;
+      const down = e.key === 'ArrowDown' || e.key === 'PageDown' || (e.key === ' ' && !e.shiftKey);
+      const up = e.key === 'ArrowUp' || e.key === 'PageUp' || (e.key === ' ' && e.shiftKey);
+      if (down) {
+        e.preventDefault();
+        if (activeRef.current >= LAST) { releaseDown(); return; }
+        if (!coolingRef.current) advance();
+      } else if (up) {
+        e.preventDefault();
+        releaseUp();
+      }
+    };
+
+    const lenis = getLenis();
+    if (lenis) lenis.on('scroll', onScrollFrame);
+    else window.addEventListener('scroll', onScrollFrame, { passive: true });
+    window.addEventListener('wheel', onWheel, { passive: false });
+    window.addEventListener('touchstart', onTouchStart, { passive: true });
+    window.addEventListener('touchmove', onTouchMove, { passive: false });
+    window.addEventListener('keydown', onKey);
+    return () => {
+      if (lenis) lenis.off('scroll', onScrollFrame);
+      else window.removeEventListener('scroll', onScrollFrame);
+      window.removeEventListener('wheel', onWheel);
+      window.removeEventListener('touchstart', onTouchStart);
+      window.removeEventListener('touchmove', onTouchMove);
+      window.removeEventListener('keydown', onKey);
+      clearTimeout(cool);
+      getLenis()?.start();
+      document.body.style.userSelect = '';
+    };
+  }, []);
+
   return (
     <>
-      <section className="py-20 lg:py-24 overflow-hidden relative" style={{ background: BG }}>
+      <section className="py-14 lg:py-16 overflow-hidden relative" style={{ background: BG }}>
         {/* Background blobs — promoted to their own GPU layer so the expensive
             blur is painted once and only composited (not repainted) during scroll */}
         <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none" style={{ transform: 'translateZ(0)' }}>
@@ -94,7 +263,7 @@ export default function Problem() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            className="text-center mb-12 max-w-3xl mx-auto"
+            className="text-center mb-14 max-w-3xl mx-auto"
           >
             <span className="section-eyebrow">The Problem</span>
             <h2 className="text-3xl sm:text-4xl lg:text-[2.6rem] font-bold font-figtree tracking-[-0.025em] leading-[1.2] mb-5">
@@ -110,6 +279,8 @@ export default function Problem() {
             </p>
           </motion.div>
 
+          {/* Pinned block — tabs + content advance on scroll (see effect above) */}
+          <div ref={pinRef}>
           {/* Tab bar */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
@@ -201,11 +372,12 @@ export default function Problem() {
               </div>
             </motion.div>
           </div>
+          </div>
         </div>
       </section>
 
       {/* Result Banner */}
-      <div className="pt-8 pb-20 lg:py-24 relative z-10" style={{ background: BG }}>
+      <div ref={resultRef} className="py-14 lg:py-16 relative z-10" style={{ background: BG }}>
         <div className="container mx-auto px-6 max-w-6xl">
           <motion.div
             initial={{ opacity: 0, y: 60 }}

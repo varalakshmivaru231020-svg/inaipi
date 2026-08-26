@@ -57,7 +57,7 @@ export default function Blogs() {
   const [featured, ...rest] = blogs;
 
   return (
-    <section className="py-20 lg:py-24 relative overflow-hidden" style={{ background: '#f8faff' }}>
+    <section className="py-14 lg:py-16 relative overflow-hidden" style={{ background: '#f8faff' }}>
       <div className="absolute pointer-events-none" style={{ width: '42vw', height: '42vw', top: '-200px', right: '-260px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(37,99,235,0.07) 0%, transparent 70%)', border: '1px solid rgba(37,99,235,0.05)' }} />
       <div className="absolute pointer-events-none" style={{ width: '30vw', height: '30vw', bottom: '-140px', left: '-180px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(0,111,255,0.05) 0%, transparent 70%)' }} />
       {/* Subtle dot grid */}
@@ -67,7 +67,7 @@ export default function Blogs() {
       <div className="container mx-auto px-6 max-w-6xl relative z-10">
 
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12 gap-6">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-14 gap-6">
           <div>
             <span className="section-eyebrow wow wow-d1">From the Blog</span>
             <h2 className="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold font-figtree tracking-[-0.025em] leading-[1.15] wow wow-d2">

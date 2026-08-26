@@ -51,7 +51,7 @@ export default function TrustMarquee() {
       viewport={{ once: true }}
       transition={{ duration: 0.6 }}
       style={{ background: '#f8faff' }}
-      className="relative py-20 lg:py-24"
+      className="relative py-14 lg:py-16"
     >
       {/* Headline */}
       <motion.p

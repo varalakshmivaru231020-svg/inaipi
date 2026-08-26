@@ -1,13 +1,17 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { ArrowRight, Linkedin, Twitter, Facebook, Instagram, Youtube } from 'lucide-react';
+import { ArrowRight, Linkedin, Twitter, Facebook, Instagram, Youtube, Check, Loader2, AlertCircle } from 'lucide-react';
+import { useState, useRef, useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import CTA from '@/components/sections/CTA';
 import Link from 'next/link';
 
 const ease = [0.22, 1, 0.36, 1] as const;
+
+const fieldCls =
+  'w-full px-5 py-3.5 rounded-xl bg-white border border-white/30 text-[15px] text-[#0f172a] placeholder:text-slate-400 focus:outline-none focus:border-white focus:ring-2 focus:ring-white/20 transition-all duration-200';
 
 const socials = [
   { icon: Linkedin, href: '#', label: 'LinkedIn' },
@@ -18,12 +22,48 @@ const socials = [
 ];
 
 export default function ContactPage() {
+  const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' });
+  const [company, setCompany] = useState(''); // honeypot — must stay empty
+  const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
+  const [error, setError] = useState('');
+  const renderedAt = useRef(0);
+
+  useEffect(() => { renderedAt.current = Date.now(); }, []);
+
+  const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+    setForm(f => ({ ...f, [k]: e.target.value }));
+
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (status === 'sending') return;
+    setStatus('sending');
+    setError('');
+    try {
+      const res = await fetch('/api/enquiry', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...form, company, ts: renderedAt.current }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setError(data.error || 'Something went wrong. Please try again.');
+        setStatus('error');
+        return;
+      }
+      setStatus('sent');
+      setForm({ name: '', email: '', subject: '', message: '' });
+    } catch {
+      setError('Network error. Please try again.');
+      setStatus('error');
+    }
+  };
+
   return (
     <main className="min-h-screen bg-white">
       <Navbar />
 
       {/* ── HERO ── */}
-      <section className="pt-36 pb-20 relative overflow-hidden" style={{ background: '#f8faff' }}>
+      <section className="pt-32 lg:pt-36 pb-14 relative overflow-hidden" style={{ background: '#f8faff' }}>
         <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
           <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 100% 60% at 50% 0%, rgba(37,99,235,0.14) 0%, transparent 70%)' }} />
           <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(#1447d4 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
@@ -67,7 +107,7 @@ export default function ContactPage() {
       </section>
 
       {/* ── CONTACT INFO + FORM ── */}
-      <section className="py-24 bg-white relative overflow-hidden">
+      <section className="py-14 lg:py-16 bg-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-[0.015] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#0f172a 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
         <div className="container mx-auto px-6 max-w-6xl relative z-10">
           <div className="grid lg:grid-cols-2 gap-16 items-start">
@@ -138,43 +178,71 @@ export default function ContactPage() {
               <h3 className="relative z-10 text-[22px] font-bold font-figtree text-white leading-tight mb-2">Get in Touch</h3>
               <p className="relative z-10 text-base sm:text-lg text-white/70 leading-relaxed mb-8">Let&apos;s build something impactful together.</p>
 
-              <form className="space-y-5 relative z-10" onSubmit={(e) => e.preventDefault()}>
+              {status === 'sent' ? (
+                <div className="relative z-10 py-10 text-center">
+                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white/15 mb-5">
+                    <Check className="w-8 h-8 text-white" strokeWidth={2.5} />
+                  </div>
+                  <h4 className="text-xl font-bold font-figtree text-white mb-2">Message sent!</h4>
+                  <p className="text-white/70 text-[15px] max-w-xs mx-auto">Thanks for reaching out — our team will get back to you shortly.</p>
+                  <button
+                    onClick={() => setStatus('idle')}
+                    className="mt-6 inline-flex items-center gap-2 text-[11px] font-black uppercase tracking-widest text-white/80 hover:text-white border border-white/30 hover:border-white px-5 py-2.5 rounded-full transition-colors"
+                  >
+                    Send another
+                  </button>
+                </div>
+              ) : (
+              <form className="space-y-5 relative z-10" onSubmit={submit} noValidate>
+                {/* Honeypot — visually hidden, off-screen; bots fill it, humans don't */}
+                <div aria-hidden className="absolute -left-[9999px] top-0 opacity-0 pointer-events-none" style={{ height: 0, overflow: 'hidden' }}>
+                  <label>Company
+                    <input type="text" tabIndex={-1} autoComplete="off" value={company} onChange={(e) => setCompany(e.target.value)} />
+                  </label>
+                </div>
+
                 <div>
                   <label className="block text-[13px] font-bold text-white mb-2">Full Name*</label>
-                  <input type="text" required placeholder="Steven L. Manzo"
-                    className="w-full px-5 py-3.5 rounded-xl bg-white border border-white/30 text-[15px] text-[#0f172a] placeholder:text-slate-400 focus:outline-none focus:border-white focus:ring-2 focus:ring-white/20 transition-all duration-200" />
+                  <input type="text" required maxLength={120} value={form.name} onChange={set('name')} placeholder="Steven L. Manzo" className={fieldCls} />
                 </div>
 
                 <div>
                   <label className="block text-[13px] font-bold text-white mb-2">Email Address*</label>
-                  <input type="email" required placeholder="Enter your email"
-                    className="w-full px-5 py-3.5 rounded-xl bg-white border border-white/30 text-[15px] text-[#0f172a] placeholder:text-slate-400 focus:outline-none focus:border-white focus:ring-2 focus:ring-white/20 transition-all duration-200" />
+                  <input type="email" required maxLength={200} value={form.email} onChange={set('email')} placeholder="Enter your email" className={fieldCls} />
                 </div>
 
                 <div>
                   <label className="block text-[13px] font-bold text-white mb-2">Subject*</label>
-                  <input type="text" required placeholder="I would like to discuss"
-                    className="w-full px-5 py-3.5 rounded-xl bg-white border border-white/30 text-[15px] text-[#0f172a] placeholder:text-slate-400 focus:outline-none focus:border-white focus:ring-2 focus:ring-white/20 transition-all duration-200" />
+                  <input type="text" required maxLength={200} value={form.subject} onChange={set('subject')} placeholder="I would like to discuss" className={fieldCls} />
                 </div>
 
                 <div>
                   <label className="block text-[13px] font-bold text-white mb-2">Message*</label>
-                  <textarea required rows={5} placeholder="Write message"
-                    className="w-full px-5 py-3.5 rounded-xl bg-white border border-white/30 text-[15px] text-[#0f172a] placeholder:text-slate-400 focus:outline-none focus:border-white focus:ring-2 focus:ring-white/20 transition-all duration-200 resize-none" />
+                  <textarea required rows={5} maxLength={5000} value={form.message} onChange={set('message')} placeholder="Write message" className={`${fieldCls} resize-none`} />
                 </div>
 
+                {status === 'error' && (
+                  <div className="flex items-start gap-2 rounded-xl bg-white/10 border border-white/20 px-4 py-3 text-[13px] text-white">
+                    <AlertCircle className="w-4 h-4 mt-0.5 shrink-0" /> <span>{error}</span>
+                  </div>
+                )}
+
                 <motion.button
-                  whileHover={{ scale: 1.03, y: -2 }}
+                  whileHover={{ scale: status === 'sending' ? 1 : 1.03, y: status === 'sending' ? 0 : -2 }}
                   whileTap={{ scale: 0.97, y: 0 }}
                   type="submit"
-                  className="group overflow-hidden bg-white hover:bg-white/90 text-[#1447d4] min-h-[44px] px-6 py-2.5 rounded-full font-black font-figtree text-[11px] uppercase tracking-widest transition-all duration-200 inline-flex items-center gap-2 shadow-md hover:shadow-xl"
+                  disabled={status === 'sending'}
+                  className="group overflow-hidden bg-white hover:bg-white/90 text-[#1447d4] min-h-[44px] px-6 py-2.5 rounded-full font-black font-figtree text-[11px] uppercase tracking-widest transition-all duration-200 inline-flex items-center gap-2 shadow-md hover:shadow-xl disabled:opacity-70 disabled:cursor-not-allowed"
                 >
-                  <span>Send Message</span>
+                  <span>{status === 'sending' ? 'Sending…' : 'Send Message'}</span>
                   <span className="w-5 h-5 rounded-full bg-[#1447d4]/10 flex items-center justify-center group-hover:bg-[#1447d4]/20 transition-colors duration-200">
-                    <ArrowRight className="w-2.5 h-2.5 text-[#1447d4]" />
+                    {status === 'sending'
+                      ? <Loader2 className="w-2.5 h-2.5 text-[#1447d4] animate-spin" />
+                      : <ArrowRight className="w-2.5 h-2.5 text-[#1447d4]" />}
                   </span>
                 </motion.button>
               </form>
+              )}
             </motion.div>
 
           </div>

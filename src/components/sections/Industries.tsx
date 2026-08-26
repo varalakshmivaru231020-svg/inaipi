@@ -74,7 +74,7 @@ const industries = [
 
 export default function Industries() {
   return (
-    <section className="py-20 lg:py-24 overflow-hidden relative" style={{ background: '#f8faff' }}>
+    <section className="py-14 lg:py-16 overflow-hidden relative" style={{ background: '#f8faff' }}>
       {/* Background orbs */}
       <div className="absolute pointer-events-none" style={{ width: '44vw', height: '44vw', top: '-180px', right: '-240px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(37,99,235,0.07) 0%, transparent 70%)', border: '1px solid rgba(37,99,235,0.05)' }} />
       <div className="absolute pointer-events-none" style={{ width: '30vw', height: '30vw', bottom: '-140px', left: '-160px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(0,111,255,0.06) 0%, transparent 70%)' }} />
@@ -82,7 +82,7 @@ export default function Industries() {
       <div className="container mx-auto px-6 max-w-7xl">
 
         {/* Header */}
-        <div className="text-center mb-16 max-w-3xl mx-auto">
+        <div className="text-center mb-14 max-w-3xl mx-auto">
           <motion.span
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}

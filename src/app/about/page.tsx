@@ -80,7 +80,7 @@ export default function AboutPage() {
       <Navbar />
 
       {/* ── HERO ── */}
-      <section className="pt-36 pb-24 relative overflow-x-clip overflow-y-visible" style={{ background: '#f8faff' }}>
+      <section className="pt-32 lg:pt-36 pb-14 relative overflow-x-clip overflow-y-visible" style={{ background: '#f8faff' }}>
         {/* Background */}
         <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
           <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 100% 60% at 50% 0%, rgba(37,99,235,0.18) 0%, transparent 70%)' }} />
@@ -172,7 +172,7 @@ export default function AboutPage() {
       </section>
 
       {/* ── VISION & MISSION ── */}
-      <section className="py-28 border-y border-slate-100 relative" style={{ background: '#f8faff' }}>
+      <section className="py-14 lg:py-16 border-y border-slate-100 relative" style={{ background: '#f8faff' }}>
         <div className="absolute inset-0 opacity-[0.02] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#0f172a 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
         <div className="container mx-auto px-6 max-w-6xl relative z-10">
           <div className="grid lg:grid-cols-2 gap-16 items-start">
@@ -256,11 +256,11 @@ export default function AboutPage() {
       </section>
 
       {/* ── OUR STORY — TIMELINE ── */}
-      <section className="py-28 border-b border-slate-100 relative overflow-hidden" style={{ background: '#f8faff' }}>
+      <section className="py-14 lg:py-16 border-b border-slate-100 relative overflow-hidden" style={{ background: '#f8faff' }}>
         <div className="absolute inset-0 opacity-[0.02] pointer-events-none" style={{ backgroundImage: 'linear-gradient(#0f172a 1px, transparent 1px), linear-gradient(90deg, #0f172a 1px, transparent 1px)', backgroundSize: '48px 48px', maskImage: 'radial-gradient(ellipse 60% 60% at 50% 50%, black 60%, transparent 100%)' }} />
         <div className="container mx-auto px-6 max-w-5xl relative z-10">
           {/* Header */}
-          <div className="text-center mb-20">
+          <div className="text-center mb-14">
             <motion.div initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="inline-flex items-center gap-2 bg-[#eef4ff] border border-[#1447d4]/20 rounded-full px-4 py-1.5 mb-6">
               <span className="w-1.5 h-1.5 rounded-full bg-[#1447d4] animate-pulse" />
               <span className="text-[11px] font-bold uppercase tracking-widest text-[#1447d4]">Our Story</span>
@@ -383,7 +383,7 @@ export default function AboutPage() {
       <Marquee />
 
       {/* ── TEAM ── */}
-      <section ref={teamRef} className="py-24 border-y border-slate-100 relative overflow-x-clip" style={{ background: '#f8faff' }}>
+      <section ref={teamRef} className="py-14 lg:py-16 border-y border-slate-100 relative overflow-x-clip" style={{ background: '#f8faff' }}>
         <div className="container mx-auto px-6 max-w-6xl relative z-10">
 
           {/* Section label + heading — centered */}
@@ -534,10 +534,10 @@ export default function AboutPage() {
       </section>
 
       {/* ── LEADERSHIP ── */}
-      <section className="py-24 bg-white relative overflow-hidden">
+      <section className="py-14 lg:py-16 bg-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-[0.015] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#0f172a 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
         <div className="container mx-auto px-6 max-w-6xl relative z-10">
-          <div className="text-center mb-16">
+          <div className="text-center mb-14">
             <motion.div initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="inline-flex items-center gap-2 bg-[#eef4ff] border border-[#1447d4]/20 rounded-full px-4 py-1.5 mb-6">
               <span className="w-1.5 h-1.5 rounded-full bg-[#1447d4] animate-pulse" />
               <span className="text-[11px] font-bold uppercase tracking-widest text-[#1447d4]">Leadership</span>
@@ -612,7 +612,7 @@ export default function AboutPage() {
       </section>
 
       {/* ── GLOBAL PRESENCE ── */}
-      <section id="contact" className="py-24 bg-white relative overflow-hidden">
+      <section id="contact" className="py-14 lg:py-16 bg-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-[0.015] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#0f172a 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
 
         <div className="container mx-auto px-6 max-w-7xl relative z-10">
@@ -676,7 +676,7 @@ export default function AboutPage() {
       </section>
 
       {/* ── TRUST & SECURITY ── */}
-      <section className="py-24 bg-white relative overflow-hidden">
+      <section className="py-14 lg:py-16 bg-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-[0.015] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#0f172a 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
         <div className="container mx-auto px-6 max-w-6xl relative z-10">
           <div className="text-center mb-14">

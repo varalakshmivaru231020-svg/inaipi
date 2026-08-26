@@ -1,11 +1,12 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import {
-  LayoutDashboard, FileText, Briefcase, Quote,
-  Search, Image as ImageIcon, LogOut, Menu, X, ExternalLink,
+  LayoutDashboard, FileText, Briefcase, Quote, Inbox,
+  Search, Mail, BarChart3, LogOut, Menu, X, ExternalLink,
 } from 'lucide-react';
 
 const GROUPS = [
@@ -16,13 +17,15 @@ const GROUPS = [
       { label: 'Blog Posts', href: '/admin/blogs', icon: FileText },
       { label: 'Careers', href: '/admin/jobs', icon: Briefcase },
       { label: 'Testimonials', href: '/admin/testimonials', icon: Quote },
+      { label: 'Enquiries', href: '/admin/enquiries', icon: Inbox },
     ],
   },
   {
     title: 'Site Settings',
     items: [
       { label: 'SEO', href: '/admin/seo', icon: Search },
-      { label: 'Section Images', href: '/admin/site-images', icon: ImageIcon },
+      { label: 'Email (SMTP)', href: '/admin/email', icon: Mail },
+      { label: 'Analytics', href: '/admin/analytics', icon: BarChart3 },
     ],
   },
 ];
@@ -49,11 +52,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const Sidebar = (
     <aside className="w-64 shrink-0 bg-white border-r border-slate-200 flex flex-col h-full">
       <div className="px-6 h-16 flex items-center gap-2.5 border-b border-slate-100">
-        <div className="w-8 h-8 rounded-lg bg-[#1447d4] flex items-center justify-center text-white font-black text-sm shadow-sm shadow-blue-700/30">i</div>
-        <div>
-          <p className="text-slate-900 font-black text-[15px] tracking-tight leading-none font-figtree">inaipi</p>
-          <p className="text-slate-400 text-[10px] font-bold uppercase tracking-widest mt-0.5">Admin</p>
-        </div>
+        <Image src="/logo.png" alt="inaipi" width={120} height={34} className="w-auto h-7 object-contain" priority />
+        <span className="text-slate-300 text-[10px] font-bold uppercase tracking-widest">Admin</span>
       </div>
 
       <nav className="flex-1 overflow-y-auto p-3.5 space-y-6">

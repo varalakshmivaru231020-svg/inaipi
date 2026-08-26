@@ -70,7 +70,7 @@ export default function CareerDetailPage() {
       <Navbar />
 
       {/* Hero */}
-      <section className="pt-36 pb-16 relative overflow-hidden" style={{ background: '#f8faff' }}>
+      <section className="pt-32 lg:pt-36 pb-14 relative overflow-hidden" style={{ background: '#f8faff' }}>
         <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
           <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 100% 60% at 50% 0%, rgba(37,99,235,0.18) 0%, transparent 70%)' }} />
           <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle, rgba(37,99,235,0.18) 1.2px, transparent 1.2px)', backgroundSize: '32px 32px', maskImage: 'radial-gradient(ellipse 100% 85% at 50% 10%, black 30%, transparent 100%)' }} />
@@ -100,7 +100,7 @@ export default function CareerDetailPage() {
       </section>
 
       {/* Content */}
-      <section className="py-20 bg-white relative overflow-visible">
+      <section className="py-14 lg:py-16 bg-white relative overflow-visible">
         <div className="container mx-auto px-6 max-w-6xl">
           <div className="grid lg:grid-cols-12 gap-12">
 
@@ -242,14 +242,14 @@ export default function CareerDetailPage() {
 
       {/* Related Jobs */}
       {related.length > 0 && (
-        <section className="py-24 relative overflow-hidden" style={{ background: '#f8faff' }}>
+        <section className="py-14 lg:py-16 relative overflow-hidden" style={{ background: '#f8faff' }}>
           <div className="absolute inset-0 pointer-events-none overflow-hidden">
             <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-200/60 to-transparent" />
             <div className="absolute -top-40 -left-40 w-[500px] h-[500px] rounded-full opacity-30" style={{ background: 'radial-gradient(circle, rgba(37,99,235,0.18) 0%, transparent 70%)', filter: 'blur(60px)' }} />
             <div className="absolute -bottom-40 -right-40 w-[500px] h-[500px] rounded-full opacity-30" style={{ background: 'radial-gradient(circle, rgba(0,111,255,0.18) 0%, transparent 70%)', filter: 'blur(60px)' }} />
           </div>
           <div className="container mx-auto px-6 max-w-6xl relative z-10">
-            <div className="text-center mb-12">
+            <div className="text-center mb-14">
               <motion.div initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="inline-flex items-center gap-2 bg-blue-50 border border-blue-200/60 rounded-full px-4 py-1.5 mb-5">
                 <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
                 <span className="text-[11px] font-bold uppercase tracking-widest text-blue-500">More Openings</span>

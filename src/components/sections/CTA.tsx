@@ -10,7 +10,7 @@ const CUBE: [number, number, number, number] = [0.18, 0.82, 0.41, 1];
 export default function CTA() {
 
   return (
-    <section className="py-20 lg:py-24 px-6 relative overflow-hidden" style={{ background: '#f8faff' }}>
+    <section className="py-14 lg:py-16 px-6 relative overflow-hidden" style={{ background: '#f8faff' }}>
       {/* Background orbs */}
       <div className="absolute pointer-events-none" style={{ width: '40vw', height: '40vw', top: '-160px', right: '-200px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(37,99,235,0.07) 0%, transparent 70%)' }} />
       <div className="absolute pointer-events-none" style={{ width: '28vw', height: '28vw', bottom: '-120px', left: '-140px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(0,111,255,0.06) 0%, transparent 70%)' }} />

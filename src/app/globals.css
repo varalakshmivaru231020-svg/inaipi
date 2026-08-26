@@ -427,7 +427,7 @@ body {
 
   /* ── Section Layout ── */
   .section {
-    @apply py-16 md:py-20 lg:py-24 px-6;
+    @apply py-16 md:py-14 lg:py-16 px-6;
   }
 
   .section-container {
@@ -632,6 +632,29 @@ body {
 .wow-d6 { animation-delay: 0.6s !important; }
 .wow-d7 { animation-delay: 0.7s !important; }
 .wow-d8 { animation-delay: 0.8s !important; }
+
+/* ─────────────────────────────────────────────
+   Agent Desktop showcase (src/components/sections/AgentDesktopUI.tsx)
+   Prefixed `ad-` so the mock's styling stays isolated from the site.
+   ───────────────────────────────────────────── */
+@keyframes ad-wave  { 0%, 100% { transform: scaleY(0.3); } 50% { transform: scaleY(1); } }
+@keyframes ad-pulse { 0%, 100% { opacity: 1; }             50% { opacity: 0.35; }        }
+@keyframes ad-rise  { from { opacity: 0; transform: translateY(9px);   } to { opacity: 1; transform: none; } }
+@keyframes ad-slide { from { opacity: 0; transform: translateX(-14px); } to { opacity: 1; transform: none; } }
+
+.ad-wave  { animation: ad-wave 1s infinite; transform-origin: bottom; }
+.ad-pulse { animation: ad-pulse 1.5s infinite; }
+.ad-rise  { animation: ad-rise 0.45s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.ad-slide { animation: ad-slide 0.45s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+.ad-scroll::-webkit-scrollbar        { width: 8px; height: 8px; }
+.ad-scroll::-webkit-scrollbar-thumb  { background: #cbd8ec; border-radius: 8px; }
+.ad-scroll::-webkit-scrollbar-track  { background: transparent; }
+
+.ad-queue:hover  { border-color: #c7d8f9 !important; background: #f7faff; }
+.ad-row:hover    { background: #f7faff; }
+.ad-lift         { transition: box-shadow 0.25s ease, transform 0.25s ease; }
+.ad-lift:hover   { box-shadow: 0 14px 30px -16px rgba(11, 27, 58, 0.28); transform: translateY(-2px); }
 
 /* Reduced-motion: disable all transitions/animations */
 @media (prefers-reduced-motion: reduce) {

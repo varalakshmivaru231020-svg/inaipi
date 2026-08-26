@@ -452,8 +452,8 @@ export default function Hero() {
               className="absolute inset-0"
             />
 
-            {/* Animated text — moved down from top */}
-            <div className="absolute left-0 px-4 sm:px-6 lg:px-10 flex flex-col items-start" style={{ maxWidth: '500px', top: '22%' }}>
+            {/* Animated text — moved down from top (hidden on mobile) */}
+            <div className="absolute left-0 px-4 sm:px-6 lg:px-10 hidden md:flex flex-col items-start" style={{ maxWidth: '500px', top: '22%' }}>
               {/* Badge */}
               <motion.div
                 initial={{ opacity: 0, x: -24 }}
@@ -512,7 +512,7 @@ export default function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 1.4, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute bottom-2 sm:bottom-8 lg:bottom-20 left-3 sm:left-6 rounded-xl sm:rounded-2xl px-3 sm:px-5 py-2 sm:py-4 flex items-center gap-2 sm:gap-4"
+              className="absolute bottom-2 sm:bottom-8 lg:bottom-20 left-3 sm:left-6 rounded-xl sm:rounded-2xl px-3 sm:px-5 py-2 sm:py-4 hidden md:flex items-center gap-2 sm:gap-4"
               style={{
                 background: 'rgba(255,255,255,0.12)',
                 backdropFilter: 'blur(16px)',

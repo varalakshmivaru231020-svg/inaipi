@@ -89,7 +89,7 @@ export default function TermsConditions() {
       <Navbar />
 
       {/* Hero */}
-      <section className="pt-36 pb-16 relative overflow-hidden" style={{ background: '#f8faff' }}>
+      <section className="pt-32 lg:pt-36 pb-14 relative overflow-hidden" style={{ background: '#f8faff' }}>
         <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
           <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 100% 60% at 50% 0%, rgba(37,99,235,0.18) 0%, transparent 70%)' }} />
           <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle, rgba(37,99,235,0.18) 1.2px, transparent 1.2px)', backgroundSize: '32px 32px', maskImage: 'radial-gradient(ellipse 100% 85% at 50% 10%, black 30%, transparent 100%)' }} />
@@ -126,7 +126,7 @@ export default function TermsConditions() {
       </section>
 
       {/* Content */}
-      <section className="py-20 bg-white">
+      <section className="py-14 lg:py-16 bg-white">
         <div className="container mx-auto px-6 max-w-4xl">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
