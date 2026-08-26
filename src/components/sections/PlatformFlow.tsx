@@ -45,36 +45,88 @@ function DesktopMock({ view }: { view: View }) {
 // ─────────────────────────────────────────────
 const stages = [
   {
-    id: '01', title: 'Customer Contact', tagline: 'Multi-Channel Entry',
+    id: '01', title: 'One conversation. Any channel.', tagline: 'Omnichannel Digital Contact Center',
     color: '#2563eb', bgLight: '#eff6ff', borderColor: '#bfdbfe',
-    description: 'Customers initiate conversations across any channel — Voice, WhatsApp, Email, Live Chat, Social Media, SMS, and Video — all flowing into a single intelligent platform.',
-    bullets: ['Voice, WhatsApp, Email, Chat, SMS, Video', 'Unified inbox — no channel switching', 'Instant AI response or human handoff', 'Complete customer context from first message'],
-    channels: [{ icon: Phone, label: 'Voice' }, { icon: MessageSquare, label: 'WhatsApp' }, { icon: Mail, label: 'Email' }, { icon: Globe, label: 'Web Chat' }],
+    description: 'Customers connect through: Voice | WhatsApp | Email | Chat | Social Media | Video | SMS',
+    bullets: [
+      { label: 'Unified workspace', text: 'Agents manage every interaction without switching between channels.' },
+      { label: 'AI + Human', text: 'AI responds instantly. Humans step in when needed.' },
+      { label: 'Complete context', text: 'Customer history and journey stay connected across interactions.' },
+    ],
+    channels: [{ icon: Phone, label: 'Voice' }, { icon: MessageSquare, label: 'WhatsApp' }, { icon: Mail, label: 'Email' }, { icon: Globe, label: 'Chat' }],
     view: 'workspace' as View,
   },
   {
-    id: '02', title: 'AI & Human Collaboration', tagline: 'The Intelligence Hub',
+    id: '02', title: 'Turn customer signals into actionable decisions.', tagline: 'Conversation Intelligence',
     color: '#1d4ed8', bgLight: '#eff6ff', borderColor: '#bfdbfe',
-    description: 'Inaipi AI Platform orchestrates every response. AI agents handle routine inquiries autonomously while human agents manage complex cases — with a real-time AI co-pilot at their side.',
-    bullets: ['AI agents resolve routine inquiries autonomously', 'Human agents get real-time AI suggestions', 'Unified desktop — all channels in one view', 'Intelligent escalation based on sentiment & context'],
-    channels: [{ icon: Cpu, label: 'AI Agent' }, { icon: Users, label: 'Human Agent' }, { icon: Zap, label: 'Co-Pilot' }, { icon: Target, label: 'Smart Routing' }],
+    description: 'Listen across: Social Media | CRM | Website | CX | Blogs | Forums',
+    bullets: [
+      { label: 'Intelligent Listening', text: 'AI identifies conversations, signals, trends, sentiment and emerging opportunities.' },
+      { label: 'Decision Intelligence', text: 'Convert customer signals into insights, actions and prioritized opportunities.' },
+      { label: 'From Signal to Action', text: 'Connect intelligence to the right workflow, team or customer engagement.' },
+    ],
+    channels: [{ icon: Star, label: 'Social Media' }, { icon: Layers, label: 'CRM' }, { icon: Globe, label: 'Website' }, { icon: Users, label: 'Forums' }],
     view: 'monitoring' as View,
   },
   {
-    id: '03', title: 'Case & Ticket Management', tagline: 'Seamless Resolution',
+    id: '03', title: 'Turn customer opportunities into proactive engagement.', tagline: 'Proactive Outreach Manager',
     color: '#1e40af', bgLight: '#eff6ff', borderColor: '#bfdbfe',
-    description: 'Every unresolved interaction automatically becomes a case. Intelligent routing assigns it to the right agent or AI — with SLA tracking, auto-classification, and full conversation context.',
-    bullets: ['Automatic case creation from any interaction', 'Intelligent routing based on skills & workload', 'SLA tracking with automated alerts & escalation', 'AI resolves routine cases autonomously in background'],
-    channels: [{ icon: Layers, label: 'Case Board' }, { icon: Target, label: 'Smart Route' }, { icon: Zap, label: 'Auto Classify' }, { icon: Check, label: 'SLA Track' }],
-    view: 'cases' as View,
+    description: 'Reach customers before they need to reach you: Campaigns | Notifications | Reminders | Follow-ups | Proactive Outreach',
+    bullets: [
+      { label: 'Intelligent outreach', text: 'Target the right customers with the right message at the right time.' },
+      { label: 'AI or Human', text: 'Connect customers directly to an AI Voice Agent or human agent.' },
+      { label: 'Automated orchestration', text: 'Manage campaigns, dialing, connections, escalation and follow-up from one workflow.' },
+    ],
+    channels: [{ icon: TrendingUp, label: 'Campaigns' }, { icon: Zap, label: 'Notifications' }, { icon: Check, label: 'Reminders' }, { icon: Target, label: 'Follow-ups' }],
+    view: 'outreach' as View,
   },
   {
-    id: '04', title: 'Surveys & Campaigns', tagline: 'Proactive Engagement',
+    id: '04', title: 'Automate voice conversations without losing the human option.', tagline: 'AI Voice Agents',
     color: '#2563eb', bgLight: '#eff6ff', borderColor: '#bfdbfe',
-    description: "After every resolved case, the platform automatically sends satisfaction surveys via the customer's preferred channel. AI voice agents run outbound campaigns at unlimited scale.",
-    bullets: ['Automated CSAT / NPS surveys after case resolution', 'AI voice agents for outbound calls at scale', 'WhatsApp, SMS & email campaign automation', 'Real-time sentiment analysis & escalation triggers'],
-    channels: [{ icon: Star, label: 'CSAT Survey' }, { icon: Phone, label: 'AI Voice' }, { icon: MessageSquare, label: 'WhatsApp' }, { icon: TrendingUp, label: 'Analytics' }],
+    description: 'AI Voice Agent handle customer conversations across: Inbound | Outbound | Notifications | Reminders | Verification | Follow-ups',
+    bullets: [
+      { label: 'Natural conversations', text: 'AI understands customer intent and responds in real time.' },
+      { label: 'Execute, not just answer', text: 'AI Voice Agents can collect information, perform pre-defined tasks and move conversations forward.' },
+      { label: 'Human handoff', text: 'Escalate to an agent with the relevant customer context when human intervention is needed.' },
+    ],
+    channels: [{ icon: Phone, label: 'Inbound' }, { icon: Zap, label: 'Outbound' }, { icon: Check, label: 'Verification' }, { icon: Target, label: 'Follow-ups' }],
     view: 'survey' as View,
+  },
+  {
+    id: '05', title: 'Give customers instant answers across digital channels.', tagline: 'AI Chat Agents',
+    color: '#1d4ed8', bgLight: '#eff6ff', borderColor: '#bfdbfe',
+    description: 'AI-powered conversations across: WhatsApp | Website | Mobile | Social | Messaging',
+    bullets: [
+      { label: 'Instant response', text: 'Answer questions and provide self-service support 24/7.' },
+      { label: 'Context-aware conversations', text: 'Use customer information and conversation history to provide relevant responses.' },
+      { label: 'AI + Human', text: 'Escalate complex conversations to agents without losing context.' },
+    ],
+    channels: [{ icon: MessageSquare, label: 'WhatsApp' }, { icon: Globe, label: 'Website' }, { icon: Star, label: 'Social' }, { icon: Mail, label: 'Messaging' }],
+    view: 'chat' as View,
+  },
+  {
+    id: '06', title: 'Turn every interaction into customer intelligence.', tagline: 'Surveys',
+    color: '#1e40af', bgLight: '#eff6ff', borderColor: '#bfdbfe',
+    description: 'Capture feedback across: IVR | SMS | Email | Social Media | Digital Channels',
+    bullets: [
+      { label: 'Automated feedback', text: 'Trigger surveys automatically after customer interactions.' },
+      { label: 'Measure what matters', text: 'Capture CSAT, NPS and customer feedback.' },
+      { label: 'Close the loop', text: 'Use customer feedback to identify service gaps and improve customer experience.' },
+    ],
+    channels: [{ icon: Phone, label: 'IVR' }, { icon: MessageSquare, label: 'SMS' }, { icon: Mail, label: 'Email' }, { icon: Star, label: 'Social Media' }],
+    view: 'surveys' as View,
+  },
+  {
+    id: '07', title: 'Turn customer conversations into accountable work.', tagline: 'Ticketing',
+    color: '#2563eb', bgLight: '#eff6ff', borderColor: '#bfdbfe',
+    description: 'Capture and manage requests from: Voice | Chat | WhatsApp | Email | Social | Digital Channels',
+    bullets: [
+      { label: 'Create automatically', text: 'Convert customer issues into structured tickets.' },
+      { label: 'Route and escalate', text: 'Send requests to the right team based on business rules and priority.' },
+      { label: 'Track to resolution', text: 'Maintain the request, knowledge and escalation history until closure.' },
+    ],
+    channels: [{ icon: Phone, label: 'Voice' }, { icon: MessageSquare, label: 'Chat' }, { icon: Mail, label: 'Email' }, { icon: Layers, label: 'Digital' }],
+    view: 'cases' as View,
   },
 ];
 
@@ -82,12 +134,12 @@ const stages = [
 // Stacking card
 // ─────────────────────────────────────────────
 const CARD_TOP = 72;
-const CARD_OFFSET = 12;
+const CARD_OFFSET = 8;
 
 function StageCard({ stage, index, total }: { stage: typeof stages[0]; index: number; total: number }) {
   const cardRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: cardRef, offset: ['start start', 'end start'] });
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 1 - (total - index) * 0.04]);
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 1 - (total - index) * 0.022]);
   const opacity = useTransform(scrollYProgress, [0, 1], [1, index === total - 1 ? 1 : 0.6]);
 
   return (
@@ -111,7 +163,10 @@ function StageCard({ stage, index, total }: { stage: typeof stages[0]; index: nu
                   <div className="mt-0.5 w-4.5 h-4.5 rounded-full flex items-center justify-center shrink-0 shadow-sm" style={{ backgroundColor: stage.color }}>
                     <Check className="w-2.5 h-2.5 text-white" strokeWidth={3} />
                   </div>
-                  {b}
+                  <span>
+                    <span className="font-bold text-[#0f172a]">{b.label}</span>
+                    <span className="text-slate-500"> &mdash; {b.text}</span>
+                  </span>
                 </li>
               ))}
             </ul>
