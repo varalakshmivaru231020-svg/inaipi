@@ -604,3 +604,329 @@ export function VoiceView() {
     </div>
   );
 }
+
+/* ══════════════════════════════════════════════════
+   Section 2 — Conversation Intelligence
+   Ported from the Claude Design project "Live mentions dashboard redesign"
+   (Mentions Dashboard.dc.html). The .dc.html runs on the dc-runtime template
+   engine; this is the same layout, palette and copy rebuilt as plain React so
+   it renders inside the existing Agent Desktop shell. The design's own top nav
+   is omitted because the shell already provides that exact chrome.
+   ══════════════════════════════════════════════════ */
+const MN = {
+  bg: '#eef0f6', card: '#fff', line: '#eceef5', edge: '#e6e8f0',
+  ink: '#1a1d29', ink2: '#2a2e40', ink3: '#3a3f52', muted: '#8a8fa3', faint: '#a2a7ba',
+  purple: '#6d3ee6', purpleSoft: '#efeafd', green: '#16a34a', amber: '#f59e0b', red: '#ef4444',
+  chip: '#f1f2f8', panel: '#f6f7fb',
+};
+
+type Brand = 'twitter' | 'facebook' | 'instagram' | 'youtube' | 'google' | 'blogs' | 'news' | 'forums';
+
+function BrandIcon({ platform, size }: { platform: Brand; size: number }) {
+  const wrap = (background: string, child: React.ReactNode) => (
+    <span style={{ width: size, height: size, borderRadius: '50%', background, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>{child}</span>
+  );
+  const s = Math.round(size * 0.5);
+  if (platform === 'twitter') return wrap('#1d9bf0', <svg width={s} height={s} viewBox="0 0 24 24" fill="#fff"><path d="M23 4.9c-.8.4-1.7.6-2.6.8a4.5 4.5 0 0 0 2-2.5c-.9.5-1.9.9-2.9 1.1a4.5 4.5 0 0 0-7.7 4.1A12.8 12.8 0 0 1 2.5 3.7a4.5 4.5 0 0 0 1.4 6 4.4 4.4 0 0 1-2-.5v.1a4.5 4.5 0 0 0 3.6 4.4 4.6 4.6 0 0 1-2 .1 4.5 4.5 0 0 0 4.2 3.1A9 9 0 0 1 1 18.6a12.7 12.7 0 0 0 6.9 2c8.3 0 12.8-6.9 12.8-12.8v-.6c.9-.6 1.6-1.4 2.3-2.3z" /></svg>);
+  if (platform === 'facebook') return wrap('#1877f2', <svg width={s} height={s} viewBox="0 0 24 24" fill="#fff"><path d="M15 3h3V0h-3c-2.8 0-5 2.2-5 5v3H7v3h3v13h3V11h3l1-3h-4V5c0-1.1.9-2 2-2z" /></svg>);
+  if (platform === 'instagram') return wrap('linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)', <svg width={Math.round(size * 0.52)} height={Math.round(size * 0.52)} viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth={2.2} strokeLinecap="round"><rect x="2" y="2" width="20" height="20" rx="5" /><circle cx="12" cy="12" r="4.5" /><circle cx="17.5" cy="6.5" r="0.6" fill="#fff" /></svg>);
+  if (platform === 'youtube') return wrap('#ff0000', <svg width={s} height={s} viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z" /></svg>);
+  if (platform === 'google') return wrap('#fff', (
+    <svg width={Math.round(size * 0.55)} height={Math.round(size * 0.55)} viewBox="0 0 48 48">
+      <path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.5l6.8-6.8C35.8 2.4 30.2 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.2C12.4 13.5 17.7 9.5 24 9.5z" />
+      <path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.7 6C44 38 46.5 31.8 46.5 24.5z" />
+      <path fill="#FBBC05" d="M10.5 28.6c-.5-1.5-.8-3-.8-4.6s.3-3.1.8-4.6l-7.9-6.2C.9 16.5 0 20.1 0 24s.9 7.5 2.6 10.8l7.9-6.2z" />
+      <path fill="#34A853" d="M24 48c6.2 0 11.4-2 15.2-5.6l-7.7-6c-2.1 1.4-4.7 2.3-7.5 2.3-6.3 0-11.6-4-13.5-9.7l-7.9 6.2C6.5 42.6 14.6 48 24 48z" />
+    </svg>
+  ));
+  const glyphs: Record<string, string> = {
+    blogs: 'M4 4h16v12H8l-4 4V4z',
+    news: 'M4 3h16v18H4zM8 7h8M8 11h8M8 15h5',
+    forums: 'M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z',
+  };
+  const colors: Record<string, string> = { blogs: '#6d5ce7', news: '#0ea5e9', forums: '#16a34a' };
+  return wrap(MN.chip, <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={colors[platform] || MN.purple} strokeWidth={2} strokeLinecap="round"><path d={glyphs[platform] || glyphs.blogs} /></svg>);
+}
+
+const MN_FEED: { platform: Brand; name: string; action: string; text: string; tag: string; platformLabel: string; stars?: boolean; time: string; active?: boolean }[] = [
+  { platform: 'twitter', name: '@techreviewer', action: 'mentioned you', text: 'Loving the new features from @inaipi! The AI agent is super helpful.', tag: 'Positive', platformLabel: '', time: '2m', active: true },
+  { platform: 'facebook', name: 'Sarah J.', action: 'commented', text: 'This platform has improved our customer support workflow so much!', tag: 'Positive', platformLabel: 'Facebook', time: '5m' },
+  { platform: 'google', name: 'John D.', action: 'reviewed', text: 'Excellent tool! Easy to use and powerful analytics.', tag: 'Positive', platformLabel: 'Google Review', stars: true, time: '15m' },
+  { platform: 'instagram', name: '@digitalhub', action: 'mentioned you', text: 'How does @inaipi handle multilingual support? Asking for a client.', tag: 'Neutral', platformLabel: 'Twitter', time: '18m' },
+  { platform: 'instagram', name: 'Lisa M.', action: 'sent a DM', text: 'Do you offer integration with Shopify?', tag: 'Question', platformLabel: 'Instagram', time: '25m' },
+];
+const MN_TAG_COLOR: Record<string, string> = { Positive: MN.green, Neutral: MN.muted, Question: MN.amber, Negative: MN.red };
+const MN_PLATFORMS: [Brand, string, number][] = [['twitter', 'Twitter', 342], ['facebook', 'Facebook', 278], ['instagram', 'Instagram', 189], ['youtube', 'YouTube', 156], ['google', 'Google Reviews', 95]];
+const MN_KEYWORDS: [string, number][] = [['#CustomerSupport', 156], ['#AIChatbot', 132], ['#inaipi', 98], ['#Automation', 76], ['#CustomerExperience', 64]];
+const MN_LISTENING: [Brand, string][] = [['twitter', 'Twitter'], ['facebook', 'Facebook'], ['instagram', 'Instagram'], ['youtube', 'YouTube'], ['google', 'Google Reviews'], ['blogs', 'Blogs'], ['news', 'News'], ['forums', 'Forums']];
+const MN_QUICK: [string, string][] = [['AR', 'Auto Reply Rules'], ['SF', 'Smart Filters'], ['AI', 'AI Copilot Settings'], ['TA', 'Team Assignment'], ['TM', 'Tag Manager']];
+/* sparkHist mapped through the design's own x=i*(200/13), y=52-((v-20)/45)*48 */
+const MN_SPARK = '0.0,41.3 15.4,37.1 30.8,40.3 46.2,32.8 61.5,34.9 76.9,28.5 92.3,30.7 107.7,24.3 123.1,26.4 138.5,20.0 153.8,22.1 169.2,14.7 184.6,16.8 200.0,11.5';
+const MN_POS = 65, MN_NEU = 20, MN_NEG = 15;
+
+const railIcon = (d: string, active = false) => (
+  <div style={{ width: 38, height: 38, borderRadius: 11, background: active ? MN.purple : 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke={active ? '#fff' : MN.muted} strokeWidth={2} strokeLinecap="round"><path d={d} /></svg>
+  </div>
+);
+
+function MnCard({ children, style }: { children: React.ReactNode; style?: CSSProperties }) {
+  return <div style={{ background: MN.card, borderRadius: 15, padding: 10, ...style }}>{children}</div>;
+}
+
+export function MentionsView() {
+  return (
+    <div key="mentions" className="ad-rise ad-scroll" style={{ ...SHELL, padding: 0, background: MN.bg }}>
+      <div style={{ display: 'flex', minHeight: '100%' }}>
+        {/* Icon rail */}
+        <aside style={{ width: 64, background: MN.card, borderRight: `1px solid ${MN.line}`, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10, padding: '16px 0', flexShrink: 0 }}>
+          <div style={{ width: 38, height: 38, borderRadius: 11, background: MN.purple, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth={2}><rect x="3" y="3" width="7" height="7" rx="1.5" /><rect x="14" y="3" width="7" height="7" rx="1.5" /><rect x="3" y="14" width="7" height="7" rx="1.5" /><rect x="14" y="14" width="7" height="7" rx="1.5" /></svg>
+          </div>
+          {railIcon('M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z')}
+          {railIcon('M4 19.5A2.5 2.5 0 0 1 6.5 17H20M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z')}
+          {railIcon('M18 20V10M12 20V4M6 20v-6')}
+          {railIcon('M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21v-1a7 7 0 0 1 14 0v1')}
+          {railIcon('M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z')}
+          {railIcon('M21 11.5a8.38 8.38 0 0 1-8.5 8.5 8.5 8.5 0 0 1-7.6-4.7L3 21l5.7-1.9A8.38 8.38 0 0 1 21 11.5z')}
+          {railIcon('M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10zM9 12l2 2 4-4')}
+        </aside>
+
+        <main style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 10, padding: 10, minWidth: 0 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '300px 1fr 292px', gap: 10, alignItems: 'start' }}>
+
+            {/* ── Mention Feed ── */}
+            <MnCard style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <div style={{ margin: 0, fontSize: 14.5, fontWeight: 700, color: MN.ink }}>Mention Feed</div>
+                <span style={{ fontSize: 11, fontWeight: 600, color: MN.purple }}>120 new mentions</span>
+              </div>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
+                {['All', 'Mentions', 'Comments', 'Reviews', 'DMs'].map((f, i) => (
+                  <span key={f} style={{ background: i === 0 ? MN.purple : MN.chip, color: i === 0 ? '#fff' : '#5a5f74', fontSize: 10.5, fontWeight: i === 0 ? 700 : 600, padding: '5px 9px', borderRadius: 999 }}>{f}</span>
+                ))}
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                {MN_FEED.map(m => (
+                  <div key={m.name + m.time} style={{ border: `1px solid ${MN.line}`, borderRadius: 12, padding: 9, display: 'flex', flexDirection: 'column', gap: 5, background: m.active ? '#f6f3fe' : MN.card }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
+                      <BrandIcon platform={m.platform} size={26} />
+                      <span style={{ fontSize: 11.5, fontWeight: 700, color: MN.ink }}>{m.name}</span>
+                      <span style={{ fontSize: 10.5, color: MN.muted }}>{m.action}</span>
+                      <span style={{ marginLeft: 'auto', fontSize: 10, color: MN.faint }}>{m.time}</span>
+                    </div>
+                    {m.stars && <div style={{ color: MN.amber, fontSize: 12, letterSpacing: 2 }}>★★★★★</div>}
+                    <p style={{ margin: 0, fontSize: 11, lineHeight: 1.5, color: MN.ink3 }}>{m.text}</p>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
+                      {m.platformLabel && <span style={{ fontSize: 10, fontWeight: 600, color: '#6d5ce7' }}>{m.platformLabel}</span>}
+                      <span style={{ fontSize: 10, fontWeight: 700, color: MN_TAG_COLOR[m.tag] }}>● {m.tag}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </MnCard>
+
+            {/* ── Conversation ── */}
+            <section style={{ display: 'flex', flexDirection: 'column', gap: 7, minWidth: 0 }}>
+              <div style={{ display: 'flex', gap: 8 }}>
+                <div style={{ flex: 1.4, background: MN.card, border: `2px solid ${MN.purple}`, borderRadius: 12, padding: '8px 11px', display: 'flex', gap: 8, alignItems: 'center', minWidth: 0 }}>
+                  <BrandIcon platform="twitter" size={28} />
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 1, minWidth: 0 }}>
+                    <div style={{ display: 'flex', gap: 5, alignItems: 'center' }}>
+                      <span style={{ fontSize: 11.5, fontWeight: 700, color: MN.ink }}>@techreviewer</span>
+                      <span style={{ fontSize: 10.5, color: '#1d9bf0', fontWeight: 600 }}>• Twitter</span>
+                    </div>
+                    <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+                      <span style={{ fontSize: 10, color: MN.faint }}>2m ago</span>
+                      <span style={{ fontSize: 9.5, fontWeight: 700, color: MN.green }}>● Positive</span>
+                    </div>
+                  </div>
+                </div>
+                {[['Sarah J.', 'Facebook'], ['John D.', 'Google Review'], ['Priya Nair', 'Instagram DM']].map(([n, p]) => (
+                  <div key={n} style={{ flex: 1, background: MN.card, border: `1px solid ${MN.line}`, borderRadius: 12, padding: '8px 10px', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 2, minWidth: 0 }}>
+                    <span style={{ fontSize: 11.5, fontWeight: 700, color: MN.ink, whiteSpace: 'nowrap' }}>{n}</span>
+                    <span style={{ fontSize: 10, color: MN.muted, whiteSpace: 'nowrap' }}>• {p}</span>
+                  </div>
+                ))}
+                <div style={{ background: MN.card, border: `1px solid ${MN.line}`, borderRadius: 12, padding: '8px 12px', display: 'flex', alignItems: 'center', flexShrink: 0 }}>
+                  <span style={{ fontSize: 11.5, fontWeight: 700, color: MN.purple }}>+2</span>
+                </div>
+              </div>
+
+              <MnCard style={{ display: 'grid', gridTemplateColumns: '1fr 220px', gap: 16 }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 9, minWidth: 0 }}>
+                  <div style={{ background: MN.panel, borderRadius: 12, padding: 11 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 7, marginBottom: 6 }}>
+                      <BrandIcon platform="twitter" size={26} />
+                      <span style={{ fontSize: 11.5, fontWeight: 700, color: MN.ink }}>@techreviewer</span>
+                      <span style={{ fontSize: 10.5, color: MN.muted }}>mentioned you</span>
+                    </div>
+                    <p style={{ margin: 0, fontSize: 12.5, lineHeight: 1.6, color: MN.ink2 }}>Loving the new features from @inaipi! The AI agent is super helpful.</p>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <span style={{ width: 34, height: 32, border: `1px solid ${MN.edge}`, background: MN.card, borderRadius: 9, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5a5f74" strokeWidth={2} strokeLinecap="round"><path d="M9 17l-5-5 5-5" /><path d="M4 12h11a5 5 0 0 1 5 5v2" /></svg>
+                    </span>
+                    <span style={{ width: 34, height: 32, border: `1px solid ${MN.edge}`, background: MN.card, borderRadius: 9, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5a5f74" strokeWidth={2} strokeLinecap="round"><path d="M17 2l4 4-4 4" /><path d="M3 11v-1a4 4 0 0 1 4-4h14" /><path d="M7 22l-4-4 4-4" /><path d="M21 13v1a4 4 0 0 1-4 4H3" /></svg>
+                    </span>
+                    <span style={{ background: MN.purple, color: '#fff', fontSize: 11.5, fontWeight: 700, padding: '8px 16px', borderRadius: 9, display: 'flex', alignItems: 'center', gap: 6 }}>
+                      Reply <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth={2.5} strokeLinecap="round"><path d="M6 9l6 6 6-6" /></svg>
+                    </span>
+                  </div>
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
+                  <span style={{ fontSize: 11, fontWeight: 600, color: '#5a5f74' }}>Sentiment Score</span>
+                  <span style={{ fontSize: 28, fontWeight: 800, color: MN.green, lineHeight: 1.1 }}>+0.78</span>
+                  <span style={{ fontSize: 11.5, fontWeight: 600, color: MN.green }}>Positive</span>
+                  <svg width="200" height="44" viewBox="0 0 200 52" style={{ marginTop: 4, maxWidth: '100%' }}>
+                    <polyline points={MN_SPARK} fill="none" stroke={MN.green} strokeWidth={2} strokeLinejoin="round" />
+                  </svg>
+                </div>
+              </MnCard>
+
+              <MnCard style={{ display: 'flex', flexDirection: 'column', gap: 11 }}>
+                <div style={{ display: 'flex', gap: 18, borderBottom: `1px solid ${MN.line}`, paddingBottom: 8 }}>
+                  <span style={{ fontSize: 12, fontWeight: 700, color: MN.purple, borderBottom: `2px solid ${MN.purple}`, paddingBottom: 8, marginBottom: -9 }}>Reply</span>
+                  <span style={{ fontSize: 12, fontWeight: 600, color: MN.muted }}>Internal Note</span>
+                </div>
+                <div style={{ border: `1px solid ${MN.edge}`, borderRadius: 10, padding: 11, fontSize: 11.5, color: MN.faint, height: 28 }}>Write your reply...</div>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <div style={{ display: 'flex', gap: 11 }}>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={MN.muted} strokeWidth={2} strokeLinecap="round"><circle cx="12" cy="12" r="10" /><path d="M8 14s1.5 2 4 2 4-2 4-2" /><line x1="9" y1="9" x2="9.01" y2="9" /><line x1="15" y1="9" x2="15.01" y2="9" /></svg>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={MN.muted} strokeWidth={2} strokeLinecap="round"><rect x="3" y="3" width="18" height="18" rx="2" /><circle cx="8.5" cy="8.5" r="1.5" /><path d="M21 15l-5-5L5 21" /></svg>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={MN.muted} strokeWidth={2} strokeLinecap="round"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48" /></svg>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={MN.muted} strokeWidth={2} strokeLinecap="round"><polygon points="12 2 15 8.5 22 9.3 17 14 18.2 21 12 17.8 5.8 21 7 14 2 9.3 9 8.5 12 2" /></svg>
+                  </div>
+                  <span style={{ background: MN.purple, color: '#fff', fontSize: 11.5, fontWeight: 700, padding: '8px 16px', borderRadius: 9, display: 'flex', alignItems: 'center', gap: 6 }}>
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth={2} strokeLinecap="round"><line x1="22" y1="2" x2="11" y2="13" /><polygon points="22 2 15 22 11 13 2 9 22 2" /></svg> Send Reply
+                  </span>
+                </div>
+                <div style={{ border: `1px solid ${MN.line}`, borderRadius: 12, padding: 10, display: 'flex', flexDirection: 'column', gap: 7 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={MN.purple} strokeWidth={2} strokeLinecap="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.2 2.2M16.2 16.2l2.2 2.2M5.6 18.4l2.2-2.2M16.2 7.8l2.2-2.2" /></svg>
+                    <span style={{ fontSize: 12, fontWeight: 700, color: MN.purple }}>AI Suggestion</span>
+                    <span style={{ fontSize: 9, fontWeight: 700, color: MN.purple, background: MN.purpleSoft, padding: '3px 7px', borderRadius: 6 }}>BETA</span>
+                  </div>
+                  <p style={{ margin: 0, fontSize: 11.5, lineHeight: 1.6, color: MN.ink3 }}>Thank you so much! We&apos;re glad you&apos;re enjoying the new features. Let us know if you need any assistance!</p>
+                  <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                    <span style={{ border: `1px solid ${MN.edge}`, background: MN.panel, color: MN.ink2, fontSize: 11, fontWeight: 700, padding: '7px 13px', borderRadius: 9 }}>Use Suggestion</span>
+                  </div>
+                </div>
+              </MnCard>
+
+              <MnCard>
+                <span style={{ fontSize: 12, fontWeight: 700, color: MN.ink }}>Listening To</span>
+                <div style={{ display: 'flex', gap: 15, marginTop: 8, alignItems: 'flex-start', flexWrap: 'wrap' }}>
+                  {MN_LISTENING.map(([p, label]) => (
+                    <div key={label} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5, position: 'relative' }}>
+                      <BrandIcon platform={p} size={30} />
+                      <span style={{ position: 'absolute', top: -3, right: -4, width: 14, height: 14, borderRadius: '50%', background: MN.green, border: '2px solid #fff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth={4} strokeLinecap="round"><path d="M20 6L9 17l-5-5" /></svg>
+                      </span>
+                      <span style={{ fontSize: 9.5, color: MN.muted }}>{label}</span>
+                    </div>
+                  ))}
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5 }}>
+                    <div style={{ width: 30, height: 30, borderRadius: '50%', border: '1.5px dashed #c5c9da', display: 'flex', alignItems: 'center', justifyContent: 'center', color: MN.muted, fontSize: 16 }}>+</div>
+                    <span style={{ fontSize: 9.5, color: MN.muted }}>Add More</span>
+                  </div>
+                </div>
+              </MnCard>
+
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5,1fr)', gap: 9 }}>
+                {MN_QUICK.map(([glyph, label]) => (
+                  <div key={label} style={{ background: MN.card, border: `1px solid ${MN.line}`, borderRadius: 12, padding: 7, display: 'flex', alignItems: 'center', gap: 8, minWidth: 0 }}>
+                    <span style={{ width: 30, height: 30, borderRadius: 9, background: MN.purpleSoft, display: 'flex', alignItems: 'center', justifyContent: 'center', color: MN.purple, fontWeight: 800, fontSize: 11, flexShrink: 0 }}>{glyph}</span>
+                    <span style={{ fontSize: 10.5, fontWeight: 700, lineHeight: 1.3, color: MN.ink }}>{label}</span>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            {/* ── Analytics sidebar ── */}
+            <section style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <MnCard style={{ display: 'flex', flexDirection: 'column', gap: 11 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div style={{ margin: 0, fontSize: 13, fontWeight: 700, color: MN.ink }}>Platform Overview</div>
+                  <span style={{ fontSize: 10, color: MN.faint }}>Last 7 days</span>
+                </div>
+                {MN_PLATFORMS.map(([p, name, count]) => (
+                  <div key={name} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <BrandIcon platform={p} size={24} />
+                    <span style={{ fontSize: 11.5, fontWeight: 600, color: MN.ink3 }}>{name}</span>
+                    <span style={{ marginLeft: 'auto', fontSize: 11.5, fontWeight: 700, color: MN.ink }}>{count}</span>
+                  </div>
+                ))}
+                <span style={{ fontSize: 11, fontWeight: 700, color: MN.purple, textAlign: 'center' }}>View all platforms</span>
+              </MnCard>
+
+              <MnCard style={{ display: 'flex', flexDirection: 'column', gap: 11 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div style={{ margin: 0, fontSize: 13, fontWeight: 700, color: MN.ink }}>Sentiment Overview</div>
+                  <span style={{ fontSize: 10, color: MN.faint }}>Last 7 days</span>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+                  <div style={{ width: 92, height: 92, borderRadius: '50%', flexShrink: 0, background: `conic-gradient(${MN.green} 0 ${MN_POS}%, ${MN.amber} ${MN_POS}% ${MN_POS + MN_NEU}%, ${MN.red} ${MN_POS + MN_NEU}% 100%)`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <div style={{ width: 50, height: 50, borderRadius: '50%', background: '#fff' }} />
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8, flex: 1, minWidth: 0 }}>
+                    {([['Positive', MN.green, MN_POS], ['Neutral', MN.amber, MN_NEU], ['Negative', MN.red, MN_NEG]] as [string, string, number][]).map(([label, colour, pct]) => (
+                      <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 7, fontSize: 11.5 }}>
+                        <span style={{ width: 8, height: 8, borderRadius: '50%', background: colour, flexShrink: 0 }} />
+                        <span style={{ color: MN.ink3, fontWeight: 600 }}>{label}</span>
+                        <span style={{ marginLeft: 'auto', fontWeight: 700, color: MN.ink }}>{pct}%</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </MnCard>
+
+              <MnCard style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div style={{ margin: 0, fontSize: 13, fontWeight: 700, color: MN.ink }}>Top Keywords</div>
+                  <span style={{ fontSize: 10, color: MN.faint }}>Last 7 days</span>
+                </div>
+                {MN_KEYWORDS.map(([tag, count]) => (
+                  <div key={tag} style={{ display: 'flex', alignItems: 'center' }}>
+                    <span style={{ fontSize: 11.5, fontWeight: 600, color: MN.ink3 }}>{tag}</span>
+                    <span style={{ marginLeft: 'auto', fontSize: 11.5, fontWeight: 700, color: MN.ink }}>{count}</span>
+                  </div>
+                ))}
+                <span style={{ fontSize: 11, fontWeight: 700, color: MN.purple, textAlign: 'center' }}>View all keywords</span>
+              </MnCard>
+            </section>
+          </div>
+
+          {/* ── Analytics Overview ── */}
+          <section style={{ background: MN.card, border: '1px solid #e4d9fb', borderRadius: 15, padding: 9 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
+              <div style={{ margin: 0, fontSize: 13.5, fontWeight: 700, color: MN.ink }}>Analytics Overview</div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 7, border: `1px solid ${MN.edge}`, borderRadius: 9, padding: '6px 11px', fontSize: 11, fontWeight: 600, color: MN.ink3 }}>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#5a5f74" strokeWidth={2} strokeLinecap="round"><rect x="3" y="4" width="18" height="18" rx="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
+                Aug 20 - Aug 26, 2026
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#5a5f74" strokeWidth={2.5} strokeLinecap="round"><path d="M6 9l6 6 6-6" /></svg>
+              </div>
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5,1fr)' }}>
+              {([
+                ['Total Mentions', '1,248', '↑ 18.5%', MN.green],
+                ['Positive Mentions', '812', '↑ 65%', MN.green],
+                ['Negative Mentions', '187', '↓ 15%', MN.red],
+                ['Engagement Rate', '4.8%', '↑ 12.3%', MN.green],
+                ['Avg. Response Time', '2m 34s', '↓ 8.7%', MN.red],
+              ] as [string, string, string, string][]).map(([label, value, delta, colour], i) => (
+                <div key={label} style={{ display: 'flex', flexDirection: 'column', gap: 6, padding: '0 16px', borderRight: i < 4 ? `1px solid ${MN.line}` : undefined }}>
+                  <span style={{ fontSize: 11, color: '#5a5f74', fontWeight: 600 }}>{label}</span>
+                  <span style={{ fontSize: 17, fontWeight: 800, color: MN.ink, whiteSpace: 'nowrap' }}>
+                    {value} <span style={{ fontSize: 11, fontWeight: 700, color: colour }}>{delta}</span>
+                  </span>
+                </div>
+              ))}
+            </div>
+          </section>
+        </main>
+      </div>
+    </div>
+  );
+}

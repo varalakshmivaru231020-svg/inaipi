@@ -66,7 +66,7 @@ const stages = [
       { label: 'From Signal to Action', text: 'Connect intelligence to the right workflow, team or customer engagement.' },
     ],
     channels: [{ icon: Star, label: 'Social Media' }, { icon: Layers, label: 'CRM' }, { icon: Globe, label: 'Website' }, { icon: Users, label: 'Forums' }],
-    view: 'monitoring' as View,
+    view: 'mentions' as View,
   },
   {
     id: '03', title: 'Turn customer opportunities into proactive engagement.', tagline: 'Proactive Outreach Manager',
