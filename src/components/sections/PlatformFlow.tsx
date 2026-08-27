@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef, useEffect, useState } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useMotionValue, animate, type PanInfo } from 'framer-motion';
 import {
   Phone, MessageSquare, Mail, Globe, Cpu, Users, Zap, Layers, Target,
   Star, TrendingUp, Check,
@@ -131,20 +131,16 @@ const stages = [
 ];
 
 // ─────────────────────────────────────────────
-// Stacking card
+// Slide card — one stage. Markup is unchanged from the stacked version; only
+// the wrapper differs (a full-width slide instead of a sticky stacking layer).
+// Slides are laid out with items-start so each card keeps its own natural
+// height — stretching them to a common height would change every panel's
+// aspect ratio and re-crop the cover-fit dashboards.
 // ─────────────────────────────────────────────
-const CARD_TOP = 72;
-const CARD_OFFSET = 8;
-
-function StageCard({ stage, index, total }: { stage: typeof stages[0]; index: number; total: number }) {
-  const cardRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: cardRef, offset: ['start start', 'end start'] });
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 1 - (total - index) * 0.022]);
-  const opacity = useTransform(scrollYProgress, [0, 1], [1, index === total - 1 ? 1 : 0.6]);
-
+function StageCard({ stage }: { stage: typeof stages[0] }) {
   return (
-    <div ref={cardRef} className="sticky px-6" style={{ top: `${CARD_TOP + index * CARD_OFFSET}px`, zIndex: 10 + index }}>
-      <motion.div style={{ scale, opacity, transformOrigin: 'top center' }} className="container mx-auto max-w-6xl">
+    <div className="shrink-0 w-full px-6">
+      <div className="container mx-auto max-w-6xl">
         <div
           className="rounded-3xl overflow-hidden border shadow-2xl grid lg:grid-cols-[38fr_62fr]"
           style={{ backgroundColor: stage.bgLight, borderColor: stage.borderColor }}
@@ -187,7 +183,119 @@ function StageCard({ stage, index, total }: { stage: typeof stages[0]; index: nu
             </div>
           </div>
         </div>
-      </motion.div>
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────
+// Horizontal carousel — auto-advances and supports swipe/drag
+// ─────────────────────────────────────────────
+const AUTO_MS = 5200;
+const SPRING = { type: 'spring' as const, stiffness: 240, damping: 34, mass: 0.9 };
+
+function PlatformCarousel() {
+  const total = stages.length;
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const [slideW, setSlideW] = useState(0);
+  const [index, setIndex] = useState(0);
+  const [dragging, setDragging] = useState(false);
+  const [reduced, setReduced] = useState(false);
+  const x = useMotionValue(0);
+
+  /* Slide width follows the viewport so the track stays aligned on resize. */
+  useEffect(() => {
+    const el = viewportRef.current;
+    if (!el) return;
+    const measure = () => setSlideW(el.clientWidth);
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const sync = () => setReduced(mq.matches);
+    sync();
+    mq.addEventListener('change', sync);
+    return () => mq.removeEventListener('change', sync);
+  }, []);
+
+  /* Continuous auto-advance, held only while the visitor is dragging. */
+  useEffect(() => {
+    if (dragging || reduced || !slideW) return;
+    const t = setInterval(() => setIndex(i => (i + 1) % total), AUTO_MS);
+    return () => clearInterval(t);
+  }, [dragging, reduced, slideW, total]);
+
+  /* Snap to the active slide unless the pointer is holding the track. */
+  useEffect(() => {
+    if (dragging || !slideW) return;
+    const controls = animate(x, -index * slideW, reduced ? { duration: 0 } : SPRING);
+    return () => controls.stop();
+  }, [index, slideW, dragging, reduced, x]);
+
+  const go = (i: number) => setIndex(((i % total) + total) % total);
+
+  const onDragEnd = (_e: unknown, info: PanInfo) => {
+    setDragging(false);
+    const throw_ = info.offset.x + info.velocity.x * 0.18;
+    const steps = Math.round(-throw_ / Math.max(slideW, 1));
+    const next = Math.min(Math.max(index + steps, 0), total - 1);
+    setIndex(next);
+  };
+
+  return (
+    <div className="relative">
+      <div
+        ref={viewportRef}
+        className="overflow-hidden"
+        role="region"
+        aria-roledescription="carousel"
+        aria-label="Inaipi platform stages"
+      >
+        <motion.div
+          className="flex items-start cursor-grab active:cursor-grabbing"
+          style={{ x, touchAction: 'pan-y' }}
+          drag="x"
+          dragConstraints={{ left: -slideW * (total - 1), right: 0 }}
+          dragElastic={0.08}
+          dragMomentum={false}
+          onDragStart={() => setDragging(true)}
+          onDragEnd={onDragEnd}
+        >
+          {stages.map((stage, i) => (
+            <div
+              key={stage.id}
+              className="shrink-0 w-full"
+              role="group"
+              aria-roledescription="slide"
+              aria-label={`${i + 1} of ${total} — ${stage.tagline}`}
+              aria-hidden={i !== index}
+            >
+              <StageCard stage={stage} />
+            </div>
+          ))}
+        </motion.div>
+      </div>
+
+      {/* Slide indicators — the carousel's navigation affordance */}
+      <div className="flex items-center justify-center gap-2 mt-8">
+        {stages.map((stage, i) => (
+          <button
+            key={stage.id}
+            onClick={() => go(i)}
+            aria-label={`Go to ${stage.tagline}`}
+            aria-current={i === index}
+            className="h-2 rounded-full transition-all duration-300"
+            style={{
+              width: i === index ? 26 : 8,
+              backgroundColor: i === index ? '#2563eb' : '#bfdbfe',
+            }}
+          />
+        ))}
+      </div>
     </div>
   );
 }
@@ -232,11 +340,7 @@ export default function PlatformFlow() {
         </motion.p>
       </div>
 
-      <div>
-        {stages.map((stage, i) => (
-          <StageCard key={stage.id} stage={stage} index={i} total={stages.length} />
-        ))}
-      </div>
+      <PlatformCarousel />
     </section>
   );
 }
