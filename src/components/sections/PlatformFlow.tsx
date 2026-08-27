@@ -90,7 +90,7 @@ const stages = [
       { label: 'Human handoff', text: 'Escalate to an agent with the relevant customer context when human intervention is needed.' },
     ],
     channels: [{ icon: Phone, label: 'Inbound' }, { icon: Zap, label: 'Outbound' }, { icon: Check, label: 'Verification' }, { icon: Target, label: 'Follow-ups' }],
-    view: 'survey' as View,
+    view: 'voice' as View,
   },
   {
     id: '05', title: 'Give customers instant answers across digital channels.', tagline: 'AI Chat Agents',

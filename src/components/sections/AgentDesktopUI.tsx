@@ -9,19 +9,19 @@
  */
 
 import { CSSProperties, useEffect, useMemo, useState } from 'react';
-import { OutreachView, ChatView, SurveysView } from './AgentDesktopViews';
+import { OutreachView, ChatView, SurveysView, VoiceView } from './AgentDesktopViews';
 
 const P = 'var(--font-poppins), Poppins, sans-serif';
 
 export const DESIGN_W = 1360;
 export const DESIGN_H = 880;
 
-export type View = 'workspace' | 'monitoring' | 'cases' | 'survey' | 'analytics' | 'outreach' | 'chat' | 'surveys';
+export type View = 'workspace' | 'monitoring' | 'cases' | 'survey' | 'analytics' | 'outreach' | 'chat' | 'surveys' | 'voice';
 type Conv = 'voice' | 'wa' | 'chat';
 
 /* How long each view stays on screen while auto-playing */
 const VIEW_ORDER: View[] = ['workspace', 'monitoring', 'cases', 'survey', 'analytics'];
-const VIEW_MS: Record<View, number> = { workspace: 14000, monitoring: 10000, cases: 10000, survey: 10000, analytics: 10000, outreach: 10000, chat: 10000, surveys: 10000 };
+const VIEW_MS: Record<View, number> = { workspace: 14000, monitoring: 10000, cases: 10000, survey: 10000, analytics: 10000, outreach: 10000, chat: 10000, surveys: 10000, voice: 10000 };
 
 /* ── shared tokens ── */
 const CARD: CSSProperties = { background: '#fff', border: '1px solid #E3EAF5', borderRadius: 16 };
@@ -432,6 +432,7 @@ export default function AgentDesktopUI({ playing = true, fixedView }: { playing?
           <button onClick={() => { setManual(true); setView('analytics'); }} style={navStyle(view === 'analytics')}>Analytics</button>
           {view === 'outreach' && <button style={navStyle(true)}>Outreach</button>}
           {view === 'chat' && <button style={navStyle(true)}>AI Chat</button>}
+          {view === 'voice' && <button style={navStyle(true)}>AI Voice</button>}
         </nav>
         <div style={{ flex: 1 }} />
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#EAF6EE', border: '1px solid #CBEBD6', borderRadius: 999, padding: '6px 14px 6px 8px' }}>
@@ -1265,6 +1266,7 @@ export default function AgentDesktopUI({ playing = true, fixedView }: { playing?
       {view === 'outreach' && <OutreachView />}
       {view === 'chat' && <ChatView />}
       {view === 'surveys' && <SurveysView />}
+      {view === 'voice' && <VoiceView />}
 
     </div>
   );

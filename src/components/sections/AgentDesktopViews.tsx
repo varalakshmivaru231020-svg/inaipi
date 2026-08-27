@@ -2,7 +2,7 @@
 
 /**
  * Extra Agent Desktop views used by the PlatformFlow section for the
- * Proactive Outreach, AI Chat Agents and Surveys stages.
+ * Proactive Outreach, AI Voice Agents, AI Chat Agents and Surveys stages.
  *
  * These follow the same visual language as the existing Survey view in
  * AgentDesktopUI (46px header mark, 5-up KPI row, 1.55fr/1fr card grid) and
@@ -446,6 +446,150 @@ export function SurveysView() {
                 ].map((r, i) => (
                   <div key={r.t} style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
                     <span style={{ width: 24, height: 24, borderRadius: 8, background: '#FFF1EA', color: '#C2410C', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 800, flexShrink: 0 }}>{i + 1}</span>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ fontWeight: 800, fontSize: 12.5 }}>{r.t}</div>
+                      <div style={{ fontSize: 10.5, color: '#8FA1BE', fontWeight: 700 }}>{r.s}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════════════════
+   Section 4 — AI Voice Agents
+   ══════════════════════════════════════════════════ */
+const VOICE_KPIS: Kpi[] = [
+  { label: 'CALLS IN PROGRESS', value: '32',    delta: '+6',      deltaColor: '#16A34A', color: '#2A63F6', icon: '📞', iconBg: '#EAF0FE' },
+  { label: 'HANDLED BY AI',     value: '2,164', delta: '+13%',    deltaColor: '#16A34A', color: '#7C3AED', icon: '✦',  iconBg: '#F3ECFF' },
+  { label: 'AVG HANDLE TIME',   value: '1:48',  delta: '−0:22',   deltaColor: '#16A34A', color: '#0B1B3A', icon: '⏱',  iconBg: '#E9F8EF' },
+  { label: 'TASKS COMPLETED',   value: '1,905', delta: '+11%',    deltaColor: '#16A34A', color: '#16A34A', icon: '✓',  iconBg: '#FFF6E5' },
+  { label: 'HANDED TO AGENT',   value: '259',   delta: 'live',    deltaColor: '#8FA1BE', color: '#F59E0B', icon: '👤', iconBg: '#EAF6EE' },
+];
+
+const VOICE_TYPES = [
+  { name: 'Inbound',       icon: '📥', bg: '#EAF0FE', color: '#2A63F6', calls: '1,482', ai: '1,106', agent: '376', rate: '75%', rateColor: '#16A34A' },
+  { name: 'Outbound',      icon: '📤', bg: '#F3ECFF', color: '#7C3AED', calls: '1,240', ai: '892',   agent: '348', rate: '72%', rateColor: '#16A34A' },
+  { name: 'Notifications', icon: '🔔', bg: '#E9F8EF', color: '#16A34A', calls: '964',   ai: '918',   agent: '46',  rate: '95%', rateColor: '#16A34A' },
+  { name: 'Reminders',     icon: '⏰', bg: '#FFF6E5', color: '#B7791F', calls: '812',   ai: '764',   agent: '48',  rate: '94%', rateColor: '#16A34A' },
+  { name: 'Verification',  icon: '🔐', bg: '#FFF1EA', color: '#C2410C', calls: '506',   ai: '441',   agent: '65',  rate: '87%', rateColor: '#16A34A' },
+  { name: 'Follow-ups',    icon: '🔁', bg: '#EAF6EE', color: '#166534', calls: '648',   ai: '512',   agent: '136', rate: '79%', rateColor: '#F59E0B' },
+];
+
+const VOICE_TURNS = [
+  { who: 'c', text: 'Hi, I need to reschedule my service appointment for next week.', time: '00:04' },
+  { who: 'a', text: 'Happy to help. I can see a service visit booked for Tuesday at 10am — what day suits you better?', time: '00:07' },
+  { who: 'c', text: 'Thursday afternoon if possible.', time: '00:14' },
+  { who: 'a', text: 'Thursday 2pm is available. I have moved the booking and sent the confirmation to your mobile.', time: '00:18' },
+];
+
+const VOICE_TASKS = [
+  { t: 'Collect information', s: 'Captures the reason for the call and required details' },
+  { t: 'Verify the customer', s: 'Confirms identity before acting on the account' },
+  { t: 'Complete the action', s: 'Performs the pre-defined task and confirms the outcome' },
+  { t: 'Schedule the follow-up', s: 'Books the next step and sends confirmation' },
+];
+
+/* Section 4 has the tallest left column, so its panel is narrower than the design
+   ratio and the cover-fit mock crops ~89 canvas px off the right edge. Inset this
+   view by that much so no content lands in the cropped strip. */
+const VOICE_SHELL: CSSProperties = { ...SHELL, paddingRight: 110 };
+
+export function VoiceView() {
+  return (
+    <div key="voice" className="ad-rise ad-scroll" style={VOICE_SHELL}>
+      <div style={INNER}>
+        <ViewHead mark="📞" markBg="#2A63F6" title="AI Voice Agents"
+          sub="Inbound, outbound, notifications, reminders, verification and follow-ups" statusLabel="CALLS IN PROGRESS" />
+        <KpiRow items={VOICE_KPIS} />
+
+        <div style={GRID}>
+          <div style={COL}>
+            <div style={{ ...CARD, padding: '12px 15px' }}>
+              <PanelHead title="Voice Conversations" sub="Every call type handled by the AI Voice Agent" badge="6 types" badgeBg="#EAF0FE" badgeColor="#2A63F6" />
+              <div style={{ display: 'grid', gridTemplateColumns: '1.5fr .8fr 1fr .9fr 1fr', gap: 8, padding: '0 4px 9px', borderBottom: '1px solid #EDF2FA' }}>
+                {['CONVERSATION TYPE', 'CALLS', 'HANDLED BY AI', 'TO AGENT', 'COMPLETED BY AI'].map(h => (
+                  <span key={h} style={{ fontSize: 9.5, fontWeight: 800, letterSpacing: '0.5px', color: '#8FA1BE' }}>{h}</span>
+                ))}
+              </div>
+              {VOICE_TYPES.map(v => (
+                <div key={v.name} style={{ display: 'grid', gridTemplateColumns: '1.5fr .8fr 1fr .9fr 1fr', gap: 8, padding: '7px 4px', alignItems: 'center', borderBottom: '1px solid #F5F8FD' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 9, minWidth: 0 }}>
+                    <span style={{ width: 26, height: 26, borderRadius: 8, background: v.bg, color: v.color, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, flexShrink: 0 }}>{v.icon}</span>
+                    <span style={{ fontWeight: 800, fontSize: 12.5, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{v.name}</span>
+                  </div>
+                  <span style={{ fontSize: 12.5, fontWeight: 800, fontVariantNumeric: 'tabular-nums' }}>{v.calls}</span>
+                  <span style={{ fontSize: 12.5, fontWeight: 800, fontVariantNumeric: 'tabular-nums', color: '#7C3AED' }}>{v.ai}</span>
+                  <span style={{ fontSize: 12.5, fontWeight: 800, fontVariantNumeric: 'tabular-nums', color: '#B7791F' }}>{v.agent}</span>
+                  <span style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
+                    <span style={{ flex: 1, height: 6, borderRadius: 999, background: '#EEF3FB', maxWidth: 58 }}>
+                      <span style={{ display: 'block', height: '100%', borderRadius: 999, width: v.rate, background: v.rateColor, transition: 'width 0.6s ease' }} />
+                    </span>
+                    <span style={{ fontSize: 11, fontWeight: 800, color: '#5B6B87', fontVariantNumeric: 'tabular-nums' }}>{v.rate}</span>
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            <div style={{ ...CARD, padding: '12px 15px' }}>
+              <PanelHead title="Live Call" sub="AI understands intent and responds in real time" badge="◉ on call" badgeBg="#EAF6EE" badgeColor="#166534" />
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                {VOICE_TURNS.map((m, i) => (
+                  <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
+                    <span style={{
+                      width: 26, height: 26, borderRadius: 8, flexShrink: 0, fontSize: 10, fontWeight: 800,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      background: m.who === 'a' ? '#F3ECFF' : '#EAF0FE', color: m.who === 'a' ? '#7C3AED' : '#2A63F6',
+                    }}>{m.who === 'a' ? 'AI' : '👤'}</span>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ fontSize: 12, fontWeight: 700, color: '#334267', lineHeight: 1.4 }}>{m.text}</div>
+                      <div style={{ fontSize: 10, color: '#8FA1BE', fontWeight: 700, marginTop: 2, fontVariantNumeric: 'tabular-nums' }}>{m.time}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div style={COL}>
+            <div style={{ ...CARD, padding: '12px 15px' }}>
+              <PanelHead title="Task Execution" sub="Not just answering — completing the request" badge="1,905 done" badgeBg="#E9F8EF" badgeColor="#16A34A" />
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 9 }}>
+                {VOICE_TASKS.map((r, i) => (
+                  <div key={r.t} style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
+                    <span style={{ width: 24, height: 24, borderRadius: 8, background: '#EAF0FE', color: '#2A63F6', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 800, flexShrink: 0 }}>{i + 1}</span>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ fontWeight: 800, fontSize: 12.5 }}>{r.t}</div>
+                      <div style={{ fontSize: 10.5, color: '#8FA1BE', fontWeight: 700 }}>{r.s}</div>
+                    </div>
+                    <span style={{ fontSize: 12, fontWeight: 800, color: '#16A34A', flexShrink: 0 }}>✓</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div style={{ ...CARD, padding: '12px 15px' }}>
+              <PanelHead title="Human Handoff" sub="Escalated with the relevant customer context" badge="259 today" badgeBg="#FFF6E5" badgeColor="#B7791F" />
+              <div style={{ display: 'flex', alignItems: 'center', gap: 11, marginBottom: 11, background: '#F7FAFF', border: '1px solid #EDF2FA', borderRadius: 12, padding: '10px 11px' }}>
+                <div style={{ width: 34, height: 34, borderRadius: '50%', background: 'linear-gradient(135deg,#2A63F6,#6C9BFF)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: 12 }}>MA</div>
+                <div style={{ minWidth: 0 }}>
+                  <div style={{ fontWeight: 800, fontSize: 12.5 }}>Mariam A. · Ext 6013</div>
+                  <div style={{ fontSize: 10.5, color: '#8FA1BE', fontWeight: 700 }}>Receiving the call with full context</div>
+                </div>
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 9 }}>
+                {[
+                  { t: 'Reason for the call', s: 'What the customer asked for' },
+                  { t: 'What AI already did', s: 'Steps completed before the transfer' },
+                  { t: 'Customer record', s: 'Identity, history and prior contacts' },
+                ].map(r => (
+                  <div key={r.t} style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
+                    <span style={{ width: 24, height: 24, borderRadius: 8, background: '#EAF6EE', color: '#16A34A', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 800, flexShrink: 0 }}>✓</span>
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <div style={{ fontWeight: 800, fontSize: 12.5 }}>{r.t}</div>
                       <div style={{ fontSize: 10.5, color: '#8FA1BE', fontWeight: 700 }}>{r.s}</div>
