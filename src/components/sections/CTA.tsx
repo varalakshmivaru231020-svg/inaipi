@@ -58,8 +58,8 @@ export default function CTA() {
                   transition={{ duration: 0.6, ease: CUBE }}
                   style={{ fontSize: 'clamp(30px,3.2vw,40px)', fontWeight: 700, lineHeight: 1.15, letterSpacing: '-1px', marginBottom: 22, color: '#fff', fontFamily: 'var(--font-figtree), Figtree, sans-serif' }}
                 >
-                  Ready to transform your{' '}
-                  <span style={{ color: '#4d8aff' }}>CX?</span>
+                  Your CX challenge.{' '}
+                  <span style={{ color: '#4d8aff' }}>Our solution.</span>
                 </motion.h2>
 
                 <motion.p
@@ -67,7 +67,7 @@ export default function CTA() {
                   transition={{ delay: 0.1, duration: 0.55, ease: CUBE }}
                   style={{ fontSize: 18, color: 'rgba(255,255,255,0.55)', lineHeight: 1.75, marginBottom: 55, fontFamily: 'var(--font-figtree), Figtree, sans-serif' }}
                 >
-                  Join thousands of teams boosting CX with our all-in-one cloud contact center platform.
+                  Start with the capability you need today. Add more as your business grows.
                 </motion.p>
 
                 {/* CTA Buttons — match Navbar exactly */}
@@ -83,7 +83,7 @@ export default function CTA() {
                       <span className="absolute inset-0 -skew-x-12 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover:translate-x-[200%] transition-transform duration-500 ease-in-out pointer-events-none" />
                       {/* Glow ring */}
                       <span className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none" style={{ boxShadow: '0 0 0 4px rgba(37,99,235,0.3)' }} />
-                      <span className="relative z-10">Book Demo</span>
+                      <span className="relative z-10">Book a Demo</span>
                       {/* Arrow shoots out and re-enters */}
                       <span className="relative z-10 w-5 h-5 rounded-full bg-white/20 flex items-center justify-center overflow-hidden group-hover:bg-white/30 transition-colors duration-200">
                         <ArrowRight className="w-2.5 h-2.5 text-white translate-x-0 group-hover:translate-x-4 transition-transform duration-200 ease-in" />

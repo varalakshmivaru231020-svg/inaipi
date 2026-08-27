@@ -81,7 +81,7 @@ export default function ContactPage() {
           <div className="text-center">
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }} className="inline-flex items-center gap-2 bg-[#eef4ff] border border-[#1447d4]/20 rounded-full px-4 py-1.5 mb-6">
               <span className="w-1.5 h-1.5 rounded-full bg-[#1447d4] animate-pulse" />
-              <span className="text-[11px] font-bold uppercase tracking-widest text-[#1447d4]">Get In Touch</span>
+              <span className="text-[11px] font-bold uppercase tracking-widest text-[#1447d4]">Get in Touch</span>
             </motion.div>
 
             <motion.h1
@@ -90,8 +90,8 @@ export default function ContactPage() {
               transition={{ duration: 0.5, delay: 0.1, ease }}
               className="text-4xl sm:text-5xl lg:text-[4rem] xl:text-[4.5rem] font-bold font-figtree tracking-[-0.03em] mb-8 leading-[1.25] text-[#0f172a] max-w-5xl mx-auto"
             >
-              One Platform. Every Channel.<br />
-              <span className="inline-block text-[#1447d4] pb-2">Intelligent CX.</span>
+              Let&apos;s Talk About{' '}
+              <span className="inline-block text-[#1447d4] pb-2">Your CX.</span>
             </motion.h1>
 
             <motion.p
@@ -100,7 +100,8 @@ export default function ContactPage() {
               transition={{ delay: 0.2, duration: 0.4 }}
               className="text-base sm:text-lg md:text-xl text-slate-500 leading-relaxed font-normal max-w-2xl mx-auto"
             >
-              Have a question, need a demo, or want to explore how Inaipi can transform your CX? We&apos;d love to hear from you.
+              Whether you&apos;re modernizing your contact center, adding AI, improving outbound engagement,
+              or solving a specific customer experience challenge, tell us what you need.
             </motion.p>
           </div>
         </div>
@@ -121,16 +122,17 @@ export default function ContactPage() {
             >
               <div className="inline-flex items-center gap-2 bg-[#eef4ff] border border-[#1447d4]/20 rounded-full px-4 py-1.5 mb-6">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#1447d4] animate-pulse" />
-                <span className="text-[11px] font-bold uppercase tracking-widest text-[#1447d4]">Get In Touch</span>
+                <span className="text-[11px] font-bold uppercase tracking-widest text-[#1447d4]">Get in Touch</span>
               </div>
 
               <h2 className="text-2xl sm:text-3xl font-bold font-figtree tracking-[-0.025em] leading-[1.15] mb-5">
-                <span className="text-[#0f172a]">Let&apos;s Make Something<br /></span>
-                <span className="text-[#1447d4]">Awesome Together</span>
+                <span className="text-[#0f172a]">Let&apos;s Discuss<br /></span>
+                <span className="text-[#1447d4]">Your Requirement</span>
               </h2>
 
               <p className="text-base sm:text-lg text-slate-500 leading-relaxed mb-10 max-w-md">
-                Have a project in mind or need help bringing your digital vision to life? We&apos;d love to hear from you! Whether you&apos;re starting fresh or scaling fast.
+                Have a specific requirement or exploring your options? Tell us what you&apos;re trying to achieve.
+                Our team can help identify the right Inaipi capabilities for your business.
               </p>
 
               {/* Need Help label */}

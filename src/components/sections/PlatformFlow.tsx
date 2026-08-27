@@ -199,6 +199,11 @@ const GLIDE = { duration: 1.05, ease: [0.22, 1, 0.36, 1] as const };
 
 function PlatformCarousel() {
   const total = stages.length;
+  /* A clone of slide 1 sits after slide 7. Advancing 7 -> clone is an ordinary
+     forward glide; once it lands we jump the track back to slide 1 with no
+     animation. Because the clone and slide 1 are identical, the swap is
+     invisible — the loop never rewinds or fast-forwards through the deck. */
+  const slides = [...stages, stages[0]];
   const viewportRef = useRef<HTMLDivElement>(null);
   const [slideW, setSlideW] = useState(0);
   const [index, setIndex] = useState(0);
@@ -227,27 +232,39 @@ function PlatformCarousel() {
 
   /* Continuous auto-advance, held only while the visitor is dragging. Keyed on
      `index` so the timer restarts after every move — a free-running interval
-     could otherwise fire straight after a manual jump and skip a slide. */
+     could otherwise fire straight after a manual jump and skip a slide.
+     No timer runs while the clone is showing: that beat is consumed by the
+     silent reset below, and slide 1 then gets its own full dwell. */
   useEffect(() => {
-    if (dragging || reduced || !slideW) return;
-    const t = setTimeout(() => setIndex(i => (i + 1) % total), AUTO_MS);
+    if (dragging || reduced || !slideW || index >= total) return;
+    const t = setTimeout(() => setIndex(i => i + 1), AUTO_MS);
     return () => clearTimeout(t);
   }, [index, dragging, reduced, slideW, total]);
 
-  /* Snap to the active slide unless the pointer is holding the track. */
+  /* Glide to the active slide unless the pointer is holding the track. When the
+     glide lands on the clone, reset to slide 1 instantly — same pixels, so
+     nothing moves on screen. */
   useEffect(() => {
     if (dragging || !slideW) return;
-    const controls = animate(x, -index * slideW, reduced ? { duration: 0 } : GLIDE);
+    const settle = () => {
+      if (index === total) { x.set(0); setIndex(0); }
+    };
+    const controls = animate(x, -index * slideW, {
+      ...(reduced ? { duration: 0 } : GLIDE),
+      onComplete: settle,
+    });
     return () => controls.stop();
-  }, [index, slideW, dragging, reduced, x]);
+  }, [index, slideW, dragging, reduced, x, total]);
 
+  /* The clone is never a destination for manual navigation. */
+  const active = index % total;
   const go = (i: number) => setIndex(((i % total) + total) % total);
 
   const onDragEnd = (_e: unknown, info: PanInfo) => {
     setDragging(false);
     const throw_ = info.offset.x + info.velocity.x * 0.18;
     const steps = Math.round(-throw_ / Math.max(slideW, 1));
-    const next = Math.min(Math.max(index + steps, 0), total - 1);
+    const next = Math.min(Math.max(index + steps, 0), total);
     setIndex(next);
   };
 
@@ -264,19 +281,19 @@ function PlatformCarousel() {
           className="flex items-start cursor-grab active:cursor-grabbing"
           style={{ x, touchAction: 'pan-y' }}
           drag="x"
-          dragConstraints={{ left: -slideW * (total - 1), right: 0 }}
+          dragConstraints={{ left: -slideW * total, right: 0 }}
           dragElastic={0.08}
           dragMomentum={false}
           onDragStart={() => setDragging(true)}
           onDragEnd={onDragEnd}
         >
-          {stages.map((stage, i) => (
+          {slides.map((stage, i) => (
             <div
-              key={stage.id}
+              key={i}
               className="shrink-0 w-full"
-              role="group"
-              aria-roledescription="slide"
-              aria-label={`${i + 1} of ${total} — ${stage.tagline}`}
+              role={i < total ? 'group' : undefined}
+              aria-roledescription={i < total ? 'slide' : undefined}
+              aria-label={i < total ? `${i + 1} of ${total} — ${stage.tagline}` : undefined}
               aria-hidden={i !== index}
             >
               <StageCard stage={stage} />
@@ -292,8 +309,8 @@ function PlatformCarousel() {
             key={stage.id}
             onClick={() => go(i)}
             aria-label={`Go to slide ${i + 1}: ${stage.tagline}`}
-            aria-current={i === index}
-            animate={{ width: i === index ? 36 : 10 }}
+            aria-current={i === active}
+            animate={{ width: i === active ? 36 : 10 }}
             transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
             style={{
               height: 10,
@@ -301,7 +318,7 @@ function PlatformCarousel() {
               border: 'none',
               padding: 0,
               cursor: 'pointer',
-              background: i === index ? '#1447d4' : 'rgba(20,71,212,0.15)',
+              background: i === active ? '#1447d4' : 'rgba(20,71,212,0.15)',
             }}
           />
         ))}
