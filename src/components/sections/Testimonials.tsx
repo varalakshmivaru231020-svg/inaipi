@@ -67,11 +67,28 @@ function ProgressDot({ active, onClick }: { active: boolean; onClick: () => void
 export default function Testimonials() {
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   useEffect(() => {
-    fetch('/api/testimonials')
-      .then(r => r.json())
-      // Only ever trust an array, so an error payload cannot break the section.
-      .then(d => setTestimonials(Array.isArray(d) ? d : []))
-      .catch(() => setTestimonials([]));
+    let alive = true;
+    let attempt = 0;
+    const load = () => {
+      /* no-store: never let a cached empty response stand in for real data */
+      fetch('/api/testimonials', { cache: 'no-store' })
+        .then(r => (r.ok ? r.json() : Promise.reject(new Error('HTTP ' + r.status))))
+        .then(d => {
+          if (!alive) return;
+          // Only ever trust an array, so an error payload cannot break the section.
+          if (!Array.isArray(d)) throw new Error('unexpected payload');
+          setTestimonials(d);
+        })
+        .catch(() => {
+          if (!alive) return;
+          // One retry covers a transient hiccup; after that fall back to the
+          // existing empty state rather than showing a broken section.
+          if (attempt++ < 1) setTimeout(load, 1500);
+          else setTestimonials([]);
+        });
+    };
+    load();
+    return () => { alive = false; };
   }, []);
 
   const trackRef  = useRef<HTMLDivElement>(null);
@@ -99,12 +116,32 @@ export default function Testimonials() {
   const triple = [...testimonials, ...testimonials, ...testimonials];
   const totalW = n * (cardW + CARD_GAP); // width of ONE set
 
+  /* The rAF loop is created once and never re-created, so it has to read the
+     live count through a ref. Capturing `n` in its closure pinned it at 0 (the
+     list is empty on mount and arrives from the API a moment later): the loop
+     then computed a set width of 0, the wrap condition never fired, and the
+     track slid left forever until every card was off-screen — the section going
+     blank on its own was this, not missing data. */
+  const nRef = useRef(0);
+  useEffect(() => { nRef.current = n; }, [n]);
+
+  /* Re-centre whenever the data or the card width changes, using the real set
+     width so the first card starts centred one set in. */
+  useEffect(() => {
+    if (!n) { xRef.current = 0; return; }
+    const cw = cardWRef.current;
+    const tw = n * (cw + CARD_GAP);
+    const vw = wrapRef.current ? wrapRef.current.getBoundingClientRect().width : 0;
+    xRef.current = vw / 2 - cw / 2 - tw;
+  }, [n, cardW]);
+
   /* ── rAF loop ── */
   useEffect(() => {
     const tick = () => {
-      if (!trackRef.current) { rafRef.current = requestAnimationFrame(tick); return; }
+      const count = nRef.current;
+      if (!trackRef.current || count === 0) { rafRef.current = requestAnimationFrame(tick); return; }
       const cw = cardWRef.current;
-      const tw = n * (cw + CARD_GAP);
+      const tw = count * (cw + CARD_GAP);
 
       if (!pausedRef.current) {
         xRef.current -= SPEED;
@@ -122,28 +159,19 @@ export default function Testimonials() {
         const vCenter = wrapRef.current.getBoundingClientRect().width / 2;
         let closest = 0;
         let minDist = Infinity;
-        triple.forEach((_, i) => {
+        for (let i = 0; i < count * 3; i++) {
           const cardCenter = xRef.current + i * (cw + CARD_GAP) + cw / 2;
           const dist = Math.abs(cardCenter - vCenter);
-          if (dist < minDist) { minDist = dist; closest = i % n; }
-        });
+          if (dist < minDist) { minDist = dist; closest = i % count; }
+        }
         setCenterIdx(closest);
       }
 
       rafRef.current = requestAnimationFrame(tick);
     };
 
-    /* Start offset so first card is roughly centered */
-    const cw = cardWRef.current;
-    const tw = n * (cw + CARD_GAP);
-    const initOffset = wrapRef.current
-      ? wrapRef.current.getBoundingClientRect().width / 2 - cw / 2 - tw
-      : 0;
-    xRef.current = initOffset;
-
     rafRef.current = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(rafRef.current);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

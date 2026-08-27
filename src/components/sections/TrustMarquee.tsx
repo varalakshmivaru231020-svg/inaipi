@@ -17,6 +17,9 @@ function buildTrack(logos: Logo[]): Logo[] {
   return [...base, ...base, ...base];
 }
 
+/* Each logo sits on a white chip: it gives the artwork breathing room, keeps a
+   consistent footprint across mismatched source files, and means the client can
+   upload ordinary colour logos later without them disappearing into the blue. */
 const Item = ({ logo, onBroken }: { logo: Logo; onBroken: (url: string) => void }) => (
   /* eslint-disable-next-line @next/next/no-img-element */
   <img
@@ -26,14 +29,15 @@ const Item = ({ logo, onBroken }: { logo: Logo; onBroken: (url: string) => void 
     onError={() => onBroken(logo.url)}
     className="select-none shrink-0"
     style={{
-      height: 'clamp(20px, 2.6vw, 30px)',
+      boxSizing: 'border-box',
+      height: 'clamp(38px, 5vw, 46px)',
       width: 'auto',
-      maxWidth: 160,
+      maxWidth: 168,
       objectFit: 'contain',
-      /* Render every logo as a white silhouette so any artwork reads on the
-         blue strip — matches the white wordmarks this strip replaced. */
-      filter: 'brightness(0) invert(1)',
-      opacity: 0.75,
+      background: '#fff',
+      borderRadius: 10,
+      padding: '7px 14px',
+      boxShadow: '0 2px 10px rgba(8,32,92,0.16)',
     }}
   />
 );
