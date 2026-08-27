@@ -9,63 +9,67 @@ const painPoints = [
   {
     number: '01',
     icon: PhoneCall,
-    tag: 'Reaching You',
-    title: 'Fragmented Communication Systems',
+    tag: 'Customer Outreach',
+    pill: 'When Customers Contact You',
+    title: 'Disconnected Customer Channels',
     problems: [
-      'Long wait times during peak hours (often 8–15 minutes)',
-      'Channel silos — voice, chat, email, and messaging operate independently',
-      'Customers must repeat information when switching channels',
-      'Inconsistent service quality across agents and channels',
+      'Voice, chat, email, and messaging operate separately',
+      'Customer context gets scattered across channels',
+      'Agents switch between systems to understand one customer',
+      'Customers repeat information when conversations move between channels',
     ],
-    gap: 'Without AI-powered copilots, agents manually search knowledge bases and internal systems — increasing response time and reducing service quality.',
+    gap: "Customer interactions start in one system and continue in another. Without shared context, agents spend time finding information instead of resolving the customer's need.",
   },
   {
     number: '02',
     icon: FileText,
-    tag: 'Follow-Up',
-    title: 'No Continuity in Customer Support',
+    tag: 'Customer Follow-Up',
+    pill: 'When Customers Need Follow-Up',
+    title: 'Follow-Up Falls Between Systems',
     problems: [
-      'Contact center platforms and ticketing systems operate separately',
-      'Manual case creation loses conversation context',
-      'Basic round-robin routing instead of intelligent assignment',
-      'SLA tracking handled in spreadsheets or fragmented systems',
+      'Contact center, CRM, and ticketing systems hold separate context',
+      'Manual case creation separates the conversation from the case',
+      'Handoffs depend on people instead of connected workflows',
+      'Callbacks, commitments, and SLAs are tracked across separate tools',
     ],
-    gap: 'Agents spend valuable time searching for previous conversations and case history. AI-powered assistance enables instant access to full context and knowledge recommendations.',
+    gap: 'When context does not follow the customer, follow-up becomes manual. Teams spend time reconstructing what happened before they can decide what happens next.',
   },
   {
     number: '03',
     icon: BarChart2,
-    tag: 'Measuring Satisfaction',
-    title: 'Feedback That Arrives Too Late',
+    tag: 'Customer Feedback',
+    pill: 'When Customers Share Feedback',
+    title: 'Feedback Without Context',
     problems: [
-      'Survey tools disconnected from contact center systems',
-      'Surveys sent manually or in delayed batches',
-      'Low response rates — surveys arrive days later',
-      'Satisfaction scores cannot be linked to specific interactions or agents',
+      'Survey tools operate separately from customer interactions',
+      'Feedback is often collected after the interaction',
+      'Feedback often lacks the context of the original interaction',
+      'Teams struggle to connect feedback with the interaction, issue, or outcome',
     ],
-    gap: 'Traditional tools cannot measure the end-to-end customer experience journey. AI-powered insights detect sentiment in real time and trigger proactive escalation.',
+    gap: 'A satisfaction score tells you what happened. Connected customer context helps you understand why, where, and what to do next.',
   },
   {
     number: '04',
     icon: MessageSquare,
-    tag: 'Running Campaigns',
-    title: 'Outbound Engagement Without Intelligence',
+    tag: 'Campaign Management',
+    pill: 'When Businesses Run Campaigns',
+    title: 'Outbound Without Customer Context',
     problems: [
-      'Dialer platforms disconnected from contact center systems',
-      'Manual dialing wastes agent productivity',
-      'Outbound campaign data lives in separate systems',
-      'Limited scalability due to dependence on human agents',
+      'Campaign tools operate separately from customer interactions',
+      'Teams spend time managing lists, dialing, and follow-ups manually',
+      'Campaign data and customer history remain disconnected',
+      'Teams lack a complete view of who to contact, when, and why',
     ],
-    gap: 'Without AI, campaigns cannot determine the best time, best channel, or best message for each customer. AI-driven engagement reaches customers at optimal moments, at unlimited scale.',
+    gap: 'When campaign decisions are separated from customer history, outreach becomes less relevant. Teams cannot easily connect the latest customer signal to the next action.',
   },
 ];
 
 const results = [
-  'Rising operational costs',
-  'Poor customer satisfaction scores',
-  'Agent inefficiency & burnout',
-  'Lost revenue opportunities',
-  'No visibility into the true customer experience',
+  'Higher Cost to Serve',
+  'Inconsistent Customer Experiences',
+  'More Manual Work',
+  'Missed Engagement Opportunities',
+  'Limited Visibility Across the Journey',
 ];
 
 const BG = '#f8faff';
@@ -267,15 +271,16 @@ export default function Problem() {
           >
             <span className="section-eyebrow">The Problem</span>
             <h2 className="text-3xl sm:text-4xl lg:text-[2.6rem] font-bold font-figtree tracking-[-0.025em] leading-[1.2] mb-5">
-              <span className="block text-[#0f172a]">Enterprises invest millions.</span>
+              <span className="block text-[#0f172a]">Businesses invest heavily.</span>
               <span className="block">
-                <span className="text-[#0f172a]">Customers still get </span>
-                <span className="text-[#1447d4]">broken experiences.</span>
+                <span className="text-[#0f172a]">Customers still experience </span>
+                <span className="text-[#1447d4]">disconnected journeys.</span>
               </span>
             </h2>
             <p className="text-base sm:text-lg text-slate-500 leading-relaxed">
-              Disconnected tools and siloed systems break the journey at every stage.
-              Bolting on AI doesn't fix it — it creates yet another silo.
+              Customer engagement spans voice, messaging, follow-ups, feedback, and campaigns.
+              When these capabilities run across disconnected systems, teams spend their time
+              connecting the gaps instead of serving the customer.
             </p>
           </motion.div>
 
@@ -330,7 +335,7 @@ export default function Problem() {
               >
                 <div className="inline-flex items-center gap-1.5 px-3 sm:px-4 py-1 sm:py-1.5 rounded-full text-[9px] sm:text-xs font-black uppercase tracking-widest mb-4 sm:mb-6 bg-white/15 text-white border border-white/25 self-start font-figtree">
                   <current.icon className="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0" />
-                  <span className="hidden sm:inline">When Customers Are </span>{current.tag}
+                  {current.pill}
                 </div>
                 <h3 className="text-base sm:text-xl font-bold text-white mb-3 sm:mb-6 leading-tight font-figtree">{current.title}</h3>
                 <ul className="space-y-2 sm:space-y-3.5">
@@ -359,7 +364,7 @@ export default function Problem() {
                   <p className="text-white/95 leading-relaxed text-[11px] sm:text-[14px] font-medium mb-3 sm:mb-6 font-figtree">{current.gap}</p>
                   <div className="pt-2 sm:pt-4 border-t border-white/20 flex items-center gap-2 sm:gap-3 mt-auto">
                     <Lightbulb className="w-3 h-3 sm:w-4 sm:h-4 text-[#00e7ff] shrink-0" />
-                    <span className="text-white/90 text-[9px] sm:text-xs font-bold uppercase tracking-widest font-figtree">AI can solve this natively</span>
+                    <span className="text-white/90 text-[9px] sm:text-xs font-bold uppercase tracking-widest font-figtree">The Gap</span>
                   </div>
                 </div>
                 <div className="rounded-2xl sm:rounded-3xl bg-[#0f172a] p-3 sm:p-5 flex items-center gap-3 sm:gap-5">
@@ -397,7 +402,7 @@ export default function Problem() {
               >
                 <p className="text-xs font-black uppercase tracking-[0.2em] text-white/80 mb-5">The Result</p>
                 <h3 className="text-xl font-bold text-white leading-tight mb-8">
-                  Without a unified intelligent platform, organisations face:
+                  When customer engagement runs across disconnected systems, organisations face:
                 </h3>
                 <ul className="space-y-4">
                   {results.map((r, i) => (
@@ -421,19 +426,21 @@ export default function Problem() {
                 <div>
                   <p className="text-xs font-black uppercase tracking-[0.2em] text-white/80 mb-7">The Root Cause</p>
                   <p className="text-white/85 leading-relaxed text-sm font-medium">
-                    Most platforms treat AI as an add-on. When AI is plugged in after the platform was built,
-                    it runs in a separate silo — disconnected from routing, cases, analytics, and real-time customer context.
+                    Customer engagement has evolved by adding more tools. Voice, digital channels, CRM,
+                    campaigns, cases, and feedback often operate separately. Each tool solves a task, but
+                    the customer journey remains fragmented.
                   </p>
                 </div>
                 <div className="rounded-2xl border border-white/10 bg-white/10 p-7 backdrop-blur-sm relative overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-tr from-white/10 to-transparent pointer-events-none opacity-40" />
                   <p className="text-xs font-black uppercase tracking-[0.2em] text-white mb-4 relative z-10">The Inaipi Way</p>
                   <p className="text-white/95 leading-relaxed text-sm mb-5 font-medium relative z-10">
-                    Inaipi is AI-native — intelligence is embedded into every layer from day one. One platform.
-                    One governance layer. Predictable costs. Zero customer data exposure.
+                    Inaipi brings customer engagement capabilities together in one modular platform, with AI
+                    embedded where it creates value. It connects channels, workflows, customer context, and
+                    automation without forcing a rip-and-replace.
                   </p>
                   <p className="text-white font-black text-sm italic relative z-10">
-                    "Inaipi doesn't add AI to a contact centre.<br />Inaipi is an AI platform that runs a contact centre."
+                    "Inaipi gives mid-market businesses enterprise customer engagement capabilities without enterprise complexity."
                   </p>
                 </div>
               </motion.div>
