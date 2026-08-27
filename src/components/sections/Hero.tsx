@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
-import { Phone, MessageSquare, Mail, Globe, Star, Zap, PhoneIncoming, ArrowRight } from 'lucide-react';
+import { Phone, MessageSquare, Mail, Globe, Star, Zap, PhoneIncoming, ArrowRight, MessageCircle, Radio, Sparkles, PhoneCall, FileText, BarChart3, RefreshCw, Ticket } from 'lucide-react';
 import { Fragment, useEffect, useRef, useState } from 'react';
 
 /* ── Typewriter ── */
@@ -149,26 +149,43 @@ const AGENTS = [
   { name: 'Elena Petrova',   dept: 'Retention',    ext: '5501', avatar: '/images/people/person_1.png', color: 'bg-rose-500',    active: false },
 ];
 
-const INTEGRATIONS = [
-  { name: 'Salesforce',      sub: 'CRM',          dot: 'bg-green-400',  icon: SalesforceIcon },
-  { name: 'Microsoft Teams', sub: 'Collaboration', dot: 'bg-green-400',  icon: TeamsIcon      },
-  { name: 'HubSpot',         sub: 'CRM',          dot: 'bg-yellow-400', icon: HubSpotIcon    },
-  { name: 'Zoom Phone',      sub: 'Telephony',     dot: 'bg-green-400',  icon: ZoomIcon       },
-  { name: 'Slack',           sub: 'Collaboration', dot: 'bg-green-400',  icon: SlackIcon  },
-  { name: 'Avaya',           sub: 'Telephony',     dot: 'bg-red-500',    icon: AvayaIcon  },
+/* ── Hero right column: Conversation Intelligence / Outbound Dialer / Ticketing ── */
+const SOCIALS = [
+  { bg: '#1877F2', icon: <svg width="13" height="13" viewBox="0 0 24 24" fill="#fff"><path d="M15 3h3V0h-3c-2.8 0-5 2.2-5 5v3H7v3h3v13h3V11h3l1-3h-4V5c0-1.1.9-2 2-2z" /></svg> },
+  { bg: 'linear-gradient(45deg,#f09433,#dc2743,#bc1888)', icon: <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.2" strokeLinecap="round"><rect x="2" y="2" width="20" height="20" rx="5" /><circle cx="12" cy="12" r="4.5" /><circle cx="17.5" cy="6.5" r="0.6" fill="#fff" /></svg> },
+  { bg: '#1DA1F2', icon: <svg width="13" height="13" viewBox="0 0 24 24" fill="#fff"><path d="M23 4.9c-.8.4-1.7.6-2.6.8a4.5 4.5 0 0 0 2-2.5c-.9.5-1.9.9-2.9 1.1a4.5 4.5 0 0 0-7.7 4.1A12.8 12.8 0 0 1 2.5 3.7a4.5 4.5 0 0 0 1.4 6 4.4 4.4 0 0 1-2-.5v.1a4.5 4.5 0 0 0 3.6 4.4 4.6 4.6 0 0 1-2 .1 4.5 4.5 0 0 0 4.2 3.1A9 9 0 0 1 1 18.6a12.7 12.7 0 0 0 6.9 2c8.3 0 12.8-6.9 12.8-12.8v-.6c.9-.6 1.6-1.4 2.3-2.3z" /></svg> },
+  { bg: '#0A66C2', icon: <svg width="13" height="13" viewBox="0 0 24 24" fill="#fff"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM10 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05C21.4 8.65 22 11 22 14.1V21h-4v-6.1c0-1.45-.03-3.32-2.02-3.32-2.02 0-2.33 1.58-2.33 3.21V21h-4z" /></svg> },
+  { bg: '#FF0000', icon: <svg width="13" height="13" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z" /></svg> },
+  { bg: '#0f172a', icon: <svg width="13" height="13" viewBox="0 0 24 24" fill="#fff"><path d="M16 3c.5 2.3 1.9 3.9 4 4.3v3c-1.6.1-3.1-.4-4.4-1.3v6c0 3.4-2.7 5.9-5.9 5.9A5.9 5.9 0 0 1 4 15c0-3.3 3-5.9 6.3-5.6v3.1a2.8 2.8 0 1 0 2 2.7V3z" /></svg> },
 ];
-
-const CSAT_BARS = [
-  { label: 'Very Satisfied', pct: 68, color: 'bg-blue-500' },
-  { label: 'Satisfied',      pct: 22, color: 'bg-blue-300' },
-  { label: 'Neutral',        pct: 7,  color: 'bg-slate-300' },
-  { label: 'Dissatisfied',   pct: 3,  color: 'bg-red-300'  },
+const CI_STEPS = [
+  { icon: Radio,         title: 'Listen',  sub: 'Track mentions & conversations' },
+  { icon: Sparkles,      title: 'Analyze', sub: 'AI insights & sentiment' },
+  { icon: MessageCircle, title: 'Engage',  sub: 'Respond & build stronger connections' },
 ];
-
-const RECENT_REVIEWS = [
-  { name: 'Ravi K.',  stars: 5, time: '2m', avatar: '/images/people/person_1.png' },
-  { name: 'Sara M.',  stars: 4, time: '5m', avatar: '/images/people/person_2.png' },
-  { name: 'Ahmed K.', stars: 5, time: '9m', avatar: '/images/people/person_3.png' },
+const DIALER_FEATURES = [
+  { icon: PhoneCall, title: 'Auto Dial',      sub: 'High volume calling' },
+  { icon: FileText,  title: 'Call Scripts',   sub: 'Smart scripts & IVR' },
+  { icon: BarChart3, title: 'Call Analytics', sub: 'Real-time reports & insights' },
+  { icon: RefreshCw, title: 'CRM Sync',       sub: 'Seamless lead management' },
+];
+const DIALER_STATS = [
+  { value: '12.5K',   label: 'Calls Connected',    color: 'text-blue-600' },
+  { value: '8.4K',    label: 'Conversations',      color: 'text-emerald-600' },
+  { value: '67%',     label: 'Contact Rate',       color: 'text-violet-600' },
+  { value: '24m 18s', label: 'Avg. Call Duration', color: 'text-cyan-600' },
+];
+const TICKET_STATS = [
+  { value: '128', label: 'Open',        color: 'text-blue-600' },
+  { value: '64',  label: 'In Progress', color: 'text-violet-600' },
+  { value: '23',  label: 'On Hold',     color: 'text-amber-500' },
+  { value: '89',  label: 'Resolved',    color: 'text-emerald-600' },
+];
+const RECENT_TICKETS = [
+  { title: 'Website not loading', id: '#TK-1029', status: 'In Progress', time: '5m ago',  pill: 'bg-amber-50 text-amber-600' },
+  { title: 'Payment failed',      id: '#TK-1028', status: 'Open',        time: '15m ago', pill: 'bg-rose-50 text-rose-500' },
+  { title: 'Refund request',      id: '#TK-1027', status: 'On Hold',     time: '1h ago',  pill: 'bg-orange-100 text-orange-600' },
+  { title: 'Login issue',         id: '#TK-1026', status: 'Resolved',    time: '2h ago',  pill: 'bg-emerald-50 text-emerald-600' },
 ];
 
 
@@ -556,113 +573,126 @@ export default function Hero() {
 
           </motion.div>
 
-          {/* ══ RIGHT — two stacked cards ══ */}
+          {/* ══ RIGHT — three stacked product cards ══ */}
           <div className="hidden lg:flex flex-col gap-3 shrink-0 mt-6 -ml-5 w-72 z-20">
 
-            {/* Card 1 — Enterprise Integrations */}
+            {/* Card 1 — Conversation Intelligence */}
             <motion.div
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className="rounded-2xl border border-blue-100/80 overflow-hidden flex-1"
-              style={{ background: 'linear-gradient(135deg, #ffffff 0%, #eff6ff 50%, #eef2ff 100%)', boxShadow: '0 12px 40px -8px rgba(37,99,235,0.18), 0 2px 12px -2px rgba(99,102,241,0.10)' }}
+              className="rounded-2xl border border-violet-100/80 overflow-hidden px-3 py-2.5 flex flex-col gap-2"
+              style={{ background: 'linear-gradient(135deg, #ffffff 0%, #f7f4ff 55%, #f1ecff 100%)', boxShadow: '0 12px 40px -8px rgba(124,58,237,0.18), 0 2px 12px -2px rgba(99,102,241,0.10)' }}
             >
-              {/* Header */}
-              <div className="flex items-center gap-2 px-3 py-2 border-b border-blue-100/60" style={{ background: 'linear-gradient(90deg, #dbeafe 0%, #e0e7ff 100%)' }}>
-                <Zap className="w-3 h-3 text-blue-600" />
-                <span className="text-[8px] font-black uppercase tracking-widest text-blue-700">Enterprise Integrations</span>
-                <span className="ml-auto text-[7px] font-black text-blue-500 bg-white/70 px-1.5 py-0.5 rounded-full">Connected</span>
+              <div className="flex items-center gap-2">
+                <span className="w-6 h-6 rounded-lg flex items-center justify-center shrink-0" style={{ background: 'linear-gradient(135deg,#7c3aed,#a855f7)' }}>
+                  <MessageCircle className="w-3 h-3 text-white" />
+                </span>
+                <div className="min-w-0">
+                  <p className="text-[8px] font-black uppercase tracking-widest text-violet-700 leading-none">Conversation Intelligence</p>
+                  <p className="text-[8.5px] font-bold text-[#0f172a] leading-tight mt-1">Social Media Listening &amp; Engagement Platform</p>
+                </div>
               </div>
-              <div className="grid grid-cols-2 gap-1.5 px-2.5 py-2.5">
-                {INTEGRATIONS.map((int, i) => (
-                  <motion.div key={i} initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.4, delay: 0.4 + i * 0.08 }}
-                    className="flex flex-col items-center gap-1 px-2 py-2 rounded-xl bg-white/70 border border-blue-50 hover:border-blue-200 transition-colors">
-                    <div className="w-7 h-7 rounded-lg flex items-center justify-center bg-white border border-slate-100">
-                      <int.icon />
-                    </div>
-                    <p className="text-[8px] font-bold text-[#0f172a] truncate w-full text-center">{int.name}</p>
-                    <div className="flex items-center gap-1">
-                      <motion.span animate={{ opacity: [0.4, 1, 0.4], scale: [0.9, 1.1, 0.9] }} transition={{ duration: 2, repeat: Infinity, delay: i * 0.3 }}
-                        className={`w-1.5 h-1.5 rounded-full shrink-0 ${int.dot}`} />
-                      <p className="text-[7px] text-slate-400">{int.sub}</p>
-                    </div>
-                  </motion.div>
+              <div className="flex items-center justify-between gap-1 rounded-xl bg-white/80 border border-violet-50 px-2 py-2">
+                {SOCIALS.map((s, i) => (
+                  <motion.span key={i} initial={{ opacity: 0, scale: 0.6 }} animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.35, delay: 0.45 + i * 0.06 }}
+                    className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style={{ background: s.bg }}>
+                    {s.icon}
+                  </motion.span>
+                ))}
+              </div>
+              <div className="grid grid-cols-3 gap-1.5">
+                {CI_STEPS.map((f, i) => (
+                  <div key={i} className="rounded-xl bg-white/80 border border-violet-50 px-1.5 py-1.5 flex flex-col gap-1">
+                    <span className="w-5 h-5 rounded-md bg-violet-50 flex items-center justify-center">
+                      <f.icon className="w-2.5 h-2.5 text-violet-600" />
+                    </span>
+                    <p className="text-[8px] font-black text-[#0f172a] leading-none">{f.title}</p>
+                    <p className="text-[6.5px] text-slate-400 leading-tight">{f.sub}</p>
+                  </div>
                 ))}
               </div>
             </motion.div>
 
-            {/* Card 2 — Customer Satisfaction */}
+            {/* Card 2 — Outbound Dialer */}
             <motion.div
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
-              className="rounded-2xl border border-violet-100/80 overflow-hidden flex-1"
-              style={{ background: 'linear-gradient(135deg, #ffffff 0%, #faf5ff 50%, #f5f0ff 100%)', boxShadow: '0 12px 40px -8px rgba(124,58,237,0.15), 0 2px 12px -2px rgba(99,102,241,0.10)' }}
+              transition={{ duration: 0.8, delay: 0.42, ease: [0.22, 1, 0.36, 1] }}
+              className="rounded-2xl border border-emerald-100/80 overflow-hidden px-3 py-2.5 flex flex-col gap-2"
+              style={{ background: 'linear-gradient(135deg, #ffffff 0%, #f2fdf7 55%, #ecfdf3 100%)', boxShadow: '0 12px 40px -8px rgba(16,163,74,0.16), 0 2px 12px -2px rgba(37,99,235,0.08)' }}
             >
-              {/* Header */}
-              <div className="flex items-center gap-2 px-3 py-2.5 border-b border-violet-100/60" style={{ background: 'linear-gradient(90deg, #ede9fe 0%, #fce7f3 100%)' }}>
-                <Star className="w-3 h-3 text-violet-600" />
-                <span className="text-[9px] font-black uppercase tracking-widest text-violet-700">Customer Satisfaction</span>
+              <div className="flex items-center gap-2">
+                <span className="w-6 h-6 rounded-lg flex items-center justify-center shrink-0" style={{ background: 'linear-gradient(135deg,#16a34a,#22c55e)' }}>
+                  <PhoneCall className="w-3 h-3 text-white" />
+                </span>
+                <div className="min-w-0">
+                  <p className="text-[8px] font-black uppercase tracking-widest text-emerald-700 leading-none">Outbound Dialer</p>
+                  <p className="text-[8.5px] font-bold text-[#0f172a] leading-tight mt-1">Smart Outbound Calling Platform</p>
+                </div>
               </div>
-              <div className="px-3 py-2.5 flex flex-col gap-2">
-                {/* Donut + bars */}
-                <div className="flex items-center gap-3">
-                  <div className="relative w-14 h-14 shrink-0">
-                    <svg viewBox="0 0 36 36" className="w-full h-full -rotate-90">
-                      <circle cx="18" cy="18" r="14" fill="none" stroke="#ede9fe" strokeWidth="4" />
-                      <motion.circle cx="18" cy="18" r="14" fill="none" stroke="url(#csatGrad)" strokeWidth="4" strokeLinecap="round"
-                        strokeDasharray="87.96" initial={{ strokeDashoffset: 87.96 }} animate={{ strokeDashoffset: 87.96 * 0.1 }}
-                        transition={{ duration: 1.5, delay: 0.5, ease: 'easeOut' }} />
-                      <defs>
-                        <linearGradient id="csatGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                          <stop offset="0%" stopColor="#7c3aed" />
-                          <stop offset="100%" stopColor="#2563eb" />
-                        </linearGradient>
-                      </defs>
-                    </svg>
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <span className="text-[10px] font-black text-violet-600">90%</span>
-                    </div>
+              <div className="grid grid-cols-4 gap-1 rounded-xl bg-white/80 border border-emerald-50 px-1.5 py-2">
+                {DIALER_FEATURES.map((f, i) => (
+                  <div key={i} className="flex flex-col items-center text-center gap-1">
+                    <span className="w-5 h-5 rounded-md bg-emerald-50 flex items-center justify-center">
+                      <f.icon className="w-2.5 h-2.5 text-emerald-600" />
+                    </span>
+                    <p className="text-[7.5px] font-black text-[#0f172a] leading-none">{f.title}</p>
+                    <p className="text-[6px] text-slate-400 leading-tight">{f.sub}</p>
                   </div>
-                  <div className="flex-1 flex flex-col gap-1">
-                    {CSAT_BARS.map((row, i) => (
-                      <div key={i} className="flex items-center gap-1">
-                        <span className="text-[7px] text-slate-400 w-12 truncate shrink-0">{row.label}</span>
-                        <div className="flex-1 h-1 bg-violet-50 rounded-full overflow-hidden">
-                          <motion.div initial={{ width: 0 }} animate={{ width: `${row.pct}%` }} transition={{ duration: 1, delay: 0.5 + i * 0.1, ease: 'easeOut' }}
-                            className={`h-full rounded-full ${row.color}`} />
-                        </div>
-                        <span className="text-[7px] font-bold text-slate-400 w-5 text-right shrink-0">{row.pct}%</span>
-                      </div>
-                    ))}
+                ))}
+              </div>
+              <div className="grid grid-cols-4 gap-1">
+                {DIALER_STATS.map((s, i) => (
+                  <div key={i} className="rounded-lg bg-white/70 border border-emerald-50 px-1 py-1.5 text-center">
+                    <p className={`text-[10px] font-black leading-none ${s.color}`}>{s.value}</p>
+                    <p className="text-[6px] text-slate-400 leading-tight mt-1">{s.label}</p>
                   </div>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* Card 3 — Ticketing System */}
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.54, ease: [0.22, 1, 0.36, 1] }}
+              className="rounded-2xl border border-blue-100/80 overflow-hidden px-3 py-2.5 flex flex-col gap-2"
+              style={{ background: 'linear-gradient(135deg, #ffffff 0%, #f2f7ff 55%, #eef2ff 100%)', boxShadow: '0 12px 40px -8px rgba(37,99,235,0.18), 0 2px 12px -2px rgba(99,102,241,0.10)' }}
+            >
+              <div className="flex items-center gap-2">
+                <span className="w-6 h-6 rounded-lg flex items-center justify-center shrink-0" style={{ background: 'linear-gradient(135deg,#2563eb,#3b82f6)' }}>
+                  <Ticket className="w-3 h-3 text-white" />
+                </span>
+                <div className="min-w-0">
+                  <p className="text-[8px] font-black uppercase tracking-widest text-blue-700 leading-none">Ticketing System</p>
+                  <p className="text-[8.5px] font-bold text-[#0f172a] leading-tight mt-1">Streamline, Track &amp; Resolve Faster</p>
                 </div>
-                {/* NPS row */}
-                <div className="grid grid-cols-3 gap-1.5">
-                  {[
-                    { label: 'NPS',       value: '72',  color: 'text-violet-600', bg: 'from-violet-50 to-blue-50' },
-                    { label: 'Passive',   value: '18%', color: 'text-slate-500',  bg: 'from-slate-50 to-slate-50' },
-                    { label: 'Detractor',value: '10%',  color: 'text-red-400',    bg: 'from-red-50 to-pink-50' },
-                  ].map((n, i) => (
-                    <div key={i} className={`bg-gradient-to-br ${n.bg} border border-white rounded-xl p-1.5 text-center`}>
-                      <p className={`text-sm font-black ${n.color}`}>{n.value}</p>
-                      <p className="text-[7px] text-slate-400 uppercase tracking-wider">{n.label}</p>
-                    </div>
-                  ))}
+              </div>
+              <div className="grid grid-cols-4 gap-1">
+                {TICKET_STATS.map((s, i) => (
+                  <div key={i} className="rounded-lg bg-white/80 border border-blue-50 px-1 py-1.5 text-center">
+                    <p className={`text-[11px] font-black leading-none ${s.color}`}>{s.value}</p>
+                    <p className="text-[6px] text-slate-400 leading-tight mt-1">{s.label}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="rounded-xl bg-white/80 border border-blue-50 px-2 py-1.5 flex flex-col gap-1">
+                <div className="flex items-center justify-between">
+                  <p className="text-[7.5px] font-black text-[#0f172a]">Recent Tickets</p>
+                  <span className="text-[6.5px] font-bold text-blue-500">View all</span>
                 </div>
-                {/* Recent reviews */}
-                <div className="flex flex-col gap-1">
-                  {RECENT_REVIEWS.map((r, i) => (
-                    <div key={i} className="flex items-center gap-1.5 px-1.5 py-1 rounded-lg bg-white/60">
-                      <div className="w-4 h-4 rounded-full flex items-center justify-center shrink-0 overflow-hidden" style={{ background: 'linear-gradient(135deg, #ede9fe, #dbeafe)' }}>
-                        <img src={r.avatar} alt={r.name} className="w-full h-full object-cover" />
-                      </div>
-                      <span className="text-[9px] font-bold text-slate-600 flex-1">{r.name}</span>
-                      <span className="text-[8px] text-yellow-400">{'★'.repeat(r.stars)}</span>
-                      <span className="text-[7px] text-slate-300">{r.time}</span>
-                    </div>
-                  ))}
-                </div>
+                {RECENT_TICKETS.map((t, i) => (
+                  <motion.div key={i} initial={{ opacity: 0, x: 8 }} animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.35, delay: 0.65 + i * 0.07 }}
+                    className="flex items-center gap-1">
+                    <span className="text-[7px] text-slate-600 font-semibold truncate flex-1 min-w-0">{t.title}</span>
+                    <span className="text-[6px] text-slate-300 shrink-0">{t.id}</span>
+                    <span className={`text-[5.5px] font-black px-1 py-0.5 rounded-full shrink-0 ${t.pill}`}>{t.status}</span>
+                    <span className="text-[6px] text-slate-300 shrink-0 w-8 text-right">{t.time}</span>
+                  </motion.div>
+                ))}
               </div>
             </motion.div>
 
