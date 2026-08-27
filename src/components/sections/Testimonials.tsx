@@ -67,7 +67,11 @@ function ProgressDot({ active, onClick }: { active: boolean; onClick: () => void
 export default function Testimonials() {
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   useEffect(() => {
-    fetch('/api/testimonials').then(r => r.json()).then(setTestimonials);
+    fetch('/api/testimonials')
+      .then(r => r.json())
+      // Only ever trust an array, so an error payload cannot break the section.
+      .then(d => setTestimonials(Array.isArray(d) ? d : []))
+      .catch(() => setTestimonials([]));
   }, []);
 
   const trackRef  = useRef<HTMLDivElement>(null);

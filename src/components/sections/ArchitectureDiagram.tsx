@@ -290,8 +290,8 @@ const HTML = `
             <div class="cx-tile">
               <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17v-1M9 14a3 3 0 0 1 6 0M6 11a6 6 0 0 1 12 0M3 8a9 9 0 0 1 18 0"/></svg></span>
               <div>
-                <div class="lbl">CSAT / NPS</div>
-                <div class="sub">Pulse</div>
+                <div class="lbl">Conversation</div>
+                <div class="sub">Intelligence</div>
               </div>
             </div>
             <div class="cx-tile">

@@ -191,8 +191,11 @@ function StageCard({ stage }: { stage: typeof stages[0] }) {
 // ─────────────────────────────────────────────
 // Horizontal carousel — auto-advances and supports swipe/drag
 // ─────────────────────────────────────────────
-const AUTO_MS = 5200;
-const SPRING = { type: 'spring' as const, stiffness: 240, damping: 34, mass: 0.9 };
+/* Dwell per slide, and the glide between them. Deliberately unhurried: the
+   dwell restarts on every index change (see below) so a slide is always shown
+   for the full duration, even right after a dot click or a swipe. */
+const AUTO_MS = 6500;
+const GLIDE = { duration: 1.05, ease: [0.22, 1, 0.36, 1] as const };
 
 function PlatformCarousel() {
   const total = stages.length;
@@ -222,17 +225,19 @@ function PlatformCarousel() {
     return () => mq.removeEventListener('change', sync);
   }, []);
 
-  /* Continuous auto-advance, held only while the visitor is dragging. */
+  /* Continuous auto-advance, held only while the visitor is dragging. Keyed on
+     `index` so the timer restarts after every move — a free-running interval
+     could otherwise fire straight after a manual jump and skip a slide. */
   useEffect(() => {
     if (dragging || reduced || !slideW) return;
-    const t = setInterval(() => setIndex(i => (i + 1) % total), AUTO_MS);
-    return () => clearInterval(t);
-  }, [dragging, reduced, slideW, total]);
+    const t = setTimeout(() => setIndex(i => (i + 1) % total), AUTO_MS);
+    return () => clearTimeout(t);
+  }, [index, dragging, reduced, slideW, total]);
 
   /* Snap to the active slide unless the pointer is holding the track. */
   useEffect(() => {
     if (dragging || !slideW) return;
-    const controls = animate(x, -index * slideW, reduced ? { duration: 0 } : SPRING);
+    const controls = animate(x, -index * slideW, reduced ? { duration: 0 } : GLIDE);
     return () => controls.stop();
   }, [index, slideW, dragging, reduced, x]);
 
@@ -280,18 +285,23 @@ function PlatformCarousel() {
         </motion.div>
       </div>
 
-      {/* Slide indicators — the carousel's navigation affordance */}
-      <div className="flex items-center justify-center gap-2 mt-8">
+      {/* Slide indicators — same pill language as the testimonial carousel */}
+      <div className="flex items-center justify-center gap-2 mt-6">
         {stages.map((stage, i) => (
-          <button
+          <motion.button
             key={stage.id}
             onClick={() => go(i)}
-            aria-label={`Go to ${stage.tagline}`}
+            aria-label={`Go to slide ${i + 1}: ${stage.tagline}`}
             aria-current={i === index}
-            className="h-2 rounded-full transition-all duration-300"
+            animate={{ width: i === index ? 36 : 10 }}
+            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
             style={{
-              width: i === index ? 26 : 8,
-              backgroundColor: i === index ? '#2563eb' : '#bfdbfe',
+              height: 10,
+              borderRadius: 5,
+              border: 'none',
+              padding: 0,
+              cursor: 'pointer',
+              background: i === index ? '#1447d4' : 'rgba(20,71,212,0.15)',
             }}
           />
         ))}

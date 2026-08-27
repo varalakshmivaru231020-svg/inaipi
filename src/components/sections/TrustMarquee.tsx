@@ -1,22 +1,41 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
 
-const customers = [
-  'Aldar Properties', 'Emirates NBD', 'Etisalat', 'du Telecom', 'ADNOC',
-  'Mashreq Bank', 'DEWA', 'Aster DM Healthcare', 'Landmark Group', 'Majid Al Futtaim',
-  'Carrefour UAE', 'Noon.com', 'Emaar Properties', 'FAB Bank', 'Damac Properties',
-  'Al Futtaim Group', 'Jumeirah Group', 'RTA Dubai', 'Tabreed', 'Abu Dhabi Islamic Bank',
-];
+/* Logos come from the admin (settings-backed) customer logo list. The customer
+   supplies the artwork; until then the strip renders without items. */
+type Logo = { url: string; name: string };
 
-const leftTrack  = [...customers, ...customers, ...customers];
-const rightTrack = [...customers, ...customers, ...customers];
+/* The marquee loops by translating one third of the track, so it always needs
+   three identical copies. Short lists are padded first so a single logo still
+   fills the strip instead of leaving a gap. */
+function buildTrack(logos: Logo[]): Logo[] {
+  if (logos.length === 0) return [];
+  const reps = Math.max(1, Math.ceil(10 / logos.length));
+  const base = Array.from({ length: reps }, () => logos).flat();
+  return [...base, ...base, ...base];
+}
 
-const Item = ({ name }: { name: string }) => (
-  <span className="flex items-center gap-3 text-xl font-bold text-white/75 whitespace-nowrap select-none cursor-default tracking-wide">
-    <span className="w-1.5 h-1.5 rounded-full bg-white/35 shrink-0" />
-    {name}
-  </span>
+const Item = ({ logo, onBroken }: { logo: Logo; onBroken: (url: string) => void }) => (
+  /* eslint-disable-next-line @next/next/no-img-element */
+  <img
+    src={logo.url}
+    alt={logo.name || 'Customer logo'}
+    loading="lazy"
+    onError={() => onBroken(logo.url)}
+    className="select-none shrink-0"
+    style={{
+      height: 'clamp(20px, 2.6vw, 30px)',
+      width: 'auto',
+      maxWidth: 160,
+      objectFit: 'contain',
+      /* Render every logo as a white silhouette so any artwork reads on the
+         blue strip — matches the white wordmarks this strip replaced. */
+      filter: 'brightness(0) invert(1)',
+      opacity: 0.75,
+    }}
+  />
 );
 
 const PAGE_BG = '#f8faff';
@@ -44,6 +63,23 @@ const LeftBracket = () => (
 );
 
 export default function TrustMarquee() {
+  const [logos, setLogos] = useState<Logo[]>([]);
+  /* A logo whose file 404s is dropped rather than left as a broken image. */
+  const [broken, setBroken] = useState<string[]>([]);
+
+  useEffect(() => {
+    let alive = true;
+    fetch('/api/customer-logos')
+      .then(r => r.json())
+      .then(d => { if (alive) setLogos(Array.isArray(d?.logos) ? d.logos : []); })
+      .catch(() => { if (alive) setLogos([]); });
+    return () => { alive = false; };
+  }, []);
+
+  const usable = logos.filter(l => l?.url && !broken.includes(l.url));
+  const track = buildTrack(usable);
+  const markBroken = (url: string) => setBroken(b => (b.includes(url) ? b : [...b, url]));
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 16 }}
@@ -81,7 +117,7 @@ export default function TrustMarquee() {
               className="flex shrink-0 gap-16 items-center pl-8"
               style={{ animation: 'marquee-left 38s linear infinite', willChange: 'transform' }}
             >
-              {leftTrack.map((name, i) => <Item key={i} name={name} />)}
+              {track.map((logo, i) => <Item key={`l${i}`} logo={logo} onBroken={markBroken} />)}
             </div>
           </div>
         </div>
@@ -95,7 +131,7 @@ export default function TrustMarquee() {
               className="flex shrink-0 gap-16 items-center"
               style={{ animation: 'marquee-right 38s linear infinite', willChange: 'transform' }}
             >
-              {rightTrack.map((name, i) => <Item key={i} name={name} />)}
+              {track.map((logo, i) => <Item key={`r${i}`} logo={logo} onBroken={markBroken} />)}
             </div>
           </div>
         </div>
