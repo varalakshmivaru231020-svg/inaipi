@@ -124,10 +124,14 @@ const CSS = `
 .ia .layer.c .lname{ color:var(--blue-900); }
 .ia .layer.c .lname .num{ background:var(--blue-900); }
 .ia .layer.c .pill{ background:#fff; color:var(--blue-900); border:1px solid #B0CCFB; }
-.ia .cx-tile{ background:#fff; border:1px solid #B0CCFB; border-radius:10px; padding:10px 10px; display:flex; align-items:center; gap:8px; }
+/* The four tiles are content-sized, and together they were 6px wider than the
+   row, so the overflow landed on the last tile (Campaigns) and clipped it on
+   machines whose fonts render slightly wide. Trim the horizontal padding only —
+   tile height and every other value stay as they were — so the row has slack. */
+.ia .cx-tile{ background:#fff; border:1px solid #B0CCFB; border-radius:10px; padding:10px 8px; display:flex; align-items:center; gap:7px; }
 .ia .cx-tile .ic{ width:28px; height:28px; border-radius:7px; background:var(--blue-100); color:var(--blue-900); display:flex; align-items:center; justify-content:center; flex:none; }
-.ia .cx-tile .lbl{ font-size:11px; font-weight:600; line-height:1.15; }
-.ia .cx-tile .sub{ font-size:9px; color:var(--muted); font-family:${MONO}; letter-spacing:.06em; }
+.ia .cx-tile .lbl{ font-size:11px; font-weight:600; line-height:1.15; white-space:nowrap; }
+.ia .cx-tile .sub{ font-size:9px; color:var(--muted); font-family:${MONO}; letter-spacing:.06em; white-space:nowrap; }
 
 .ia .ic svg{ width:18px; height:18px; }
 .ia .ic.lg svg{ width:22px; height:22px; }
@@ -297,7 +301,7 @@ const HTML = `
             <div class="cx-tile">
               <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3M8 21h8"/></svg></span>
               <div>
-                <div class="lbl">AI Voice Outbound</div>
+                <div class="lbl">AI Voice<br>Outbound</div>
                 <div class="sub">Outbound</div>
               </div>
             </div>
