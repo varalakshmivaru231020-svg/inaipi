@@ -61,7 +61,7 @@ export default function AgentDesktop() {
         </motion.span>
         <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}
           className="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold font-figtree tracking-[-0.025em] leading-[1.15] mb-5">
-          The <span className="text-[#1447d4]">Agent Desktop.</span>
+          The <span className="text-[#1447d4]">Unified Workspace.</span>
         </motion.h2>
         <motion.p initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.15 }}
           className="text-base sm:text-lg md:text-xl text-slate-500 leading-relaxed max-w-2xl mx-auto">
@@ -79,7 +79,7 @@ export default function AgentDesktop() {
         >
           {desktopImage ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={desktopImage} alt="Inaipi Agent Desktop" className="w-full object-cover" />
+            <img src={desktopImage} alt="Inaipi Unified Workspace" className="w-full object-cover" />
           ) : (
             <div ref={frameRef} className="ad-scroll" style={{ width: '100%', height: DESIGN_H * scale, overflowX: 'auto', overflowY: 'hidden', WebkitOverflowScrolling: 'touch' }}>
               <div style={{ width: DESIGN_W * scale, height: DESIGN_H * scale }}>
@@ -93,7 +93,7 @@ export default function AgentDesktop() {
 
         {!desktopImage && (
           <p className="text-center text-xs text-slate-400 mt-5 font-medium">
-            Live product tour: workspace, monitoring, cases and analytics.
+            Live product tour: workspace, supervisor, cases and analytics.
             <span className="hidden sm:inline"> Click any tab to explore.</span>
             <span className="sm:hidden"> Swipe the panel sideways to explore.</span>
           </p>

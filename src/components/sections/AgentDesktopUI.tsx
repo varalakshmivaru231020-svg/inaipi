@@ -426,7 +426,7 @@ export default function AgentDesktopUI({ playing = true, fixedView }: { playing?
         </div>
         <nav style={{ display: 'flex', gap: 6, background: '#F1F5FC', padding: 5, borderRadius: 12 }}>
           <button onClick={() => { setManual(true); setView('workspace'); }} style={navStyle(view === 'workspace')}>Agent Workspace</button>
-          <button onClick={() => { setManual(true); setView('monitoring'); }} style={navStyle(view === 'monitoring')}>Monitoring</button>
+          <button onClick={() => { setManual(true); setView('monitoring'); }} style={navStyle(view === 'monitoring')}>Supervisor Workspace</button>
           <button onClick={() => { setManual(true); setView('cases'); }} style={navStyle(view === 'cases')}>Cases</button>
           <button onClick={() => { setManual(true); setView('survey'); }} style={navStyle(view === 'survey' || view === 'surveys')}>Survey</button>
           <button onClick={() => { setManual(true); setView('analytics'); }} style={navStyle(view === 'analytics')}>Analytics</button>

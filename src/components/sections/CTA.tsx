@@ -97,7 +97,7 @@ export default function CTA() {
                   initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.38 }}
                   style={{ display: 'flex', flexWrap: 'wrap', gap: '8px 20px', marginTop: 20, justifyContent: 'center' }}
                 >
-                  {['Cancel anytime', 'ISO 27001:2022', 'Live in 48 hours'].map((t, i) => (
+                  {['ISO 27001:2022'].map((t, i) => (
                     <motion.span key={i}
                       initial={{ opacity: 0, y: 6 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.4 + i * 0.07 }}
                       style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 13, color: 'rgba(255,255,255,0.38)', fontWeight: 600, fontFamily: 'var(--font-figtree), Figtree, sans-serif' }}
