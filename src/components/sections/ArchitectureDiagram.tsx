@@ -126,8 +126,8 @@ const CSS = `
 .ia .layer.c .pill{ background:#fff; color:var(--blue-900); border:1px solid #B0CCFB; }
 /* The four tiles are content-sized, and together they were 6px wider than the
    row, so the overflow landed on the last tile (Campaigns) and clipped it on
-   machines whose fonts render slightly wide. Trim the horizontal padding only —
-   tile height and every other value stay as they were — so the row has slack. */
+   machines whose fonts render slightly wide. Trim the horizontal padding only:
+   tile height and every other value stay as they were, so the row has slack. */
 .ia .cx-tile{ background:#fff; border:1px solid #B0CCFB; border-radius:10px; padding:10px 8px; display:flex; align-items:center; gap:7px; }
 .ia .cx-tile .ic{ width:28px; height:28px; border-radius:7px; background:var(--blue-100); color:var(--blue-900); display:flex; align-items:center; justify-content:center; flex:none; }
 .ia .cx-tile .lbl{ font-size:11px; font-weight:600; line-height:1.15; white-space:nowrap; }
