@@ -37,7 +37,7 @@ const HEADLINE_TAIL = ['with', 'Sovereign', 'Cloud', 'options', 'for', 'regulate
 const LIVE_CONVO: { role: 'customer' | 'ai'; text: string; delay: number; typing?: number }[] = [
   { role: 'customer', text: 'Hi, my order #1224 was due yesterday. Any update?',                           delay: 600 },
   { role: 'ai',       text: 'Hi Sarah! Let me check order #1224 for you right now...',                     delay: 1800, typing: 900 },
-  { role: 'ai',       text: 'Found it! Your order was held at customs in Dubai. It cleared this morning and is out for delivery — arriving today by 6 PM. 🚚', delay: 4000, typing: 1400 },
+  { role: 'ai',       text: 'Found it! Your order was held at customs in Dubai. It cleared this morning and is out for delivery, arriving today by 6 PM. 🚚', delay: 4000, typing: 1400 },
   { role: 'customer', text: 'Oh great! Can I get the tracking link?',                                      delay: 6200 },
   { role: 'ai',       text: '📦 track.inaipi.com/1224-DXB\n\nAlso sent to your email!',                   delay: 7600, typing: 1000 },
   { role: 'customer', text: 'Perfect, thank you! 😊',                                                     delay: 9400 },
@@ -314,7 +314,7 @@ export default function Hero() {
         {/* Subtext */}
         <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.1, delay: 3.0, ease: [0.16, 1, 0.3, 1] }} className="mb-10 px-4">
           <p className="text-base sm:text-lg md:text-xl text-slate-500 leading-relaxed font-normal max-w-2xl mx-auto">
-            Inaipi is an AI-native, cloud-first customer experience platform — with Sovereign Cloud options that keep data resident, compliant and fully under your control.
+            Inaipi is an AI-native, cloud-first customer experience platform, with Sovereign Cloud options that keep data resident, compliant and fully under your control.
           </p>
         </motion.div>
 
@@ -514,7 +514,7 @@ export default function Hero() {
                     textShadow: 'none',
                   }}
                 >
-                  —Seamlessly
+                  Seamlessly
                 </motion.span>
               </h2>
 
@@ -706,7 +706,7 @@ export default function Hero() {
       <div className="relative z-10 mt-16 text-center w-full max-w-[1400px] mx-auto px-10 pb-10">
         <p className="text-[10px] sm:text-xs font-black text-blue-600 uppercase tracking-[0.35em] mb-4">One Intelligent Platform</p>
         <p className="text-sm sm:text-base md:text-lg lg:text-xl text-slate-400 font-medium leading-relaxed max-w-5xl mx-auto tracking-tight">
-          Powering the entire Customer Experience Lifecycle — seamlessly integrating AI Agents, Human Teams, and your Enterprise Stack.
+          Powering the entire Customer Experience Lifecycle, seamlessly integrating AI Agents, Human Teams, and your Enterprise Stack.
         </p>
       </div>
     </section>

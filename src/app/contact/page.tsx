@@ -186,7 +186,7 @@ export default function ContactPage() {
                     <Check className="w-8 h-8 text-white" strokeWidth={2.5} />
                   </div>
                   <h4 className="text-xl font-bold font-figtree text-white mb-2">Message sent!</h4>
-                  <p className="text-white/70 text-[15px] max-w-xs mx-auto">Thanks for reaching out — our team will get back to you shortly.</p>
+                  <p className="text-white/70 text-[15px] max-w-xs mx-auto">Thanks for reaching out. Our team will get back to you shortly.</p>
                   <button
                     onClick={() => setStatus('idle')}
                     className="mt-6 inline-flex items-center gap-2 text-[11px] font-black uppercase tracking-widest text-white/80 hover:text-white border border-white/30 hover:border-white px-5 py-2.5 rounded-full transition-colors"

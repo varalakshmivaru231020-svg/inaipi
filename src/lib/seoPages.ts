@@ -28,21 +28,21 @@ export const SEO_DEFAULTS: Record<string, SeoEntry> = {
   home: {
     title: 'Inaipi | AI-Native, Cloud-First CX with Sovereign Cloud',
     description:
-      'Inaipi is an AI-native, cloud-first customer experience platform with Sovereign Cloud options for regulated industries — data stays resident and compliant.',
+      'Inaipi is an AI-native, cloud-first customer experience platform with Sovereign Cloud options for regulated industries: data stays resident and compliant.',
     ogImage: '/hero.png',
   },
   about: {
     title: 'About Inaipi | AI-Native Customer Experience Platform',
     description:
-      'Learn about Inaipi — the AI-native platform unifying voice, chat, email and social into one intelligent customer experience engine.',
+      'Learn about Inaipi, the AI-native platform unifying voice, chat, email and social into one intelligent customer experience engine.',
   },
   blog: {
-    title: 'Blog | Insights on AI & Customer Experience — Inaipi',
+    title: 'Blog | Insights on AI & Customer Experience | Inaipi',
     description:
       'Insights, news and expert perspectives on AI-native CX, sovereign cloud and the future of customer engagement from the Inaipi team.',
   },
   career: {
-    title: 'Careers | Build the Future of Customer Experience — Inaipi',
+    title: 'Careers | Build the Future of Customer Experience | Inaipi',
     description:
       'Join Inaipi and help build the AI-native platform replacing fragmented CX stacks. Explore open roles across engineering, design, sales and CX.',
   },

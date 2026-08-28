@@ -192,7 +192,7 @@ export default function Testimonials() {
           Trusted by CX leaders<br className="hidden sm:block" /> <span className="text-[#1447d4]">worldwide.</span>
         </h2>
         <p className="text-base sm:text-lg md:text-xl text-slate-500 max-w-xl mx-auto leading-relaxed wow wow-d3">
-          Real results from healthcare, insurance, hospitality and government — see what AI-native CX looks like in practice.
+          Real results from healthcare, insurance, hospitality and government. See what AI-native CX looks like in practice.
         </p>
       </div>
 

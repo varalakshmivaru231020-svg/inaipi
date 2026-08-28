@@ -65,7 +65,7 @@ export default function AgentDesktop() {
         </motion.h2>
         <motion.p initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.15 }}
           className="text-base sm:text-lg md:text-xl text-slate-500 leading-relaxed max-w-2xl mx-auto">
-          Every channel, every customer, every insight — in one unified interface. No tab switching. No context loss.
+          Every channel, every customer, every insight in one unified interface. No tab switching. No context loss.
         </motion.p>
       </div>
 
@@ -93,7 +93,7 @@ export default function AgentDesktop() {
 
         {!desktopImage && (
           <p className="text-center text-xs text-slate-400 mt-5 font-medium">
-            Live product tour — workspace, monitoring, cases and analytics.
+            Live product tour: workspace, monitoring, cases and analytics.
             <span className="hidden sm:inline"> Click any tab to explore.</span>
             <span className="sm:hidden"> Swipe the panel sideways to explore.</span>
           </p>

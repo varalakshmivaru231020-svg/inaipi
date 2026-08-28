@@ -71,10 +71,10 @@ const viewBtnStyle = (on: boolean): CSSProperties => ({
 /* ── data ── */
 const QUEUE = [
   { name: 'James Cooper',       channel: 'Email',    chGlyph: '✉',  chBg: '#FEF3E2', chColor: '#B7791F', preview: 'Refund request for invoice #INV-2291…', wait: '4m',   sentiment: 'Neutral',  sentColor: '#F59E0B' },
-  { name: '+971 55 210 4478',   channel: 'Voice',    chGlyph: '📞', chBg: '#EAF0FE', chColor: '#2A63F6', preview: 'Billing queue · IVR path 2-1',           wait: '0:38', sentiment: '—',        sentColor: '#CBD8EC' },
+  { name: '+971 55 210 4478',   channel: 'Voice',    chGlyph: '📞', chBg: '#EAF0FE', chColor: '#2A63F6', preview: 'Billing queue · IVR path 2-1',           wait: '0:38', sentiment: '-',        sentColor: '#CBD8EC' },
   { name: 'Lena Ortiz',         channel: 'Instagram',chGlyph: '◎',  chBg: '#FDEBF3', chColor: '#DB2777', preview: 'DM: Is the blue variant back in stock?', wait: '6m',   sentiment: 'Positive', sentColor: '#16A34A' },
   { name: 'Rakesh Kumar',       channel: 'WhatsApp', chGlyph: '💬', chBg: '#E9F9EF', chColor: '#1FA855', preview: 'Sent a photo of the damaged package',    wait: '2m',   sentiment: 'Negative', sentColor: '#E5484D' },
-  { name: 'Live visitor #8812', channel: 'Web Chat', chGlyph: '💬', chBg: '#EAF0FE', chColor: '#2A63F6', preview: 'Browsing pricing page for 3 min',        wait: '1m',   sentiment: '—',        sentColor: '#CBD8EC' },
+  { name: 'Live visitor #8812', channel: 'Web Chat', chGlyph: '💬', chBg: '#EAF0FE', chColor: '#2A63F6', preview: 'Browsing pricing page for 3 min',        wait: '1m',   sentiment: '-',        sentColor: '#CBD8EC' },
   { name: 'Noura H.',           channel: 'X',        chGlyph: '𝕏',  chBg: '#F1F5FC', chColor: '#0B1B3A', preview: '@inaipi mentioned in a public post',     wait: '9m',   sentiment: 'Negative', sentColor: '#E5484D' },
 ];
 
@@ -83,7 +83,7 @@ const TRANSCRIPT = [
   { who: 'Customer', tagBg: '#EAF0FE', tagColor: '#2A63F6', text: 'Hi, I was charged twice for my order last Friday. AED 249, two times, same day.', time: '00:19' },
   { who: 'Agent',    tagBg: '#F1F5FC', tagColor: '#41537A', text: "I'm sorry about that, Ahmed. Let me pull up the transactions on your account right now.", time: '00:41' },
   { who: 'Customer', tagBg: '#EAF0FE', tagColor: '#2A63F6', text: "This is the second time it's happened. Honestly it's really frustrating.", time: '01:12' },
-  { who: 'Agent',    tagBg: '#F1F5FC', tagColor: '#41537A', text: "I completely understand. I can see the duplicate charge — I'm issuing a full refund to your card ending 4417 right now.", time: '02:03' },
+  { who: 'Agent',    tagBg: '#F1F5FC', tagColor: '#41537A', text: "I completely understand. I can see the duplicate charge. I'm issuing a full refund to your card ending 4417 right now.", time: '02:03' },
   { who: 'Customer', tagBg: '#EAF0FE', tagColor: '#2A63F6', text: "Okay, that's great. How long will the refund take to appear?", time: '03:47' },
 ];
 
@@ -99,7 +99,7 @@ const bubble = (mine: boolean, text: string, time: string, brand?: string): Bubb
 
 const CHAT_THREAD: Bubble[] = [
   bubble(false, "Your bot couldn't help. I've been going in circles for 10 minutes.", '14:21'),
-  bubble(true,  'Sorry about that, Priya — I have the full context from the assistant. You need to change the billing address on your subscription, correct?', '14:22'),
+  bubble(true,  'Sorry about that, Priya. I have the full context from the assistant. You need to change the billing address on your subscription, correct?', '14:22'),
   bubble(false, 'Yes. And I want it applied before the next invoice.', '14:23'),
 ];
 
@@ -107,10 +107,10 @@ const mkBars = (hs: number[], color: string) => hs.map((h, i) => ({ h: `${h}%`, 
 
 const FEED_ALL = [
   { t: 'just now', glyph: '📞', bg: '#EAF0FE', color: '#2A63F6', text: 'Fatima answered a voice call from +971 50 442 8817' },
-  { t: '12s ago',  glyph: '✦',  bg: '#F3EDFE', color: '#7C3AED', text: 'AI agent resolved a WhatsApp query — no handoff needed' },
-  { t: '31s ago',  glyph: '⚠',  bg: '#FEF3E2', color: '#B7791F', text: 'Voice queue wait exceeded 60s — SLA warning raised' },
+  { t: '12s ago',  glyph: '✦',  bg: '#F3EDFE', color: '#7C3AED', text: 'AI agent resolved a WhatsApp query, no handoff needed' },
+  { t: '31s ago',  glyph: '⚠',  bg: '#FEF3E2', color: '#B7791F', text: 'Voice queue wait exceeded 60s, SLA warning raised' },
   { t: '1m ago',   glyph: '💬', bg: '#E9F9EF', color: '#1FA855', text: 'Jonathan accepted a 3rd concurrent WhatsApp chat' },
-  { t: '2m ago',   glyph: '★',  bg: '#FEF3E2', color: '#B7791F', text: 'CSAT 5/5 received for Grace Njeri — order change' },
+  { t: '2m ago',   glyph: '★',  bg: '#FEF3E2', color: '#B7791F', text: 'CSAT 5/5 received for Grace Njeri: order change' },
   { t: '3m ago',   glyph: '◎',  bg: '#FDEBF3', color: '#DB2777', text: 'Instagram DM auto-assigned to Jonathan Reyes' },
   { t: '4m ago',   glyph: '⇄',  bg: '#E7F6FD', color: '#0E7490', text: 'Priyanka picked up web chat escalated from AI with summary' },
 ];
@@ -170,16 +170,16 @@ const CS: Record<string, { bg: string; color: string }> = {
 
 const CASE_DATA = [
   { id: 'CSE-1048', customer: 'Noura H.',        channel: 'X',         subject: 'Public complaint mention on X',       prio: 'High',   status: 'Open',        sla: '0h 55m', assignee: 'Unassigned',      updated: '5m ago'   },
-  { id: 'CSE-1046', customer: 'Ahmed Al Rashid', channel: 'Voice',     subject: 'Duplicate charge refund — AED 249',   prio: 'High',   status: 'In Progress', sla: '0h 41m', assignee: 'Fatima Zahra',    updated: 'just now' },
+  { id: 'CSE-1046', customer: 'Ahmed Al Rashid', channel: 'Voice',     subject: 'Duplicate charge refund: AED 249',   prio: 'High',   status: 'In Progress', sla: '0h 41m', assignee: 'Fatima Zahra',    updated: 'just now' },
   { id: 'CSE-1041', customer: 'Sarah K.',        channel: 'WhatsApp',  subject: 'Order #1224 delayed in transit',      prio: 'High',   status: 'Open',        sla: '2h 14m', assignee: 'Priyanka Desai',  updated: '8m ago'   },
   { id: 'CSE-1044', customer: 'Priya N.',        channel: 'Web Chat',  subject: 'Service delay complaint',             prio: 'High',   status: 'Open',        sla: '1h 05m', assignee: 'Unassigned',      updated: '14m ago'  },
-  { id: 'CSE-1042', customer: 'Marco R.',        channel: 'Voice',     subject: 'Billing dispute — duplicate invoice', prio: 'Medium', status: 'In Progress', sla: '4h 00m', assignee: 'Mariam A.',       updated: '22m ago'  },
+  { id: 'CSE-1042', customer: 'Marco R.',        channel: 'Voice',     subject: 'Billing dispute: duplicate invoice', prio: 'Medium', status: 'In Progress', sla: '4h 00m', assignee: 'Mariam A.',       updated: '22m ago'  },
   { id: 'CSE-1045', customer: 'James T.',        channel: 'Email',     subject: 'Password reset issue',                prio: 'Low',    status: 'In Progress', sla: '5h 30m', assignee: 'Omar Haddad',     updated: '38m ago'  },
-  { id: 'CSE-1047', customer: 'Lena Ortiz',      channel: 'Instagram', subject: 'Stock inquiry — blue variant',        prio: 'Low',    status: 'Waiting',     sla: '6h 20m', assignee: 'Jonathan Reyes',  updated: '46m ago'  },
-  { id: 'CSE-1043', customer: 'Alex L.',         channel: 'Email',     subject: 'API integration help',                prio: 'Low',    status: 'Resolved',    sla: '—',      assignee: 'Omar Haddad',     updated: '1h ago'   },
+  { id: 'CSE-1047', customer: 'Lena Ortiz',      channel: 'Instagram', subject: 'Stock inquiry: blue variant',        prio: 'Low',    status: 'Waiting',     sla: '6h 20m', assignee: 'Jonathan Reyes',  updated: '46m ago'  },
+  { id: 'CSE-1043', customer: 'Alex L.',         channel: 'Email',     subject: 'API integration help',                prio: 'Low',    status: 'Resolved',    sla: '-',      assignee: 'Omar Haddad',     updated: '1h ago'   },
 ];
 
-const slaColor = (sla: string) => (sla === '—' ? '#8FA1BE' : sla.startsWith('0h') ? '#E5484D' : parseInt(sla, 10) <= 2 ? '#B7791F' : '#41537A');
+const slaColor = (sla: string) => (sla === '-' ? '#8FA1BE' : sla.startsWith('0h') ? '#E5484D' : parseInt(sla, 10) <= 2 ? '#B7791F' : '#41537A');
 const initialsOf = (n: string) => n.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
 
 const CASE_KPIS = [
@@ -308,7 +308,7 @@ export default function AgentDesktopUI({ playing = true, fixedView }: { playing?
     { ...bubble(false, "Here's my order confirmation 👇", '12:02'), att: 'order_confirmation_4521.pdf' },
     bubble(true, 'Hi Sarah! Let me check that for you right away 👋', '12:03', '#1FA855'),
     bubble(false, 'Thanks 🙏 I need it before the weekend.', '12:03'),
-    bubble(true, "It left our warehouse this morning — you'll get a tracking link within the hour.", '12:05', '#1FA855'),
+    bubble(true, "It left our warehouse this morning. You'll get a tracking link within the hour.", '12:05', '#1FA855'),
   ];
 
   const kpis = [
@@ -576,7 +576,7 @@ export default function AgentDesktopUI({ playing = true, fixedView }: { playing?
                 name="Sarah Mitchell" sub="WhatsApp · online" subColor="#1FA855"
                 sentimentDot="#F59E0B" sentiment="Neutral sentiment"
                 messages={waThread} accent="#1FA855" placeholder="Reply on WhatsApp…"
-                suggestions={['✦ Your order #4521 ships today — tracking link incoming', '✦ Offer 10% voucher for the delay']}
+                suggestions={['✦ Your order #4521 ships today: tracking link incoming', '✦ Offer 10% voucher for the delay']}
               />
             )}
 
@@ -625,7 +625,7 @@ export default function AgentDesktopUI({ playing = true, fixedView }: { playing?
                 <span>Negative</span><span>Neutral</span><span>Positive</span>
               </div>
               <div style={{ marginTop: 10, fontSize: 12, color: '#5B6B87', fontWeight: 600, lineHeight: 1.5 }}>
-                Frustration detected at 01:12 over duplicate charge — recovered after refund was confirmed.
+                Frustration detected at 01:12 over duplicate charge, recovered after refund was confirmed.
               </div>
             </div>
 
@@ -639,7 +639,7 @@ export default function AgentDesktopUI({ playing = true, fixedView }: { playing?
               <div style={{ padding: '14px 16px', display: 'flex', flexDirection: 'column', gap: 10 }}>
                 <div style={{ ...LABEL, fontSize: 11, letterSpacing: '0.5px' }}>NEXT BEST ACTION</div>
                 <div style={{ border: '1px solid #EDE6FD', background: '#FBFAFF', borderRadius: 12, padding: '11px 13px', fontSize: 12.5, lineHeight: 1.55, color: '#22314F' }}>
-                  <b>Confirm refund of AED 249</b> to card ending 4417 — duplicate charge verified in billing system. Expected in 3–5 business days.
+                  <b>Confirm refund of AED 249</b> to card ending 4417, duplicate charge verified in billing system. Expected in 3–5 business days.
                 </div>
                 <div style={{ border: '1px solid #EDE6FD', background: '#FBFAFF', borderRadius: 12, padding: '11px 13px', fontSize: 12.5, lineHeight: 1.55, color: '#22314F' }}>
                   Offer <b>free expedited shipping</b> on his pending order #7789 as a goodwill gesture.
@@ -647,7 +647,7 @@ export default function AgentDesktopUI({ playing = true, fixedView }: { playing?
                 <div style={{ ...LABEL, fontSize: 11, letterSpacing: '0.5px', marginTop: 2 }}>KNOWLEDGE</div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 9, border: '1px solid #EDF2FA', borderRadius: 12, padding: '10px 13px', fontSize: 12.5, fontWeight: 700, color: '#2A63F6' }}>
                   <span style={{ width: 26, height: 26, borderRadius: 8, background: '#EAF0FE', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, flexShrink: 0 }}>📄</span>
-                  Refund policy — duplicate transactions
+                  Refund policy: duplicate transactions
                 </div>
                 <div style={{ background: '#6D28D9', color: '#fff', fontWeight: 800, fontSize: 13, padding: 12, borderRadius: 11, marginTop: 2, textAlign: 'center' }}>✦ Generate wrap-up summary</div>
               </div>
@@ -657,9 +657,9 @@ export default function AgentDesktopUI({ playing = true, fixedView }: { playing?
               <div style={{ fontWeight: 800, fontSize: 14, marginBottom: 12 }}>Recent Journey</div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                 {[
-                  { g: '💬', bg: '#E9F9EF', c: '#1FA855', t: 'WhatsApp — delivery query', s: 'Resolved by AI · 2 days ago' },
-                  { g: '📞', bg: '#EAF0FE', c: '#2A63F6', t: 'Voice — payment issue',     s: 'Resolved · CSAT 5 · last week' },
-                  { g: '✉️', bg: '#FEF3E2', c: '#B7791F', t: 'Email — invoice request',   s: 'Resolved · 3 weeks ago' },
+                  { g: '💬', bg: '#E9F9EF', c: '#1FA855', t: 'WhatsApp: delivery query', s: 'Resolved by AI · 2 days ago' },
+                  { g: '📞', bg: '#EAF0FE', c: '#2A63F6', t: 'Voice: payment issue',     s: 'Resolved · CSAT 5 · last week' },
+                  { g: '✉️', bg: '#FEF3E2', c: '#B7791F', t: 'Email: invoice request',   s: 'Resolved · 3 weeks ago' },
                 ].map(j => (
                   <div key={j.t} style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
                     <span style={{ width: 30, height: 30, borderRadius: 9, background: j.bg, color: j.c, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, flexShrink: 0 }}>{j.g}</span>
@@ -775,7 +775,7 @@ export default function AgentDesktopUI({ playing = true, fixedView }: { playing?
               <div style={{ background: 'linear-gradient(120deg,#FFF7EA,#FFFDF8)', border: '1px solid #F5DFB8', borderRadius: 15, padding: '13px 15px', display: 'flex', gap: 10, alignItems: 'center' }}>
                 <span style={{ width: 34, height: 34, borderRadius: 10, background: '#FEF3E2', color: '#B7791F', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 15, flexShrink: 0 }}>⚠</span>
                 <div>
-                  <div style={{ fontWeight: 800, fontSize: 12.5, color: '#92640D' }}>SLA warning — Voice queue</div>
+                  <div style={{ fontWeight: 800, fontSize: 12.5, color: '#92640D' }}>SLA warning: Voice queue</div>
                   <div style={{ fontSize: 11.5, color: '#A97F2E', fontWeight: 600 }}>Longest wait 1:12 · target is 0:60</div>
                 </div>
               </div>
@@ -1078,7 +1078,7 @@ export default function AgentDesktopUI({ playing = true, fixedView }: { playing?
                 ))}
               </div>
               <div style={{ marginTop: 12, borderTop: '1px solid #EDF2FA', paddingTop: 10, fontSize: 11.5, color: '#5B6B87', fontWeight: 600, lineHeight: 1.5 }}>
-                ✦ AI insight: CSAT dips on Mondays correlate with voice queue waits over 60s — consider shifting one agent to the morning block.
+                ✦ AI insight: CSAT dips on Mondays correlate with voice queue waits over 60s. Consider shifting one agent to the morning block.
               </div>
             </div>
           </div>

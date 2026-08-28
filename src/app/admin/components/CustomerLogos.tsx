@@ -62,7 +62,7 @@ export default function CustomerLogos() {
           <h2 className="text-base font-bold text-slate-800">Customer Logos</h2>
           <p className="text-xs text-slate-400 mt-0.5">
             Logos shown in the scrolling &ldquo;Trusted by&rdquo; strip. Transparent PNG or SVG works best;
-            they are rendered in white on the blue strip. Leave the list empty to hide the logos —
+            they are rendered in white on the blue strip. Leave the list empty to hide the logos;
             the strip and the 500+ badge still show.
           </p>
         </div>

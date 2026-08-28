@@ -105,8 +105,8 @@ const OUT_STAGES = [
 const OUT_ACTIVITY = [
   { icon: '📞', bg: '#EAF0FE', color: '#2A63F6', text: 'AI Voice Agent connected a renewal reminder to +971 55 210 4478', time: 'just now' },
   { icon: '👤', bg: '#FFF6E5', color: '#B7791F', text: 'Payment follow-up escalated to Mariam A. with full context', time: '2m ago' },
-  { icon: '💬', bg: '#E9F8EF', color: '#16A34A', text: 'Delivery notification delivered on WhatsApp — read receipt confirmed', time: '4m ago' },
-  { icon: '🔁', bg: '#F3ECFF', color: '#7C3AED', text: 'No answer on win-back outreach — follow-up scheduled automatically', time: '6m ago' },
+  { icon: '💬', bg: '#E9F8EF', color: '#16A34A', text: 'Delivery notification delivered on WhatsApp, read receipt confirmed', time: '4m ago' },
+  { icon: '🔁', bg: '#F3ECFF', color: '#7C3AED', text: 'No answer on win-back outreach, follow-up scheduled automatically', time: '6m ago' },
 ];
 
 export function OutreachView() {
@@ -226,7 +226,7 @@ const CHAT_CHANNELS = [
 
 const CHAT_THREAD = [
   { who: 'c', text: 'Hi, can I change the delivery address on order #4521?', time: '14:02' },
-  { who: 'a', text: 'Of course — I can see order #4521 is still in processing, so the address can be updated.', time: '14:02' },
+  { who: 'a', text: 'Of course, I can see order #4521 is still in processing, so the address can be updated.', time: '14:02' },
   { who: 'c', text: 'Great, please send it to my office instead.', time: '14:03' },
   { who: 'a', text: 'Updated to your saved office address. You will get a confirmation on WhatsApp shortly.', time: '14:03' },
 ];
@@ -483,7 +483,7 @@ const VOICE_TYPES = [
 
 const VOICE_TURNS = [
   { who: 'c', text: 'Hi, I need to reschedule my service appointment for next week.', time: '00:04' },
-  { who: 'a', text: 'Happy to help. I can see a service visit booked for Tuesday at 10am — what day suits you better?', time: '00:07' },
+  { who: 'a', text: 'Happy to help. I can see a service visit booked for Tuesday at 10am. What day suits you better?', time: '00:07' },
   { who: 'c', text: 'Thursday afternoon if possible.', time: '00:14' },
   { who: 'a', text: 'Thursday 2pm is available. I have moved the booking and sent the confirmation to your mobile.', time: '00:18' },
 ];
@@ -558,7 +558,7 @@ export function VoiceView() {
 
           <div style={COL}>
             <div style={{ ...CARD, padding: '12px 15px' }}>
-              <PanelHead title="Task Execution" sub="Not just answering — completing the request" badge="1,905 done" badgeBg="#E9F8EF" badgeColor="#16A34A" />
+              <PanelHead title="Task Execution" sub="Not just answering, completing the request" badge="1,905 done" badgeBg="#E9F8EF" badgeColor="#16A34A" />
               <div style={{ display: 'flex', flexDirection: 'column', gap: 9 }}>
                 {VOICE_TASKS.map((r, i) => (
                   <div key={r.t} style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>

@@ -10,7 +10,7 @@ const blogs = [
     tagColor: '#2563eb',
     tagBg: '#eff6ff',
     title: 'How AI Co-Pilots Are Redefining Agent Productivity in Contact Centers',
-    excerpt: 'AI co-pilots are reshaping how agents work — real-time suggestions, auto-filled notes, and live sentiment detection mean faster resolutions and happier customers.',
+    excerpt: 'AI co-pilots are reshaping how agents work: real-time suggestions, auto-filled notes, and live sentiment detection mean faster resolutions and happier customers.',
     keyPoints: [
       'Handle time reduced by up to 40%',
       'Auto-summarization after every call',
@@ -31,7 +31,7 @@ const blogs = [
     tagColor: '#006fff',
     tagBg: '#eff6ff',
     title: 'Unifying Voice, Chat & Email: The Architecture Behind Modern CX',
-    excerpt: 'A deep dive into the technical challenges of building a true omnichannel experience — and how a unified platform solves them. When customers switch channels, context must follow seamlessly.',
+    excerpt: 'A deep dive into the technical challenges of building a true omnichannel experience, and how a unified platform solves them. When customers switch channels, context must follow seamlessly.',
 
     readTime: '7 min read',
     date: 'Mar 10, 2026',
@@ -43,7 +43,7 @@ const blogs = [
     tagColor: '#059669',
     tagBg: '#ecfdf5',
     title: 'How Emirates NBD Cut Customer Wait Times by 67% with Intelligent Routing',
-    excerpt: 'One of the region\'s largest banks transformed its contact center in under 90 days — reducing wait times, boosting CSAT, and empowering agents with AI-driven insights at every touchpoint.',
+    excerpt: 'One of the region\'s largest banks transformed its contact center in under 90 days, reducing wait times, boosting CSAT, and empowering agents with AI-driven insights at every touchpoint.',
 
     readTime: '4 min read',
     date: 'Feb 28, 2026',

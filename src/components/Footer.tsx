@@ -65,7 +65,7 @@ export default function Footer() {
               />
             </Link>
             <p className="text-[15px] text-slate-500 leading-[1.7] max-w-xs font-normal">
-              Unify Voice, Digital, and Intelligence across every customer touchpoint — with precision and scale.
+              Unify Voice, Digital, and Intelligence across every customer touchpoint, with precision and scale.
             </p>
             <div className="flex items-center gap-2.5">
               {socialLinks.map(({ Icon, href, label }) => (

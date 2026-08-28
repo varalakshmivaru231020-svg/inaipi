@@ -64,7 +64,7 @@ export default function ImageUpload({ value, onChange, label = 'Image', hint }: 
           <>
             <div className="text-2xl mb-1">📁</div>
             <p className="text-sm font-bold text-slate-500">Drop image here or <span className="text-[#1447d4]">click to upload</span></p>
-            <p className="text-xs text-slate-400 mt-1">{hint ?? 'JPG, PNG, WebP — max 5 MB'}</p>
+            <p className="text-xs text-slate-400 mt-1">{hint ?? 'JPG, PNG, WebP, max 5 MB'}</p>
           </>
         )}
       </div>

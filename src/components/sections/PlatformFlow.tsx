@@ -161,7 +161,7 @@ function StageCard({ stage }: { stage: typeof stages[0] }) {
                   </div>
                   <span>
                     <span className="font-bold text-[#0f172a]">{b.label}</span>
-                    <span className="text-slate-500"> &mdash; {b.text}</span>
+                    <span className="text-slate-500">: {b.text}</span>
                   </span>
                 </li>
               ))}
@@ -293,7 +293,7 @@ function PlatformCarousel() {
               className="shrink-0 w-full"
               role={i < total ? 'group' : undefined}
               aria-roledescription={i < total ? 'slide' : undefined}
-              aria-label={i < total ? `${i + 1} of ${total} — ${stage.tagline}` : undefined}
+              aria-label={i < total ? `${i + 1} of ${total}: ${stage.tagline}` : undefined}
               aria-hidden={i !== index}
             >
               <StageCard stage={stage} />
@@ -363,7 +363,7 @@ export default function PlatformFlow() {
           transition={{ delay: 0.15 }}
           className="text-base sm:text-lg md:text-xl text-slate-500 leading-relaxed"
         >
-          Every stage of the customer journey — from first contact to proactive engagement — connected through one AI-native engine.
+          Every stage of the customer journey, from first contact to proactive engagement, connected through one AI-native engine.
         </motion.p>
       </div>
 

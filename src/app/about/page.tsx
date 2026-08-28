@@ -31,18 +31,18 @@ const offices = [
 ];
 
 const storySteps = [
-  { num: '01', title: 'Years inside the industry', desc: 'We spent years building and scaling contact centre solutions for the most demanding enterprises — banks, healthcare systems, government entities, telecoms handling millions of interactions every month.' },
+  { num: '01', title: 'Years inside the industry', desc: 'We spent years building and scaling contact centre solutions for the most demanding enterprises: banks, healthcare systems, government entities, telecoms handling millions of interactions every month.' },
   { num: '02', title: 'The same failure, everywhere', desc: 'Enterprises investing millions in CX infrastructure. Customers still getting broken, fragmented, frustrating experiences. Agents switching between seven different tools for a single conversation.' },
-  { num: '03', title: 'The root cause', desc: "AI was always treated as an add-on. Channels operated in silos. Bolting a chatbot onto a legacy contact centre doesn't create intelligence — it creates another silo." },
-  { num: '04', title: 'The Inaipi answer', desc: 'A single, AI-native platform where intelligence is not a feature — it is the foundation. One platform, one data layer, one governance framework. Predictable costs. Zero data exposure.' },
+  { num: '03', title: 'The root cause', desc: "AI was always treated as an add-on. Channels operated in silos. Bolting a chatbot onto a legacy contact centre doesn't create intelligence; it creates another silo." },
+  { num: '04', title: 'The Inaipi answer', desc: 'A single, AI-native platform where intelligence is not a feature; it is the foundation. One platform, one data layer, one governance framework. Predictable costs. Zero data exposure.' },
 ];
 
 const platformCards = [
-  { icon: MessageSquare, title: 'Omnichannel Orchestration', desc: 'Voice, WhatsApp, Email, Chat, SMS, Social, and Video — all flowing into one intelligent inbox. No channel switching. No context loss.', tag: '7 Channels Unified' },
+  { icon: MessageSquare, title: 'Omnichannel Orchestration', desc: 'Voice, WhatsApp, Email, Chat, SMS, Social, and Video, all flowing into one intelligent inbox. No channel switching. No context loss.', tag: '7 Channels Unified' },
   { icon: Activity, title: 'AI Agents + Co-Pilot', desc: 'AI agents resolve routine inquiries autonomously. Human agents are guided by a real-time co-pilot with smart suggestions and live sentiment scoring.', tag: 'AI-Human Collaboration' },
-  { icon: FileText, title: 'Intelligent Case Management', desc: 'Every unresolved interaction auto-becomes a case — classified, routed, and tracked against SLA in real time. Escalation is automatic.', tag: 'SLA Tracking' },
+  { icon: FileText, title: 'Intelligent Case Management', desc: 'Every unresolved interaction auto-becomes a case: classified, routed, and tracked against SLA in real time. Escalation is automatic.', tag: 'SLA Tracking' },
   { icon: Activity, title: 'CSAT & NPS Surveys', desc: 'Automated satisfaction surveys deploy after every resolution. Sentiment analysis flags dissatisfied customers before they escalate.', tag: 'Automated Feedback' },
-  { icon: PhoneCall, title: 'AI Voice Campaigns', desc: 'AI voice agents run outbound campaigns at unlimited scale — renewals, follow-ups, loyalty engagement. No human dialler needed.', tag: 'Outbound AI' },
+  { icon: PhoneCall, title: 'AI Voice Campaigns', desc: 'AI voice agents run outbound campaigns at unlimited scale: renewals, follow-ups, loyalty engagement. No human dialler needed.', tag: 'Outbound AI' },
   { icon: LayoutGrid, title: 'Analytics & Governance', desc: 'Real-time dashboards across CSAT, NPS, handle time, and agent performance. One governance layer, ISO 27001:2022 certified.', tag: 'ISO 27001:2022' },
 ];
 
@@ -548,7 +548,7 @@ export default function AboutPage() {
             </motion.h2>
             <motion.p initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.15, duration: 0.4 }}
               className="text-base sm:text-lg md:text-xl text-slate-500 max-w-[620px] mx-auto leading-relaxed">
-              Seasoned CX and technology leaders with deep regional expertise — practitioners who lived the problem Inaipi was built to solve.
+              Seasoned CX and technology leaders with deep regional expertise, practitioners who lived the problem Inaipi was built to solve.
             </motion.p>
           </div>
 

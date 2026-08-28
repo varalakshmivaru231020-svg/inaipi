@@ -122,7 +122,7 @@ export default function AdminSeo() {
               <Field label="Social Description" hint="Falls back to the meta description if empty.">
                 <textarea value={cur.ogDescription ?? ''} onChange={e => set('ogDescription', e.target.value)} rows={2} className={`${inputCls} resize-none`} placeholder="Description shown in social previews" />
               </Field>
-              <ImageUpload label="Social Share Image" value={cur.ogImage ?? ''} onChange={url => set('ogImage', url)} hint="Recommended 1200×630px — shown on Facebook, LinkedIn, X, etc." />
+              <ImageUpload label="Social Share Image" value={cur.ogImage ?? ''} onChange={url => set('ogImage', url)} hint="Recommended 1200×630px, shown on Facebook, LinkedIn, X, etc." />
             </Card>
 
             <Card className="p-5">

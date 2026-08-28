@@ -63,7 +63,7 @@ export default function Architecture() {
             Inaipi <span className="text-[#1447d4]">Architecture</span>
           </h2>
           <p className="text-base sm:text-lg md:text-xl text-slate-500 leading-relaxed max-w-2xl mx-auto wow wow-d3">
-            A single unified platform — every channel, AI layer, and enterprise
+            A single unified platform: every channel, AI layer, and enterprise
             integration connected through one intelligent core.
           </p>
         </motion.div>

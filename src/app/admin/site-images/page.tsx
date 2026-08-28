@@ -57,10 +57,10 @@ export default function AdminSiteImages() {
         <Card className="p-6 space-y-5">
           <div>
             <p className="text-[11px] font-black uppercase tracking-widest text-slate-400 mb-1">Section</p>
-            <h2 className="text-base font-bold text-slate-800">Unified Workspace — The Agent Desktop</h2>
+            <h2 className="text-base font-bold text-slate-800">Unified Workspace: The Agent Desktop</h2>
             <p className="text-xs text-slate-400 mt-0.5">Upload a screenshot of your agent desktop to replace the animated demo. Leave empty to keep the animated demo. Recommended: 1400×900px.</p>
           </div>
-          <ImageUpload label="Agent Desktop Screenshot" value={desktop} onChange={setDesktop} hint="Recommended: 1400×900px, JPG or WebP — replaces the animated demo" />
+          <ImageUpload label="Agent Desktop Screenshot" value={desktop} onChange={setDesktop} hint="Recommended: 1400×900px, JPG or WebP, replaces the animated demo" />
         </Card>
 
         <CustomerLogos />

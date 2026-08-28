@@ -43,7 +43,7 @@ export default function AdminEmail() {
       });
       const d = await r.json();
       setResult({ ok: r.ok, msg: r.ok
-        ? (action === 'test' ? 'Test email sent — check the recipient inbox.' : 'Connection verified successfully.')
+        ? (action === 'test' ? 'Test email sent. Check the recipient inbox.' : 'Connection verified successfully.')
         : (d.error || 'Failed.') });
     } catch {
       setResult({ ok: false, msg: 'Request failed.' });
