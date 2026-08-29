@@ -239,8 +239,8 @@ const HTML = `
           <div class="row4">
             <div class="tile">
               <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/><circle cx="12" cy="12" r="2"/></svg></span>
-              <div class="lbl">AI Agents</div>
-              <div class="sub">Auto</div>
+              <div class="lbl">AI Chatbot</div>
+              <div class="sub">Chat</div>
             </div>
             <div class="tile">
               <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></span>
@@ -253,9 +253,9 @@ const HTML = `
               <div class="sub">Live</div>
             </div>
             <div class="tile">
-              <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v3"/><rect x="4" y="6" width="16" height="12" rx="3"/><circle cx="9" cy="12" r="1.4"/><circle cx="15" cy="12" r="1.4"/><path d="M9 16h6"/></svg></span>
-              <div class="lbl">AI Assist</div>
-              <div class="sub">Co-pilot</div>
+              <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3M9 21h6"/></svg></span>
+              <div class="lbl">AI Voice Bot</div>
+              <div class="sub">Voice</div>
             </div>
           </div>
         </div>
