@@ -2,59 +2,55 @@
 
 import { motion } from 'framer-motion';
 import { ArrowRight, Clock, CheckCircle2 } from 'lucide-react';
-import Image from 'next/image';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
-const blogs = [
-  {
-    tag: 'AI & CX',
-    tagColor: '#2563eb',
-    tagBg: '#eff6ff',
-    title: 'How AI Co-Pilots Are Redefining Agent Productivity in Contact Centers',
-    excerpt: 'AI co-pilots are reshaping how agents work: real-time suggestions, auto-filled notes, and live sentiment detection mean faster resolutions and happier customers.',
-    keyPoints: [
-      'Handle time reduced by up to 40%',
-      'Auto-summarization after every call',
-      'Sentiment scoring flags at-risk customers',
-    ],
-    stats: [
-      { value: '40%', label: 'Faster Handle Time' },
-      { value: '2×', label: 'Agent Throughput' },
-      { value: '4.8★', label: 'Avg CSAT Score' },
-    ],
-    readTime: '5 min read',
-    date: 'Mar 18, 2026',
-    image: '/images/blogs/ai_copilot.png',
-    featured: true,
-  },
-  {
-    tag: 'Omnichannel',
-    tagColor: '#006fff',
-    tagBg: '#eff6ff',
-    title: 'Unifying Voice, Chat & Email: The Architecture Behind Modern CX',
-    excerpt: 'A deep dive into the technical challenges of building a true omnichannel experience, and how a unified platform solves them. When customers switch channels, context must follow seamlessly.',
-
-    readTime: '7 min read',
-    date: 'Mar 10, 2026',
-    image: '/images/blogs/omnichannel.png',
-    featured: false,
-  },
-  {
-    tag: 'Case Study',
-    tagColor: '#059669',
-    tagBg: '#ecfdf5',
-    title: 'How Emirates NBD Cut Customer Wait Times by 67% with Intelligent Routing',
-    excerpt: 'One of the region\'s largest banks transformed its contact center in under 90 days, reducing wait times, boosting CSAT, and empowering agents with AI-driven insights at every touchpoint.',
-
-    readTime: '4 min read',
-    date: 'Feb 28, 2026',
-    image: '/images/blogs/case_study.png',
-    featured: false,
-  },
+/* Card accents, cycled so the palette matches the previous design. */
+const TAG_STYLES = [
+  { tagColor: '#2563eb', tagBg: '#eff6ff' },
+  { tagColor: '#006fff', tagBg: '#eff6ff' },
+  { tagColor: '#059669', tagBg: '#ecfdf5' },
 ];
 
+type CmsPost = { id: string; title: string; excerpt: string; image: string; category: string; date: string; content?: string[] };
+type Card = {
+  id: string; tag: string; tagColor: string; tagBg: string; title: string; excerpt: string;
+  readTime: string; date: string; image: string;
+  keyPoints?: string[]; stats?: { value: string; label: string }[];
+};
+
+/* ~200 words a minute, from the body the CMS already stores. */
+const readTimeOf = (content?: string[]) => {
+  const words = (content || []).join(' ').trim().split(/\s+/).filter(Boolean).length;
+  return `${Math.max(1, Math.round(words / 200))} min read`;
+};
+
+const toCard = (p: CmsPost, i: number): Card => ({
+  id: String(p.id),
+  tag: p.category || 'Insights',
+  ...TAG_STYLES[i % TAG_STYLES.length],
+  title: p.title,
+  excerpt: p.excerpt,
+  readTime: readTimeOf(p.content),
+  date: p.date,
+  image: p.image,
+});
 
 export default function Blogs() {
-  const [featured, ...rest] = blogs;
+  /* Every card links to /blog/[id], so the cards have to come from the same
+     source the detail page reads. They used to be hard-coded with href="#",
+     which is why clicking a card or Read opened nothing. */
+  const [posts, setPosts] = useState<Card[]>([]);
+  useEffect(() => {
+    let alive = true;
+    fetch('/api/blogs', { cache: 'no-store' })
+      .then(r => (r.ok ? r.json() : Promise.reject(new Error('HTTP ' + r.status))))
+      .then((d: CmsPost[]) => { if (alive && Array.isArray(d)) setPosts(d.slice(0, 3).map(toCard)); })
+      .catch(() => { if (alive) setPosts([]); });
+    return () => { alive = false; };
+  }, []);
+
+  const [featured, ...rest] = posts;
 
   return (
     <section className="py-14 lg:py-16 relative overflow-hidden" style={{ background: '#f8faff' }}>
@@ -83,8 +79,8 @@ export default function Blogs() {
             whileTap={{ scale: 0.96, y: 0 }}
             className="shrink-0 wow wow-d3"
           >
-            <a
-              href="#"
+            <Link
+              href="/blog"
               className="relative group overflow-hidden text-white min-h-[44px] px-5 py-2.5 rounded-full font-black text-[11px] uppercase tracking-widest transition-all duration-200 flex items-center gap-2 shadow-md shadow-blue-700/25 hover:shadow-xl hover:shadow-blue-700/40 hover:brightness-110 whitespace-nowrap"
               style={{ background: '#1447d4' }}
             >
@@ -98,12 +94,15 @@ export default function Blogs() {
                 <ArrowRight className="w-2.5 h-2.5 text-white translate-x-0 group-hover:translate-x-4 transition-transform duration-200 ease-in" />
                 <ArrowRight className="w-2.5 h-2.5 text-white absolute -translate-x-4 group-hover:translate-x-0 transition-transform duration-200 ease-out" />
               </span>
-            </a>
+            </Link>
           </motion.div>
         </div>
 
         {/* Grid — featured left large, 2 stacked right */}
-        <div className="grid lg:grid-cols-5 gap-6">
+        {/* items-start: CMS posts carry no key-points/stats block, so the featured
+            card sizes to its content instead of stretching to the column height. */}
+        {featured && (
+        <div className="grid lg:grid-cols-5 gap-6 lg:items-start">
 
           {/* Featured card */}
           <motion.article
@@ -114,14 +113,14 @@ export default function Blogs() {
             whileHover={{ y: -8, scale: 1.01 }}
             className="lg:col-span-3 group bg-white rounded-3xl overflow-hidden border border-blue-100 hover:border-blue-400 shadow-md hover:shadow-2xl hover:shadow-blue-700/15 transition-all duration-300 cursor-pointer flex flex-col"
           >
+            <Link href={`/blog/${featured.id}`} className="flex flex-col flex-1">
             {/* Image */}
             <div className="relative h-60 sm:h-72 overflow-hidden bg-gray-100">
-              <Image
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
                 src={featured.image}
                 alt={featured.title}
-                fill
-                priority
-                className="object-cover object-top group-hover:scale-105 transition-transform duration-700"
+                className="absolute inset-0 w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700"
               />
               {/* Gradient overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
@@ -178,19 +177,20 @@ export default function Blogs() {
                     <Clock className="w-3 h-3" />
                     {featured.readTime}
                   </div>
-                  <a href="#" className="flex items-center gap-1 text-xs font-black uppercase tracking-widest group-hover:gap-2 transition-all duration-200" style={{ color: '#1447d4' }}>
+                  <span className="flex items-center gap-1 text-xs font-black uppercase tracking-widest group-hover:gap-2 transition-all duration-200" style={{ color: '#1447d4' }}>
                     Read <ArrowRight className="w-3 h-3" />
-                  </a>
+                  </span>
                 </div>
               </div>
             </div>
+            </Link>
           </motion.article>
 
           {/* Two stacked smaller cards */}
           <div className="lg:col-span-2 flex flex-col gap-6">
             {rest.map((post, i) => (
               <motion.article
-                key={i}
+                key={post.id}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.05 }}
@@ -198,13 +198,14 @@ export default function Blogs() {
                 whileHover={{ y: -6, scale: 1.02 }}
                 className="group bg-white rounded-3xl overflow-hidden border border-blue-100 hover:border-blue-400 shadow-md hover:shadow-2xl hover:shadow-blue-700/15 transition-all duration-300 cursor-pointer flex flex-col flex-1"
               >
+                <Link href={`/blog/${post.id}`} className="flex flex-col flex-1">
                 {/* Image */}
                 <div className="relative h-40 overflow-hidden bg-gray-100">
-                  <Image
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
                     src={post.image}
                     alt={post.title}
-                    fill
-                    className="object-cover object-top group-hover:scale-105 transition-transform duration-700"
+                    className="absolute inset-0 w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
                   <span className="absolute top-3 left-3 px-2.5 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest text-white" style={{ background: '#1447d4' }}>
@@ -237,12 +238,13 @@ export default function Blogs() {
                     <span className="text-xs text-slate-400 font-semibold">{post.date}</span>
                   </div>
                 </div>
+                </Link>
               </motion.article>
             ))}
           </div>
 
         </div>
-
+        )}
 
       </div>
     </section>
