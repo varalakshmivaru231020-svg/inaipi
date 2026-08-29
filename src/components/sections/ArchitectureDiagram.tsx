@@ -83,14 +83,13 @@ const CSS = `
     linear-gradient(180deg, #FFFFFF 0%, #F1F6FF 50%, #E4EEFF 100%);
   border:1.5px solid var(--blue-700);
   box-shadow:0 1px 0 rgba(255,255,255,.9) inset, 0 30px 60px -36px rgba(20,71,212,.45), 0 8px 22px -16px rgba(11,42,107,.2); }
-.ia .hub-pill{ position:absolute; top:-16px; left:50%; transform:translateX(-50%); background:var(--blue-700); color:#fff;
-  font-size:11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; padding:7px 16px; border-radius:999px;
-  box-shadow:0 8px 18px -8px rgba(20,71,212,.6); white-space:nowrap; font-family:${MONO}; }
-.ia .hub-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; padding-top:4px; }
+/* Centred: the head holds the platform name alone, and the padding that used
+   to clear the removed capsule is no longer needed. */
+.ia .hub-head{ display:flex; align-items:center; justify-content:center; margin-bottom:14px; }
 .ia .hub-brand{ display:flex; align-items:center; gap:12px; }
 .ia .hub-mark{ width:44px; height:44px; border-radius:12px; background:linear-gradient(135deg, var(--blue-700), var(--blue-500)); color:#fff;
   display:flex; align-items:center; justify-content:center; box-shadow:0 8px 18px -8px rgba(20,71,212,.7); }
-.ia .hub-title{ font-size:20px; font-weight:700; letter-spacing:-.01em; }
+.ia .hub-title{ font-size:26px; font-weight:700; letter-spacing:-.015em; white-space:nowrap; }
 .ia .hub-sub{ font-size:11px; color:var(--blue-700); font-family:${MONO}; letter-spacing:.12em; text-transform:uppercase; }
 
 .ia .layer{ border-radius:14px; padding:12px 14px 14px; margin-bottom:10px; position:relative; }
@@ -218,8 +217,6 @@ const HTML = `
 
     <div class="hub">
       <div class="hub-card">
-        <div class="hub-pill">Inaipi Platform Core · 3 Layers</div>
-
         <div class="hub-head">
           <div class="hub-brand">
             <div class="hub-mark">
