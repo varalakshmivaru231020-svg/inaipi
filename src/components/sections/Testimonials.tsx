@@ -2,6 +2,7 @@
 
 import { motion, useMotionValue, animate } from 'framer-motion';
 import { useRef, useState, useEffect } from 'react';
+import { Star } from 'lucide-react';
 
 /* ── Single unified card color — clean white with blue accent ── */
 const CARD = {
@@ -301,10 +302,10 @@ export default function Testimonials() {
                 <div style={{ display: 'flex', gap: 3, position: 'relative', zIndex: 3 }}>
                   {Array.from({ length: t.stars }).map((_, si) => (
                     <span key={si} style={{
-                      fontSize: '0.95rem', color: '#1447d4', display: 'inline-block',
+                      color: '#1447d4', display: 'inline-flex',
                       transform: isCenter ? 'scale(1.1)' : 'scale(1)',
                       transition: `transform 0.35s cubic-bezier(0.34,1.56,0.64,1) ${si * 0.05}s`,
-                    }}>★</span>
+                    }}><Star size={15} fill="#1447d4" strokeWidth={0} /></span>
                   ))}
                 </div>
 
