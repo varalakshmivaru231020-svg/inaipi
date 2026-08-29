@@ -109,6 +109,11 @@ const CSS = `
 .ia .tile .ic{ width:28px; height:28px; border-radius:7px; background:var(--blue-100); color:var(--blue-700); display:flex; align-items:center; justify-content:center; flex:none; }
 .ia .tile .lbl{ font-size:10.5px; font-weight:600; color:var(--ink); line-height:1.15; white-space:nowrap; }
 .ia .tile .sub{ font-size:8px; color:var(--muted); font-family:${MONO}; letter-spacing:.04em; text-transform:uppercase; margin-top:auto; }
+/* The capability promoted from the orchestration layer spans the tile row
+   rather than becoming a fifth column, so the 4-up grid above it keeps its
+   columns, tile sizing and gaps exactly as they were. */
+.ia .tile.wide{ grid-column:1/-1; flex-direction:row; align-items:center; justify-content:flex-start; text-align:left; gap:10px; min-height:0; padding:10px 12px; }
+.ia .tile.wide .lbl{ font-size:11px; }
 
 .ia .layer.b{ background:linear-gradient(135deg, #DEEAFF 0%, #C5D7FF 50%, #A8C0FF 100%); border:1px solid #9BB6FA; }
 .ia .layer.b .lname{ color:var(--blue-700); }
@@ -123,14 +128,22 @@ const CSS = `
 .ia .layer.c .lname{ color:var(--blue-900); }
 .ia .layer.c .lname .num{ background:var(--blue-900); }
 .ia .layer.c .pill{ background:#fff; color:var(--blue-900); border:1px solid #B0CCFB; }
-/* The four tiles are content-sized, and together they were 6px wider than the
-   row, so the overflow landed on the last tile (Campaigns) and clipped it on
-   machines whose fonts render slightly wide. Trim the horizontal padding only:
-   tile height and every other value stay as they were, so the row has slack. */
+/* Two cards share this row now that the outbound voice card has gone and the
+   intelligence card has moved up a layer, so they realign 2-up and each gets
+   twice the width. The trimmed horizontal padding is kept from the fix for the
+   old 4-up row, where the tiles together ran 6px wider than the row and
+   clipped the last card; at 2-up it simply leaves them more slack. */
+.ia .layer.c .row2{ display:grid; grid-template-columns:1fr 1fr; gap:8px; }
 .ia .cx-tile{ background:#fff; border:1px solid #B0CCFB; border-radius:10px; padding:10px 8px; display:flex; align-items:center; gap:7px; }
 .ia .cx-tile .ic{ width:28px; height:28px; border-radius:7px; background:var(--blue-100); color:var(--blue-900); display:flex; align-items:center; justify-content:center; flex:none; }
 .ia .cx-tile .lbl{ font-size:11px; font-weight:600; line-height:1.15; white-space:nowrap; }
 .ia .cx-tile .sub{ font-size:9px; color:var(--muted); font-family:${MONO}; letter-spacing:.06em; white-space:nowrap; }
+/* The lead card of the row: same shape, size and spacing as its neighbour,
+   lifted with the layer accent so the highlighted capability reads first. */
+.ia .cx-tile.highlight{ background:linear-gradient(135deg, #FFFFFF 0%, #EAF1FF 100%); border-color:var(--blue-700);
+  box-shadow:0 10px 20px -14px rgba(20,71,212,.6); }
+.ia .cx-tile.highlight .ic{ background:var(--blue-700); color:#fff; }
+.ia .cx-tile.highlight .lbl{ color:var(--blue-900); }
 
 .ia .ic svg{ width:18px; height:18px; }
 .ia .ic.lg svg{ width:22px; height:22px; }
@@ -254,6 +267,10 @@ const HTML = `
               <div class="lbl">AI Voice Bot</div>
               <div class="sub">Voice</div>
             </div>
+            <div class="tile wide">
+              <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17v-1M9 14a3 3 0 0 1 6 0M6 11a6 6 0 0 1 12 0M3 8a9 9 0 0 1 18 0"/></svg></span>
+              <div class="lbl">Conversation Intelligence</div>
+            </div>
           </div>
         </div>
 
@@ -285,24 +302,10 @@ const HTML = `
         <div class="layer c">
           <div class="lhead">
             <div class="lname"><span>Customer Experience Orchestration</span></div>
-            <span class="pill">Outbound &amp; Insight</span>
+            <span class="pill">Survey Campaigns</span>
           </div>
-          <div class="row4">
-            <div class="cx-tile">
-              <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17v-1M9 14a3 3 0 0 1 6 0M6 11a6 6 0 0 1 12 0M3 8a9 9 0 0 1 18 0"/></svg></span>
-              <div>
-                <div class="lbl">Conversation</div>
-                <div class="sub">Intelligence</div>
-              </div>
-            </div>
-            <div class="cx-tile">
-              <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3M8 21h8"/></svg></span>
-              <div>
-                <div class="lbl">AI Voice<br>Outbound</div>
-                <div class="sub">Outbound</div>
-              </div>
-            </div>
-            <div class="cx-tile">
+          <div class="row2">
+            <div class="cx-tile highlight">
               <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h8M8 17h5"/></svg></span>
               <div>
                 <div class="lbl">Surveys</div>
