@@ -98,7 +98,9 @@ async function main() {
     await prisma.industry.upsert({
       where: { slug: n.slug },
       update: data,
-      create: { slug: n.slug, ...data, createdAt: new Date(Date.now() + i * 60000) },
+      // spaced into the past, ascending, so the seeded order holds and anything
+      // added later is genuinely newer and lands at the end of the grid
+      create: { slug: n.slug, ...data, createdAt: new Date(Date.now() - (industries.length - i) * 60000) },
     });
   }
 
