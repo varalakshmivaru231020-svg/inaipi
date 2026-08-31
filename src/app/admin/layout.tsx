@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import {
-  LayoutDashboard, FileText, Factory, Briefcase, Quote, Inbox,
+  LayoutDashboard, FileText, Factory, Download, Briefcase, Quote, Inbox,
   Search, Mail, BarChart3, LogOut, Menu, X, ExternalLink,
 } from 'lucide-react';
 
@@ -16,6 +16,7 @@ const GROUPS = [
       { label: 'Dashboard', href: '/admin', icon: LayoutDashboard, exact: true },
       { label: 'Blog Posts', href: '/admin/blogs', icon: FileText },
       { label: 'Industries', href: '/admin/industries', icon: Factory },
+      { label: 'Buyer Resources', href: '/admin/resources', icon: Download },
       { label: 'Careers', href: '/admin/jobs', icon: Briefcase },
       { label: 'Testimonials', href: '/admin/testimonials', icon: Quote },
       { label: 'Enquiries', href: '/admin/enquiries', icon: Inbox },

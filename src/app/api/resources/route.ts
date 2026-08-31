@@ -4,11 +4,11 @@ import { prisma } from '@/lib/prisma';
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
-// Oldest first, so the six original cards keep their order and anything the
-// admin adds joins the end of the grid.
+// Newest first, and never cached: a resource published in the admin has to show
+// on the site in a normal browser, without a hard refresh.
 export async function GET() {
-  const industries = await prisma.industry.findMany({ orderBy: { createdAt: 'asc' } });
-  return NextResponse.json(industries, {
+  const resources = await prisma.resource.findMany({ orderBy: { createdAt: 'desc' } });
+  return NextResponse.json(resources, {
     headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0' },
   });
 }

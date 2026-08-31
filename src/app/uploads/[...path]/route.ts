@@ -24,6 +24,17 @@ const TYPES: Record<string, string> = {
   '.avif': 'image/avif',
   '.svg': 'image/svg+xml',
   '.ico': 'image/x-icon',
+  // the brochures and documents the content types offer for download
+  '.pdf': 'application/pdf',
+  '.doc': 'application/msword',
+  '.docx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  '.xls': 'application/vnd.ms-excel',
+  '.xlsx': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  '.ppt': 'application/vnd.ms-powerpoint',
+  '.pptx': 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+  '.csv': 'text/csv',
+  '.txt': 'text/plain',
+  '.zip': 'application/zip',
 };
 
 export async function GET(_req: NextRequest, { params }: { params: { path: string[] } }) {

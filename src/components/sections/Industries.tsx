@@ -91,9 +91,12 @@ export default function Industries() {
                 <div className="absolute top-0 left-0 right-0 h-[2.5px] rounded-t-[20px] opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ background: '#1447d4' }} />
 
                 {/* Icon */}
-                <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-6 transition-all duration-300 group-hover:scale-110"
+                <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-6 transition-all duration-300 group-hover:scale-110 overflow-hidden"
                   style={{ background: '#1447d4' }}>
-                  <Icon className="w-5 h-5 text-white" />
+                  {ind.iconUrl
+                    // eslint-disable-next-line @next/next/no-img-element
+                    ? <img src={ind.iconUrl} alt="" className="w-7 h-7 object-contain" />
+                    : <Icon className="w-5 h-5 text-white" />}
                 </div>
 
                 {/* Title */}

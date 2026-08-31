@@ -4,20 +4,24 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { PageHeader, LoadingRows } from '../../ui';
 import IndustryForm, { IndustryFormValues, emptyIndustry } from '../IndustryForm';
+import { toDocuments } from '@/lib/richtext';
 
 export default function EditIndustry() {
   const { id } = useParams<{ id: string }>();
   const [initial, setInitial] = useState<IndustryFormValues | null>(null);
 
   useEffect(() => {
-    fetch(`/api/admin/industries/${id}`).then(r => r.json()).then(n => {
+    fetch(`/api/admin/industries/${id}`, { cache: 'no-store' }).then(r => r.json()).then(n => {
       setInitial({
         name: n.name ?? '',
         sub: n.sub ?? '',
         icon: n.icon ?? 'Building2',
+        iconUrl: n.iconUrl ?? '',
         desc: n.desc ?? '',
         useCases: (n.useCases ?? []).join(', '),
-        content: (n.content ?? []).join('\n\n'),
+        // sectors written before the rich editor keep their paragraphs
+        html: n.html || (n.content ?? []).map((p: string) => `<p>${p}</p>`).join(''),
+        documents: toDocuments(n.documents),
       });
     });
   }, [id]);

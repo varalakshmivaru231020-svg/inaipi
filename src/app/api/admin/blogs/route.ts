@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { sanitizeHtml, toDocuments } from '@/lib/richtext';
 
 export const dynamic = 'force-dynamic';
 
@@ -21,6 +22,8 @@ export async function POST(req: NextRequest) {
       comments: 0,
       tags: Array.isArray(b.tags) ? b.tags : [],
       content: Array.isArray(b.content) ? b.content : [],
+      html: sanitizeHtml(String(b.html ?? '')),
+      documents: toDocuments(b.documents),
     },
   });
   return NextResponse.json(blog, { status: 201 });

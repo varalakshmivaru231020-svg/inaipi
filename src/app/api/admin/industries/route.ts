@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { sanitizeHtml, toDocuments } from '@/lib/richtext';
 
 export const dynamic = 'force-dynamic';
 
@@ -33,6 +34,9 @@ export async function POST(req: NextRequest) {
       desc: b.desc ?? '',
       useCases: Array.isArray(b.useCases) ? b.useCases : [],
       content: Array.isArray(b.content) ? b.content : [],
+      html: sanitizeHtml(String(b.html ?? '')),
+      documents: toDocuments(b.documents),
+      iconUrl: b.iconUrl ?? '',
     },
   });
   return NextResponse.json(industry, { status: 201 });

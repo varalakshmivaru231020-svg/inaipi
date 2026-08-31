@@ -18,6 +18,11 @@ model Blog {
   comments  Int      @default(0)
   tags      String[]
   content   String[]
+  // Rich body from the shared editor. Older posts have only the paragraph
+  // array above, which stays the fallback so nothing already published breaks.
+  html      String   @default("")
+  // [{ name, url }] from the shared document field
+  documents Json     @default("[]")
   createdAt DateTime @default(now())
 }
 
@@ -96,5 +101,25 @@ model Industry {
   desc      String   @default("")
   useCases  String[]
   content   String[]
+  html      String   @default("")
+  documents Json     @default("[]")
+  // An uploaded or linked image used instead of one of the built-in icons
+  iconUrl   String   @default("")
+  createdAt DateTime @default(now())
+}
+
+// Buyer Resources: downloadable assets with their own detail pages. Same shape
+// as the other content types, so the admin, the editor and the document field
+// are shared rather than duplicated.
+model Resource {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  title     String
+  excerpt   String   @default("")
+  image     String   @default("")
+  category  String   @default("")
+  html      String   @default("")
+  content   String[]
+  documents Json     @default("[]")
   createdAt DateTime @default(now())
 }

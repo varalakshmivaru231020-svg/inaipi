@@ -19,6 +19,9 @@ export const industryIcon = (name?: string) =>
   INDUSTRY_ICONS[(name ?? '') as IndustryIconName] ?? Building2;
 
 export type Industry = {
+  iconUrl?: string;
+  html?: string;
+  documents?: unknown;
   id: string;
   slug: string;
   name: string;

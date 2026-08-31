@@ -8,10 +8,13 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import RichContent from '@/components/RichContent';
+import DownloadGate from '@/components/DownloadGate';
+import { hasHtml, toDocuments } from '@/lib/richtext';
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
-type Article = { id: string; title: string; category: string; author: string; date: string; image: string; excerpt: string; content: string[]; tags: string[] };
+type Article = { id: string; title: string; category: string; author: string; date: string; image: string; excerpt: string; content: string[]; tags: string[]; html?: string; documents?: unknown };
 
 export default function BlogDetailPage() {
   const params = useParams();
@@ -21,7 +24,7 @@ export default function BlogDetailPage() {
   const [notFound, setNotFound] = useState(false);
 
   useEffect(() => {
-    fetch('/api/blogs').then(r => r.json()).then((blogs: Article[]) => {
+    fetch('/api/blogs', { cache: 'no-store' }).then(r => r.json()).then((blogs: Article[]) => {
       setAllBlogs(blogs);
       const found = blogs.find(b => b.id === id);
       if (found) setArticle(found); else setNotFound(true);
@@ -116,12 +119,20 @@ export default function BlogDetailPage() {
                 <p className="text-base sm:text-lg md:text-xl text-[#0f172a] font-medium leading-relaxed mb-8">
                   {a.excerpt}
                 </p>
-                {a.content.map((paragraph, i) => (
-                  <p key={i} className="text-base sm:text-lg text-slate-600 leading-[1.8] mb-6 last:mb-0">
-                    {paragraph}
-                  </p>
-                ))}
+                {hasHtml(a.html) ? (
+                  <RichContent html={a.html as string} />
+                ) : (
+                  a.content.map((paragraph, i) => (
+                    <p key={i} className="text-base sm:text-lg text-slate-600 leading-[1.8] mb-6 last:mb-0">
+                      {paragraph}
+                    </p>
+                  ))
+                )}
               </div>
+
+              {toDocuments(a.documents).length > 0 && (
+                <DownloadGate documents={toDocuments(a.documents)} source="Blog post" title={a.title} />
+              )}
 
               {/* Divider */}
               <div className="h-px bg-gradient-to-r from-blue-100 via-blue-50 to-transparent" />

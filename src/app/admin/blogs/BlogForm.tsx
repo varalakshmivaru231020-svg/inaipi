@@ -4,7 +4,10 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import ImageUpload from '../components/ImageUpload';
+import RichEditor from '../components/RichEditor';
+import DocumentsField from '../components/DocumentsField';
 import { Field, inputCls, btnPrimary, btnGhost, Card } from '../ui';
+import { htmlToParagraphs, type DocumentRef } from '@/lib/richtext';
 
 export type BlogFormValues = {
   title: string;
@@ -12,12 +15,14 @@ export type BlogFormValues = {
   image: string;
   category: string;
   author: string;
-  tags: string;    // comma-separated
-  content: string; // blank-line separated paragraphs
+  tags: string;   // comma-separated
+  html: string;   // the rich body
+  documents: DocumentRef[];
 };
 
 export const emptyBlog: BlogFormValues = {
-  title: '', excerpt: '', image: '', category: 'Technology', author: 'Admin', tags: '', content: '',
+  title: '', excerpt: '', image: '', category: 'Technology', author: 'Admin',
+  tags: '', html: '', documents: [],
 };
 
 const CATEGORIES = ['Technology', 'Business', 'Design', 'Updates', 'Innovation'];
@@ -35,7 +40,8 @@ export default function BlogForm({
   const [form, setForm] = useState<BlogFormValues>(initial);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
-  const set = (k: keyof BlogFormValues, v: string) => setForm(f => ({ ...f, [k]: v }));
+  const set = <K extends keyof BlogFormValues>(k: K, v: BlogFormValues[K]) =>
+    setForm(f => ({ ...f, [k]: v }));
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -45,7 +51,9 @@ export default function BlogForm({
       await onSubmit({
         ...form,
         tags: form.tags.split(',').map(t => t.trim()).filter(Boolean),
-        content: form.content.split('\n\n').map(p => p.trim()).filter(Boolean),
+        // the plain paragraph array is kept in step with the rich body, so the
+        // read-time estimate and older readers of that field still work
+        content: htmlToParagraphs(form.html),
       });
     } catch (err) {
       // A save that failed used to leave for the list anyway, so an expired
@@ -81,12 +89,19 @@ export default function BlogForm({
         <Field label="Excerpt / Summary" required>
           <textarea value={form.excerpt} onChange={e => set('excerpt', e.target.value)} required rows={3} placeholder="Short description shown on the blog list…" className={`${inputCls} resize-none`} />
         </Field>
-        <Field label="Content" required hint="Separate paragraphs with a blank line.">
-          <textarea value={form.content} onChange={e => set('content', e.target.value)} required rows={12} placeholder={'First paragraph…\n\nSecond paragraph…'} className={`${inputCls} resize-none`} />
-        </Field>
+        <RichEditor
+          label="Content"
+          value={form.html}
+          onChange={html => set('html', html)}
+          hint="Headings, formatting, lists, links and images. Content pasted from a document keeps its formatting."
+        />
         <Field label="Tags" hint="Comma-separated.">
           <input value={form.tags} onChange={e => set('tags', e.target.value)} placeholder="AI, CX, Innovation" className={inputCls} />
         </Field>
+      </Card>
+
+      <Card className="p-6">
+        <DocumentsField value={form.documents} onChange={docs => set('documents', docs)} />
       </Card>
 
       <div className="space-y-3">

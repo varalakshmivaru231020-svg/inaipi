@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { sanitizeHtml, toDocuments } from '@/lib/richtext';
 
 export const dynamic = 'force-dynamic';
 
@@ -22,6 +23,8 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
         ...(b.author !== undefined && { author: b.author }),
         ...(Array.isArray(b.tags) && { tags: b.tags }),
         ...(Array.isArray(b.content) && { content: b.content }),
+        ...(b.html !== undefined && { html: sanitizeHtml(String(b.html)) }),
+        ...(b.documents !== undefined && { documents: toDocuments(b.documents) }),
       },
     });
     return NextResponse.json(blog);

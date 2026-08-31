@@ -6,7 +6,7 @@ import { Factory, Plus, Tag } from 'lucide-react';
 import { PageHeader, Card, Badge, EmptyState, LoadingRows, btnPrimary } from '../ui';
 import { industryIcon } from '@/lib/industryIcons';
 
-type Industry = { id: string; slug: string; name: string; sub: string; icon: string; useCases: string[] };
+type Industry = { id: string; slug: string; name: string; sub: string; icon: string; iconUrl?: string; useCases: string[] };
 
 export default function AdminIndustries() {
   const [industries, setIndustries] = useState<Industry[]>([]);
@@ -46,8 +46,11 @@ export default function AdminIndustries() {
             const Icon = industryIcon(n.icon);
             return (
               <Card key={n.id} className="p-4 flex items-center gap-4">
-                <div className="w-12 h-12 rounded-xl bg-[#1447d4] flex items-center justify-center shrink-0">
-                  <Icon className="w-5 h-5 text-white" />
+                <div className="w-12 h-12 rounded-xl bg-[#1447d4] flex items-center justify-center shrink-0 overflow-hidden">
+                  {n.iconUrl
+                    // eslint-disable-next-line @next/next/no-img-element
+                    ? <img src={n.iconUrl} alt="" className="w-7 h-7 object-contain" />
+                    : <Icon className="w-5 h-5 text-white" />}
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="font-bold text-slate-800 truncate">{n.name}</p>

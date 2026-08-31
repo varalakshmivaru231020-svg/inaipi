@@ -4,13 +4,14 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { PageHeader, LoadingRows } from '../../ui';
 import BlogForm, { BlogFormValues, emptyBlog } from '../BlogForm';
+import { toDocuments } from '@/lib/richtext';
 
 export default function EditBlog() {
   const { id } = useParams<{ id: string }>();
   const [initial, setInitial] = useState<BlogFormValues | null>(null);
 
   useEffect(() => {
-    fetch(`/api/admin/blogs/${id}`).then(r => r.json()).then(b => {
+    fetch(`/api/admin/blogs/${id}`, { cache: 'no-store' }).then(r => r.json()).then(b => {
       setInitial({
         title: b.title ?? '',
         excerpt: b.excerpt ?? '',
@@ -18,7 +19,10 @@ export default function EditBlog() {
         category: b.category ?? 'Technology',
         author: b.author ?? '',
         tags: (b.tags ?? []).join(', '),
-        content: (b.content ?? []).join('\n\n'),
+        // posts written before the rich editor have only the paragraph array,
+        // so those paragraphs become the starting HTML rather than being lost
+        html: b.html || (b.content ?? []).map((p: string) => `<p>${p}</p>`).join(''),
+        documents: toDocuments(b.documents),
       });
     });
   }, [id]);

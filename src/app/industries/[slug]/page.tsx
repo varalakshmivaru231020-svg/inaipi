@@ -8,6 +8,9 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { industryIcon, type Industry } from '@/lib/industryIcons';
+import RichContent from '@/components/RichContent';
+import DownloadGate from '@/components/DownloadGate';
+import { hasHtml, toDocuments } from '@/lib/richtext';
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -85,8 +88,11 @@ export default function IndustryDetailPage() {
           </motion.div>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease }}>
-            <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-6" style={{ background: '#1447d4' }}>
-              <Icon className="w-5 h-5 text-white" />
+            <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-6 overflow-hidden" style={{ background: '#1447d4' }}>
+              {industry.iconUrl
+                // eslint-disable-next-line @next/next/no-img-element
+                ? <img src={industry.iconUrl} alt="" className="w-7 h-7 object-contain" />
+                : <Icon className="w-5 h-5 text-white" />}
             </div>
             {industry.sub && (
               <span className="inline-block px-3 py-1 bg-blue-50 border border-blue-100 rounded-full text-[11px] font-bold text-blue-500 uppercase tracking-widest mb-5">{industry.sub}</span>
@@ -105,20 +111,24 @@ export default function IndustryDetailPage() {
             {/* ── LEFT: the sector's content ── */}
             <div className="lg:col-span-8 space-y-12">
               <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, ease }} className="space-y-12">
-                {industry.content.length > 0 && (
+                {(hasHtml(industry.html) || industry.content.length > 0) && (
                   <div>
                     <h2 className="text-2xl sm:text-3xl font-bold font-figtree tracking-[-0.025em] text-[#0f172a] leading-[1.15] mb-4">Overview</h2>
-                    <div className="space-y-4">
-                      {industry.content.map((p, i) => (
-                        <p key={i} className="text-base sm:text-lg text-slate-500 leading-relaxed">{p}</p>
-                      ))}
-                    </div>
+                    {hasHtml(industry.html) ? (
+                      <RichContent html={industry.html as string} />
+                    ) : (
+                      <div className="space-y-4">
+                        {industry.content.map((p, i) => (
+                          <p key={i} className="text-base sm:text-lg text-slate-500 leading-relaxed">{p}</p>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 )}
 
                 {industry.useCases.length > 0 && (
                   <>
-                    {industry.content.length > 0 && <div className="h-px bg-gradient-to-r from-blue-100 via-indigo-100 to-transparent" />}
+                    {(hasHtml(industry.html) || industry.content.length > 0) && <div className="h-px bg-gradient-to-r from-blue-100 via-indigo-100 to-transparent" />}
                     <div>
                       <h2 className="text-2xl sm:text-3xl font-bold font-figtree tracking-[-0.025em] text-[#0f172a] leading-[1.15] mb-6">Use Cases</h2>
                       <ul className="space-y-3">
@@ -132,6 +142,12 @@ export default function IndustryDetailPage() {
                         ))}
                       </ul>
                     </div>
+                  </>
+                )}
+                {toDocuments(industry.documents).length > 0 && (
+                  <>
+                    <div className="h-px bg-gradient-to-r from-blue-100 via-indigo-100 to-transparent" />
+                    <DownloadGate documents={toDocuments(industry.documents)} source="Industry" title={industry.name} />
                   </>
                 )}
               </motion.div>
@@ -156,8 +172,11 @@ export default function IndustryDetailPage() {
                         const RelIcon = industryIcon(n.icon);
                         return (
                           <Link key={n.id} href={`/industries/${n.slug}`} className="flex items-center gap-3 group">
-                            <span className="w-9 h-9 rounded-lg bg-blue-50 flex items-center justify-center shrink-0">
-                              <RelIcon className="w-4 h-4 text-[#1447d4]" />
+                            <span className="w-9 h-9 rounded-lg bg-blue-50 flex items-center justify-center shrink-0 overflow-hidden">
+                              {n.iconUrl
+                                // eslint-disable-next-line @next/next/no-img-element
+                                ? <img src={n.iconUrl} alt="" className="w-5 h-5 object-contain" />
+                                : <RelIcon className="w-4 h-4 text-[#1447d4]" />}
                             </span>
                             <span className="text-sm font-bold text-slate-700 group-hover:text-[#1447d4] transition-colors">{n.name}</span>
                           </Link>
