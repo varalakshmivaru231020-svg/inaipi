@@ -72,8 +72,12 @@ export default function ImageUpload({ value, onChange, label = 'Image', hint }: 
       {/* URL input fallback */}
       <div className="flex items-center gap-2 mt-2">
         <span className="text-xs text-slate-400 shrink-0">or paste URL:</span>
+        {/* Not type="url": an uploaded file lands here as a site-relative path
+            like /uploads/cover.png, which fails the browser's URL validation
+            and blocked the surrounding form from submitting at all. */}
         <input
-          type="url"
+          type="text"
+          inputMode="url"
           value={value}
           onChange={e => onChange(e.target.value)}
           placeholder="https://..."
