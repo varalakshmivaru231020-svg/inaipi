@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 import ArchitectureDiagram, { ARCH_W } from './ArchitectureDiagram';
+import ArchitectureMobile from './ArchitectureMobile';
 
 /* Below this the diagram's 10–12px labels stop being readable. */
 const MIN_SCALE = 0.5;
@@ -90,9 +91,16 @@ export default function Architecture() {
             </div>
           ) : (
             <>
+              {/* Under lg the fixed canvas would have to shrink past the point
+                  where its 10px labels are readable, so the same architecture is
+                  stepped through instead. Both are always rendered and switched
+                  with CSS, so there is no breakpoint flash on first paint. */}
+              <div className="w-full lg:hidden">
+                <ArchitectureMobile />
+              </div>
               <div
                 ref={frameRef}
-                className="ad-scroll rounded-[2rem] overflow-x-auto overflow-y-hidden border shadow-2xl bg-white w-full"
+                className="ad-scroll hidden lg:block rounded-[2rem] overflow-x-auto overflow-y-hidden border shadow-2xl bg-white w-full"
                 style={{ borderColor: 'rgba(20,71,212,0.12)', height: naturalH ? naturalH * scale : undefined, WebkitOverflowScrolling: 'touch' }}
               >
                 <div style={{ width: ARCH_W * scale, height: naturalH ? naturalH * scale : undefined }}>
@@ -101,9 +109,6 @@ export default function Architecture() {
                   </div>
                 </div>
               </div>
-              <p className="sm:hidden text-center text-xs text-slate-400 mt-4 font-medium">
-                Swipe the diagram sideways to explore the full architecture.
-              </p>
             </>
           )}
         </motion.div>

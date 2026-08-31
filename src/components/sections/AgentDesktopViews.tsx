@@ -1,5 +1,7 @@
 'use client';
 
+import { Glyph, Stars, Lead } from './dashboardIcons';
+
 /**
  * Extra Agent Desktop views used by the PlatformFlow section for the
  * Proactive Outreach, AI Voice Agents, AI Chat Agents and Surveys stages.
@@ -22,7 +24,7 @@ function ViewHead({ mark, markBg, title, sub, statusLabel }: {
   return (
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 14, flexWrap: 'wrap', marginBottom: 12 }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-        <div style={{ width: 46, height: 46, borderRadius: 14, background: markBg, color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 19 }}>{mark}</div>
+        <div style={{ width: 46, height: 46, borderRadius: 14, background: markBg, color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 19 }}><Glyph g={mark} size={20} /></div>
         <div>
           <div style={{ fontWeight: 800, fontSize: 20, letterSpacing: '-0.3px' }}>{title}</div>
           <div style={{ fontSize: 12.5, color: '#5B6B87', fontWeight: 600 }}>{sub}</div>
@@ -43,7 +45,7 @@ function KpiRow({ items }: { items: Kpi[] }) {
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5,1fr)', gap: 11, marginBottom: 11 }}>
       {items.map(k => (
         <div key={k.label} className="ad-lift" style={{ ...CARD, borderRadius: 14, padding: '11px 14px', display: 'flex', alignItems: 'center', gap: 11 }}>
-          <span style={{ width: 38, height: 38, borderRadius: 12, background: k.iconBg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, flexShrink: 0 }}>{k.icon}</span>
+          <span style={{ width: 38, height: 38, borderRadius: 12, background: k.iconBg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, flexShrink: 0 }}><Glyph g={k.icon} size={17} /></span>
           <div style={{ minWidth: 0 }}>
             <div style={{ ...LABEL, fontSize: 10, letterSpacing: '0.5px' }}>{k.label}</div>
             <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
@@ -129,7 +131,7 @@ export function OutreachView() {
               {OUT_CAMPAIGNS.map(c => (
                 <div key={c.name} style={{ display: 'grid', gridTemplateColumns: '1.7fr .9fr .8fr .9fr .9fr .8fr', gap: 8, padding: '8px 4px', alignItems: 'center', borderBottom: '1px solid #F5F8FD' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 9, minWidth: 0 }}>
-                    <span style={{ width: 26, height: 26, borderRadius: 8, background: c.bg, color: c.color, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, flexShrink: 0 }}>{c.icon}</span>
+                    <span style={{ width: 26, height: 26, borderRadius: 8, background: c.bg, color: c.color, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, flexShrink: 0 }}><Glyph g={c.icon} size={12} /></span>
                     <span style={{ fontWeight: 800, fontSize: 12.5, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{c.name}</span>
                   </div>
                   <span style={{ fontSize: 11.5, fontWeight: 800, color: c.color }}>{c.type}</span>
@@ -189,7 +191,7 @@ export function OutreachView() {
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                 {OUT_ACTIVITY.map(a => (
                   <div key={a.text} style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
-                    <span style={{ width: 28, height: 28, borderRadius: 9, background: a.bg, color: a.color, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, flexShrink: 0 }}>{a.icon}</span>
+                    <span style={{ width: 28, height: 28, borderRadius: 9, background: a.bg, color: a.color, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, flexShrink: 0 }}><Glyph g={a.icon} size={13} /></span>
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <div style={{ fontSize: 12, fontWeight: 700, color: '#334267', lineHeight: 1.35 }}>{a.text}</div>
                       <div style={{ fontSize: 10.5, color: '#8FA1BE', fontWeight: 700, marginTop: 2 }}>{a.time}</div>
@@ -251,7 +253,7 @@ export function ChatView() {
               {CHAT_CHANNELS.map(c => (
                 <div key={c.name} style={{ display: 'grid', gridTemplateColumns: '1.5fr .9fr 1fr .9fr 1fr', gap: 8, padding: '8px 4px', alignItems: 'center', borderBottom: '1px solid #F5F8FD' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 9, minWidth: 0 }}>
-                    <span style={{ width: 26, height: 26, borderRadius: 8, background: c.bg, color: c.color, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, flexShrink: 0 }}>{c.icon}</span>
+                    <span style={{ width: 26, height: 26, borderRadius: 8, background: c.bg, color: c.color, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, flexShrink: 0 }}><Glyph g={c.icon} size={12} /></span>
                     <span style={{ fontWeight: 800, fontSize: 12.5 }}>{c.name}</span>
                   </div>
                   <span style={{ fontSize: 12.5, fontWeight: 800, fontVariantNumeric: 'tabular-nums' }}>{c.chats}</span>
@@ -321,7 +323,7 @@ export function ChatView() {
                   { t: 'AI summary', s: 'What the customer asked and what AI already answered' },
                 ].map(r => (
                   <div key={r.t} style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
-                    <span style={{ width: 24, height: 24, borderRadius: 8, background: '#EAF6EE', color: '#16A34A', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 800, flexShrink: 0 }}>✓</span>
+                    <span style={{ width: 24, height: 24, borderRadius: 8, background: '#EAF6EE', color: '#16A34A', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 800, flexShrink: 0 }}>{<Glyph g="✓" size={12} />}</span>
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <div style={{ fontWeight: 800, fontSize: 12.5 }}>{r.t}</div>
                       <div style={{ fontSize: 10.5, color: '#8FA1BE', fontWeight: 700 }}>{r.s}</div>
@@ -388,7 +390,7 @@ export function SurveysView() {
               {SUR_CHANNELS.map(c => (
                 <div key={c.name} style={{ display: 'grid', gridTemplateColumns: '1.6fr .8fr .9fr 1fr .7fr', gap: 8, padding: '8px 4px', alignItems: 'center', borderBottom: '1px solid #F5F8FD' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 9, minWidth: 0 }}>
-                    <span style={{ width: 26, height: 26, borderRadius: 8, background: c.bg, color: c.color, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, flexShrink: 0 }}>{c.icon}</span>
+                    <span style={{ width: 26, height: 26, borderRadius: 8, background: c.bg, color: c.color, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, flexShrink: 0 }}><Glyph g={c.icon} size={12} /></span>
                     <span style={{ fontWeight: 800, fontSize: 12.5, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{c.name}</span>
                   </div>
                   <span style={{ fontSize: 12.5, fontWeight: 800, fontVariantNumeric: 'tabular-nums' }}>{c.sent}</span>
@@ -399,7 +401,7 @@ export function SurveysView() {
                     </span>
                     <span style={{ fontSize: 11, fontWeight: 800, color: '#5B6B87', fontVariantNumeric: 'tabular-nums' }}>{c.rate}</span>
                   </span>
-                  <span style={{ fontWeight: 800, fontSize: 12.5, color: '#B7791F' }}>★ {c.score}</span>
+                  <span style={{ fontWeight: 800, fontSize: 12.5, color: '#B7791F', display: 'inline-flex', alignItems: 'center', gap: 4 }}><Glyph g="★" size={12} />{c.score}</span>
                 </div>
               ))}
             </div>
@@ -409,7 +411,7 @@ export function SurveysView() {
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 9 }}>
                 {SUR_TRIGGERS.map(t => (
                   <div key={t.t} style={{ background: '#F7FAFF', border: '1px solid #EDF2FA', borderRadius: 12, padding: '11px 12px' }}>
-                    <span style={{ width: 28, height: 28, borderRadius: 9, background: t.bg, color: t.c, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, marginBottom: 8 }}>{t.icon}</span>
+                    <span style={{ width: 28, height: 28, borderRadius: 9, background: t.bg, color: t.c, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, marginBottom: 8 }}><Glyph g={t.icon} size={13} /></span>
                     <div style={{ fontWeight: 800, fontSize: 12.5, marginBottom: 3 }}>{t.t}</div>
                     <div style={{ fontSize: 10.5, color: '#8FA1BE', fontWeight: 700, lineHeight: 1.4 }}>{t.s}</div>
                   </div>
@@ -426,7 +428,7 @@ export function SurveysView() {
                   <div key={g.name}>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 5 }}>
                       <span style={{ fontSize: 11.5, fontWeight: 800, color: '#334267' }}>{g.name}</span>
-                      <span style={{ fontWeight: 800, fontSize: 12.5, color: g.color, fontVariantNumeric: 'tabular-nums' }}>{g.trend} {g.score}</span>
+                      <span style={{ fontWeight: 800, fontSize: 12.5, color: g.color, fontVariantNumeric: 'tabular-nums' }}><Lead t={g.trend} size={12} /> {g.score}</span>
                     </div>
                     <span style={{ display: 'block', height: 7, borderRadius: 999, background: '#EEF3FB' }}>
                       <span style={{ display: 'block', height: '100%', borderRadius: 999, width: `${(parseFloat(g.score) / 5) * 100}%`, background: g.color, transition: 'width 0.6s ease' }} />
@@ -520,7 +522,7 @@ export function VoiceView() {
               {VOICE_TYPES.map(v => (
                 <div key={v.name} style={{ display: 'grid', gridTemplateColumns: '1.5fr .8fr 1fr .9fr 1fr', gap: 8, padding: '7px 4px', alignItems: 'center', borderBottom: '1px solid #F5F8FD' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 9, minWidth: 0 }}>
-                    <span style={{ width: 26, height: 26, borderRadius: 8, background: v.bg, color: v.color, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, flexShrink: 0 }}>{v.icon}</span>
+                    <span style={{ width: 26, height: 26, borderRadius: 8, background: v.bg, color: v.color, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, flexShrink: 0 }}><Glyph g={v.icon} size={12} /></span>
                     <span style={{ fontWeight: 800, fontSize: 12.5, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{v.name}</span>
                   </div>
                   <span style={{ fontSize: 12.5, fontWeight: 800, fontVariantNumeric: 'tabular-nums' }}>{v.calls}</span>
@@ -545,7 +547,7 @@ export function VoiceView() {
                       width: 26, height: 26, borderRadius: 8, flexShrink: 0, fontSize: 10, fontWeight: 800,
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
                       background: m.who === 'a' ? '#F3ECFF' : '#EAF0FE', color: m.who === 'a' ? '#7C3AED' : '#2A63F6',
-                    }}>{m.who === 'a' ? 'AI' : '👤'}</span>
+                    }}>{m.who === 'a' ? 'AI' : <Glyph g="👤" size={13} />}</span>
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <div style={{ fontSize: 12, fontWeight: 700, color: '#334267', lineHeight: 1.4 }}>{m.text}</div>
                       <div style={{ fontSize: 10, color: '#8FA1BE', fontWeight: 700, marginTop: 2, fontVariantNumeric: 'tabular-nums' }}>{m.time}</div>
@@ -567,7 +569,7 @@ export function VoiceView() {
                       <div style={{ fontWeight: 800, fontSize: 12.5 }}>{r.t}</div>
                       <div style={{ fontSize: 10.5, color: '#8FA1BE', fontWeight: 700 }}>{r.s}</div>
                     </div>
-                    <span style={{ fontSize: 12, fontWeight: 800, color: '#16A34A', flexShrink: 0 }}>✓</span>
+                    <span style={{ fontSize: 12, fontWeight: 800, color: '#16A34A', flexShrink: 0 }}>{<Glyph g="✓" size={13} />}</span>
                   </div>
                 ))}
               </div>
@@ -589,7 +591,7 @@ export function VoiceView() {
                   { t: 'Customer record', s: 'Identity, history and prior contacts' },
                 ].map(r => (
                   <div key={r.t} style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
-                    <span style={{ width: 24, height: 24, borderRadius: 8, background: '#EAF6EE', color: '#16A34A', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 800, flexShrink: 0 }}>✓</span>
+                    <span style={{ width: 24, height: 24, borderRadius: 8, background: '#EAF6EE', color: '#16A34A', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 800, flexShrink: 0 }}>{<Glyph g="✓" size={12} />}</span>
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <div style={{ fontWeight: 800, fontSize: 12.5 }}>{r.t}</div>
                       <div style={{ fontSize: 10.5, color: '#8FA1BE', fontWeight: 700 }}>{r.s}</div>
@@ -715,7 +717,7 @@ export function MentionsView() {
                       <span style={{ fontSize: 10.5, color: MN.muted }}>{m.action}</span>
                       <span style={{ marginLeft: 'auto', fontSize: 10, color: MN.faint }}>{m.time}</span>
                     </div>
-                    {m.stars && <div style={{ color: MN.amber, fontSize: 12, letterSpacing: 2 }}>★★★★★</div>}
+                    {m.stars && <div style={{ color: MN.amber, fontSize: 12, letterSpacing: 2 }}><Stars n={5} size={12} /></div>}
                     <p style={{ margin: 0, fontSize: 11, lineHeight: 1.5, color: MN.ink3 }}>{m.text}</p>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
                       {m.platformLabel && <span style={{ fontSize: 10, fontWeight: 600, color: '#6d5ce7' }}>{m.platformLabel}</span>}
@@ -837,7 +839,7 @@ export function MentionsView() {
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5,1fr)', gap: 9 }}>
                 {MN_QUICK.map(([glyph, label]) => (
                   <div key={label} style={{ background: MN.card, border: `1px solid ${MN.line}`, borderRadius: 12, padding: 7, display: 'flex', alignItems: 'center', gap: 8, minWidth: 0 }}>
-                    <span style={{ width: 30, height: 30, borderRadius: 9, background: MN.purpleSoft, display: 'flex', alignItems: 'center', justifyContent: 'center', color: MN.purple, fontWeight: 800, fontSize: 11, flexShrink: 0 }}>{glyph}</span>
+                    <span style={{ width: 30, height: 30, borderRadius: 9, background: MN.purpleSoft, display: 'flex', alignItems: 'center', justifyContent: 'center', color: MN.purple, fontWeight: 800, fontSize: 11, flexShrink: 0 }}><Glyph g={glyph} size={12} /></span>
                     <span style={{ fontSize: 10.5, fontWeight: 700, lineHeight: 1.3, color: MN.ink }}>{label}</span>
                   </div>
                 ))}
@@ -919,7 +921,7 @@ export function MentionsView() {
                 <div key={label} style={{ display: 'flex', flexDirection: 'column', gap: 6, padding: '0 16px', borderRight: i < 4 ? `1px solid ${MN.line}` : undefined }}>
                   <span style={{ fontSize: 11, color: '#5a5f74', fontWeight: 600 }}>{label}</span>
                   <span style={{ fontSize: 17, fontWeight: 800, color: MN.ink, whiteSpace: 'nowrap' }}>
-                    {value} <span style={{ fontSize: 11, fontWeight: 700, color: colour }}>{delta}</span>
+                    {value} <span style={{ fontSize: 11, fontWeight: 700, color: colour }}><Lead t={delta} size={11} /></span>
                   </span>
                 </div>
               ))}

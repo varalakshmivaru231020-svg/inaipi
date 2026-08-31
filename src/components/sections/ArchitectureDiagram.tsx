@@ -109,11 +109,9 @@ const CSS = `
 .ia .tile .ic{ width:28px; height:28px; border-radius:7px; background:var(--blue-100); color:var(--blue-700); display:flex; align-items:center; justify-content:center; flex:none; }
 .ia .tile .lbl{ font-size:10.5px; font-weight:600; color:var(--ink); line-height:1.15; white-space:nowrap; }
 .ia .tile .sub{ font-size:8px; color:var(--muted); font-family:${MONO}; letter-spacing:.04em; text-transform:uppercase; margin-top:auto; }
-/* The capability promoted from the orchestration layer spans the tile row
-   rather than becoming a fifth column, so the 4-up grid above it keeps its
-   columns, tile sizing and gaps exactly as they were. */
-.ia .tile.wide{ grid-column:1/-1; flex-direction:row; align-items:center; justify-content:flex-start; text-align:left; gap:10px; min-height:0; padding:10px 12px; }
-.ia .tile.wide .lbl{ font-size:11px; }
+/* The intelligence label is two words longer than the labels either side
+   of it, so this one label wraps rather than forcing the whole row wider. */
+.ia .tile.ci .lbl{ white-space:normal; }
 
 .ia .layer.b{ background:linear-gradient(135deg, #DEEAFF 0%, #C5D7FF 50%, #A8C0FF 100%); border:1px solid #9BB6FA; }
 .ia .layer.b .lname{ color:var(--blue-700); }
@@ -257,19 +255,15 @@ const HTML = `
               <div class="lbl">Human Agents</div>
               <div class="sub">Assist</div>
             </div>
-            <div class="tile">
-              <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M7 14V11M11 14V8M15 14v-4M19 14V7"/></svg></span>
-              <div class="lbl">Dashboards</div>
-              <div class="sub">Live</div>
+            <div class="tile ci">
+              <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17v-1M9 14a3 3 0 0 1 6 0M6 11a6 6 0 0 1 12 0M3 8a9 9 0 0 1 18 0"/></svg></span>
+              <div class="lbl">Conversation Intelligence</div>
+              <div class="sub">Insight</div>
             </div>
             <div class="tile">
               <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3M9 21h6"/></svg></span>
               <div class="lbl">AI Voice Bot</div>
               <div class="sub">Voice</div>
-            </div>
-            <div class="tile wide">
-              <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17v-1M9 14a3 3 0 0 1 6 0M6 11a6 6 0 0 1 12 0M3 8a9 9 0 0 1 18 0"/></svg></span>
-              <div class="lbl">Conversation Intelligence</div>
             </div>
           </div>
         </div>

@@ -1,5 +1,7 @@
 'use client';
 
+import { Glyph, Rating, Lead } from './dashboardIcons';
+
 /**
  * Inaipi Agent Desktop — product mock used as the homepage showcase.
  * Ported from the Claude Design file "Inaipi Agent Desktop.dc.html".
@@ -396,7 +398,7 @@ export default function AgentDesktopUI({ playing = true, fixedView }: { playing?
   const _svk = T % SV_RESPONSES.length;
   const svResponses = SV_RESPONSES.slice(_svk).concat(SV_RESPONSES.slice(0, _svk)).map((r, i) => ({
     ...r,
-    stars: '★'.repeat(r.score) + '☆'.repeat(5 - r.score),
+    stars: r.score,
     scoreColor: r.score >= 4 ? '#16A34A' : r.score === 3 ? '#F59E0B' : '#E5484D',
     ago: i === 0 ? 'just now' : `${i * 3 + (secs % 60 < 30 ? 1 : 2)}m ago`,
   }));
@@ -477,7 +479,7 @@ export default function AgentDesktopUI({ playing = true, fixedView }: { playing?
             <div className="ad-scroll" style={{ flex: 1, overflowY: 'auto', padding: '6px 10px 12px', display: 'flex', flexDirection: 'column', gap: 6 }}>
               {queueVis.map((q, i) => (
                 <div key={q.name} className="ad-queue ad-slide" style={{ animationDelay: `${i * 45}ms`, border: '1px solid #EDF2FA', borderRadius: 12, padding: '11px 12px', display: 'flex', gap: 10, cursor: 'pointer', background: '#fff', transition: 'background 0.2s ease, border-color 0.2s ease' }}>
-                  <div style={{ width: 36, height: 36, borderRadius: 11, background: q.chBg, color: q.chColor, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: 15, fontWeight: 800 }}>{q.chGlyph}</div>
+                  <div style={{ width: 36, height: 36, borderRadius: 11, background: q.chBg, color: q.chColor, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: 15, fontWeight: 800 }}><Glyph g={q.chGlyph} size={16} /></div>
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
                       <span style={{ fontWeight: 800, fontSize: 13, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{q.name}</span>
@@ -493,7 +495,7 @@ export default function AgentDesktopUI({ playing = true, fixedView }: { playing?
                 </div>
               ))}
               <div style={{ border: '1px dashed #C7D8F9', borderRadius: 12, padding: '11px 12px', display: 'flex', alignItems: 'center', gap: 10, background: '#F7FAFF' }}>
-                <div style={{ width: 36, height: 36, borderRadius: 11, background: '#F3EDFE', color: '#7C3AED', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16 }}>✦</div>
+                <div style={{ width: 36, height: 36, borderRadius: 11, background: '#F3EDFE', color: '#7C3AED', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16 }}>{<Glyph g="✦" size={17} />}</div>
                 <div>
                   <div style={{ fontWeight: 800, fontSize: 13, color: '#7C3AED' }}>AI Virtual Agent</div>
                   <div style={{ fontSize: 11.5, color: '#5B6B87', fontWeight: 600 }}>Handling 12 conversations · 68% contained</div>
@@ -530,9 +532,9 @@ export default function AgentDesktopUI({ playing = true, fixedView }: { playing?
                   <div style={{ fontWeight: 800, fontSize: 22, fontVariantNumeric: 'tabular-nums', letterSpacing: '0.5px' }}>{timer}</div>
                   <div style={{ flex: 1 }} />
                   <div style={{ display: 'flex', gap: 8 }}>
-                    <span style={{ width: 42, height: 42, borderRadius: '50%', background: 'rgba(255,255,255,.16)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 15 }}>🎙</span>
+                    <span style={{ width: 42, height: 42, borderRadius: '50%', background: 'rgba(255,255,255,.16)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 15 }}>{<Glyph g="🎙" size={16} />}</span>
                     <span style={{ width: 42, height: 42, borderRadius: '50%', background: 'rgba(255,255,255,.16)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: 13 }}>II</span>
-                    <span style={{ width: 42, height: 42, borderRadius: '50%', background: 'rgba(255,255,255,.16)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16 }}>⇄</span>
+                    <span style={{ width: 42, height: 42, borderRadius: '50%', background: 'rgba(255,255,255,.16)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16 }}>{<Glyph g="⇄" size={17} />}</span>
                     <span style={{ height: 42, padding: '0 20px', borderRadius: 999, background: '#E5484D', display: 'flex', alignItems: 'center', fontWeight: 800, fontSize: 13 }}>End</span>
                   </div>
                 </div>
@@ -543,7 +545,7 @@ export default function AgentDesktopUI({ playing = true, fixedView }: { playing?
                     <span style={{ fontWeight: 800, fontSize: 14 }}>Live Transcription</span>
                     <span style={{ fontSize: 11.5, fontWeight: 700, color: '#8FA1BE' }}>English · auto-detected</span>
                     <div style={{ flex: 1 }} />
-                    <span style={{ background: '#F3EDFE', color: '#7C3AED', fontWeight: 800, fontSize: 11.5, padding: '4px 10px', borderRadius: 999 }}>✦ Intent: Billing dispute</span>
+                    <span style={{ background: '#F3EDFE', color: '#7C3AED', fontWeight: 800, fontSize: 11.5, padding: '4px 10px', borderRadius: 999 }}>{<Glyph g="✦" size={13} />} Intent: Billing dispute</span>
                   </div>
                   <div className="ad-scroll" style={{ flex: 1, overflowY: 'auto', padding: '16px 18px', display: 'flex', flexDirection: 'column', gap: 14 }}>
                     {transcriptVis.map(t => (
@@ -576,7 +578,7 @@ export default function AgentDesktopUI({ playing = true, fixedView }: { playing?
                 name="Sarah Mitchell" sub="WhatsApp · online" subColor="#1FA855"
                 sentimentDot="#F59E0B" sentiment="Neutral sentiment"
                 messages={waThread} accent="#1FA855" placeholder="Reply on WhatsApp…"
-                suggestions={['✦ Your order #4521 ships today: tracking link incoming', '✦ Offer 10% voucher for the delay']}
+                suggestions={['Your order #4521 ships today: tracking link incoming', 'Offer 10% voucher for the delay']}
               />
             )}
 
@@ -588,7 +590,7 @@ export default function AgentDesktopUI({ playing = true, fixedView }: { playing?
                 name="Priya Nair" sub="Web Chat · escalated from AI agent" subColor="#2A63F6"
                 sentimentDot="#E5484D" sentiment="Negative sentiment"
                 messages={CHAT_THREAD} accent="#2A63F6" placeholder="Reply in chat…"
-                banner="✦ AI agent handled 4 turns · handed off with summary"
+                banner="AI agent handled 4 turns · handed off with summary"
               />
             )}
           </main>
@@ -600,7 +602,7 @@ export default function AgentDesktopUI({ playing = true, fixedView }: { playing?
                 <div style={{ width: 46, height: 46, borderRadius: '50%', background: 'linear-gradient(135deg,#0B1B3A,#41537A)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: 15 }}>AR</div>
                 <div style={{ minWidth: 0 }}>
                   <div style={{ fontWeight: 800, fontSize: 15 }}>Ahmed Al Rashid</div>
-                  <div style={{ fontSize: 11.5, color: '#5B6B87', fontWeight: 700 }}>Customer since 2021 · <span style={{ color: '#B7791F' }}>★ Gold</span></div>
+                  <div style={{ fontSize: 11.5, color: '#5B6B87', fontWeight: 700 }}>Customer since 2021 · <span style={{ color: '#B7791F' }}>{<Glyph g="★" size={13} />} Gold</span></div>
                 </div>
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 8, marginTop: 14 }}>
@@ -616,7 +618,7 @@ export default function AgentDesktopUI({ playing = true, fixedView }: { playing?
             <div style={{ ...CARD, padding: 16, flexShrink: 0 }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <div style={{ fontWeight: 800, fontSize: 14 }}>Live Sentiment</div>
-                <span style={{ background: '#EAF6EE', color: '#166534', fontWeight: 800, fontSize: 11.5, padding: '3px 10px', borderRadius: 999 }}>Improving ↗</span>
+                <span style={{ background: '#EAF6EE', color: '#166534', fontWeight: 800, fontSize: 11.5, padding: '3px 10px', borderRadius: 999 }}>Improving {<Glyph g="↗" size={13} />}</span>
               </div>
               <div style={{ marginTop: 14, height: 10, borderRadius: 999, background: 'linear-gradient(90deg,#E5484D,#F59E0B,#16A34A)', position: 'relative' }}>
                 <span style={{ position: 'absolute', left: sentPos, top: '50%', transition: 'left 1.2s ease', transform: 'translate(-50%,-50%)', width: 18, height: 18, borderRadius: '50%', background: '#fff', border: '4px solid #0B1B3A' }} />
@@ -631,7 +633,7 @@ export default function AgentDesktopUI({ playing = true, fixedView }: { playing?
 
             <div style={{ background: '#fff', border: '1px solid #DCCEFB', borderRadius: 16, overflow: 'hidden', flexShrink: 0 }}>
               <div style={{ background: 'linear-gradient(120deg,#6D28D9,#8B5CF6)', padding: '12px 16px', display: 'flex', alignItems: 'center', gap: 8 }}>
-                <span style={{ color: '#fff', fontSize: 15 }}>✦</span>
+                <span style={{ color: '#fff', fontSize: 15 }}>{<Glyph g="✦" size={16} />}</span>
                 <span style={{ color: '#fff', fontWeight: 800, fontSize: 14 }}>AI Copilot</span>
                 <div style={{ flex: 1 }} />
                 <span className="ad-pulse" style={{ background: 'rgba(255,255,255,.2)', color: '#fff', fontSize: 10.5, fontWeight: 800, padding: '3px 9px', borderRadius: 999 }}>LIVE</span>
@@ -646,10 +648,10 @@ export default function AgentDesktopUI({ playing = true, fixedView }: { playing?
                 </div>
                 <div style={{ ...LABEL, fontSize: 11, letterSpacing: '0.5px', marginTop: 2 }}>KNOWLEDGE</div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 9, border: '1px solid #EDF2FA', borderRadius: 12, padding: '10px 13px', fontSize: 12.5, fontWeight: 700, color: '#2A63F6' }}>
-                  <span style={{ width: 26, height: 26, borderRadius: 8, background: '#EAF0FE', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, flexShrink: 0 }}>📄</span>
+                  <span style={{ width: 26, height: 26, borderRadius: 8, background: '#EAF0FE', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, flexShrink: 0 }}>{<Glyph g="📄" size={13} />}</span>
                   Refund policy: duplicate transactions
                 </div>
-                <div style={{ background: '#6D28D9', color: '#fff', fontWeight: 800, fontSize: 13, padding: 12, borderRadius: 11, marginTop: 2, textAlign: 'center' }}>✦ Generate wrap-up summary</div>
+                <div style={{ background: '#6D28D9', color: '#fff', fontWeight: 800, fontSize: 13, padding: 12, borderRadius: 11, marginTop: 2, textAlign: 'center' }}>{<Glyph g="✦" size={14} />} Generate wrap-up summary</div>
               </div>
             </div>
 
@@ -662,7 +664,7 @@ export default function AgentDesktopUI({ playing = true, fixedView }: { playing?
                   { g: '✉️', bg: '#FEF3E2', c: '#B7791F', t: 'Email: invoice request',   s: 'Resolved · 3 weeks ago' },
                 ].map(j => (
                   <div key={j.t} style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-                    <span style={{ width: 30, height: 30, borderRadius: 9, background: j.bg, color: j.c, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, flexShrink: 0 }}>{j.g}</span>
+                    <span style={{ width: 30, height: 30, borderRadius: 9, background: j.bg, color: j.c, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, flexShrink: 0 }}><Glyph g={j.g} size={14} /></span>
                     <div style={{ flex: 1 }}>
                       <div style={{ fontWeight: 700, fontSize: 12.5 }}>{j.t}</div>
                       <div style={{ fontSize: 11, color: '#8FA1BE', fontWeight: 700 }}>{j.s}</div>
@@ -679,7 +681,7 @@ export default function AgentDesktopUI({ playing = true, fixedView }: { playing?
       {view === 'monitoring' && (
         <div key="monitoring" className="ad-rise ad-scroll" style={{ flex: 1, padding: '18px 22px 28px', width: '100%', minHeight: 0, overflowY: 'auto' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 16 }}>
-            <div style={{ width: 46, height: 46, borderRadius: 14, background: 'linear-gradient(135deg,#1E4FD0,#4C82FF)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, boxShadow: '0 10px 22px -10px rgba(42,99,246,.6)' }}>📡</div>
+            <div style={{ width: 46, height: 46, borderRadius: 14, background: 'linear-gradient(135deg,#1E4FD0,#4C82FF)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, boxShadow: '0 10px 22px -10px rgba(42,99,246,.6)' }}>{<Glyph g="📡" size={19} />}</div>
             <div>
               <div style={{ fontWeight: 800, fontSize: 21, letterSpacing: '-0.3px' }}>Interaction Monitoring Center</div>
               <div style={{ fontSize: 12.5, color: '#5B6B87', fontWeight: 600 }}>Real-time omnichannel supervision across voice, chat, social &amp; AI</div>
@@ -689,14 +691,14 @@ export default function AgentDesktopUI({ playing = true, fixedView }: { playing?
               <span className="ad-pulse" style={{ width: 8, height: 8, borderRadius: '50%', background: '#16A34A' }} />Live · refreshing every 2s
             </span>
             <span style={{ background: '#EAF0FE', color: '#2A63F6', borderRadius: 999, padding: '9px 15px', fontWeight: 800, fontSize: 12.5 }}>7 Human</span>
-            <span style={{ background: '#F3EDFE', color: '#7C3AED', borderRadius: 999, padding: '9px 15px', fontWeight: 800, fontSize: 12.5 }}>✦ 3 AI</span>
+            <span style={{ background: '#F3EDFE', color: '#7C3AED', borderRadius: 999, padding: '9px 15px', fontWeight: 800, fontSize: 12.5 }}>{<Glyph g="✦" size={14} />} 3 AI</span>
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6,1fr)', gap: 10, marginBottom: 10 }}>
             {kpis.map(k => (
               <div key={k.label} className="ad-lift" style={{ ...CARD, borderRadius: 15, padding: '14px 15px 12px', overflow: 'hidden' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <span style={{ width: 26, height: 26, borderRadius: 8, background: k.iconBg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12 }}>{k.icon}</span>
+                  <span style={{ width: 26, height: 26, borderRadius: 8, background: k.iconBg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12 }}><Glyph g={k.icon} size={13} /></span>
                   <span style={LABEL}>{k.label}</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'baseline', gap: 7, marginTop: 9 }}>
@@ -736,7 +738,7 @@ export default function AgentDesktopUI({ playing = true, fixedView }: { playing?
                   </div>
                   <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
                     {a.channels.map(c => (
-                      <span key={c.name} title={c.name} style={{ display: 'flex', alignItems: 'center', gap: 5, background: c.bg, color: c.color, fontSize: 11, fontWeight: 800, padding: '4px 9px', borderRadius: 8 }}>{c.glyph} {c.count}</span>
+                      <span key={c.name} title={c.name} style={{ display: 'flex', alignItems: 'center', gap: 5, background: c.bg, color: c.color, fontSize: 11, fontWeight: 800, padding: '4px 9px', borderRadius: 8 }}><Glyph g={c.glyph} size={12} /> {c.count}</span>
                     ))}
                   </div>
                   {a.current && (
@@ -773,7 +775,7 @@ export default function AgentDesktopUI({ playing = true, fixedView }: { playing?
 
             <aside style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
               <div style={{ background: 'linear-gradient(120deg,#FFF7EA,#FFFDF8)', border: '1px solid #F5DFB8', borderRadius: 15, padding: '13px 15px', display: 'flex', gap: 10, alignItems: 'center' }}>
-                <span style={{ width: 34, height: 34, borderRadius: 10, background: '#FEF3E2', color: '#B7791F', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 15, flexShrink: 0 }}>⚠</span>
+                <span style={{ width: 34, height: 34, borderRadius: 10, background: '#FEF3E2', color: '#B7791F', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 15, flexShrink: 0 }}>{<Glyph g="⚠" size={16} />}</span>
                 <div>
                   <div style={{ fontWeight: 800, fontSize: 12.5, color: '#92640D' }}>SLA warning: Voice queue</div>
                   <div style={{ fontSize: 11.5, color: '#A97F2E', fontWeight: 600 }}>Longest wait 1:12 · target is 0:60</div>
@@ -789,7 +791,7 @@ export default function AgentDesktopUI({ playing = true, fixedView }: { playing?
                 <div style={{ padding: '10px 12px', display: 'flex', flexDirection: 'column', gap: 6 }}>
                   {feed.map((e, i) => (
                     <div key={e.text} className="ad-slide" style={{ animationDelay: `${i * 40}ms`, display: 'flex', gap: 10, padding: '8px 9px', borderRadius: 11, background: e.rowBg, transition: 'background 0.4s ease' }}>
-                      <span style={{ width: 28, height: 28, borderRadius: 9, background: e.bg, color: e.color, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, flexShrink: 0 }}>{e.glyph}</span>
+                      <span style={{ width: 28, height: 28, borderRadius: 9, background: e.bg, color: e.color, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, flexShrink: 0 }}><Glyph g={e.glyph} size={13} /></span>
                       <div style={{ minWidth: 0 }}>
                         <div style={{ fontSize: 11.5, fontWeight: 600, color: '#22314F', lineHeight: 1.45 }}>{e.text}</div>
                         <div style={{ fontSize: 10, fontWeight: 800, color: '#8FA1BE', marginTop: 2 }}>{e.t}</div>
@@ -807,20 +809,20 @@ export default function AgentDesktopUI({ playing = true, fixedView }: { playing?
       {view === 'cases' && (
         <div key="cases" className="ad-rise ad-scroll" style={{ flex: 1, padding: '18px 22px 28px', width: '100%', minHeight: 0, overflowY: 'auto' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 16 }}>
-            <div style={{ width: 46, height: 46, borderRadius: 14, background: 'linear-gradient(135deg,#0B1B3A,#41537A)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>🗂</div>
+            <div style={{ width: 46, height: 46, borderRadius: 14, background: 'linear-gradient(135deg,#0B1B3A,#41537A)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>{<Glyph g="🗂" size={19} />}</div>
             <div>
               <div style={{ fontWeight: 800, fontSize: 21, letterSpacing: '-0.3px' }}>Case &amp; Ticket Management</div>
               <div style={{ fontSize: 12.5, color: '#5B6B87', fontWeight: 600 }}>Auto-created from any channel · AI-classified · SLA tracked</div>
             </div>
             <div style={{ flex: 1 }} />
-            <span style={{ display: 'flex', alignItems: 'center', gap: 7, background: '#F3EDFE', color: '#7C3AED', borderRadius: 999, padding: '8px 15px', fontWeight: 800, fontSize: 12.5 }}>✦ AI resolving 3 routine cases in background</span>
+            <span style={{ display: 'flex', alignItems: 'center', gap: 7, background: '#F3EDFE', color: '#7C3AED', borderRadius: 999, padding: '8px 15px', fontWeight: 800, fontSize: 12.5 }}>{<Glyph g="✦" size={14} />} AI resolving 3 routine cases in background</span>
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5,1fr)', gap: 10, marginBottom: 16 }}>
             {CASE_KPIS.map(k => (
               <div key={k.label} className="ad-lift" style={{ ...CARD, borderRadius: 15, padding: '14px 15px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <span style={{ width: 26, height: 26, borderRadius: 8, background: k.iconBg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12 }}>{k.icon}</span>
+                  <span style={{ width: 26, height: 26, borderRadius: 8, background: k.iconBg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12 }}><Glyph g={k.icon} size={13} /></span>
                   <span style={LABEL}>{k.label}</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'baseline', gap: 7, marginTop: 9 }}>
@@ -842,7 +844,7 @@ export default function AgentDesktopUI({ playing = true, fixedView }: { playing?
               ))}
             </div>
             <div style={{ display: 'flex', gap: 4, ...CARD, borderRadius: 12, padding: 5, flexShrink: 0 }}>
-              <button onClick={() => { setManual(true); setCaseView('table'); }} style={viewBtnStyle(caseView === 'table')}>☰ Table</button>
+              <button onClick={() => { setManual(true); setCaseView('table'); }} style={viewBtnStyle(caseView === 'table')}>{<Glyph g="☰" size={13} />} Table</button>
               <button onClick={() => { setManual(true); setCaseView('board'); }} style={viewBtnStyle(caseView === 'board')}>▦ Board</button>
             </div>
           </div>
@@ -856,7 +858,7 @@ export default function AgentDesktopUI({ playing = true, fixedView }: { playing?
                 <div key={r.id} className="ad-row" onClick={() => { setManual(true); setOpenCase(r.id); }} style={{ display: 'grid', gridTemplateColumns: '105px 1.6fr 2.1fr 92px 1.2fr 92px 112px 90px', gap: 10, padding: '13px 18px', borderBottom: '1px solid #F3F7FD', alignItems: 'center', cursor: 'pointer', transition: 'background 0.2s ease' }}>
                   <span style={{ fontWeight: 800, fontSize: 12.5, color: '#2A63F6' }}>{r.id}</span>
                   <span style={{ display: 'flex', alignItems: 'center', gap: 8, minWidth: 0 }}>
-                    <span style={{ width: 28, height: 28, borderRadius: 9, background: r.chBg, color: r.chColor, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, flexShrink: 0 }}>{r.chGlyph}</span>
+                    <span style={{ width: 28, height: 28, borderRadius: 9, background: r.chBg, color: r.chColor, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, flexShrink: 0 }}><Glyph g={r.chGlyph} size={13} /></span>
                     <span style={{ fontWeight: 700, fontSize: 12.5, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{r.customer}</span>
                   </span>
                   <span style={{ fontSize: 12.5, color: '#22314F', fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{r.subject}</span>
@@ -886,7 +888,7 @@ export default function AgentDesktopUI({ playing = true, fixedView }: { playing?
                         </div>
                         <div style={{ fontSize: 12.5, fontWeight: 700, color: '#22314F', lineHeight: 1.4, marginBottom: 8 }}>{c.subject}</div>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
-                          <span style={{ width: 24, height: 24, borderRadius: 8, background: c.chBg, color: c.chColor, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, flexShrink: 0 }}>{c.chGlyph}</span>
+                          <span style={{ width: 24, height: 24, borderRadius: 8, background: c.chBg, color: c.chColor, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, flexShrink: 0 }}><Glyph g={c.chGlyph} size={12} /></span>
                           <span style={{ fontSize: 11.5, fontWeight: 700, color: '#5B6B87', flex: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{c.customer}</span>
                           <span style={{ fontSize: 11, fontWeight: 800, color: c.slaColor }}>{c.sla}</span>
                         </div>
@@ -912,7 +914,7 @@ export default function AgentDesktopUI({ playing = true, fixedView }: { playing?
                       <span style={{ fontSize: 10.5, fontWeight: 800, padding: '4px 10px', borderRadius: 999, background: '#F1F5FC', color: activeCase.slaColor }}>SLA {activeCase.sla}</span>
                     </div>
                   </div>
-                  <button onClick={() => setOpenCase(null)} style={{ width: 32, height: 32, borderRadius: 9, border: '1px solid #E3EAF5', background: '#fff', cursor: 'pointer', fontSize: 14, color: '#5B6B87', flexShrink: 0 }}>✕</button>
+                  <button onClick={() => setOpenCase(null)} style={{ width: 32, height: 32, borderRadius: 9, border: '1px solid #E3EAF5', background: '#fff', cursor: 'pointer', fontSize: 14, color: '#5B6B87', flexShrink: 0 }}>{<Glyph g="✕" size={15} />}</button>
                 </div>
                 <div className="ad-scroll" style={{ flex: 1, overflowY: 'auto', padding: '18px 20px', display: 'flex', flexDirection: 'column', gap: 14 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 11, background: '#F7FAFF', border: '1px solid #EDF2FA', borderRadius: 13, padding: '12px 14px' }}>
@@ -921,10 +923,10 @@ export default function AgentDesktopUI({ playing = true, fixedView }: { playing?
                       <div style={{ fontWeight: 800, fontSize: 13.5 }}>{activeCase.customer}</div>
                       <div style={{ fontSize: 11, color: '#8FA1BE', fontWeight: 700 }}>via {activeCase.channel} · assignee: {activeCase.assignee}</div>
                     </div>
-                    <span style={{ width: 30, height: 30, borderRadius: 9, background: activeCase.chBg, color: activeCase.chColor, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13 }}>{activeCase.chGlyph}</span>
+                    <span style={{ width: 30, height: 30, borderRadius: 9, background: activeCase.chBg, color: activeCase.chColor, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13 }}><Glyph g={activeCase.chGlyph} size={14} /></span>
                   </div>
                   <div style={{ border: '1px solid #DCCEFB', borderRadius: 13, overflow: 'hidden' }}>
-                    <div style={{ background: 'linear-gradient(120deg,#6D28D9,#8B5CF6)', padding: '9px 14px', color: '#fff', fontWeight: 800, fontSize: 12.5 }}>✦ AI Case Summary</div>
+                    <div style={{ background: 'linear-gradient(120deg,#6D28D9,#8B5CF6)', padding: '9px 14px', color: '#fff', fontWeight: 800, fontSize: 12.5 }}>{<Glyph g="✦" size={14} />} AI Case Summary</div>
                     <div style={{ padding: '12px 14px', fontSize: 12.5, lineHeight: 1.6, color: '#22314F' }}>{activeCase.aiSummary}</div>
                   </div>
                   <div>
@@ -944,7 +946,7 @@ export default function AgentDesktopUI({ playing = true, fixedView }: { playing?
                   </div>
                 </div>
                 <div style={{ padding: '14px 20px', borderTop: '1px solid #EDF2FA', display: 'flex', gap: 8 }}>
-                  <span style={{ flex: 1, background: '#16A34A', color: '#fff', fontWeight: 800, fontSize: 12.5, padding: '12px 0', borderRadius: 11, textAlign: 'center' }}>✓ Resolve</span>
+                  <span style={{ flex: 1, background: '#16A34A', color: '#fff', fontWeight: 800, fontSize: 12.5, padding: '12px 0', borderRadius: 11, textAlign: 'center' }}>{<Glyph g="✓" size={14} />} Resolve</span>
                   <span style={{ flex: 1, border: '1px solid #E3EAF5', color: '#41537A', fontWeight: 800, fontSize: 12.5, padding: '12px 0', borderRadius: 11, textAlign: 'center' }}>Reassign</span>
                   <span style={{ flex: 1, border: '1px solid #FBD9DA', color: '#E5484D', fontWeight: 800, fontSize: 12.5, padding: '12px 0', borderRadius: 11, textAlign: 'center' }}>Escalate</span>
                 </div>
@@ -958,7 +960,7 @@ export default function AgentDesktopUI({ playing = true, fixedView }: { playing?
       {view === 'analytics' && (
         <div key="analytics" className="ad-rise ad-scroll" style={{ flex: 1, padding: '18px 22px 28px', width: '100%', minHeight: 0, overflowY: 'auto' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 16 }}>
-            <div style={{ width: 46, height: 46, borderRadius: 14, background: 'linear-gradient(135deg,#6D28D9,#8B5CF6)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>📈</div>
+            <div style={{ width: 46, height: 46, borderRadius: 14, background: 'linear-gradient(135deg,#6D28D9,#8B5CF6)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>{<Glyph g="📈" size={19} />}</div>
             <div>
               <div style={{ fontWeight: 800, fontSize: 21, letterSpacing: '-0.3px' }}>Performance Analytics</div>
               <div style={{ fontSize: 12.5, color: '#5B6B87', fontWeight: 600 }}>Omnichannel volumes, agent performance &amp; AI impact</div>
@@ -969,14 +971,14 @@ export default function AgentDesktopUI({ playing = true, fixedView }: { playing?
                 <button key={f} onClick={() => { setManual(true); setRange(f); }} style={pillStyle(range === f)}>{f}</button>
               ))}
             </div>
-            <span style={{ border: '1px solid #E3EAF5', background: '#fff', color: '#41537A', fontWeight: 800, fontSize: 12.5, padding: '10px 16px', borderRadius: 11, flexShrink: 0 }}>⬇ Export</span>
+            <span style={{ border: '1px solid #E3EAF5', background: '#fff', color: '#41537A', fontWeight: 800, fontSize: 12.5, padding: '10px 16px', borderRadius: 11, flexShrink: 0 }}>{<Glyph g="⬇" size={14} />} Export</span>
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5,1fr)', gap: 10, marginBottom: 14 }}>
             {AN_KPIS.map(k => (
               <div key={k.label} className="ad-lift" style={{ ...CARD, borderRadius: 15, padding: '14px 15px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <span style={{ width: 26, height: 26, borderRadius: 8, background: k.iconBg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12 }}>{k.icon}</span>
+                  <span style={{ width: 26, height: 26, borderRadius: 8, background: k.iconBg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12 }}><Glyph g={k.icon} size={13} /></span>
                   <span style={LABEL}>{k.label}</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'baseline', gap: 7, marginTop: 9 }}>
@@ -1012,7 +1014,7 @@ export default function AgentDesktopUI({ playing = true, fixedView }: { playing?
                 {MIX.map(c => (
                   <div key={c.name}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11.5, fontWeight: 800, marginBottom: 4 }}>
-                      <span style={{ color: '#22314F' }}>{c.glyph} {c.name}</span>
+                      <span style={{ color: '#22314F' }}><Glyph g={c.glyph} size={13} /> {c.name}</span>
                       <span style={{ color: '#8FA1BE' }}>{c.count} · {c.pct}</span>
                     </div>
                     <div style={{ height: 8, borderRadius: 999, background: '#EDF2FA', overflow: 'hidden' }}>
@@ -1036,14 +1038,14 @@ export default function AgentDesktopUI({ playing = true, fixedView }: { playing?
                       <div style={{ fontWeight: 800, fontSize: 12.5 }}>{l.name}</div>
                       <div style={{ fontSize: 10.5, color: '#8FA1BE', fontWeight: 700 }}>{l.handled} handled · AHT {l.aht}</div>
                     </div>
-                    <span style={{ fontWeight: 800, fontSize: 13, color: '#B7791F' }}>★ {l.csat}</span>
+                    <span style={{ fontWeight: 800, fontSize: 13, color: '#B7791F', display: 'inline-flex', alignItems: 'center', gap: 4 }}><Glyph g="★" size={12} />{l.csat}</span>
                   </div>
                 ))}
               </div>
             </div>
             <div style={{ background: '#fff', border: '1px solid #DCCEFB', borderRadius: 16, padding: '16px 18px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 7, marginBottom: 14 }}>
-                <span style={{ color: '#7C3AED', fontSize: 14 }}>✦</span>
+                <span style={{ color: '#7C3AED', fontSize: 14 }}>{<Glyph g="✦" size={15} />}</span>
                 <span style={{ fontWeight: 800, fontSize: 14 }}>AI Impact</span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
@@ -1066,7 +1068,7 @@ export default function AgentDesktopUI({ playing = true, fixedView }: { playing?
             <div style={{ ...CARD, padding: '16px 18px' }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
                 <span style={{ fontWeight: 800, fontSize: 14 }}>CSAT Trend</span>
-                <span style={{ background: '#EAF6EE', color: '#166534', fontWeight: 800, fontSize: 11, padding: '3px 10px', borderRadius: 999 }}>4.6 avg ↗</span>
+                <span style={{ background: '#EAF6EE', color: '#166534', fontWeight: 800, fontSize: 11, padding: '3px 10px', borderRadius: 999 }}>4.6 avg {<Glyph g="↗" size={12} />}</span>
               </div>
               <div style={{ display: 'flex', alignItems: 'flex-end', gap: 7, height: 120 }}>
                 {CSAT_TREND.map((d, i) => (
@@ -1078,7 +1080,7 @@ export default function AgentDesktopUI({ playing = true, fixedView }: { playing?
                 ))}
               </div>
               <div style={{ marginTop: 12, borderTop: '1px solid #EDF2FA', paddingTop: 10, fontSize: 11.5, color: '#5B6B87', fontWeight: 600, lineHeight: 1.5 }}>
-                ✦ AI insight: CSAT dips on Mondays correlate with voice queue waits over 60s. Consider shifting one agent to the morning block.
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: '#7C3AED', verticalAlign: '-2px' }}><Glyph g="✦" size={13} /></span> AI insight: CSAT dips on Mondays correlate with voice queue waits over 60s. Consider shifting one agent to the morning block.
               </div>
             </div>
           </div>
@@ -1091,7 +1093,7 @@ export default function AgentDesktopUI({ playing = true, fixedView }: { playing?
           <div style={{ maxWidth: 1520, margin: '0 auto' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 14, flexWrap: 'wrap', marginBottom: 12 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-                <div style={{ width: 46, height: 46, borderRadius: 14, background: '#7C3AED', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 19 }}>★</div>
+                <div style={{ width: 46, height: 46, borderRadius: 14, background: '#7C3AED', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 19 }}>{<Glyph g="★" size={20} />}</div>
                 <div>
                   <div style={{ fontWeight: 800, fontSize: 20, letterSpacing: '-0.3px' }}>Customer Surveys</div>
                   <div style={{ fontSize: 12.5, color: '#5B6B87', fontWeight: 600 }}>Post-interaction CSAT, CES and NPS feedback across every channel</div>
@@ -1113,7 +1115,7 @@ export default function AgentDesktopUI({ playing = true, fixedView }: { playing?
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5,1fr)', gap: 11, marginBottom: 11 }}>
               {svKpis.map(k => (
                 <div key={k.label} className="ad-lift" style={{ ...CARD, borderRadius: 14, padding: '11px 14px', display: 'flex', alignItems: 'center', gap: 11 }}>
-                  <span style={{ width: 38, height: 38, borderRadius: 12, background: k.iconBg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, flexShrink: 0 }}>{k.icon}</span>
+                  <span style={{ width: 38, height: 38, borderRadius: 12, background: k.iconBg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, flexShrink: 0 }}><Glyph g={k.icon} size={17} /></span>
                   <div style={{ minWidth: 0 }}>
                     <div style={{ ...LABEL, fontSize: 10, letterSpacing: '0.5px' }}>{k.label}</div>
                     <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
@@ -1166,7 +1168,7 @@ export default function AgentDesktopUI({ playing = true, fixedView }: { playing?
                   {svCampaigns.map(c => (
                     <div key={c.name} style={{ display: 'grid', gridTemplateColumns: '1.7fr .8fr .8fr .9fr .9fr .8fr', gap: 8, padding: '8px 4px', alignItems: 'center', borderBottom: '1px solid #F5F8FD' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 9, minWidth: 0 }}>
-                        <span style={{ width: 26, height: 26, borderRadius: 8, background: c.bg, color: c.color, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, flexShrink: 0 }}>{c.icon}</span>
+                        <span style={{ width: 26, height: 26, borderRadius: 8, background: c.bg, color: c.color, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, flexShrink: 0 }}><Glyph g={c.icon} size={12} /></span>
                         <span style={{ fontWeight: 800, fontSize: 12.5, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{c.name}</span>
                       </div>
                       <span style={{ fontSize: 11.5, fontWeight: 800, color: c.color }}>{c.channel}</span>
@@ -1176,7 +1178,7 @@ export default function AgentDesktopUI({ playing = true, fixedView }: { playing?
                         <span style={{ flex: 1, height: 6, borderRadius: 999, background: '#EEF3FB', maxWidth: 58 }}><span style={{ display: 'block', height: '100%', borderRadius: 999, width: c.rate, background: c.rateColor, transition: 'width 0.6s ease' }} /></span>
                         <span style={{ fontSize: 11, fontWeight: 800, color: '#5B6B87', fontVariantNumeric: 'tabular-nums' }}>{c.rate}</span>
                       </span>
-                      <span style={{ fontWeight: 800, fontSize: 12.5, color: '#B7791F' }}>★ {c.score}</span>
+                      <span style={{ fontWeight: 800, fontSize: 12.5, color: '#B7791F', display: 'inline-flex', alignItems: 'center', gap: 4 }}><Glyph g="★" size={12} />{c.score}</span>
                     </div>
                   ))}
                 </div>
@@ -1212,9 +1214,9 @@ export default function AgentDesktopUI({ playing = true, fixedView }: { playing?
                     {svResponses.slice(0, 3).map((r, i) => (
                       <div key={i} className="ad-slide" style={{ animationDelay: `${i * 40}ms`, border: '1px solid #EDF2FA', borderRadius: 11, padding: '9px 11px' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
-                          <span style={{ width: 24, height: 24, borderRadius: 7, background: r.chBg, color: r.chColor, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, flexShrink: 0 }}>{r.chGlyph}</span>
+                          <span style={{ width: 24, height: 24, borderRadius: 7, background: r.chBg, color: r.chColor, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, flexShrink: 0 }}><Glyph g={r.chGlyph} size={12} /></span>
                           <span style={{ fontWeight: 800, fontSize: 12, flex: 1, minWidth: 0, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{r.name}</span>
-                          <span style={{ fontWeight: 800, fontSize: 11.5, color: r.scoreColor }}>{r.stars}</span>
+                          <span style={{ display: 'inline-flex', color: r.scoreColor }}><Rating n={r.stars} size={12} /></span>
                           <span style={{ fontSize: 10, fontWeight: 700, color: '#B7C4D8' }}>{r.ago}</span>
                         </div>
                         <div style={{ fontSize: 11, color: '#5B6B87', fontWeight: 600, lineHeight: 1.4, marginTop: 4, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{r.comment}</div>
@@ -1225,7 +1227,7 @@ export default function AgentDesktopUI({ playing = true, fixedView }: { playing?
 
                 <div style={{ background: '#fff', border: '1px solid #DCCEFB', borderRadius: 16, padding: '13px 15px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 7, marginBottom: 14 }}>
-                    <span style={{ color: '#7C3AED', fontSize: 14 }}>✦</span>
+                    <span style={{ color: '#7C3AED', fontSize: 14 }}>{<Glyph g="✦" size={15} />}</span>
                     <span style={{ fontWeight: 800, fontSize: 14 }}>AI Theme Analysis</span>
                   </div>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
@@ -1234,7 +1236,7 @@ export default function AgentDesktopUI({ playing = true, fixedView }: { playing?
                         <span style={{ width: 9, height: 9, borderRadius: '50%', background: t.color, flexShrink: 0 }} />
                         <span style={{ flex: 1, fontSize: 12.5, fontWeight: 700, color: '#41537A' }}>{t.name}</span>
                         <span style={{ fontSize: 11.5, fontWeight: 800, color: '#8FA1BE', fontVariantNumeric: 'tabular-nums' }}>{t.mentions}</span>
-                        <span style={{ fontSize: 11, fontWeight: 800, color: t.color }}>{t.trend}</span>
+                        <span style={{ fontSize: 11, fontWeight: 800, color: t.color }}><Lead t={t.trend} size={12} /></span>
                       </div>
                     ))}
                   </div>
@@ -1300,7 +1302,7 @@ function Thread({
 
       <div className="ad-scroll" style={{ flex: 1, overflowY: 'auto', padding: 18, display: 'flex', flexDirection: 'column', gap: 10, background: '#F7FAFF' }}>
         {banner && (
-          <div style={{ alignSelf: 'center', background: '#F3EDFE', color: '#7C3AED', fontSize: 11, fontWeight: 800, padding: '5px 12px', borderRadius: 999 }}>{banner}</div>
+          <div style={{ alignSelf: 'center', background: '#F3EDFE', color: '#7C3AED', fontSize: 11, fontWeight: 800, padding: '5px 12px', borderRadius: 999, display: 'flex', alignItems: 'center', gap: 6 }}><Glyph g="✦" size={12} />{banner}</div>
         )}
         {messages.map((m, i) => (
           <div key={i} className="ad-rise" style={{ animationDelay: `${i * 110}ms`, display: 'flex', justifyContent: m.justify }}>
@@ -1321,13 +1323,13 @@ function Thread({
         {suggestions && (
           <div style={{ display: 'flex', gap: 8, marginBottom: 10, flexWrap: 'wrap' }}>
             {suggestions.map(s => (
-              <span key={s} style={{ border: '1px solid #D9C9FB', background: '#F9F6FF', color: '#6D28D9', fontWeight: 700, fontSize: 12, padding: '7px 12px', borderRadius: 999 }}>{s}</span>
+              <span key={s} style={{ border: '1px solid #D9C9FB', background: '#F9F6FF', color: '#6D28D9', fontWeight: 700, fontSize: 12, padding: '7px 12px', borderRadius: 999, display: 'inline-flex', alignItems: 'center', gap: 6 }}><Glyph g="✦" size={13} />{s}</span>
             ))}
           </div>
         )}
         <div style={{ display: 'flex', gap: 8 }}>
-          <span style={{ width: 42, height: 42, flexShrink: 0, border: '1px solid #E3EAF5', background: '#fff', borderRadius: 11, fontSize: 17, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>😊</span>
-          <span style={{ width: 42, height: 42, flexShrink: 0, border: '1px solid #E3EAF5', background: '#fff', borderRadius: 11, fontSize: 15, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>📎</span>
+          <span style={{ width: 42, height: 42, flexShrink: 0, border: '1px solid #E3EAF5', background: '#fff', borderRadius: 11, fontSize: 17, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{<Glyph g="😊" size={18} />}</span>
+          <span style={{ width: 42, height: 42, flexShrink: 0, border: '1px solid #E3EAF5', background: '#fff', borderRadius: 11, fontSize: 15, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{<Glyph g="📎" size={16} />}</span>
           <div style={{ flex: 1, border: '1px solid #E3EAF5', borderRadius: 11, padding: '11px 14px', fontSize: 13, color: '#8FA1BE', background: '#fff' }}>{placeholder}</div>
           <span style={{ background: accent, color: '#fff', fontWeight: 800, fontSize: 13, padding: '11px 20px', borderRadius: 11, display: 'flex', alignItems: 'center' }}>Send</span>
         </div>

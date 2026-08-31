@@ -2,7 +2,7 @@
 
 import { motion, useMotionValue, animate } from 'framer-motion';
 import { useRef, useState, useEffect } from 'react';
-import { Star } from 'lucide-react';
+import { Star, ArrowRight, Quote } from 'lucide-react';
 
 /* ── Single unified card color — clean white with blue accent ── */
 const CARD = {
@@ -214,7 +214,7 @@ export default function Testimonials() {
             <span className="text-xs text-slate-600 whitespace-nowrap leading-tight">users world-wide</span>
           </div>
           <motion.a href="#" whileHover={{ x: 4 }}
-            style={{ width: 28, height: 28, borderRadius: '50%', background: 'rgba(20,71,212,0.1)', border: '1px solid rgba(20,71,212,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#1447d4', textDecoration: 'none', fontSize: '0.9rem', flexShrink: 0 }}>→</motion.a>
+            style={{ width: 28, height: 28, borderRadius: '50%', background: 'rgba(20,71,212,0.1)', border: '1px solid rgba(20,71,212,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#1447d4', textDecoration: 'none', fontSize: '0.9rem', flexShrink: 0 }}><ArrowRight size={14} strokeWidth={2.4} /></motion.a>
         </div>
 
         {/* Flags */}
@@ -339,7 +339,7 @@ export default function Testimonials() {
                       style={{ width: 42, height: 42, borderRadius: '50%', objectFit: 'cover', border: `2px solid ${isCenter ? CARD.accent : 'rgba(37,99,235,0.15)'}`, flexShrink: 0, transition: 'border-color 0.45s' }} />
                     <div style={{ width: 7, height: 7, borderRadius: '50%', background: CARD.accent, opacity: isCenter ? 1 : 0.2, boxShadow: isCenter ? `0 0 6px ${CARD.accent}` : 'none', transition: 'opacity 0.45s, box-shadow 0.45s' }} />
                   </div>
-                  <div style={{ width: 34, height: 34, borderRadius: '50%', background: `${CARD.accent}10`, border: `1px solid ${CARD.accent}25`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: CARD.accent, fontSize: '1rem' }}>❝</div>
+                  <div style={{ width: 34, height: 34, borderRadius: '50%', background: `${CARD.accent}10`, border: `1px solid ${CARD.accent}25`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: CARD.accent, fontSize: 16 }}><Quote size={15} strokeWidth={0} style={{ fill: 'currentColor' }} /></div>
                 </div>
               </div>
             );
