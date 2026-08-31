@@ -33,11 +33,14 @@ export default function EditBlog() {
           initial={initial ?? emptyBlog}
           submitLabel="Save Changes"
           onSubmit={async payload => {
-            await fetch(`/api/admin/blogs/${id}`, {
+            const res = await fetch(`/api/admin/blogs/${id}`, {
               method: 'PUT',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify(payload),
             });
+            if (!res.ok) throw new Error(res.status === 401
+              ? 'Your admin session has expired. Sign in again in another tab, then save.'
+              : 'Could not save your changes. Please try again.');
           }}
         />
       )}

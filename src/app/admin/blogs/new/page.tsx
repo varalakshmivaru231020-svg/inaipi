@@ -11,11 +11,14 @@ export default function NewBlog() {
         initial={emptyBlog}
         submitLabel="Publish Post"
         onSubmit={async payload => {
-          await fetch('/api/admin/blogs', {
+          const res = await fetch('/api/admin/blogs', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload),
           });
+          if (!res.ok) throw new Error(res.status === 401
+            ? 'Your admin session has expired. Sign in again in another tab, then publish.'
+            : 'Could not publish the post. Please try again.');
         }}
       />
     </div>

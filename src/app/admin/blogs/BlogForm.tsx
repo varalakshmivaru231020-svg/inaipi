@@ -34,16 +34,27 @@ export default function BlogForm({
   const router = useRouter();
   const [form, setForm] = useState<BlogFormValues>(initial);
   const [saving, setSaving] = useState(false);
+  const [error, setError] = useState('');
   const set = (k: keyof BlogFormValues, v: string) => setForm(f => ({ ...f, [k]: v }));
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSaving(true);
-    await onSubmit({
-      ...form,
-      tags: form.tags.split(',').map(t => t.trim()).filter(Boolean),
-      content: form.content.split('\n\n').map(p => p.trim()).filter(Boolean),
-    });
+    setError('');
+    try {
+      await onSubmit({
+        ...form,
+        tags: form.tags.split(',').map(t => t.trim()).filter(Boolean),
+        content: form.content.split('\n\n').map(p => p.trim()).filter(Boolean),
+      });
+    } catch (err) {
+      // A save that failed used to leave for the list anyway, so an expired
+      // session looked like a successful publish. Stay put: the post is still
+      // in the form and can be submitted again.
+      setSaving(false);
+      setError(err instanceof Error ? err.message : 'Could not save. Please try again.');
+      return;
+    }
     router.push('/admin/blogs');
   };
 
@@ -78,9 +89,14 @@ export default function BlogForm({
         </Field>
       </Card>
 
-      <div className="flex gap-3">
-        <button type="submit" disabled={saving} className={btnPrimary}>{saving ? 'Saving…' : submitLabel}</button>
-        <Link href="/admin/blogs" className={btnGhost}>Cancel</Link>
+      <div className="space-y-3">
+        {error && (
+          <p className="text-rose-600 text-sm font-medium bg-rose-50 border border-rose-200 rounded-xl px-4 py-3">{error}</p>
+        )}
+        <div className="flex gap-3">
+          <button type="submit" disabled={saving} className={btnPrimary}>{saving ? 'Saving…' : submitLabel}</button>
+          <Link href="/admin/blogs" className={btnGhost}>Cancel</Link>
+        </div>
       </div>
     </form>
   );
