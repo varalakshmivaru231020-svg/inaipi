@@ -51,6 +51,12 @@ export default function RichEditor({ value, onChange, label = 'Content', hint }:
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState('');
 
+  // Enter should start a paragraph rather than a bare div, so the stored markup
+  // is the same shape the public pages style.
+  useEffect(() => {
+    try { document.execCommand('defaultParagraphSeparator', false, 'p'); } catch { /* unsupported */ }
+  }, []);
+
   // only seed the DOM from props when the editor is not the one that changed it
   useEffect(() => {
     const el = ref.current;

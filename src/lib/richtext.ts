@@ -108,7 +108,9 @@ export function toDocuments(value: unknown): DocumentRef[] {
 export function htmlToParagraphs(html: string): string[] {
   if (!html) return [];
   return html
-    .replace(/<\/(p|h[1-6]|li|blockquote|div|tr)>/gi, '\n')
+    // Both ends of a block: a browser's contentEditable can leave a line in a
+    // bare div, so splitting only on closing tags would run lines together.
+    .replace(/<\/?(p|h[1-6]|li|blockquote|div|tr|section|article)[^>]*>/gi, '\n')
     .replace(/<br\s*\/?>/gi, '\n')
     .replace(/<[^>]+>/g, '')
     .replace(/&nbsp;/g, ' ')
