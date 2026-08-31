@@ -20,6 +20,7 @@ async function main() {
   const jobs = read('jobs.json', []);
   const testimonials = read('testimonials.json', []);
   const siteImages = read('site-images.json', {});
+  const industries = read('industries.json', []);
 
   // Blogs — space createdAt so the array order (first = newest) is preserved.
   for (let i = 0; i < blogs.length; i++) {
@@ -82,6 +83,25 @@ async function main() {
     });
   }
 
+  // Industries — keyed by slug, and spaced like the others so the seeded
+  // order is the order the cards were in before they came from the CMS.
+  for (let i = 0; i < industries.length; i++) {
+    const n = industries[i];
+    const data = {
+      name: n.name ?? '',
+      sub: n.sub ?? '',
+      icon: n.icon ?? 'Building2',
+      desc: n.desc ?? '',
+      useCases: Array.isArray(n.useCases) ? n.useCases : [],
+      content: Array.isArray(n.content) ? n.content : [],
+    };
+    await prisma.industry.upsert({
+      where: { slug: n.slug },
+      update: data,
+      create: { slug: n.slug, ...data, createdAt: new Date(Date.now() + i * 60000) },
+    });
+  }
+
   // Site images (key/value)
   for (const [key, value] of Object.entries(siteImages)) {
     await prisma.siteImage.upsert({
@@ -91,7 +111,7 @@ async function main() {
     });
   }
 
-  console.log(`Seeded: ${blogs.length} blogs, ${jobs.length} jobs, ${testimonials.length} testimonials, ${Object.keys(siteImages).length} site images`);
+  console.log(`Seeded: ${blogs.length} blogs, ${jobs.length} jobs, ${testimonials.length} testimonials, ${industries.length} industries, ${Object.keys(siteImages).length} site images`);
 }
 
 main()

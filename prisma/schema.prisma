@@ -84,3 +84,17 @@ model Enquiry {
 
   @@index([createdAt])
 }
+
+// Industry / sector cards on the homepage and their detail pages. Admin-managed,
+// so new sectors and use cases can be added without a code change.
+model Industry {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  name      String
+  sub       String   @default("")
+  icon      String   @default("Building2")
+  desc      String   @default("")
+  useCases  String[]
+  content   String[]
+  createdAt DateTime @default(now())
+}

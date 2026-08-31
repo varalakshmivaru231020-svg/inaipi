@@ -1,80 +1,25 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Heart, Landmark, ShieldHalf, GraduationCap, Plane, ShoppingBag, Building2, Truck } from 'lucide-react';
-
-const industries = [
-  {
-    icon: Heart,
-    name: 'Healthcare',
-    sub: 'Life Sciences',
-    color: '#e11d48',
-    bg: '#fff1f2',
-    border: '#fecdd3',
-    stat: '01',
-    desc: 'Appointment management, patient engagement & surveys, grievance handling across every channel.',
-    useCases: ['Appointment Automation', 'Patient Surveys', 'Grievance Mgmt'],
-  },
-  {
-    icon: ShieldHalf,
-    name: 'Insurance',
-    sub: 'Advisory & Claims',
-    color: '#006fff',
-    bg: '#eff6ff',
-    border: '#bfdbfe',
-    stat: '02',
-    desc: 'Claims triage, policy inquiry automation and AI-powered renewal follow-ups at scale.',
-    useCases: ['Claims Servicing', 'Policy Inquiries', 'Renewal AI'],
-  },
-  {
-    icon: Plane,
-    name: 'Hospitality',
-    sub: 'Travel & Hotels',
-    color: '#059669',
-    bg: '#ecfdf5',
-    border: '#a7f3d0',
-    stat: '03',
-    desc: 'Pre-stay to post-stay guest engagement, booking support and loyalty management.',
-    useCases: ['Guest Journey', 'Service Requests', 'Loyalty'],
-  },
-  {
-    icon: GraduationCap,
-    name: 'Education',
-    sub: 'Public Sector',
-    color: '#0891b2',
-    bg: '#ecfeff',
-    border: '#a5f3fc',
-    stat: '04',
-    desc: 'Student helpdesk, admissions inquiries and multi-channel feedback workflows at scale.',
-    useCases: ['Student Support', 'Admissions', 'Feedback'],
-  },
-  {
-    icon: Landmark,
-    name: 'Government',
-    sub: 'Public Services',
-    color: '#2563eb',
-    bg: '#eff6ff',
-    border: '#bfdbfe',
-    stat: '05',
-    desc: 'Citizen services, complaint management and compliant omnichannel CX with Arabic support.',
-    useCases: ['Citizen Services', 'Arabic Support', 'Audit Compliant'],
-  },
-  {
-    icon: ShoppingBag,
-    name: 'Telecom & Retail',
-    sub: 'Commerce',
-    color: '#ea580c',
-    bg: '#fff7ed',
-    border: '#fed7aa',
-    stat: '06',
-    desc: 'High-volume omnichannel support with NPS tracking and AI-powered churn prediction.',
-    useCases: ['Omnichannel', 'NPS Tracking', 'Churn AI'],
-  },
-];
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { industryIcon, type Industry } from '@/lib/industryIcons';
 
 export default function Industries() {
+  /* The cards are managed in the admin, so a new sector shows up here and gets
+     its own detail page without a code change. */
+  const [industries, setIndustries] = useState<Industry[]>([]);
+  useEffect(() => {
+    let alive = true;
+    fetch('/api/industries', { cache: 'no-store' })
+      .then(r => (r.ok ? r.json() : Promise.reject(new Error('HTTP ' + r.status))))
+      .then((d: Industry[]) => { if (alive && Array.isArray(d)) setIndustries(d); })
+      .catch(() => { if (alive) setIndustries([]); });
+    return () => { alive = false; };
+  }, []);
+
   return (
-    <section className="py-14 lg:py-16 overflow-hidden relative" style={{ background: '#f8faff' }}>
+    <section id="industries" className="py-14 lg:py-16 overflow-hidden relative" style={{ background: '#f8faff' }}>
       {/* Background orbs */}
       <div className="absolute pointer-events-none" style={{ width: '44vw', height: '44vw', top: '-180px', right: '-240px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(37,99,235,0.07) 0%, transparent 70%)', border: '1px solid rgba(37,99,235,0.05)' }} />
       <div className="absolute pointer-events-none" style={{ width: '30vw', height: '30vw', bottom: '-140px', left: '-160px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(0,111,255,0.06) 0%, transparent 70%)' }} />
@@ -119,17 +64,17 @@ export default function Industries() {
           whileInView="visible"
           viewport={{ once: true, amount: 0.1 }}
         >
-          {industries.map((ind, i) => {
-            const Icon = ind.icon;
+          {industries.map(ind => {
+            const Icon = industryIcon(ind.icon);
             return (
               <motion.div
-                key={i}
+                key={ind.id}
                 variants={{
                   hidden: { opacity: 0, y: 40 },
                   visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.25, 0.1, 0.25, 1] } },
                 }}
                 whileHover={{ y: -6, boxShadow: '0 20px 48px rgba(20,71,212,0.16)', transition: { duration: 0.2, ease: 'easeOut' } }}
-                className="group relative overflow-hidden cursor-default bg-white hover:border-[#1447d4]/25"
+                className="group relative overflow-hidden bg-white hover:border-[#1447d4]/25"
                 style={{
                   borderRadius: 20,
                   border: '1.5px solid rgba(20,71,212,0.10)',
@@ -137,6 +82,11 @@ export default function Industries() {
                   boxShadow: '0 2px 16px rgba(20,71,212,0.06)',
                 }}
               >
+                {/* The whole card opens the sector's page. An overlay link keeps
+                    the card markup, hover animation and spacing exactly as they
+                    were rather than re-nesting everything inside an anchor. */}
+                <Link href={`/industries/${ind.slug}`} className="absolute inset-0 z-10" aria-label={ind.name} />
+
                 {/* Top accent line on hover */}
                 <div className="absolute top-0 left-0 right-0 h-[2.5px] rounded-t-[20px] opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ background: '#1447d4' }} />
 

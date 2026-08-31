@@ -1,0 +1,56 @@
+[
+  {
+    "slug": "healthcare",
+    "name": "Healthcare",
+    "sub": "Life Sciences",
+    "icon": "Heart",
+    "desc": "Appointment management, patient engagement & surveys, grievance handling across every channel.",
+    "useCases": ["Appointment Automation", "Patient Surveys", "Grievance Mgmt"],
+    "content": []
+  },
+  {
+    "slug": "insurance",
+    "name": "Insurance",
+    "sub": "Advisory & Claims",
+    "icon": "ShieldHalf",
+    "desc": "Claims triage, policy inquiry automation and AI-powered renewal follow-ups at scale.",
+    "useCases": ["Claims Servicing", "Policy Inquiries", "Renewal AI"],
+    "content": []
+  },
+  {
+    "slug": "hospitality",
+    "name": "Hospitality",
+    "sub": "Travel & Hotels",
+    "icon": "Plane",
+    "desc": "Pre-stay to post-stay guest engagement, booking support and loyalty management.",
+    "useCases": ["Guest Journey", "Service Requests", "Loyalty"],
+    "content": []
+  },
+  {
+    "slug": "education",
+    "name": "Education",
+    "sub": "Public Sector",
+    "icon": "GraduationCap",
+    "desc": "Student helpdesk, admissions inquiries and multi-channel feedback workflows at scale.",
+    "useCases": ["Student Support", "Admissions", "Feedback"],
+    "content": []
+  },
+  {
+    "slug": "government",
+    "name": "Government",
+    "sub": "Public Services",
+    "icon": "Landmark",
+    "desc": "Citizen services, complaint management and compliant omnichannel CX with Arabic support.",
+    "useCases": ["Citizen Services", "Arabic Support", "Audit Compliant"],
+    "content": []
+  },
+  {
+    "slug": "telecom-retail",
+    "name": "Telecom & Retail",
+    "sub": "Commerce",
+    "icon": "ShoppingBag",
+    "desc": "High-volume omnichannel support with NPS tracking and AI-powered churn prediction.",
+    "useCases": ["Omnichannel", "NPS Tracking", "Churn AI"],
+    "content": []
+  }
+]
