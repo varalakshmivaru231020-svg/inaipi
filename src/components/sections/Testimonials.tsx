@@ -289,8 +289,10 @@ export default function Testimonials() {
                 {/* Corner glow — subtle on white card */}
                 <div style={{ position: 'absolute', bottom: -20, right: -20, width: 100, height: 100, borderRadius: '50%', background: `radial-gradient(circle, ${CARD.accent}18 0%, transparent 70%)`, pointerEvents: 'none' }} />
 
-                {/* Watermark ❝ */}
-                <div style={{ position: 'absolute', top: 12, right: 18, fontSize: '4rem', fontWeight: 900, color: `${CARD.accent}10`, lineHeight: 1, pointerEvents: 'none', userSelect: 'none' }}>❝</div>
+                {/* Watermark: the same quote mark, drawn from the icon set */}
+                <div style={{ position: 'absolute', top: 18, right: 18, color: `${CARD.accent}10`, lineHeight: 1, pointerEvents: 'none', userSelect: 'none' }}>
+                  <Quote size={58} strokeWidth={0} style={{ fill: 'currentColor' }} />
+                </div>
 
                 {/* Name + role */}
                 <div style={{ position: 'relative', zIndex: 3 }}>
