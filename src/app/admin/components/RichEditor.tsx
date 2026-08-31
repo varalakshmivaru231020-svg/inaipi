@@ -147,6 +147,7 @@ export default function RichEditor({ value, onChange, label = 'Content', hint }:
         ref={fileRef}
         type="file"
         accept="image/*"
+        data-rich-image
         className="hidden"
         onChange={e => { const f = e.target.files?.[0]; if (f) upload(f); e.target.value = ''; }}
       />

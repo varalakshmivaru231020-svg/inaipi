@@ -24,7 +24,7 @@ export default function BlogPage() {
   const [BLOG_POSTS, setBlogPosts] = useState<BlogPost[]>([]);
 
   useEffect(() => {
-    fetch('/api/blogs').then(r => r.json()).then(setBlogPosts);
+    fetch('/api/blogs', { cache: 'no-store' }).then(r => r.json()).then(setBlogPosts);
     document.documentElement.style.overflowX = 'clip';
     document.body.style.overflowX = 'clip';
     return () => {
