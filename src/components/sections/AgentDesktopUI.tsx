@@ -1,6 +1,6 @@
 'use client';
 
-import { Glyph, Rating, Lead } from './dashboardIcons';
+import { Glyph, Rating, Lead, ChannelIcon } from './dashboardIcons';
 
 /**
  * Inaipi Agent Desktop — product mock used as the homepage showcase.
@@ -479,7 +479,7 @@ export default function AgentDesktopUI({ playing = true, fixedView }: { playing?
             <div className="ad-scroll" style={{ flex: 1, overflowY: 'auto', padding: '6px 10px 12px', display: 'flex', flexDirection: 'column', gap: 6 }}>
               {queueVis.map((q, i) => (
                 <div key={q.name} className="ad-queue ad-slide" style={{ animationDelay: `${i * 45}ms`, border: '1px solid #EDF2FA', borderRadius: 12, padding: '11px 12px', display: 'flex', gap: 10, cursor: 'pointer', background: '#fff', transition: 'background 0.2s ease, border-color 0.2s ease' }}>
-                  <div style={{ width: 36, height: 36, borderRadius: 11, background: q.chBg, color: q.chColor, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: 15, fontWeight: 800 }}><Glyph g={q.chGlyph} size={16} /></div>
+                  <div style={{ width: 36, height: 36, borderRadius: 11, background: q.chBg, color: q.chColor, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: 15, fontWeight: 800 }}><ChannelIcon name={q.channel} g={q.chGlyph} size={16} /></div>
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
                       <span style={{ fontWeight: 800, fontSize: 13, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{q.name}</span>
@@ -738,7 +738,7 @@ export default function AgentDesktopUI({ playing = true, fixedView }: { playing?
                   </div>
                   <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
                     {a.channels.map(c => (
-                      <span key={c.name} title={c.name} style={{ display: 'flex', alignItems: 'center', gap: 5, background: c.bg, color: c.color, fontSize: 11, fontWeight: 800, padding: '4px 9px', borderRadius: 8 }}><Glyph g={c.glyph} size={12} /> {c.count}</span>
+                      <span key={c.name} title={c.name} style={{ display: 'flex', alignItems: 'center', gap: 5, background: c.bg, color: c.color, fontSize: 11, fontWeight: 800, padding: '4px 9px', borderRadius: 8 }}><ChannelIcon name={c.name} g={c.glyph} size={12} /> {c.count}</span>
                     ))}
                   </div>
                   {a.current && (
@@ -765,8 +765,8 @@ export default function AgentDesktopUI({ playing = true, fixedView }: { playing?
                     </div>
                   </div>
                   <div style={{ display: 'flex', gap: 6, borderTop: '1px solid #EDF2FA', paddingTop: 10 }}>
-                    {[['👁 Listen', '#41537A', '#E3EAF5'], ['Whisper', '#41537A', '#E3EAF5'], ['Barge', '#E5484D', '#FBD9DA']].map(([l, c, b]) => (
-                      <span key={l} style={{ flex: 1, border: `1px solid ${b}`, color: c, fontWeight: 800, fontSize: 11, padding: '7px 0', borderRadius: 9, textAlign: 'center' }}>{l}</span>
+                    {[['Listen', '#41537A', '#E3EAF5'], ['Whisper', '#41537A', '#E3EAF5'], ['Barge', '#E5484D', '#FBD9DA']].map(([l, c, b]) => (
+                      <span key={l} style={{ flex: 1, border: `1px solid ${b}`, color: c, fontWeight: 800, fontSize: 11, padding: '7px 0', borderRadius: 9, textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5 }}>{l === 'Listen' && <Glyph g="👁" size={12} />}{l}</span>
                     ))}
                   </div>
                 </div>
@@ -858,7 +858,7 @@ export default function AgentDesktopUI({ playing = true, fixedView }: { playing?
                 <div key={r.id} className="ad-row" onClick={() => { setManual(true); setOpenCase(r.id); }} style={{ display: 'grid', gridTemplateColumns: '105px 1.6fr 2.1fr 92px 1.2fr 92px 112px 90px', gap: 10, padding: '13px 18px', borderBottom: '1px solid #F3F7FD', alignItems: 'center', cursor: 'pointer', transition: 'background 0.2s ease' }}>
                   <span style={{ fontWeight: 800, fontSize: 12.5, color: '#2A63F6' }}>{r.id}</span>
                   <span style={{ display: 'flex', alignItems: 'center', gap: 8, minWidth: 0 }}>
-                    <span style={{ width: 28, height: 28, borderRadius: 9, background: r.chBg, color: r.chColor, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, flexShrink: 0 }}><Glyph g={r.chGlyph} size={13} /></span>
+                    <span style={{ width: 28, height: 28, borderRadius: 9, background: r.chBg, color: r.chColor, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, flexShrink: 0 }}><ChannelIcon name={r.channel} g={r.chGlyph} size={13} /></span>
                     <span style={{ fontWeight: 700, fontSize: 12.5, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{r.customer}</span>
                   </span>
                   <span style={{ fontSize: 12.5, color: '#22314F', fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{r.subject}</span>
@@ -888,7 +888,7 @@ export default function AgentDesktopUI({ playing = true, fixedView }: { playing?
                         </div>
                         <div style={{ fontSize: 12.5, fontWeight: 700, color: '#22314F', lineHeight: 1.4, marginBottom: 8 }}>{c.subject}</div>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
-                          <span style={{ width: 24, height: 24, borderRadius: 8, background: c.chBg, color: c.chColor, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, flexShrink: 0 }}><Glyph g={c.chGlyph} size={12} /></span>
+                          <span style={{ width: 24, height: 24, borderRadius: 8, background: c.chBg, color: c.chColor, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, flexShrink: 0 }}><ChannelIcon name={c.channel} g={c.chGlyph} size={12} /></span>
                           <span style={{ fontSize: 11.5, fontWeight: 700, color: '#5B6B87', flex: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{c.customer}</span>
                           <span style={{ fontSize: 11, fontWeight: 800, color: c.slaColor }}>{c.sla}</span>
                         </div>
@@ -923,7 +923,7 @@ export default function AgentDesktopUI({ playing = true, fixedView }: { playing?
                       <div style={{ fontWeight: 800, fontSize: 13.5 }}>{activeCase.customer}</div>
                       <div style={{ fontSize: 11, color: '#8FA1BE', fontWeight: 700 }}>via {activeCase.channel} · assignee: {activeCase.assignee}</div>
                     </div>
-                    <span style={{ width: 30, height: 30, borderRadius: 9, background: activeCase.chBg, color: activeCase.chColor, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13 }}><Glyph g={activeCase.chGlyph} size={14} /></span>
+                    <span style={{ width: 30, height: 30, borderRadius: 9, background: activeCase.chBg, color: activeCase.chColor, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13 }}><ChannelIcon name={activeCase.channel} g={activeCase.chGlyph} size={14} /></span>
                   </div>
                   <div style={{ border: '1px solid #DCCEFB', borderRadius: 13, overflow: 'hidden' }}>
                     <div style={{ background: 'linear-gradient(120deg,#6D28D9,#8B5CF6)', padding: '9px 14px', color: '#fff', fontWeight: 800, fontSize: 12.5 }}>{<Glyph g="✦" size={14} />} AI Case Summary</div>
@@ -1014,7 +1014,7 @@ export default function AgentDesktopUI({ playing = true, fixedView }: { playing?
                 {MIX.map(c => (
                   <div key={c.name}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11.5, fontWeight: 800, marginBottom: 4 }}>
-                      <span style={{ color: '#22314F' }}><Glyph g={c.glyph} size={13} /> {c.name}</span>
+                      <span style={{ color: '#22314F', display: 'inline-flex', alignItems: 'center', gap: 5 }}><ChannelIcon name={c.name} g={c.glyph} size={13} /> {c.name}</span>
                       <span style={{ color: '#8FA1BE' }}>{c.count} · {c.pct}</span>
                     </div>
                     <div style={{ height: 8, borderRadius: 999, background: '#EDF2FA', overflow: 'hidden' }}>

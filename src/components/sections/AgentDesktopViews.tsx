@@ -1,6 +1,6 @@
 'use client';
 
-import { Glyph, Stars, Lead } from './dashboardIcons';
+import { Glyph, Stars, Lead, ChannelIcon } from './dashboardIcons';
 
 /**
  * Extra Agent Desktop views used by the PlatformFlow section for the
@@ -131,7 +131,7 @@ export function OutreachView() {
               {OUT_CAMPAIGNS.map(c => (
                 <div key={c.name} style={{ display: 'grid', gridTemplateColumns: '1.7fr .9fr .8fr .9fr .9fr .8fr', gap: 8, padding: '8px 4px', alignItems: 'center', borderBottom: '1px solid #F5F8FD' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 9, minWidth: 0 }}>
-                    <span style={{ width: 26, height: 26, borderRadius: 8, background: c.bg, color: c.color, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, flexShrink: 0 }}><Glyph g={c.icon} size={12} /></span>
+                    <span style={{ width: 26, height: 26, borderRadius: 8, background: c.bg, color: c.color, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, flexShrink: 0 }}><ChannelIcon name={c.channel} g={c.icon} size={12} /></span>
                     <span style={{ fontWeight: 800, fontSize: 12.5, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{c.name}</span>
                   </div>
                   <span style={{ fontSize: 11.5, fontWeight: 800, color: c.color }}>{c.type}</span>
@@ -253,7 +253,7 @@ export function ChatView() {
               {CHAT_CHANNELS.map(c => (
                 <div key={c.name} style={{ display: 'grid', gridTemplateColumns: '1.5fr .9fr 1fr .9fr 1fr', gap: 8, padding: '8px 4px', alignItems: 'center', borderBottom: '1px solid #F5F8FD' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 9, minWidth: 0 }}>
-                    <span style={{ width: 26, height: 26, borderRadius: 8, background: c.bg, color: c.color, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, flexShrink: 0 }}><Glyph g={c.icon} size={12} /></span>
+                    <span style={{ width: 26, height: 26, borderRadius: 8, background: c.bg, color: c.color, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, flexShrink: 0 }}><ChannelIcon name={c.name} g={c.icon} size={12} /></span>
                     <span style={{ fontWeight: 800, fontSize: 12.5 }}>{c.name}</span>
                   </div>
                   <span style={{ fontSize: 12.5, fontWeight: 800, fontVariantNumeric: 'tabular-nums' }}>{c.chats}</span>
@@ -390,7 +390,7 @@ export function SurveysView() {
               {SUR_CHANNELS.map(c => (
                 <div key={c.name} style={{ display: 'grid', gridTemplateColumns: '1.6fr .8fr .9fr 1fr .7fr', gap: 8, padding: '8px 4px', alignItems: 'center', borderBottom: '1px solid #F5F8FD' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 9, minWidth: 0 }}>
-                    <span style={{ width: 26, height: 26, borderRadius: 8, background: c.bg, color: c.color, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, flexShrink: 0 }}><Glyph g={c.icon} size={12} /></span>
+                    <span style={{ width: 26, height: 26, borderRadius: 8, background: c.bg, color: c.color, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, flexShrink: 0 }}><ChannelIcon name={c.name} g={c.icon} size={12} /></span>
                     <span style={{ fontWeight: 800, fontSize: 12.5, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{c.name}</span>
                   </div>
                   <span style={{ fontSize: 12.5, fontWeight: 800, fontVariantNumeric: 'tabular-nums' }}>{c.sent}</span>

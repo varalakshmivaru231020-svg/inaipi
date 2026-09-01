@@ -129,12 +129,8 @@ export default function Problem() {
       const navH = document.querySelector('nav')?.getBoundingClientRect().height ?? 0;
       const top = Math.round(navH + 8);
       const panelH = panel.offsetHeight;
-      // How far the track scrolls per state. A swipe travels a little under
-      // half the visible height, so this is what makes one swipe advance one
-      // state rather than needing two.
-      // How far the track scrolls per state, measured against what a swipe
-      // actually travels on a phone: this is what makes one swipe advance one
-      // state rather than two, with the snap points settling it exactly.
+      // How far the track scrolls per state, measured against what one swipe
+      // actually travels on a phone.
       const seg = Math.min(420, Math.max(230, Math.round((window.innerHeight - top) * 0.45)));
       setPin({ top, seg, height: panelH + seg * LAST });
     };
@@ -151,60 +147,104 @@ export default function Problem() {
     };
   }, []);
 
-  /* Which state the track has scrolled to. Plain scroll listening: no
-     preventDefault, so momentum and flicks behave normally. */
+  /* One deliberate swipe, exactly one state.
+
+     What made this inconsistent was letting time or the browser's snap decide
+     when a gesture was over. A flick outlasts any cooldown, so a second advance
+     fired inside the same swipe and a state got skipped.
+
+     So the gesture itself is the unit. A touch (or a wheel notch) arms one
+     advance; crossing into the next state spends it and puts the scroll exactly
+     on that state's boundary. Until the next touch, the track holds that
+     position, which absorbs the rest of the fling however long it runs. The
+     same hold is what stops the page leaving before the last state: there, an
+     armed gesture releases it instead of advancing. Scrolling back up is never
+     interfered with.
+
+     Nothing is cancelled and no event is prevented — the page scrolls natively
+     against a sticky panel, and this only decides where it comes to rest. */
   useEffect(() => {
     if (!pin) return;
     const track = trackRef.current;
     if (!track) return;
 
+    const NUDGE = 24;        // ignore jitter around a boundary
+    const MIN_GESTURE = 8;   // px of travel before a touch counts as a swipe
+
     let frame = 0;
+    let armed = false;       // a fresh gesture is available to spend
+    let released = false;    // past the last state: stop holding
+    let touchY = 0;
+    let lastY = window.scrollY;
+
+    /** document scroll position at which a state begins */
+    const boundary = (i: number) =>
+      window.scrollY + track.getBoundingClientRect().top + i * pin.seg - pin.top;
+    const settle = (i: number) => window.scrollTo({ top: boundary(i), behavior: 'auto' });
+
     const read = () => {
       frame = 0;
-      const top = track.getBoundingClientRect().top;
-      // A swipe often settles a handful of pixels short of the boundary, which
-      // would leave the panel a state behind where it visually is. Turning over
-      // at ~88% of a segment absorbs that.
-      const passed = pin.top - top + pin.seg * 0.12;
-      let idx = Math.min(LAST, Math.max(0, Math.floor(passed / pin.seg)));
+      const y = window.scrollY;
+      const goingUp = y < lastY;
+      lastY = y;
 
-      /* A hard flick can carry past two states at once. When it does, hold it
-         at the next one and bring the scroll back to that state's boundary, so
-         one gesture is always exactly one state and none is ever skipped.
-         Scrolling back up is left alone. */
+      const passed = pin.top - track.getBoundingClientRect().top;
       const cur = activeRef.current;
-      if (idx > cur + 1) {
-        idx = cur + 1;
-        window.scrollTo({ top: window.scrollY + top + idx * pin.seg - pin.top, behavior: 'auto' });
+
+      // above the track, or on the way back up: follow the scroll, hold nothing
+      if (passed < 0 || goingUp) {
+        released = false;
+        const idx = Math.min(LAST, Math.max(0, Math.floor(passed / pin.seg)));
+        if (idx !== cur) { activeRef.current = idx; setActive(idx); }
+        return;
       }
 
-      if (idx !== cur) { activeRef.current = idx; setActive(idx); }
-    };
-    const onScroll = () => { if (!frame) frame = requestAnimationFrame(read); };
+      if (cur < LAST) {
+        if (passed >= (cur + 1) * pin.seg - NUDGE) {
+          if (armed) {
+            armed = false;
+            const next = cur + 1;
+            activeRef.current = next;
+            setActive(next);
+            settle(next);
+          } else {
+            // the rest of the same gesture: stay on the state it reached
+            settle(cur);
+          }
+        }
+        return;
+      }
 
-    /* A hard flick can travel more than one state's worth of scrolling, so the
-       track carries a snap point per state and the page snaps while it is on
-       screen. That is what makes one swipe land on exactly one state. Snapping
-       is switched off again as soon as the track leaves, so it never affects
-       the rest of the page. */
-    const root = document.documentElement;
-    const io = new IntersectionObserver(([e]) => {
-      // Proximity, not mandatory: mandatory kept pulling the page back to the
-      // last state and trapped the reader in the section. Proximity still pulls
-      // a swipe onto the next state, and lets them leave once past the last.
-      root.style.scrollSnapType = e.isIntersecting ? 'y proximity' : '';
-    }, { rootMargin: '0px' });
-    io.observe(track);
+      // the last state: an armed gesture releases the page, otherwise hold
+      if (passed > LAST * pin.seg + NUDGE) {
+        if (armed) { armed = false; released = true; }
+        if (!released) settle(LAST);
+      }
+    };
+
+    const onScroll = () => { if (!frame) frame = requestAnimationFrame(read); };
+    const onTouchStart = (e: TouchEvent) => { touchY = e.touches[0]?.clientY ?? 0; };
+    // arm only once the finger has actually travelled, so a tap or a stray
+    // pixel of movement cannot advance anything
+    const onTouchMove = (e: TouchEvent) => {
+      const y = e.touches[0]?.clientY ?? 0;
+      if (Math.abs(touchY - y) >= MIN_GESTURE) armed = true;
+    };
+    const onWheel = () => { armed = true; };
 
     read();
     window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('touchstart', onTouchStart, { passive: true });
+    window.addEventListener('touchmove', onTouchMove, { passive: true });
+    window.addEventListener('wheel', onWheel, { passive: true });
     const lenis = getLenis();
     lenis?.on('scroll', onScroll);
     return () => {
       window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('touchstart', onTouchStart);
+      window.removeEventListener('touchmove', onTouchMove);
+      window.removeEventListener('wheel', onWheel);
       lenis?.off('scroll', onScroll);
-      io.disconnect();
-      root.style.scrollSnapType = '';
       if (frame) cancelAnimationFrame(frame);
     };
   }, [pin]);
@@ -411,14 +451,6 @@ export default function Problem() {
               the top of it, so scrolling steps through the states; on desktop
               the track collapses and the wheel lock takes over. */}
           <div ref={trackRef} style={pin ? { position: 'relative', height: pin.height } : undefined}>
-          {/* one snap point per state, so a swipe settles on the next one */}
-          {pin && painPoints.map((_, i) => (
-            <div
-              key={`snap-${i}`}
-              aria-hidden
-              style={{ position: 'absolute', left: 0, width: 1, height: 1, top: i * pin.seg, scrollSnapAlign: 'start', scrollMarginTop: pin.top }}
-            />
-          ))}
           <div ref={pinRef} style={pin ? { position: 'sticky', top: pin.top } : undefined}>
           {/* Tab bar */}
           <motion.div
