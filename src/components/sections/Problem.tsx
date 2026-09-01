@@ -173,6 +173,7 @@ export default function Problem() {
 
     let frame = 0;
     let armed = false;       // a fresh gesture is available to spend
+    let lastGesture = 0;     // when the reader last touched or scrolled by hand
     let released = false;    // past the last state: stop holding
     let touchY = 0;
     let lastY = window.scrollY;
@@ -190,6 +191,10 @@ export default function Problem() {
 
       const passed = pin.top - track.getBoundingClientRect().top;
       const cur = activeRef.current;
+      // Only hold against a hand: a scroll the page started itself - a footer
+      // link heading for a section, say - has to be allowed through, or it gets
+      // yanked back the moment it crosses this track.
+      const byHand = performance.now() - lastGesture < 1200;
 
       // above the track, or on the way back up: follow the scroll, hold nothing
       if (passed < 0 || goingUp) {
@@ -207,7 +212,7 @@ export default function Problem() {
             activeRef.current = next;
             setActive(next);
             settle(next);
-          } else {
+          } else if (byHand) {
             // the rest of the same gesture: stay on the state it reached
             settle(cur);
           }
@@ -218,19 +223,19 @@ export default function Problem() {
       // the last state: an armed gesture releases the page, otherwise hold
       if (passed > LAST * pin.seg + NUDGE) {
         if (armed) { armed = false; released = true; }
-        if (!released) settle(LAST);
+        if (!released && byHand) settle(LAST);
       }
     };
 
     const onScroll = () => { if (!frame) frame = requestAnimationFrame(read); };
-    const onTouchStart = (e: TouchEvent) => { touchY = e.touches[0]?.clientY ?? 0; };
+    const onTouchStart = (e: TouchEvent) => { touchY = e.touches[0]?.clientY ?? 0; lastGesture = performance.now(); };
     // arm only once the finger has actually travelled, so a tap or a stray
     // pixel of movement cannot advance anything
     const onTouchMove = (e: TouchEvent) => {
       const y = e.touches[0]?.clientY ?? 0;
-      if (Math.abs(touchY - y) >= MIN_GESTURE) armed = true;
+      if (Math.abs(touchY - y) >= MIN_GESTURE) { armed = true; lastGesture = performance.now(); }
     };
-    const onWheel = () => { armed = true; };
+    const onWheel = () => { armed = true; lastGesture = performance.now(); };
 
     read();
     window.addEventListener('scroll', onScroll, { passive: true });
