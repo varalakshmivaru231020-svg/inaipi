@@ -4,8 +4,12 @@ import { motion } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 import AgentDesktopUI, { DESIGN_H, DESIGN_W } from './AgentDesktopUI';
 
-/* Below this the mock's 10–13px type stops being readable. */
-const MIN_SCALE = 0.55;
+/* The mock is authored on a fixed canvas, so it can only be shown whole by
+   scaling it. It used to stop shrinking at 0.55 and let the frame scroll
+   sideways instead, which cut 400px off the right of the workspace on a phone.
+   It now always scales to the width it is given, so the whole thing is on
+   screen; this floor only guards against a zero measurement before layout. */
+const MIN_SCALE = 0.05;
 
 export default function AgentDesktop() {
   const [desktopImage, setDesktopImage] = useState('');
@@ -21,9 +25,8 @@ export default function AgentDesktop() {
       .catch(() => {});
   }, []);
 
-  /* The mock is authored at a fixed canvas — scale it to whatever width we get,
-     but never below MIN_SCALE or the UI stops being legible. Narrower than that
-     and the frame scrolls sideways instead. */
+  /* Scale the canvas to whatever width the frame has, so the complete workspace
+     fits inside it at every size. */
   useEffect(() => {
     const el = frameRef.current;
     if (!el) return;
@@ -69,7 +72,9 @@ export default function AgentDesktop() {
         </motion.p>
       </div>
 
-      <div className="container mx-auto px-4 sm:px-6 relative">
+      {/* the mock is width-bound on a phone, so give it the extra few percent
+          that the gutter would otherwise take; the header keeps its own padding */}
+      <div className="container mx-auto px-3 sm:px-6 relative">
         <motion.div
           initial={{ opacity: 0, y: 60 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -81,8 +86,10 @@ export default function AgentDesktop() {
             // eslint-disable-next-line @next/next/no-img-element
             <img src={desktopImage} alt="Inaipi Unified Workspace" className="w-full object-cover" />
           ) : (
-            <div ref={frameRef} className="ad-scroll" style={{ width: '100%', height: DESIGN_H * scale, overflowX: 'auto', overflowY: 'hidden', WebkitOverflowScrolling: 'touch' }}>
-              <div style={{ width: DESIGN_W * scale, height: DESIGN_H * scale }}>
+            // the scaled box is floored so a rounded-up fraction can never make
+            // the frame scrollable by a pixel
+            <div ref={frameRef} className="ad-scroll" style={{ width: '100%', height: Math.floor(DESIGN_H * scale), overflow: 'hidden' }}>
+              <div style={{ width: Math.floor(DESIGN_W * scale), height: Math.floor(DESIGN_H * scale) }}>
                 <div style={{ width: DESIGN_W, height: DESIGN_H, transform: `scale(${scale})`, transformOrigin: 'top left' }}>
                   <AgentDesktopUI playing={inView} />
                 </div>
@@ -95,7 +102,7 @@ export default function AgentDesktop() {
           <p className="text-center text-xs text-slate-400 mt-5 font-medium">
             Live product tour: workspace, supervisor, cases and analytics.
             <span className="hidden sm:inline"> Click any tab to explore.</span>
-            <span className="sm:hidden"> Swipe the panel sideways to explore.</span>
+            <span className="sm:hidden"> Tap any tab to explore.</span>
           </p>
         )}
       </div>
