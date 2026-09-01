@@ -26,7 +26,7 @@ export default function RootLayout({
         <link rel="preload" as="image" href="/hero.png" fetchPriority="high" />
         <link rel="preload" as="image" href="/arch1.png" />
       </head>
-      <body className="antialiased overflow-x-hidden">
+      <body className="antialiased overflow-x-clip">
         <GoogleAnalytics />
         <AnimationProvider>
           <SmoothScroll>

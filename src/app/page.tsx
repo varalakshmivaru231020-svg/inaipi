@@ -20,7 +20,7 @@ export function generateMetadata() {
 
 export default function Home() {
   return (
-    <main className="relative bg-[#fcfcfd] overflow-hidden">
+    <main className="relative bg-[#fcfcfd] overflow-x-clip">
       <Navbar />
       <Hero />
       <Problem />

@@ -185,7 +185,10 @@
 html,
 body {
   max-width: 100vw;
-  overflow-x: hidden;
+  /* clip, not hidden: hidden makes these scroll containers, which breaks
+     position: sticky anywhere inside the page. clip still stops sideways
+     scrolling. */
+  overflow-x: clip;
   font-family: var(--font-figtree), 'Figtree', system-ui, sans-serif;
   font-size: 16px;
   line-height: var(--leading-normal);

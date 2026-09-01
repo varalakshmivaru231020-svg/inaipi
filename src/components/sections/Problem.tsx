@@ -79,9 +79,29 @@ const COOLDOWN_MS = 520;   // one tab change per gesture; also lets the fade fin
 const TOUCH_STEP = 46;     // px of swipe that counts as one tab step
 const ENGAGE_BAND = 150;   // how far past the pin-top a downward gesture can still latch
 
+/* Phones get a sticky track instead of the wheel lock below. */
+const MOBILE_Q = '(max-width: 1023px)';
+
 export default function Problem() {
   const [active, setActive] = useState(0);
   const current = painPoints[active];
+
+  /* ── Mobile: a sticky pin over a tall track ──────────────────────────
+     The desktop behaviour hijacks the wheel and freezes the page. That could
+     never work on a phone: it only engaged if the panel fitted under the navbar
+     — and a real phone's browser chrome makes the viewport shorter than the
+     panel — and it had to catch the section inside a 150px band, which a flick
+     jumps straight over. Momentum scrolling cannot be cancelled once the finger
+     is lifted either.
+
+     So on a phone the section simply *is* several screens tall, with the panel
+     stuck to the top of it. Scrolling through that track advances one state per
+     screen, which is ordinary native scrolling: nothing to intercept, nothing
+     to fight, and the section cannot be skipped because it genuinely occupies
+     the scroll distance. After the last state the panel unsticks and the page
+     carries on by itself. */
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [pin, setPin] = useState<{ top: number; seg: number; height: number } | null>(null);
 
   /* ── Scroll-driven tabs ──────────────────────────────────────────────
      Scrolling DOWN into the panel pins it and advances one tab per gesture;
@@ -100,9 +120,101 @@ export default function Problem() {
   useEffect(() => { activeRef.current = active; }, [active]);
 
   useEffect(() => {
+    const mq = window.matchMedia(MOBILE_Q);
+    let ro: ResizeObserver | undefined;
+
+    const measure = () => {
+      const panel = pinRef.current;
+      if (!mq.matches || !panel) { setPin(null); return; }
+      const navH = document.querySelector('nav')?.getBoundingClientRect().height ?? 0;
+      const top = Math.round(navH + 8);
+      const panelH = panel.offsetHeight;
+      // How far the track scrolls per state. A swipe travels a little under
+      // half the visible height, so this is what makes one swipe advance one
+      // state rather than needing two.
+      // How far the track scrolls per state, measured against what a swipe
+      // actually travels on a phone: this is what makes one swipe advance one
+      // state rather than two, with the snap points settling it exactly.
+      const seg = Math.min(420, Math.max(230, Math.round((window.innerHeight - top) * 0.45)));
+      setPin({ top, seg, height: panelH + seg * LAST });
+    };
+
+    measure();
+    const onResize = () => measure();
+    window.addEventListener('resize', onResize);
+    mq.addEventListener('change', onResize);
+    if (pinRef.current) { ro = new ResizeObserver(measure); ro.observe(pinRef.current); }
+    return () => {
+      window.removeEventListener('resize', onResize);
+      mq.removeEventListener('change', onResize);
+      ro?.disconnect();
+    };
+  }, []);
+
+  /* Which state the track has scrolled to. Plain scroll listening: no
+     preventDefault, so momentum and flicks behave normally. */
+  useEffect(() => {
+    if (!pin) return;
+    const track = trackRef.current;
+    if (!track) return;
+
+    let frame = 0;
+    const read = () => {
+      frame = 0;
+      const top = track.getBoundingClientRect().top;
+      // A swipe often settles a handful of pixels short of the boundary, which
+      // would leave the panel a state behind where it visually is. Turning over
+      // at ~88% of a segment absorbs that.
+      const passed = pin.top - top + pin.seg * 0.12;
+      let idx = Math.min(LAST, Math.max(0, Math.floor(passed / pin.seg)));
+
+      /* A hard flick can carry past two states at once. When it does, hold it
+         at the next one and bring the scroll back to that state's boundary, so
+         one gesture is always exactly one state and none is ever skipped.
+         Scrolling back up is left alone. */
+      const cur = activeRef.current;
+      if (idx > cur + 1) {
+        idx = cur + 1;
+        window.scrollTo({ top: window.scrollY + top + idx * pin.seg - pin.top, behavior: 'auto' });
+      }
+
+      if (idx !== cur) { activeRef.current = idx; setActive(idx); }
+    };
+    const onScroll = () => { if (!frame) frame = requestAnimationFrame(read); };
+
+    /* A hard flick can travel more than one state's worth of scrolling, so the
+       track carries a snap point per state and the page snaps while it is on
+       screen. That is what makes one swipe land on exactly one state. Snapping
+       is switched off again as soon as the track leaves, so it never affects
+       the rest of the page. */
+    const root = document.documentElement;
+    const io = new IntersectionObserver(([e]) => {
+      // Proximity, not mandatory: mandatory kept pulling the page back to the
+      // last state and trapped the reader in the section. Proximity still pulls
+      // a swipe onto the next state, and lets them leave once past the last.
+      root.style.scrollSnapType = e.isIntersecting ? 'y proximity' : '';
+    }, { rootMargin: '0px' });
+    io.observe(track);
+
+    read();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    const lenis = getLenis();
+    lenis?.on('scroll', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      lenis?.off('scroll', onScroll);
+      io.disconnect();
+      root.style.scrollSnapType = '';
+      if (frame) cancelAnimationFrame(frame);
+    };
+  }, [pin]);
+
+  useEffect(() => {
     const pin = pinRef.current;
     if (!pin) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    // phones use the sticky track above, so the two never run together
+    if (window.matchMedia(MOBILE_Q).matches) return;
 
     const navH = () => document.querySelector('nav')?.getBoundingClientRect().height ?? 0;
     const offset = () => navH() + 12;
@@ -255,7 +367,10 @@ export default function Problem() {
 
   return (
     <>
-      <section className="py-14 lg:py-16 overflow-hidden relative" style={{ background: BG }}>
+      {/* overflow-x-clip, not overflow-hidden: `hidden` makes this a scroll
+          container, which silently kills the sticky pin inside it. `clip` still
+          keeps the blurred blobs from widening the page. */}
+      <section className="py-14 lg:py-16 overflow-x-clip relative" style={{ background: BG }}>
         {/* Background blobs — promoted to their own GPU layer so the expensive
             blur is painted once and only composited (not repainted) during scroll */}
         <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none" style={{ transform: 'translateZ(0)' }}>
@@ -291,15 +406,27 @@ export default function Problem() {
             </p>
           </motion.div>
 
-          {/* Pinned block — tabs + content advance on scroll (see effect above) */}
-          <div ref={pinRef}>
+          {/* Pinned block — tabs + content advance on scroll (see effects above).
+              On a phone it sits in a track several screens tall and sticks to
+              the top of it, so scrolling steps through the states; on desktop
+              the track collapses and the wheel lock takes over. */}
+          <div ref={trackRef} style={pin ? { position: 'relative', height: pin.height } : undefined}>
+          {/* one snap point per state, so a swipe settles on the next one */}
+          {pin && painPoints.map((_, i) => (
+            <div
+              key={`snap-${i}`}
+              aria-hidden
+              style={{ position: 'absolute', left: 0, width: 1, height: 1, top: i * pin.seg, scrollSnapAlign: 'start', scrollMarginTop: pin.top }}
+            />
+          ))}
+          <div ref={pinRef} style={pin ? { position: 'sticky', top: pin.top } : undefined}>
           {/* Tab bar */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-            className="grid grid-cols-2 sm:flex w-full border border-slate-200 sm:border-0 sm:border-b rounded-2xl sm:rounded-none overflow-hidden mb-8 bg-white sm:bg-transparent"
+            className="grid grid-cols-2 sm:flex w-full border border-slate-200 sm:border-0 sm:border-b rounded-2xl sm:rounded-none overflow-hidden mb-4 sm:mb-8 bg-white sm:bg-transparent"
           >
             {painPoints.map((p, i) => {
               const Icon = p.icon;
@@ -312,7 +439,7 @@ export default function Problem() {
                      longest and used to break after "Follow-". Below lg the type,
                      padding and gap step down just enough for it to fit the cell;
                      from lg up every value is what it always was. */
-                  className={`relative flex flex-1 items-center justify-center gap-1.5 lg:gap-2 py-3.5 sm:py-4 px-2 sm:px-3 lg:px-4 text-[11px] sm:text-[12px] lg:text-[13px] font-bold tracking-wide font-figtree transition-colors duration-200 min-h-[52px] border-b sm:border-b-0 border-slate-100 last:border-b-0 ${
+                  className={`relative flex flex-1 items-center justify-center gap-1.5 lg:gap-2 py-3.5 sm:py-4 px-2 sm:px-3 lg:px-4 text-[11px] sm:text-[12px] lg:text-[13px] font-bold tracking-wide font-figtree transition-colors duration-200 min-h-[46px] sm:min-h-[52px] border-b sm:border-b-0 border-slate-100 last:border-b-0 ${
                     i % 2 === 0 ? 'border-r sm:border-r-0 border-slate-100' : ''
                   } ${isActive ? 'text-[#1447d4] bg-blue-50 sm:bg-transparent' : 'text-slate-400 hover:text-slate-600'}`}
                 >
@@ -337,11 +464,11 @@ export default function Problem() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
-              className="grid grid-cols-1 lg:grid-cols-5 gap-4 lg:gap-5"
+              className="grid grid-cols-1 lg:grid-cols-5 gap-3 sm:gap-4 lg:gap-5"
             >
               {/* Left — problems */}
               <div
-                className="col-span-1 lg:col-span-3 rounded-2xl sm:rounded-3xl p-5 sm:p-8 flex flex-col"
+                className="col-span-1 lg:col-span-3 rounded-2xl sm:rounded-3xl p-4 sm:p-8 flex flex-col"
                 style={{ background: '#1447d4' }}
               >
                 <div className="inline-flex items-center gap-1.5 px-3 sm:px-4 py-1 sm:py-1.5 rounded-full text-[9px] sm:text-xs font-black uppercase tracking-widest mb-4 sm:mb-6 bg-white/15 text-white border border-white/25 self-start font-figtree">
@@ -387,6 +514,7 @@ export default function Problem() {
                 </div>
               </div>
             </motion.div>
+          </div>
           </div>
           </div>
         </div>
