@@ -18,6 +18,20 @@ export default function Industries() {
     return () => { alive = false; };
   }, []);
 
+  /* A link to /#industry-<slug> brings that sector's own card into view. The
+     cards arrive with the fetch, so this runs once they exist as well as on
+     every later hash change. */
+  useEffect(() => {
+    const open = () => {
+      const hash = window.location.hash.replace('#', '');
+      if (!hash.startsWith('industry-')) return;
+      document.getElementById(hash)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    };
+    if (industries.length) open();
+    window.addEventListener('hashchange', open);
+    return () => window.removeEventListener('hashchange', open);
+  }, [industries.length]);
+
   return (
     <section id="industries" className="py-14 lg:py-16 overflow-hidden relative" style={{ background: '#f8faff' }}>
       {/* Background orbs */}
@@ -69,6 +83,8 @@ export default function Industries() {
             return (
               <motion.div
                 key={ind.id}
+                /* the footer links straight to a sector's own card */
+                id={`industry-${ind.slug}`}
                 variants={{
                   hidden: { opacity: 0, y: 40 },
                   visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.25, 0.1, 0.25, 1] } },
@@ -80,6 +96,8 @@ export default function Industries() {
                   border: '1.5px solid rgba(20,71,212,0.10)',
                   padding: '28px 24px',
                   boxShadow: '0 2px 16px rgba(20,71,212,0.06)',
+                  // clear the fixed navbar when linked to directly
+                  scrollMarginTop: 96,
                 }}
               >
                 {/* The whole card opens the sector's page. An overlay link keeps

@@ -1,6 +1,7 @@
 'use client';
 
 import { Glyph, Rating, Lead, ChannelIcon } from './dashboardIcons';
+import { Bot } from 'lucide-react';
 
 /**
  * Inaipi Agent Desktop — product mock used as the homepage showcase.
@@ -633,8 +634,9 @@ export default function AgentDesktopUI({ playing = true, fixedView }: { playing?
 
             <div style={{ background: '#fff', border: '1px solid #DCCEFB', borderRadius: 16, overflow: 'hidden', flexShrink: 0 }}>
               <div style={{ background: 'linear-gradient(120deg,#6D28D9,#8B5CF6)', padding: '12px 16px', display: 'flex', alignItems: 'center', gap: 8 }}>
-                <span style={{ color: '#fff', fontSize: 15 }}>{<Glyph g="✦" size={16} />}</span>
-                <span style={{ color: '#fff', fontWeight: 800, fontSize: 14 }}>AI Copilot</span>
+                {/* the assistant in this panel is the AI Chatbot */}
+                <span style={{ color: '#fff', fontSize: 15, display: 'flex', alignItems: 'center' }}><Bot size={16} strokeWidth={2.1} /></span>
+                <span style={{ color: '#fff', fontWeight: 800, fontSize: 14 }}>AI Chatbot</span>
                 <div style={{ flex: 1 }} />
                 <span className="ad-pulse" style={{ background: 'rgba(255,255,255,.2)', color: '#fff', fontSize: 10.5, fontWeight: 800, padding: '3px 9px', borderRadius: 999 }}>LIVE</span>
               </div>

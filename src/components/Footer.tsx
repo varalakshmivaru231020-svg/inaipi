@@ -3,37 +3,22 @@
 import { Twitter, Linkedin, Github, Globe, ArrowUpRight } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useEffect, useState } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
+import { platformItems } from './sections/PlatformFlow';
 
-const footerLinks = [
-  {
-    title: 'Platform',
-    links: [
-      { name: 'Omnichannel', href: '#' },
-      { name: 'Case Management', href: '#' },
-      { name: 'AI Voice Agents', href: '#' },
-      { name: 'Campaigns', href: '#' }
-    ]
-  },
-  {
-    title: 'Solutions',
-    links: [
-      { name: 'Financial Services', href: '#' },
-      { name: 'Healthcare', href: '#' },
-      { name: 'Insurance', href: '#' },
-      { name: 'Education', href: '#' }
-    ]
-  },
-  {
-    title: 'Company',
-    links: [
-      { name: 'About Us', href: '/about' },
-      { name: 'Contact', href: '/contact' },
-      { name: 'Blog', href: '/blog' },
-      { name: 'Governance', href: '/terms-conditions' },
-      { name: 'Compliance', href: '/privacy-policy' }
-    ]
-  }
+const companyLinks = [
+  { name: 'About Us', href: '/about' },
+  { name: 'Blog', href: '/blog' },
+  { name: 'Buyer Resources', href: '/resources' },
+  { name: 'Careers', href: '/career' },
+  { name: 'Contact', href: '/contact' },
 ];
+
+/* Every slide the platform carousel actually has, each addressing its own. */
+const platformLinks = platformItems().map(i => ({ name: i.name, href: `/#platform-${i.slug}` }));
+
+type FooterLink = { name: string; href: string };
 
 const socialLinks = [
   { Icon: Twitter, href: '#', label: 'Twitter' },
@@ -42,6 +27,46 @@ const socialLinks = [
 ];
 
 export default function Footer() {
+  const router = useRouter();
+  const pathname = usePathname();
+
+  /* Solutions mirror the sectors on the site, so adding one in the admin adds
+     it here as well. Each points at that sector's own card. */
+  const [solutionLinks, setSolutionLinks] = useState<FooterLink[]>([]);
+  useEffect(() => {
+    let alive = true;
+    fetch('/api/industries', { cache: 'no-store' })
+      .then(r => (r.ok ? r.json() : Promise.reject(new Error('HTTP ' + r.status))))
+      .then((d: { slug: string; name: string }[]) => {
+        if (alive && Array.isArray(d)) {
+          setSolutionLinks(d.map(i => ({ name: i.name, href: `/#industry-${i.slug}` })));
+        }
+      })
+      .catch(() => { if (alive) setSolutionLinks([]); });
+    return () => { alive = false; };
+  }, []);
+
+  const footerLinks: { title: string; links: FooterLink[] }[] = [
+    { title: 'Platform', links: platformLinks },
+    { title: 'Solutions', links: solutionLinks },
+    { title: 'Company', links: companyLinks },
+  ];
+
+  /* A link into a section of the home page scrolls there rather than reloading.
+     From another page it routes home first and lets the hash do the work, which
+     is what the section and the carousel are listening for. */
+  const onSectionClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (!href.startsWith('/#')) return;
+    const hash = href.slice(1);
+    if (pathname !== '/') { router.push(href); return; }
+    e.preventDefault();
+    // Set the hash without a jump, then tell the listeners: the section and the
+    // carousel both handle hashchange, and this way clicking the same link
+    // twice works and the history is not filled with empty entries.
+    history.replaceState(null, '', href);
+    window.dispatchEvent(new Event('hashchange'));
+  };
+
   return (
     <footer className="relative bg-[#fafbff] text-[#0f172a] overflow-hidden border-t border-slate-100/80 font-figtree">
 
@@ -90,6 +115,7 @@ export default function Footer() {
                   <li key={lIdx}>
                     <Link
                       href={link.href}
+                      onClick={e => onSectionClick(e, link.href)}
                       className="group inline-flex items-center gap-1 text-[15px] text-slate-600 hover:text-[#1447d4] transition-colors duration-200 font-medium"
                     >
                       <span>{link.name}</span>

@@ -43,6 +43,10 @@ function DesktopMock({ view }: { view: View }) {
 // ─────────────────────────────────────────────
 // Stage data
 // ─────────────────────────────────────────────
+/** The slug each slide answers to, from its own tagline: /#platform-<slug>. */
+export const platformSlug = (tagline: string) =>
+  tagline.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+
 const stages = [
   {
     id: '01', title: 'One conversation. Any channel.', tagline: 'Omnichannel Digital Contact Center',
@@ -197,6 +201,10 @@ function StageCard({ stage }: { stage: typeof stages[0] }) {
 const AUTO_MS = 6500;
 const GLIDE = { duration: 1.05, ease: [0.22, 1, 0.36, 1] as const };
 
+/** The platform items, for anywhere that needs to link to one. */
+export const platformItems = () =>
+  stages.map(s => ({ name: s.tagline, slug: platformSlug(s.tagline) }));
+
 function PlatformCarousel() {
   const total = stages.length;
   /* A clone of slide 1 sits after slide 7. Advancing 7 -> clone is an ordinary
@@ -208,6 +216,7 @@ function PlatformCarousel() {
   const [slideW, setSlideW] = useState(0);
   const [index, setIndex] = useState(0);
   const [dragging, setDragging] = useState(false);
+  const [held, setHeld] = useState(false);
   const [reduced, setReduced] = useState(false);
   const x = useMotionValue(0);
 
@@ -236,10 +245,10 @@ function PlatformCarousel() {
      No timer runs while the clone is showing: that beat is consumed by the
      silent reset below, and slide 1 then gets its own full dwell. */
   useEffect(() => {
-    if (dragging || reduced || !slideW || index >= total) return;
+    if (dragging || held || reduced || !slideW || index >= total) return;
     const t = setTimeout(() => setIndex(i => i + 1), AUTO_MS);
     return () => clearTimeout(t);
-  }, [index, dragging, reduced, slideW, total]);
+  }, [index, dragging, held, reduced, slideW, total]);
 
   /* Glide to the active slide unless the pointer is holding the track. When the
      glide lands on the clone, reset to slide 1 instantly — same pixels, so
@@ -259,6 +268,26 @@ function PlatformCarousel() {
   /* The clone is never a destination for manual navigation. */
   const active = index % total;
   const go = (i: number) => setIndex(((i % total) + total) % total);
+
+  /* A link to /#platform-<slug> selects that slide and scrolls the section into
+     view. It also holds the auto-advance for a moment, so the slide the visitor
+     asked for is the one they actually land on. */
+  useEffect(() => {
+    const open = () => {
+      const hash = window.location.hash.replace('#', '');
+      if (!hash.startsWith('platform-')) return;
+      const slug = hash.slice('platform-'.length);
+      const i = stages.findIndex(st => platformSlug(st.tagline) === slug);
+      if (i < 0) return;
+      setIndex(i);
+      setHeld(true);
+      window.setTimeout(() => setHeld(false), 4000);
+      document.getElementById('platform')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
+    open();
+    window.addEventListener('hashchange', open);
+    return () => window.removeEventListener('hashchange', open);
+  }, []);
 
   const onDragEnd = (_e: unknown, info: PanInfo) => {
     setDragging(false);
