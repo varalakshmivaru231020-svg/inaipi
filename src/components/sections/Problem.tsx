@@ -174,9 +174,13 @@ export default function Problem() {
     // native scroll listener), so the pin latches precisely as the panel arrives.
     const onScrollFrame = () => {
       if (lockedRef.current) return;
-      const lenis = getLenis();
-      const dir = lenis ? lenis.direction : (window.scrollY > lastY ? 1 : -1);
-      lastY = window.scrollY;
+      // Direction comes from the scroll position rather than from Lenis: on a
+      // touch device Lenis is not driving the scroll, so lenis.direction stays
+      // 0 and the panel never latched, which is why a phone scrolled straight
+      // past the four states instead of stepping through them.
+      const y = window.scrollY;
+      const dir = y > lastY ? 1 : y < lastY ? -1 : 0;
+      lastY = y;
       if (dir === 1) {
         if (canEngage()) lock();
       } else if (pin.getBoundingClientRect().top > window.innerHeight * 0.9 && activeRef.current !== 0) {
@@ -226,16 +230,19 @@ export default function Problem() {
       }
     };
 
+    // Listen to both: Lenis drives the wheel, but a touch device scrolls
+    // natively and Lenis emits nothing for it. The handler is idempotent, so
+    // hearing the same scroll twice is harmless.
     const lenis = getLenis();
     if (lenis) lenis.on('scroll', onScrollFrame);
-    else window.addEventListener('scroll', onScrollFrame, { passive: true });
+    window.addEventListener('scroll', onScrollFrame, { passive: true });
     window.addEventListener('wheel', onWheel, { passive: false });
     window.addEventListener('touchstart', onTouchStart, { passive: true });
     window.addEventListener('touchmove', onTouchMove, { passive: false });
     window.addEventListener('keydown', onKey);
     return () => {
       if (lenis) lenis.off('scroll', onScrollFrame);
-      else window.removeEventListener('scroll', onScrollFrame);
+      window.removeEventListener('scroll', onScrollFrame);
       window.removeEventListener('wheel', onWheel);
       window.removeEventListener('touchstart', onTouchStart);
       window.removeEventListener('touchmove', onTouchMove);
@@ -301,7 +308,11 @@ export default function Problem() {
                 <button
                   key={i}
                   onClick={() => setActive(i)}
-                  className={`relative flex flex-1 items-center justify-center gap-2 py-3.5 sm:py-4 px-3 sm:px-4 text-[12px] sm:text-[13px] font-bold tracking-wide font-figtree transition-colors duration-200 min-h-[52px] border-b sm:border-b-0 border-slate-100 last:border-b-0 ${
+                  /* The label must stay on one line: "Customer Follow-Up" is the
+                     longest and used to break after "Follow-". Below lg the type,
+                     padding and gap step down just enough for it to fit the cell;
+                     from lg up every value is what it always was. */
+                  className={`relative flex flex-1 items-center justify-center gap-1.5 lg:gap-2 py-3.5 sm:py-4 px-2 sm:px-3 lg:px-4 text-[11px] sm:text-[12px] lg:text-[13px] font-bold tracking-wide font-figtree transition-colors duration-200 min-h-[52px] border-b sm:border-b-0 border-slate-100 last:border-b-0 ${
                     i % 2 === 0 ? 'border-r sm:border-r-0 border-slate-100' : ''
                   } ${isActive ? 'text-[#1447d4] bg-blue-50 sm:bg-transparent' : 'text-slate-400 hover:text-slate-600'}`}
                 >
@@ -310,8 +321,8 @@ export default function Problem() {
                       className="absolute bottom-0 sm:top-0 left-0 right-0 h-[2px] sm:h-[2px] z-10 rounded-full hidden sm:block" style={{ background: '#1447d4' }}
                     />
                   )}
-                  <Icon className="w-4 h-4 shrink-0 relative z-10" />
-                  <span className="relative z-10">{p.tag}</span>
+                  <Icon className="w-3.5 h-3.5 lg:w-4 lg:h-4 shrink-0 relative z-10" />
+                  <span className="relative z-10 whitespace-nowrap">{p.tag}</span>
                 </button>
               );
             })}

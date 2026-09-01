@@ -3,10 +3,13 @@
 import { motion } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 import ArchitectureDiagram, { ARCH_W } from './ArchitectureDiagram';
-import ArchitectureMobile from './ArchitectureMobile';
 
-/* Below this the diagram's 10–12px labels stop being readable. */
-const MIN_SCALE = 0.5;
+/* The diagram is one fixed canvas, so it can only be shown whole by scaling it.
+   It used to stop shrinking at 0.5 and scroll sideways instead; on a phone that
+   meant either a sideways swipe or a step-by-step substitute. It now always
+   scales to the width it is given, so the complete diagram is in one view at
+   every size. This floor only guards a zero measurement before layout. */
+const MIN_SCALE = 0.05;
 
 export default function Architecture() {
   const [archImage, setArchImage] = useState('');
@@ -37,6 +40,7 @@ export default function Architecture() {
       setScale(Math.max(MIN_SCALE, Math.min(1, frame.clientWidth / ARCH_W)));
       setNaturalH(inner.offsetHeight);
     };
+    // the canvas is always mounted now, so its natural height is always readable
     measure();
     const ro = new ResizeObserver(measure);
     ro.observe(frame);
@@ -91,19 +95,15 @@ export default function Architecture() {
             </div>
           ) : (
             <>
-              {/* Under lg the fixed canvas would have to shrink past the point
-                  where its 10px labels are readable, so the same architecture is
-                  stepped through instead. Both are always rendered and switched
-                  with CSS, so there is no breakpoint flash on first paint. */}
-              <div className="w-full lg:hidden">
-                <ArchitectureMobile />
-              </div>
+              {/* One view at every size: the whole canvas, scaled to the width
+                  it is given. Floored to whole pixels so a rounded-up fraction
+                  cannot leave the frame scrollable by a pixel. */}
               <div
                 ref={frameRef}
-                className="ad-scroll hidden lg:block rounded-[2rem] overflow-x-auto overflow-y-hidden border shadow-2xl bg-white w-full"
-                style={{ borderColor: 'rgba(20,71,212,0.12)', height: naturalH ? naturalH * scale : undefined, WebkitOverflowScrolling: 'touch' }}
+                className="ad-scroll rounded-[1.25rem] sm:rounded-[2rem] border shadow-2xl bg-white w-full overflow-hidden"
+                style={{ borderColor: 'rgba(20,71,212,0.12)', height: naturalH ? Math.floor(naturalH * scale) : undefined }}
               >
-                <div style={{ width: ARCH_W * scale, height: naturalH ? naturalH * scale : undefined }}>
+                <div style={{ width: Math.floor(ARCH_W * scale), height: naturalH ? Math.floor(naturalH * scale) : undefined }}>
                   <div ref={innerRef} style={{ width: ARCH_W, transform: `scale(${scale})`, transformOrigin: 'top left' }}>
                     <ArchitectureDiagram />
                   </div>
