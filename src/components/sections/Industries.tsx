@@ -37,7 +37,18 @@ export default function Industries() {
      to scroll back to it, so a restored position reveals the cards straight
      away. A first visit still gets the entrance as it comes into view. */
   const [restored, setRestored] = useState(false);
-  useEffect(() => { if (window.scrollY > 100) setRestored(true); }, []);
+  useEffect(() => {
+    // The restore lands after this mounts, so watch for a moment rather than
+    // reading the position once. A jump straight to a deep offset is a restore;
+    // a reader scrolling down from the top never gets there this quickly.
+    let done = false;
+    const check = () => {
+      if (done) return;
+      if (window.scrollY > 600) { done = true; setRestored(true); }
+    };
+    const timers = [0, 120, 350, 700, 1200].map(ms => window.setTimeout(check, ms));
+    return () => timers.forEach(clearTimeout);
+  }, []);
 
   const revealed = industries.length > 0 && (gridInView || restored);
 
