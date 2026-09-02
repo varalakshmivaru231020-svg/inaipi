@@ -29,7 +29,17 @@ export default function Industries() {
      on a first visit is unchanged. */
   const gridRef = useRef<HTMLDivElement>(null);
   const gridInView = useInView(gridRef, { once: true, amount: 0.1 });
-  const revealed = gridInView && industries.length > 0;
+
+  /* A first visit starts at the top of the page; coming back from a detail page
+     starts wherever the reader was, and the browser settles that position while
+     the rest of the page is still measuring itself, so the grid can end up well
+     off screen. Waiting to be seen would leave it invisible until they happened
+     to scroll back to it, so a restored position reveals the cards straight
+     away. A first visit still gets the entrance as it comes into view. */
+  const [restored, setRestored] = useState(false);
+  useEffect(() => { if (window.scrollY > 100) setRestored(true); }, []);
+
+  const revealed = industries.length > 0 && (gridInView || restored);
 
   /* A link to /#industry-<slug> brings that sector's own card into view. The
      cards arrive with the fetch, so this runs once they exist as well as on
