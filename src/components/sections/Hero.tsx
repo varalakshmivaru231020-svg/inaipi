@@ -32,7 +32,7 @@ function TypewriterWord({ word, delay, className }: { word: string; delay: numbe
 /* Trailing words of the hero headline, animated in one at a time. */
 const HEADLINE_TAIL = ['with', 'Sovereign', 'Cloud', 'options', 'for', 'regulated', 'industries.'];
 
-/* ── AI Copilot Chat ── */
+/* ── AI Chatbot Chat ── */
 // Each message: role, text, delay from start (ms), optional typingMs before it appears
 const LIVE_CONVO: { role: 'customer' | 'ai'; text: string; delay: number; typing?: number }[] = [
   { role: 'customer', text: 'Hi, my order #1224 was due yesterday. Any update?',                           delay: 600 },
@@ -385,7 +385,7 @@ export default function Hero() {
           {/* ══ LEFT — two separate cards ══ */}
           <div className="hidden lg:flex flex-col gap-3 w-60 shrink-0 self-center z-20 -mr-5">
 
-            {/* Card 1 — AI Copilot */}
+            {/* Card 1 — AI Chatbot */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
@@ -398,7 +398,7 @@ export default function Hero() {
                   className="w-5 h-5 rounded-lg bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center shrink-0 overflow-hidden">
                   <img src="/images/agents/agent_1.png" alt="AI Agent" className="w-full h-full object-cover" loading="eager" />
                 </motion.div>
-                <p className="text-[9px] font-black uppercase tracking-widest text-blue-600">AI Copilot</p>
+                <p className="text-[9px] font-black uppercase tracking-widest text-blue-600">AI Chatbot</p>
                 <span className="ml-auto text-[8px] font-black text-blue-500 bg-blue-50 px-1.5 py-0.5 rounded-full">AI Powered</span>
               </div>
               <div className="flex flex-col px-3 pt-2 pb-2 gap-1.5 flex-1 overflow-hidden">

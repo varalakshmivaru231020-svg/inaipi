@@ -661,7 +661,7 @@ const MN_TAG_COLOR: Record<string, string> = { Positive: MN.green, Neutral: MN.m
 const MN_PLATFORMS: [Brand, string, number][] = [['twitter', 'Twitter', 342], ['facebook', 'Facebook', 278], ['instagram', 'Instagram', 189], ['youtube', 'YouTube', 156], ['google', 'Google Reviews', 95]];
 const MN_KEYWORDS: [string, number][] = [['#CustomerSupport', 156], ['#AIChatbot', 132], ['#inaipi', 98], ['#Automation', 76], ['#CustomerExperience', 64]];
 const MN_LISTENING: [Brand, string][] = [['twitter', 'Twitter'], ['facebook', 'Facebook'], ['instagram', 'Instagram'], ['youtube', 'YouTube'], ['google', 'Google Reviews'], ['blogs', 'Blogs'], ['news', 'News'], ['forums', 'Forums']];
-const MN_QUICK: [string, string][] = [['AR', 'Auto Reply Rules'], ['SF', 'Smart Filters'], ['AI', 'AI Copilot Settings'], ['TA', 'Team Assignment'], ['TM', 'Tag Manager']];
+const MN_QUICK: [string, string][] = [['AR', 'Auto Reply Rules'], ['SF', 'Smart Filters'], ['AI', 'AI Chatbot Settings'], ['TA', 'Team Assignment'], ['TM', 'Tag Manager']];
 /* sparkHist mapped through the design's own x=i*(200/13), y=52-((v-20)/45)*48 */
 const MN_SPARK = '0.0,41.3 15.4,37.1 30.8,40.3 46.2,32.8 61.5,34.9 76.9,28.5 92.3,30.7 107.7,24.3 123.1,26.4 138.5,20.0 153.8,22.1 169.2,14.7 184.6,16.8 200.0,11.5';
 const MN_POS = 65, MN_NEU = 20, MN_NEG = 15;

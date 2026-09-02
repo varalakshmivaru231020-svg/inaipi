@@ -39,7 +39,8 @@ export default function Footer() {
       .then(r => (r.ok ? r.json() : Promise.reject(new Error('HTTP ' + r.status))))
       .then((d: { slug: string; name: string }[]) => {
         if (alive && Array.isArray(d)) {
-          setSolutionLinks(d.map(i => ({ name: i.name, href: `/#industry-${i.slug}` })));
+          // each solution opens its own detail page, not a spot on the home page
+          setSolutionLinks(d.map(i => ({ name: i.name, href: `/industries/${i.slug}` })));
         }
       })
       .catch(() => { if (alive) setSolutionLinks([]); });

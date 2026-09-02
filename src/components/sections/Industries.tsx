@@ -1,8 +1,8 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { industryIcon, type Industry } from '@/lib/industryIcons';
 
 export default function Industries() {
@@ -17,6 +17,19 @@ export default function Industries() {
       .catch(() => { if (alive) setIndustries([]); });
     return () => { alive = false; };
   }, []);
+
+  /* The cards reveal once they are both on screen and actually loaded.
+
+     They used to reveal on whileInView alone, with once:true. The grid is empty
+     while the fetch is in flight, so coming back from a detail page — where the
+     scroll is restored with the grid already on screen — spent that one shot on
+     an empty grid, and the cards that arrived a moment later stayed at opacity
+     0. The section looked blank even though every card was in the DOM. Tying
+     the reveal to the data as well as the viewport fixes that, and the entrance
+     on a first visit is unchanged. */
+  const gridRef = useRef<HTMLDivElement>(null);
+  const gridInView = useInView(gridRef, { once: true, amount: 0.1 });
+  const revealed = gridInView && industries.length > 0;
 
   /* A link to /#industry-<slug> brings that sector's own card into view. The
      cards arrive with the fetch, so this runs once they exist as well as on
@@ -72,11 +85,11 @@ export default function Industries() {
 
         {/* Grid */}
         <motion.div
+          ref={gridRef}
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
           variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.1, delayChildren: 0.1 } } }}
           initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.1 }}
+          animate={revealed ? 'visible' : 'hidden'}
         >
           {industries.map(ind => {
             const Icon = industryIcon(ind.icon);
