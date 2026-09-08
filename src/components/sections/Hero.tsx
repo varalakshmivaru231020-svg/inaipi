@@ -22,11 +22,11 @@ import { ArrowRight } from 'lucide-react';
 const DW = 1672;
 const DH = 941;
 
-/* The block above the artwork — wordmark, badge, headline, supporting line and
-   the two calls to action. The artwork is pushed down by exactly this much and
-   nothing inside it moves, so every card, connector and the disc keep the
-   coordinates they were drawn at. */
-const HEAD = 256;
+/* The block above the artwork — headline, the two lines of copy and the calls
+   to action. The artwork is pushed down by exactly this much and nothing inside
+   it moves, so every card, connector and the disc keep the coordinates they
+   were drawn at. */
+const HEAD = 166;
 const CH = DH + HEAD;
 
 /* Ink lifted from the artwork itself rather than guessed at. */
@@ -351,43 +351,53 @@ export default function Hero() {
           }}
         >
 
-          {/* ── wordmark ── */}
-          {/* the brand's own transparent asset, so nothing boxes it in */}
-          <motion.img
-            src="/logo.png" alt="inaipi"
-            initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            style={{ position: 'absolute', left: (DW - 210) / 2, top: 10, width: 210, height: 50, objectFit: 'contain' }}
-          />
-
-          {/* ── badge ── */}
-          {/* the eyebrow the hero has always carried, back where it was */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
-            style={{ position: 'absolute', left: 0, top: 78, width: DW, display: 'flex', justifyContent: 'center' }}
-          >
-            <span className="inline-flex items-center space-x-3 px-5 py-2 rounded-full border border-blue-100 bg-white shadow-sm">
-              <span className="flex h-1.5 w-1.5 rounded-full bg-blue-600 animate-pulse" />
-              <span className="text-[10px] font-black uppercase tracking-[0.35em] text-blue-600">Built for Regulated Industries</span>
-            </span>
-          </motion.div>
-
           {/* ── headline ── */}
-          <motion.h1
-            initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
+          {/* Same type, same two lines, same ink — it simply starts at the top of
+              the band now that the wordmark and the badge are gone. The motion
+              added here is only the two lines arriving one just behind the other
+              instead of as a single slab, and a slow drift across the blue half
+              between the two blues the artwork already uses. Both are off under
+              prefers-reduced-motion. */}
+          <h1
             style={{
-              position: 'absolute', left: 0, top: 130, width: DW, textAlign: 'center',
+              position: 'absolute', left: 0, top: 40, width: DW, textAlign: 'center',
               fontSize: 58, lineHeight: '58px', fontWeight: 800, letterSpacing: '-0.022em', color: INK, margin: 0,
             }}
             className="font-figtree"
           >
-            From Customer Interaction
-            <br />
-            <span style={{ display: 'inline-block', marginTop: 12 }}>to <span style={{ color: BLUE }}>Intelligent Action.</span></span>
-          </motion.h1>
+            <motion.span
+              initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
+              style={{ display: 'block' }}
+            >
+              From Customer Interaction
+            </motion.span>
+            <motion.span
+              initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.17, ease: [0.22, 1, 0.36, 1] }}
+              style={{ display: 'block', marginTop: 12 }}
+            >
+              to{' '}
+              {/* #0559f5 → #2f7bff → #0559f5, drifting across the words over 14s,
+                  so the blue is never anything the artwork does not already use.
+                  The padding only widens the box the gradient is clipped to, so
+                  ascenders and descenders keep their colour — it does not move
+                  the text, and nothing follows it in flow. */}
+              <motion.span
+                animate={move ? { backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'] } : undefined}
+                transition={move ? { duration: 14, repeat: Infinity, ease: 'easeInOut' } : undefined}
+                style={{
+                  display: 'inline-block', padding: '0.18em 0 0.22em',
+                  backgroundImage: `linear-gradient(100deg, ${BLUE} 0%, ${BLUE_SOFT} 45%, ${BLUE} 100%)`,
+                  backgroundSize: '220% 100%', backgroundPosition: '0% 50%',
+                  WebkitBackgroundClip: 'text', backgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent', color: 'transparent',
+                }}
+              >Intelligent Action.</motion.span>
+            </motion.span>
+          </h1>
 
           <motion.p
             initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.14, ease: [0.22, 1, 0.36, 1] }}
-            style={{ position: 'absolute', left: 0, top: 276, width: DW, textAlign: 'center', fontSize: 21, fontWeight: 500, color: SLATE, margin: 0 }}
+            style={{ position: 'absolute', left: 0, top: 186, width: DW, textAlign: 'center', fontSize: 21, fontWeight: 500, color: SLATE, margin: 0 }}
           >
             7 connected and independent capabilities.
           </motion.p>
@@ -400,7 +410,7 @@ export default function Hero() {
           <motion.p
             initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.19, ease: [0.22, 1, 0.36, 1] }}
             style={{
-              position: 'absolute', left: (DW - 880) / 2, top: 312, width: 880, textAlign: 'center',
+              position: 'absolute', left: (DW - 880) / 2, top: 222, width: 880, textAlign: 'center',
               fontSize: 19, fontWeight: 400, lineHeight: '28px', color: '#64748b', margin: 0,
             }}
           >
@@ -411,7 +421,7 @@ export default function Hero() {
           {/* the same two buttons, with the same hover treatment, as before */}
           <motion.div
             initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.24, ease: [0.22, 1, 0.36, 1] }}
-            style={{ position: 'absolute', left: 0, top: 392, width: DW, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16 }}
+            style={{ position: 'absolute', left: 0, top: 302, width: DW, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16 }}
           >
             {/* Primary — full hover treatment */}
             <motion.div whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.96, y: 0 }}>
