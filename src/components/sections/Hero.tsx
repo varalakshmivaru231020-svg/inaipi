@@ -253,7 +253,13 @@ export default function Hero() {
          collapse to that height left the hero a thin strip and pulled the rest
          of the page up around it. Keep a sensible band and sit the composition
          in the middle of it. */
-      setBand(Math.max(CH * s, Math.min(620, Math.round(window.innerHeight * 0.72))));
+      /* Desktop keeps the band it always had. On a phone the composition scales
+         right down, and that same band left a few hundred pixels of empty space
+         under the artwork — so there the section is only a little taller than
+         the artwork itself, enough that it does not read as a hairline strip. */
+      setBand(w < 900
+        ? Math.max(CH * s + 48, Math.min(360, Math.round(window.innerHeight * 0.42)))
+        : Math.max(CH * s, Math.min(620, Math.round(window.innerHeight * 0.72))));
     };
     fit();
     window.addEventListener('resize', fit);
