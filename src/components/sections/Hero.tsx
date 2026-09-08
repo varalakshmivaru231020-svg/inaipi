@@ -26,7 +26,7 @@ const DH = 941;
    the two calls to action. The artwork is pushed down by exactly this much and
    nothing inside it moves, so every card, connector and the disc keep the
    coordinates they were drawn at. */
-const HEAD = 200;
+const HEAD = 256;
 const CH = DH + HEAD;
 
 /* Ink lifted from the artwork itself rather than guessed at. */
@@ -392,11 +392,26 @@ export default function Hero() {
             7 connected and independent capabilities.
           </motion.p>
 
+          {/* ── what Inaipi is ──
+              The supporting paragraph the hero has always carried. It went
+              missing when the artwork replaced the old hero; it belongs above
+              the artwork, with the badge and the buttons, and nothing inside
+              the artwork moves to make room for it. */}
+          <motion.p
+            initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.19, ease: [0.22, 1, 0.36, 1] }}
+            style={{
+              position: 'absolute', left: (DW - 880) / 2, top: 312, width: 880, textAlign: 'center',
+              fontSize: 19, fontWeight: 400, lineHeight: '28px', color: '#64748b', margin: 0,
+            }}
+          >
+            Inaipi is an AI-native, cloud-first customer experience platform, with Sovereign Cloud options that keep data resident, compliant and fully under your control.
+          </motion.p>
+
           {/* ── calls to action ── */}
           {/* the same two buttons, with the same hover treatment, as before */}
           <motion.div
             initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.24, ease: [0.22, 1, 0.36, 1] }}
-            style={{ position: 'absolute', left: 0, top: 336, width: DW, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16 }}
+            style={{ position: 'absolute', left: 0, top: 392, width: DW, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16 }}
           >
             {/* Primary — full hover treatment */}
             <motion.div whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.96, y: 0 }}>
