@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
+import { motion, useScroll, useTransform, AnimatePresence, useReducedMotion, useMotionValue, useSpring } from 'framer-motion';
 import { Phone, MessageSquare, Mail, Globe, Star, Zap, PhoneIncoming, ArrowRight, MessageCircle, Radio, Sparkles, PhoneCall, FileText, BarChart3, RefreshCw, Ticket } from 'lucide-react';
 import { Fragment, useEffect, useRef, useState } from 'react';
 
@@ -44,44 +44,90 @@ const LIVE_CONVO: { role: 'customer' | 'ai'; text: string; delay: number; typing
   { role: 'ai',       text: 'Happy to help! Is there anything else I can do for you today?',               delay: 10800, typing: 800 },
 ];
 
+/* How many bubbles the card holds before the oldest slides off the top. */
+const CHAT_WINDOW = 4;
+const CHAT_GAP_MS = 2100;
+
+/**
+ * The chat runs continuously, the way a live conversation looks: a new bubble
+ * rises in from the bottom, the ones above it move up to make room, and the
+ * oldest leaves through the top. It used to play the script once with a stack
+ * of timers and then sit still, which read as a screenshot.
+ *
+ * One timer walks the same script on a loop, so the copy is unchanged; the
+ * upward motion is framer's layout animation rather than a scroll, so the
+ * bubbles glide instead of jumping.
+ */
 function AICopilotChat() {
-  const [shown, setShown]       = useState<typeof LIVE_CONVO>([]);
-  const [typing, setTyping]     = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
+  const [feed, setFeed] = useState<{ msg: (typeof LIVE_CONVO)[number]; id: number }[]>([]);
+  const [typing, setTyping] = useState(false);
+  const reduced = useReducedMotion();
 
   useEffect(() => {
-    const timers: ReturnType<typeof setTimeout>[] = [];
-    LIVE_CONVO.forEach((msg, i) => {
-      if (msg.typing) {
-        timers.push(setTimeout(() => setTyping(true),  msg.delay));
-        timers.push(setTimeout(() => { setTyping(false); setShown(p => [...p, msg]); }, msg.delay + msg.typing));
-      } else {
-        timers.push(setTimeout(() => setShown(p => [...p, msg]), msg.delay));
-      }
-    });
-    return () => timers.forEach(clearTimeout);
-  }, []);
+    // Reduced motion: show the conversation, hold it still.
+    if (reduced) {
+      setFeed(LIVE_CONVO.slice(0, CHAT_WINDOW).map((msg, id) => ({ msg, id })));
+      return;
+    }
 
-  useEffect(() => { ref.current?.scrollTo({ top: ref.current.scrollHeight, behavior: 'smooth' }); }, [shown, typing]);
+    let timer: ReturnType<typeof setTimeout>;
+    let n = 0;
+    const step = () => {
+      const msg = LIVE_CONVO[n % LIVE_CONVO.length];
+      const id = n;
+      n += 1;
+      const post = () => {
+        setTyping(false);
+        setFeed(prev => [...prev, { msg, id }].slice(-CHAT_WINDOW));
+        timer = setTimeout(step, CHAT_GAP_MS);
+      };
+      if (msg.typing && msg.role === 'ai') {
+        setTyping(true);
+        timer = setTimeout(post, msg.typing);
+      } else {
+        post();
+      }
+    };
+    timer = setTimeout(step, 600);
+    return () => clearTimeout(timer);
+  }, [reduced]);
 
   return (
-    <div ref={ref} className="flex flex-col gap-1.5 overflow-y-auto scrollbar-none flex-1">
-      {shown.map((msg, i) => (
-        <motion.div key={i} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-          className={`flex ${msg.role === 'customer' ? 'justify-end' : 'justify-start'}`}>
-          <div className={`max-w-[88%] px-2.5 py-1.5 rounded-xl text-[9px] leading-snug font-medium whitespace-pre-line ${
-            msg.role === 'customer' ? 'bg-blue-600 text-white rounded-br-none' : 'bg-slate-100 text-slate-600 rounded-bl-none'
-          }`}>{msg.text}</div>
-        </motion.div>
-      ))}
-      {typing && (
-        <div className="flex justify-start">
-          <div className="bg-slate-100 rounded-xl rounded-bl-none px-3 py-2 flex gap-1 items-center">
-            {[0,1,2].map(i => <motion.span key={i} animate={{ y: [0,-3,0] }} transition={{ duration: 0.5, repeat: Infinity, delay: i * 0.15 }} className="w-1 h-1 rounded-full bg-blue-400 block" />)}
-          </div>
-        </div>
-      )}
+    <div className="flex flex-col justify-end gap-1.5 overflow-hidden flex-1">
+      <AnimatePresence initial={false}>
+        {feed.map(({ msg, id }) => (
+          <motion.div
+            key={id}
+            layout
+            initial={{ opacity: 0, y: 14, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -8, transition: { duration: 0.3, ease: 'easeIn' } }}
+            transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1], layout: { duration: 0.45, ease: [0.22, 1, 0.36, 1] } }}
+            className={`flex shrink-0 ${msg.role === 'customer' ? 'justify-end' : 'justify-start'}`}
+          >
+            <div className={`max-w-[88%] px-2.5 py-1.5 rounded-xl text-[9px] leading-snug font-medium whitespace-pre-line ${
+              msg.role === 'customer' ? 'bg-blue-600 text-white rounded-br-none' : 'bg-slate-100 text-slate-600 rounded-bl-none'
+            }`}>{msg.text}</div>
+          </motion.div>
+        ))}
+        {typing && (
+          <motion.div
+            key="typing"
+            layout
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -6, transition: { duration: 0.2 } }}
+            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            className="flex justify-start shrink-0"
+          >
+            <div className="bg-slate-100 rounded-xl rounded-bl-none px-3 py-2 flex gap-1 items-center">
+              {[0, 1, 2].map(i => (
+                <motion.span key={i} animate={{ y: [0, -3, 0] }} transition={{ duration: 0.5, repeat: Infinity, delay: i * 0.15 }} className="w-1 h-1 rounded-full bg-blue-400 block" />
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
@@ -196,6 +242,41 @@ export default function Hero() {
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start start', 'end start'] });
   const cardY       = useTransform(scrollYProgress, [0, 0.2],  [60, 0]);
   const cardOpacity = useTransform(scrollYProgress, [0, 0.15], [0, 1]);
+
+  /* ── Parallax ──────────────────────────────────────────────────────────
+     The pointer moves the columns by a few pixels, the outer ones further
+     than the centre, so the composition has a little depth as the cursor
+     crosses it. Springs keep it lazy rather than twitchy, and it is a few
+     pixels of translate on three wrappers: nothing about the layout, the
+     sizes or the spacing changes. */
+  const reduced = useReducedMotion();
+  const px = useMotionValue(0);
+  const py = useMotionValue(0);
+  const spring = { stiffness: 60, damping: 20, mass: 0.6 };
+  const sx = useSpring(px, spring);
+  const sy = useSpring(py, spring);
+  const leftX   = useTransform(sx, [-1, 1], [10, -10]);
+  const leftY   = useTransform(sy, [-1, 1], [6, -6]);
+  const midX    = useTransform(sx, [-1, 1], [-4, 4]);
+  const rightX  = useTransform(sx, [-1, 1], [-10, 10]);
+  const rightY  = useTransform(sy, [-1, 1], [-6, 6]);
+
+  const onBandMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (reduced) return;
+    const b = e.currentTarget.getBoundingClientRect();
+    px.set(((e.clientX - b.left) / b.width) * 2 - 1);
+    py.set(((e.clientY - b.top) / b.height) * 2 - 1);
+  };
+  const onBandLeave = () => { px.set(0); py.set(0); };
+
+  /* A slow, staggered drift so the cards breathe while they sit there. Each
+     card keeps its own entrance; only the repeating part is added here, with a
+     different phase per card so they never move in lockstep. */
+  const drift = reduced ? {} : { y: [0, -7, 0] };
+  const driftT = (i: number) =>
+    reduced
+      ? {}
+      : { y: { duration: 7 + i * 0.8, repeat: Infinity, ease: 'easeInOut' as const, delay: 1.2 + i * 0.55 } };
 
   const [calls,         setCalls        ] = useState<typeof CALLS>([]);
   const [activeCallIdx, setActiveCallIdx] = useState<number | null>(null);
@@ -374,6 +455,8 @@ export default function Hero() {
       ══════════════════════════════════════════════ */}
       <motion.div
         style={{ y: cardY, opacity: cardOpacity }}
+        onMouseMove={onBandMove}
+        onMouseLeave={onBandLeave}
         className="relative z-10 w-full max-w-[1400px] mx-auto px-8 mt-10"
       >
         {/* Glow behind center */}
@@ -383,13 +466,13 @@ export default function Hero() {
         <div className="flex items-start justify-center gap-0 min-h-[280px] sm:min-h-[400px] lg:min-h-[640px]">
 
           {/* ══ LEFT — two separate cards ══ */}
-          <div className="hidden lg:flex flex-col gap-3 w-60 shrink-0 self-center z-20 -mr-5">
+          <motion.div style={{ x: leftX, y: leftY }} className="hidden lg:flex flex-col gap-3 w-60 shrink-0 self-center z-20 -mr-5">
 
             {/* Card 1 — AI Chatbot */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+              animate={{ opacity: 1, x: 0, ...drift }}
+              transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1], ...driftT(0) }}
               className="rounded-2xl border border-blue-100/60 flex flex-col overflow-hidden"
               style={{ height: '280px', background: 'linear-gradient(160deg, #ffffff 0%, #f0f5ff 100%)', boxShadow: '0 20px 60px -10px rgba(37,99,235,0.20), 0 4px 20px -2px rgba(99,102,241,0.10)' }}
             >
@@ -415,8 +498,8 @@ export default function Hero() {
             {/* Card 2 — Incoming Call */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
+              animate={{ opacity: 1, x: 0, ...drift }}
+              transition={{ duration: 0.8, delay: 0.45, ease: [0.22, 1, 0.36, 1], ...driftT(1) }}
               className="rounded-2xl border border-green-200/80 overflow-hidden shrink-0"
               style={{ background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)', boxShadow: '0 12px 40px -8px rgba(34,197,94,0.18), 0 2px 12px -2px rgba(34,197,94,0.10)' }}
             >
@@ -449,16 +532,18 @@ export default function Hero() {
               </div>
             </motion.div>
 
-          </div>
+          </motion.div>
 
           {/* ══ CENTER card ══ */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+            animate={{ opacity: 1, y: reduced ? 0 : [0, -4, 0] }}
+            transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1], ...(reduced ? {} : { y: { duration: 9, repeat: Infinity, ease: 'easeInOut' as const, delay: 1 } }) }}
             className="rounded-2xl z-10 flex flex-col overflow-hidden relative w-full lg:w-[840px] h-[240px] sm:h-[360px] lg:h-[600px]"
             style={{
               boxShadow: '0 32px 80px -20px rgba(37,99,235,0.18), 0 8px 32px -4px rgba(0,0,0,0.08)',
+              // the centre moves least, so the outer columns read as nearer
+              x: midX,
             }}
           >
             {/* Full background image */}
@@ -574,13 +659,13 @@ export default function Hero() {
           </motion.div>
 
           {/* ══ RIGHT — three stacked product cards ══ */}
-          <div className="hidden lg:flex flex-col gap-3 shrink-0 mt-6 -ml-5 w-72 z-20">
+          <motion.div style={{ x: rightX, y: rightY }} className="hidden lg:flex flex-col gap-3 shrink-0 mt-6 -ml-5 w-72 z-20">
 
             {/* Card 1 — Conversation Intelligence */}
             <motion.div
               initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+              animate={{ opacity: 1, x: 0, ...drift }}
+              transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1], ...driftT(2) }}
               className="rounded-2xl border border-violet-100/80 overflow-hidden px-3 py-2.5 flex flex-col gap-2"
               style={{ background: 'linear-gradient(135deg, #ffffff 0%, #f7f4ff 55%, #f1ecff 100%)', boxShadow: '0 12px 40px -8px rgba(124,58,237,0.18), 0 2px 12px -2px rgba(99,102,241,0.10)' }}
             >
@@ -618,8 +703,8 @@ export default function Hero() {
             {/* Card 2 — Outbound Dialer */}
             <motion.div
               initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.42, ease: [0.22, 1, 0.36, 1] }}
+              animate={{ opacity: 1, x: 0, ...drift }}
+              transition={{ duration: 0.8, delay: 0.42, ease: [0.22, 1, 0.36, 1], ...driftT(3) }}
               className="rounded-2xl border border-emerald-100/80 overflow-hidden px-3 py-2.5 flex flex-col gap-2"
               style={{ background: 'linear-gradient(135deg, #ffffff 0%, #f2fdf7 55%, #ecfdf3 100%)', boxShadow: '0 12px 40px -8px rgba(16,163,74,0.16), 0 2px 12px -2px rgba(37,99,235,0.08)' }}
             >
@@ -656,8 +741,8 @@ export default function Hero() {
             {/* Card 3 — Ticketing System */}
             <motion.div
               initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.54, ease: [0.22, 1, 0.36, 1] }}
+              animate={{ opacity: 1, x: 0, ...drift }}
+              transition={{ duration: 0.8, delay: 0.54, ease: [0.22, 1, 0.36, 1], ...driftT(4) }}
               className="rounded-2xl border border-blue-100/80 overflow-hidden px-3 py-2.5 flex flex-col gap-2"
               style={{ background: 'linear-gradient(135deg, #ffffff 0%, #f2f7ff 55%, #eef2ff 100%)', boxShadow: '0 12px 40px -8px rgba(37,99,235,0.18), 0 2px 12px -2px rgba(99,102,241,0.10)' }}
             >
@@ -696,7 +781,7 @@ export default function Hero() {
               </div>
             </motion.div>
 
-          </div>
+          </motion.div>
 
         </div>
 
