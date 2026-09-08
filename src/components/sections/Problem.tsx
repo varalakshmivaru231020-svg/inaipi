@@ -168,87 +168,30 @@ export default function Problem() {
     const track = trackRef.current;
     if (!track) return;
 
-    const NUDGE = 24;        // ignore jitter around a boundary
-    const MIN_GESTURE = 8;   // px of travel before a touch counts as a swipe
-
     let frame = 0;
-    let armed = false;       // a fresh gesture is available to spend
-    let lastGesture = 0;     // when the reader last touched or scrolled by hand
-    let released = false;    // past the last state: stop holding
-    let touchY = 0;
-    let lastY = window.scrollY;
 
-    /** document scroll position at which a state begins */
-    const boundary = (i: number) =>
-      window.scrollY + track.getBoundingClientRect().top + i * pin.seg - pin.top;
-    const settle = (i: number) => window.scrollTo({ top: boundary(i), behavior: 'auto' });
-
+    /* Which tab the reader has scrolled to — read from the position, nothing
+       more. This used to scroll the page itself: it held the reader on the
+       state a swipe had reached and pulled them back to it, so releasing a
+       downward scroll snapped the page upward and the heading and paragraph
+       above could not be read on the way past. The track is already tall
+       enough that scrolling through it moves a tab at a time, so the tabs
+       simply follow the scroll and the page is never moved for the reader. */
     const read = () => {
       frame = 0;
-      const y = window.scrollY;
-      const goingUp = y < lastY;
-      lastY = y;
-
       const passed = pin.top - track.getBoundingClientRect().top;
-      const cur = activeRef.current;
-      // Only hold against a hand: a scroll the page started itself - a footer
-      // link heading for a section, say - has to be allowed through, or it gets
-      // yanked back the moment it crosses this track.
-      const byHand = performance.now() - lastGesture < 1200;
-
-      // above the track, or on the way back up: follow the scroll, hold nothing
-      if (passed < 0 || goingUp) {
-        released = false;
-        const idx = Math.min(LAST, Math.max(0, Math.floor(passed / pin.seg)));
-        if (idx !== cur) { activeRef.current = idx; setActive(idx); }
-        return;
-      }
-
-      if (cur < LAST) {
-        if (passed >= (cur + 1) * pin.seg - NUDGE) {
-          if (armed) {
-            armed = false;
-            const next = cur + 1;
-            activeRef.current = next;
-            setActive(next);
-            settle(next);
-          } else if (byHand) {
-            // the rest of the same gesture: stay on the state it reached
-            settle(cur);
-          }
-        }
-        return;
-      }
-
-      // the last state: an armed gesture releases the page, otherwise hold
-      if (passed > LAST * pin.seg + NUDGE) {
-        if (armed) { armed = false; released = true; }
-        if (!released && byHand) settle(LAST);
-      }
+      const idx = Math.min(LAST, Math.max(0, Math.floor(passed / pin.seg)));
+      if (idx !== activeRef.current) { activeRef.current = idx; setActive(idx); }
     };
 
     const onScroll = () => { if (!frame) frame = requestAnimationFrame(read); };
-    const onTouchStart = (e: TouchEvent) => { touchY = e.touches[0]?.clientY ?? 0; lastGesture = performance.now(); };
-    // arm only once the finger has actually travelled, so a tap or a stray
-    // pixel of movement cannot advance anything
-    const onTouchMove = (e: TouchEvent) => {
-      const y = e.touches[0]?.clientY ?? 0;
-      if (Math.abs(touchY - y) >= MIN_GESTURE) { armed = true; lastGesture = performance.now(); }
-    };
-    const onWheel = () => { armed = true; lastGesture = performance.now(); };
 
     read();
     window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('touchstart', onTouchStart, { passive: true });
-    window.addEventListener('touchmove', onTouchMove, { passive: true });
-    window.addEventListener('wheel', onWheel, { passive: true });
     const lenis = getLenis();
     lenis?.on('scroll', onScroll);
     return () => {
       window.removeEventListener('scroll', onScroll);
-      window.removeEventListener('touchstart', onTouchStart);
-      window.removeEventListener('touchmove', onTouchMove);
-      window.removeEventListener('wheel', onWheel);
       lenis?.off('scroll', onScroll);
       if (frame) cancelAnimationFrame(frame);
     };
@@ -437,14 +380,18 @@ export default function Problem() {
             className="text-center mb-14 max-w-3xl mx-auto"
           >
             <span className="section-eyebrow">The Problem</span>
-            <h2 className="text-3xl sm:text-4xl lg:text-[2.6rem] font-bold font-figtree tracking-[-0.025em] leading-[1.2] mb-5">
+            {/* On a phone the heading ran nearly edge to edge and broke into four
+                cramped lines. Same size and same ink — it is only given room to
+                breathe and allowed to balance its own line breaks. Untouched
+                from sm upwards. */}
+            <h2 className="text-3xl sm:text-4xl lg:text-[2.6rem] font-bold font-figtree tracking-[-0.025em] leading-[1.2] mb-5 max-sm:text-balance max-sm:leading-[1.28] max-sm:px-1">
               <span className="block text-[#0f172a]">Businesses invest heavily.</span>
               <span className="block">
                 <span className="text-[#0f172a]">Customers still experience </span>
                 <span className="text-[#1447d4]">disconnected journeys.</span>
               </span>
             </h2>
-            <p className="text-base sm:text-lg text-slate-500 leading-relaxed">
+            <p className="text-base sm:text-lg text-slate-500 leading-relaxed max-sm:text-pretty max-sm:leading-[1.72]">
               Customer engagement spans voice, messaging, follow-ups, feedback, and campaigns.
               When these capabilities run across disconnected systems, teams spend their time
               connecting the gaps instead of serving the customer.
