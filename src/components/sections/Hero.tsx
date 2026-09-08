@@ -43,59 +43,24 @@ const PANEL = '#fdfeff';
 
 type Box = { x: number; y: number; w: number; h: number };
 
-const CARD_SKIN = {
-  borderRadius: 20, background: '#ffffff',
-  boxShadow: '0 18px 44px -18px rgba(15,42,97,0.20), 0 2px 10px -2px rgba(15,42,97,0.06)',
-};
-
-/* A capability card. The float is per-card so they never breathe in unison.
-
-   On a phone the same card, with the same markup and the same motion, is taken
-   out of the canvas and set in the flow instead: it keeps its drawn size and is
-   scaled as a unit, so every rule, tile and label inside it stays in the
-   proportions it was designed at. Only the placement changes. */
+/* A capability card. The float is per-card so they never breathe in unison. */
 function Card({
-  box, phase, drift, parallax, mobileWidth, children,
+  box, phase, drift, parallax, children,
 }: {
-  box: Box; phase: number; drift: boolean; parallax: { x: any; y: any } | null;
-  mobileWidth?: number | null; children: React.ReactNode;
+  box: Box; phase: number; drift: boolean; parallax: { x: any; y: any } | null; children: React.ReactNode;
 }) {
-  /* Each card is drawn at its own width, so on a phone each is scaled to fill
-     the column. Sharing one factor across all seven left the narrower cards
-     well short of the edge and their type smaller than it needed to be. */
-  const mobileScale = mobileWidth ? mobileWidth / box.w : null;
-  const enter = {
-    duration: 0.7, delay: 0.15 + phase * 0.08, ease: [0.22, 1, 0.36, 1] as const,
-    ...(drift ? { y: { duration: 7.5 + phase * 0.9, repeat: Infinity, ease: 'easeInOut' as const, delay: 1.1 + phase * 0.6 } } : {}),
-  };
-
-  if (mobileScale) {
-    return (
-      <div style={{ width: box.w * mobileScale, height: box.h * mobileScale, position: 'relative', flexShrink: 0 }}>
-        <motion.div
-          initial={{ opacity: 0, y: 18 }}
-          whileInView={{ opacity: 1, y: drift ? [0, -5, 0] : 0 }}
-          viewport={{ once: true, amount: 0.25 }}
-          transition={enter}
-          style={{
-            position: 'absolute', top: 0, left: 0, width: box.w, height: box.h,
-            scale: mobileScale, originX: 0, originY: 0, ...CARD_SKIN,
-          }}
-        >
-          {children}
-        </motion.div>
-      </div>
-    );
-  }
-
   return (
     <motion.div
       initial={{ opacity: 0, y: 18 }}
       animate={{ opacity: 1, y: drift ? [0, -6, 0] : 0 }}
-      transition={enter}
+      transition={{
+        duration: 0.7, delay: 0.15 + phase * 0.08, ease: [0.22, 1, 0.36, 1],
+        ...(drift ? { y: { duration: 7.5 + phase * 0.9, repeat: Infinity, ease: 'easeInOut', delay: 1.1 + phase * 0.6 } } : {}),
+      }}
       style={{
         position: 'absolute', left: box.x, top: box.y, width: box.w, height: box.h,
-        ...CARD_SKIN,
+        borderRadius: 20, background: '#ffffff',
+        boxShadow: '0 18px 44px -18px rgba(15,42,97,0.20), 0 2px 10px -2px rgba(15,42,97,0.06)',
         ...(parallax ? { x: parallax.x, y: parallax.y } : {}),
       }}
     >
@@ -275,41 +240,25 @@ export default function Hero() {
   const reduced = !!reducedRaw;
   const move = !reduced;
 
-  /* ── fit the canvas to whatever width we are given ──
-
-     Above MOBILE_AT the hero is the fixed canvas, scaled as one piece: the
-     approved composition, untouched. Below it the canvas would have to shrink
-     to about a quarter size, which is unreadable, so the same pieces are set in
-     a single column instead — each card still drawn at its own size and scaled
-     as a unit, so the style and proportions are the ones that were signed off.
-     The server renders the desktop layout; the phone layout takes over on
-     mount, so the two never disagree during hydration. */
-  const MOBILE_AT = 900;
+  /* ── fit the canvas to whatever width we are given ── */
   const wrapRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(1);
   const [band, setBand] = useState(DH);
-  const [mobile, setMobile] = useState(false);
-  const [vw, setVw] = useState(DW);
   useEffect(() => {
     const fit = () => {
       const w = wrapRef.current?.clientWidth || window.innerWidth;
-      setVw(w);
-      setMobile(w < MOBILE_AT);
       const s = Math.min(1, w / DW);
       setScale(s);
+      /* On a narrow screen the canvas scales right down, and letting the section
+         collapse to that height left the hero a thin strip and pulled the rest
+         of the page up around it. Keep a sensible band and sit the composition
+         in the middle of it. */
       setBand(Math.max(CH * s, Math.min(620, Math.round(window.innerHeight * 0.72))));
     };
     fit();
     window.addEventListener('resize', fit);
     return () => window.removeEventListener('resize', fit);
   }, []);
-
-  /* Every card is scaled by the same amount — measured off the widest of them,
-     the survey card — so text is one consistent size across the column rather
-     than each card setting its own. */
-  const PAD = 12;
-    const colW = Math.max(240, vw - PAD * 2);
-  const headSize = Math.round(Math.max(26, Math.min(40, vw * 0.082)));
 
   /* ── restrained depth: the columns lean a few pixels with the pointer ── */
   const px = useMotionValue(0);
@@ -392,14 +341,11 @@ export default function Hero() {
       {/* The site's navbar is fixed over the top of the page, so the canvas
           starts below it rather than under it. The composition itself is
           untouched — it is only pushed clear. */}
-      <div ref={wrapRef} className="relative w-full" style={mobile ? { marginTop: 84 } : { height: band, marginTop: 88 }}>
+      <div ref={wrapRef} className="relative w-full" style={{ height: band, marginTop: 88 }}>
         <div
           onMouseMove={onMove}
           onMouseLeave={onLeave}
-          style={mobile ? {
-            position: 'relative', width: '100%', padding: `0 ${PAD}px 28px`,
-            display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16,
-          } : {
+          style={{
             position: 'absolute', top: Math.max(0, (band - CH * scale) / 2), left: '50%',
             width: DW, height: CH, transform: `translateX(-50%) scale(${scale})`, transformOrigin: 'top center',
           }}
@@ -414,10 +360,8 @@ export default function Hero() {
               prefers-reduced-motion. */}
           <h1
             style={{
-              ...(mobile
-                ? { position: 'relative', width: '100%', textAlign: 'center', fontSize: headSize, lineHeight: `${Math.round(headSize * 1.12)}px`, marginTop: 8 }
-                : { position: 'absolute', left: 0, top: 40, width: DW, textAlign: 'center', fontSize: 58, lineHeight: '58px' }),
-              fontWeight: 800, letterSpacing: '-0.022em', color: INK, margin: 0,
+              position: 'absolute', left: 0, top: 40, width: DW, textAlign: 'center',
+              fontSize: 58, lineHeight: '58px', fontWeight: 800, letterSpacing: '-0.022em', color: INK, margin: 0,
             }}
             className="font-figtree"
           >
@@ -429,7 +373,7 @@ export default function Hero() {
             </motion.span>
             <motion.span
               initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.17, ease: [0.22, 1, 0.36, 1] }}
-              style={{ display: 'block', marginTop: mobile ? 4 : 12 }}
+              style={{ display: 'block', marginTop: 12 }}
             >
               to{' '}
               {/* #0559f5 → #2f7bff → #0559f5, drifting across the words over 14s,
@@ -453,9 +397,7 @@ export default function Hero() {
 
           <motion.p
             initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.14, ease: [0.22, 1, 0.36, 1] }}
-            style={mobile
-              ? { position: 'relative', width: '100%', textAlign: 'center', fontSize: 17, lineHeight: '24px', fontWeight: 500, color: SLATE, margin: '10px 0 0' }
-              : { position: 'absolute', left: 0, top: 186, width: DW, textAlign: 'center', fontSize: 21, fontWeight: 500, color: SLATE, margin: 0 }}
+            style={{ position: 'absolute', left: 0, top: 186, width: DW, textAlign: 'center', fontSize: 21, fontWeight: 500, color: SLATE, margin: 0 }}
           >
             7 connected and independent capabilities.
           </motion.p>
@@ -468,10 +410,8 @@ export default function Hero() {
           <motion.p
             initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.19, ease: [0.22, 1, 0.36, 1] }}
             style={{
-              ...(mobile
-                ? { position: 'relative', width: '100%', maxWidth: 460, textAlign: 'center', fontSize: 15, lineHeight: '23px', margin: '10px 0 0' }
-                : { position: 'absolute', left: (DW - 880) / 2, top: 222, width: 880, textAlign: 'center', fontSize: 19, lineHeight: '28px', margin: 0 }),
-              fontWeight: 400, color: '#64748b',
+              position: 'absolute', left: (DW - 880) / 2, top: 222, width: 880, textAlign: 'center',
+              fontSize: 19, fontWeight: 400, lineHeight: '28px', color: '#64748b', margin: 0,
             }}
           >
             Inaipi is an AI-native, cloud-first customer experience platform, with Sovereign Cloud options that keep data resident, compliant and fully under your control.
@@ -481,9 +421,7 @@ export default function Hero() {
           {/* the same two buttons, with the same hover treatment, as before */}
           <motion.div
             initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.24, ease: [0.22, 1, 0.36, 1] }}
-            style={mobile
-              ? { position: 'relative', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12, margin: '18px 0 4px', flexWrap: 'wrap' }
-              : { position: 'absolute', left: 0, top: 302, width: DW, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16 }}
+            style={{ position: 'absolute', left: 0, top: 302, width: DW, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16 }}
           >
             {/* Primary — full hover treatment */}
             <motion.div whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.96, y: 0 }}>
@@ -523,12 +461,9 @@ export default function Hero() {
               else. The disc, the connector lines and all seven cards keep the
               coordinates they were signed off at, so nothing inside the artwork
               has shifted relative to anything else in it. */}
-          <div style={mobile
-            ? { position: 'relative', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 14, marginTop: 10 }
-            : { position: 'absolute', left: 0, top: HEAD, width: DW, height: DH }}>
+          <div style={{ position: 'absolute', left: 0, top: HEAD, width: DW, height: DH }}>
 
           {/* ── connectors: the disc's ring nodes and the lines out to the cards ── */}
-          {!mobile && (
           <svg width={DW} height={DH} style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }} aria-hidden>
             <g fill="none" stroke="#bfd4f7" strokeWidth="1.3">
               {/* the faint ring the connector nodes sit on */}
@@ -551,31 +486,26 @@ export default function Hero() {
               </g>
             ))}
           </svg>
-          )}
 
           {/* ── centre disc, cut from the approved artwork ── */}
           <motion.div
             initial={{ opacity: 0, scale: 0.985 }}
             animate={{ opacity: 1, scale: 1, ...(move ? { y: [0, -5, 0] } : {}) }}
             transition={{ duration: 0.9, delay: 0.1, ease: [0.22, 1, 0.36, 1], ...(move ? { y: { duration: 9.5, repeat: Infinity, ease: 'easeInOut', delay: 1.2 } } : {}) }}
-            style={mobile
-              ? { position: 'relative', width: '100%', maxWidth: 717, margin: '6px 0 2px' }
-              : { position: 'absolute', left: 475, top: 229, width: 717, height: 530, ...(M ? { x: M.x } : {}) }}
+            style={{ position: 'absolute', left: 475, top: 229, width: 717, height: 530, ...(M ? { x: M.x } : {}) }}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/hero-center.webp"
               alt="A contact centre agent working alongside an AI assistant, with a live conversation showing the customer's request, the AI voicebot's reply, and the detected intent: Reservation Change, 92% confidence."
-              style={mobile
-                ? { width: '100%', height: 'auto', borderRadius: '50%', display: 'block' }
-                : { width: 717, height: 530, borderRadius: '50%', display: 'block' }}
+              style={{ width: 717, height: 530, borderRadius: '50%', display: 'block' }}
             />
           </motion.div>
           {/* the disc's caption is inside the artwork; repeat it for readers and search */}
           <p className="sr-only">Human + AI working together. Better decisions. Better outcomes.</p>
 
           {/* ═══ 1 · INBOUND DIGITAL CONTACT CENTER ═══ */}
-          <Card box={{ x: 148, y: 148, w: 320, h: 242 }} phase={0} drift={move} parallax={L} mobileWidth={mobile ? colW : null}>
+          <Card box={{ x: 148, y: 148, w: 320, h: 242 }} phase={0} drift={move} parallax={L}>
             <Tile x={12} y={12}><GChat /></Tile>
             <Title x={84} y={20} lines={['INBOUND DIGITAL', 'CONTACT CENTER']} />
             <div style={{ position: 'absolute', left: 12, top: 80, width: 296, height: 150, borderRadius: 13, background: PANEL, border: `1px solid ${LINE}` }}>
@@ -616,7 +546,7 @@ export default function Hero() {
           </Card>
 
           {/* ═══ 2 · CONVERSATION INTELLIGENCE ═══ */}
-          <Card box={{ x: 100, y: 410, w: 325, h: 227 }} phase={1} drift={move} parallax={L} mobileWidth={mobile ? colW : null}>
+          <Card box={{ x: 100, y: 410, w: 325, h: 227 }} phase={1} drift={move} parallax={L}>
             <Tile x={13} y={13}><GChart /></Tile>
             <Title x={81} y={20} lines={['CONVERSATION', 'INTELLIGENCE']} />
             <Rule x={10} y={78} w={305} />
@@ -650,7 +580,7 @@ export default function Hero() {
           </Card>
 
           {/* ═══ 3 · AI VOICEBOT ═══ */}
-          <Card box={{ x: 150, y: 660, w: 312, h: 218 }} phase={2} drift={move} parallax={L} mobileWidth={mobile ? colW : null}>
+          <Card box={{ x: 150, y: 660, w: 312, h: 218 }} phase={2} drift={move} parallax={L}>
             <Tile x={13} y={11}><GMic /></Tile>
             <Title x={82} y={26} lines={['AI VOICEBOT']} />
             <Rule x={12} y={76} w={288} />
@@ -675,7 +605,7 @@ export default function Hero() {
           </Card>
 
           {/* ═══ 4 · OUTREACH MANAGER ═══ */}
-          <Card box={{ x: 1208, y: 148, w: 322, h: 240 }} phase={3} drift={move} parallax={R} mobileWidth={mobile ? colW : null}>
+          <Card box={{ x: 1208, y: 148, w: 322, h: 240 }} phase={3} drift={move} parallax={R}>
             <Tile x={12} y={12}><GSend /></Tile>
             <Title x={90} y={20} lines={['OUTREACH', 'MANAGER']} />
             <Rule x={12} y={80} w={298} />
@@ -697,14 +627,14 @@ export default function Hero() {
           </Card>
 
           {/* ═══ 5 · AI CHATBOT ═══ */}
-          <Card box={{ x: 1243, y: 415, w: 332, h: 222 }} phase={4} drift={move} parallax={R} mobileWidth={mobile ? colW : null}>
+          <Card box={{ x: 1243, y: 415, w: 332, h: 222 }} phase={4} drift={move} parallax={R}>
             <Tile x={16} y={10}><GChat /></Tile>
             <Title x={88} y={26} lines={['AI CHATBOT']} />
             <ChatbotFeed reduced={reduced} />
           </Card>
 
           {/* ═══ 6 · TICKETING ═══ */}
-          <Card box={{ x: 1188, y: 658, w: 340, h: 212 }} phase={5} drift={move} parallax={R} mobileWidth={mobile ? colW : null}>
+          <Card box={{ x: 1188, y: 658, w: 340, h: 212 }} phase={5} drift={move} parallax={R}>
             <Tile x={21} y={8}><GTicket /></Tile>
             <Title x={92} y={24} lines={['TICKETING']} />
             <Rule x={22} y={68} w={296} />
@@ -732,7 +662,7 @@ export default function Hero() {
           </Card>
 
           {/* ═══ 7 · SURVEYS ═══ */}
-          <Card box={{ x: 620, y: 755, w: 415, h: 158 }} phase={6} drift={move} parallax={M} mobileWidth={mobile ? colW : null}>
+          <Card box={{ x: 620, y: 755, w: 415, h: 158 }} phase={6} drift={move} parallax={M}>
             <Tile x={14} y={6}><GClipboard /></Tile>
             <Title x={82} y={22} lines={['SURVEYS']} />
             <div style={{ position: 'absolute', left: 12, top: 60, width: 391, height: 90, borderRadius: 13, background: PANEL, border: `1px solid ${LINE}` }}>
