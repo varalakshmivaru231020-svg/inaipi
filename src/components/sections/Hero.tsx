@@ -1,798 +1,607 @@
 'use client';
 
-import { motion, useScroll, useTransform, AnimatePresence, useReducedMotion, useMotionValue, useSpring } from 'framer-motion';
-import { Phone, MessageSquare, Mail, Globe, Star, Zap, PhoneIncoming, ArrowRight, MessageCircle, Radio, Sparkles, PhoneCall, FileText, BarChart3, RefreshCw, Ticket } from 'lucide-react';
-import { Fragment, useEffect, useRef, useState } from 'react';
+import { motion, AnimatePresence, useReducedMotion, useMotionValue, useSpring, useTransform, animate } from 'framer-motion';
+import { useEffect, useRef, useState } from 'react';
 
-/* ── Typewriter ── */
-function TypewriterWord({ word, delay, className }: { word: string; delay: number; className?: string }) {
-  const [displayed, setDisplayed] = useState('');
-  const [started, setStarted] = useState(false);
-  useEffect(() => { const t = setTimeout(() => setStarted(true), delay * 1000); return () => clearTimeout(t); }, [delay]);
-  useEffect(() => {
-    if (!started || displayed.length >= word.length) return;
-    const t = setTimeout(() => setDisplayed(word.slice(0, displayed.length + 1)), 60);
-    return () => clearTimeout(t);
-  }, [started, displayed, word]);
+/* ═══════════════════════════════════════════════════════════════════════════
+   The approved hero, rebuilt as markup.
+
+   It is laid out on a fixed 1672×941 canvas — the size of the artwork it was
+   drawn at — and the whole canvas is scaled as one piece to whatever width it
+   is given. Nothing reflows, wraps or re-orders at any screen size, so the
+   composition on screen is always the composition that was signed off: same
+   headline, same disc, same seven cards in the same places, same spacing.
+
+   The centre disc, the small avatars and the wordmark are cut straight out of
+   the supplied artwork rather than redrawn. Everything else is markup so that
+   the parts that were asked to move — the chatbot conversation, the survey
+   controls, the card activity — can actually move.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+const DW = 1672;
+const DH = 941;
+
+/* Ink lifted from the artwork itself rather than guessed at. */
+const BLUE = '#0559f5';
+const BLUE_SOFT = '#2f7bff';
+const INK = '#0b0f19';
+const SLATE = '#3b4a79';
+const BODY = '#1f2937';
+const MUTED = '#8b98ae';
+const LINE = '#eef2f9';
+const PANEL = '#fdfeff';
+
+/* ── little shared pieces ─────────────────────────────────────────────── */
+
+type Box = { x: number; y: number; w: number; h: number };
+
+/* A capability card. The float is per-card so they never breathe in unison. */
+function Card({
+  box, phase, drift, parallax, children,
+}: {
+  box: Box; phase: number; drift: boolean; parallax: { x: any; y: any } | null; children: React.ReactNode;
+}) {
   return (
-    <span className={className}>
-      {displayed}
-      {displayed.length < word.length && started && (
-        <motion.span animate={{ opacity: [1, 0] }} transition={{ duration: 0.5, repeat: Infinity, repeatType: 'reverse' }}
-          className="inline-block w-[3px] h-[0.85em] bg-blue-500 ml-[2px] align-middle" />
-      )}
-      {/* Untyped remainder stays in the DOM but transparent: keeps the whole word in the
-          text content (server HTML, copy/paste, screen readers) exactly once, and reserves
-          its width so the wrapped sentence doesn't reflow on every keystroke. */}
-      <span className="opacity-0">{word.slice(displayed.length)}</span>
-    </span>
+    <motion.div
+      initial={{ opacity: 0, y: 18 }}
+      animate={{ opacity: 1, y: drift ? [0, -6, 0] : 0 }}
+      transition={{
+        duration: 0.7, delay: 0.15 + phase * 0.08, ease: [0.22, 1, 0.36, 1],
+        ...(drift ? { y: { duration: 7.5 + phase * 0.9, repeat: Infinity, ease: 'easeInOut', delay: 1.1 + phase * 0.6 } } : {}),
+      }}
+      style={{
+        position: 'absolute', left: box.x, top: box.y, width: box.w, height: box.h,
+        borderRadius: 20, background: '#ffffff',
+        boxShadow: '0 18px 44px -18px rgba(15,42,97,0.20), 0 2px 10px -2px rgba(15,42,97,0.06)',
+        ...(parallax ? { x: parallax.x, y: parallax.y } : {}),
+      }}
+    >
+      {children}
+    </motion.div>
   );
 }
 
-/* Trailing words of the hero headline, animated in one at a time. */
-const HEADLINE_TAIL = ['with', 'Sovereign', 'Cloud', 'options', 'for', 'regulated', 'industries.'];
-
-/* ── AI Chatbot Chat ── */
-// Each message: role, text, delay from start (ms), optional typingMs before it appears
-const LIVE_CONVO: { role: 'customer' | 'ai'; text: string; delay: number; typing?: number }[] = [
-  { role: 'customer', text: 'Hi, my order #1224 was due yesterday. Any update?',                           delay: 600 },
-  { role: 'ai',       text: 'Hi Sarah! Let me check order #1224 for you right now...',                     delay: 1800, typing: 900 },
-  { role: 'ai',       text: 'Found it! Your order was held at customs in Dubai. It cleared this morning and is out for delivery, arriving today by 6 PM. 🚚', delay: 4000, typing: 1400 },
-  { role: 'customer', text: 'Oh great! Can I get the tracking link?',                                      delay: 6200 },
-  { role: 'ai',       text: '📦 track.inaipi.com/1224-DXB\n\nAlso sent to your email!',                   delay: 7600, typing: 1000 },
-  { role: 'customer', text: 'Perfect, thank you! 😊',                                                     delay: 9400 },
-  { role: 'ai',       text: 'Happy to help! Is there anything else I can do for you today?',               delay: 10800, typing: 800 },
-];
-
-/* How many bubbles the card holds before the oldest slides off the top. */
-const CHAT_WINDOW = 4;
-const CHAT_GAP_MS = 2100;
-
-/**
- * The chat runs continuously, the way a live conversation looks: a new bubble
- * rises in from the bottom, the ones above it move up to make room, and the
- * oldest leaves through the top. It used to play the script once with a stack
- * of timers and then sit still, which read as a screenshot.
- *
- * One timer walks the same script on a loop, so the copy is unchanged; the
- * upward motion is framer's layout animation rather than a scroll, so the
- * bubbles glide instead of jumping.
- */
-function AICopilotChat() {
-  const [feed, setFeed] = useState<{ msg: (typeof LIVE_CONVO)[number]; id: number }[]>([]);
-  const [typing, setTyping] = useState(false);
-  const reduced = useReducedMotion();
-
-  useEffect(() => {
-    // Reduced motion: show the conversation, hold it still.
-    if (reduced) {
-      setFeed(LIVE_CONVO.slice(0, CHAT_WINDOW).map((msg, id) => ({ msg, id })));
-      return;
-    }
-
-    let timer: ReturnType<typeof setTimeout>;
-    let n = 0;
-    const step = () => {
-      const msg = LIVE_CONVO[n % LIVE_CONVO.length];
-      const id = n;
-      n += 1;
-      const post = () => {
-        setTyping(false);
-        setFeed(prev => [...prev, { msg, id }].slice(-CHAT_WINDOW));
-        timer = setTimeout(step, CHAT_GAP_MS);
-      };
-      if (msg.typing && msg.role === 'ai') {
-        setTyping(true);
-        timer = setTimeout(post, msg.typing);
-      } else {
-        post();
-      }
-    };
-    timer = setTimeout(step, 600);
-    return () => clearTimeout(timer);
-  }, [reduced]);
-
+/* The blue rounded tile every card is headed with. */
+function Tile({ x, y, children }: { x: number; y: number; children: React.ReactNode }) {
   return (
-    <div className="flex flex-col justify-end gap-1.5 overflow-hidden flex-1">
-      <AnimatePresence initial={false}>
-        {feed.map(({ msg, id }) => (
-          <motion.div
-            key={id}
-            layout
-            initial={{ opacity: 0, y: 14, scale: 0.96 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -8, transition: { duration: 0.3, ease: 'easeIn' } }}
-            transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1], layout: { duration: 0.45, ease: [0.22, 1, 0.36, 1] } }}
-            className={`flex shrink-0 ${msg.role === 'customer' ? 'justify-end' : 'justify-start'}`}
-          >
-            <div className={`max-w-[88%] px-2.5 py-1.5 rounded-xl text-[9px] leading-snug font-medium whitespace-pre-line ${
-              msg.role === 'customer' ? 'bg-blue-600 text-white rounded-br-none' : 'bg-slate-100 text-slate-600 rounded-bl-none'
-            }`}>{msg.text}</div>
-          </motion.div>
-        ))}
-        {typing && (
-          <motion.div
-            key="typing"
-            layout
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -6, transition: { duration: 0.2 } }}
-            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="flex justify-start shrink-0"
-          >
-            <div className="bg-slate-100 rounded-xl rounded-bl-none px-3 py-2 flex gap-1 items-center">
-              {[0, 1, 2].map(i => (
-                <motion.span key={i} animate={{ y: [0, -3, 0] }} transition={{ duration: 0.5, repeat: Infinity, delay: i * 0.15 }} className="w-1 h-1 rounded-full bg-blue-400 block" />
-              ))}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+    <div style={{
+      position: 'absolute', left: x, top: y, width: 52, height: 52, borderRadius: 15,
+      background: `linear-gradient(150deg, ${BLUE_SOFT} 0%, ${BLUE} 100%)`,
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      boxShadow: '0 8px 18px -6px rgba(5,89,245,0.55)',
+    }}>{children}</div>
+  );
+}
+
+function Title({ x, y, lines }: { x: number; y: number; lines: string[] }) {
+  return (
+    <div style={{ position: 'absolute', left: x, top: y, fontSize: 13.5, fontWeight: 800, color: INK, letterSpacing: 0.3, lineHeight: '21px' }}>
+      {lines.map(l => <div key={l}>{l}</div>)}
     </div>
   );
 }
 
-/* ── Live Call Card ── */
-const CALLS = [
-  { id: 1, text: 'My order #1224 is delayed',    channel: 'WhatsApp', avatar: '/images/people/person_1.png', name: 'Sarah K.', color: 'bg-green-500', delay: 1000 },
-  { id: 2, text: 'Billing issue on my account',  channel: 'Voice',    avatar: '/images/people/person_2.png',  name: 'Marco R.', color: 'bg-blue-500', delay: 3200 },
-  { id: 3, text: 'Need API integration help',    channel: 'Email',    avatar: '/images/people/person_3.png',    name: 'Alex L.',  color: 'bg-indigo-500', delay: 5400 },
-  { id: 4, text: 'Complaint about service delay', channel: 'Chat',   avatar: '/images/people/person_4.png',   name: 'Priya N.', color: 'bg-violet-500', delay: 7600 },
+function Rule({ x, y, w }: { x: number; y: number; w: number }) {
+  return <div style={{ position: 'absolute', left: x, top: y, width: w, height: 1, background: LINE }} />;
+}
+
+/* Bar waveform, the shape the artwork uses. Heights come from a fixed formula
+   so the server and the browser draw exactly the same bars. */
+const waveHeights = (n: number, seed: number) =>
+  Array.from({ length: n }, (_, i) => {
+    const a = Math.abs(Math.sin((i + 1) * 0.7 * seed));
+    const b = Math.abs(Math.sin((i + 1) * 0.23 * seed + 1.3));
+    return 0.12 + Math.min(1, a * 0.65 + b * 0.5) * 0.88;
+  });
+
+function Wave({
+  x, y, w, h, bars, seed, color, live,
+}: { x: number; y: number; w: number; h: number; bars: number; seed: number; color: string; live: boolean }) {
+  const hs = waveHeights(bars, seed);
+  const gap = w / bars;
+  return (
+    <div style={{ position: 'absolute', left: x, top: y, width: w, height: h, display: 'flex', alignItems: 'center', gap: 0 }}>
+      {hs.map((v, i) => (
+        <motion.span
+          key={i}
+          animate={live ? { scaleY: [v, Math.min(1, v * 1.5 + 0.1), v] } : { scaleY: v }}
+          transition={live
+            ? { duration: 1.5 + (i % 5) * 0.18, repeat: Infinity, ease: 'easeInOut', delay: (i % 11) * 0.09 }
+            : { duration: 0 }}
+          style={{
+            width: Math.max(1.4, gap * 0.5), height: h, marginRight: gap * 0.5,
+            background: color, borderRadius: 2, transformOrigin: 'center', display: 'block',
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
+/* ── the chatbot card's conversation ──────────────────────────────────── */
+
+const BOT_CONVO: { role: 'bot' | 'user'; text: string }[] = [
+  { role: 'bot', text: 'Hi! How can I\nassist you today?' },
+  { role: 'user', text: 'I want to check\nmy reservation.' },
+  { role: 'bot', text: 'Sure — booking\n#TK-1027 is confirmed.' },
+  { role: 'user', text: 'Can I move it to\nFriday?' },
+  { role: 'bot', text: 'Done. Moved to\nFriday, 6 PM.' },
 ];
+const BOT_WINDOW = 2;
 
-const CH_ICONS: Record<string, React.ElementType> = { Voice: Phone, WhatsApp: MessageSquare, Email: Mail, Chat: Globe };
+function ChatbotFeed({ reduced }: { reduced: boolean }) {
+  const [feed, setFeed] = useState<{ m: (typeof BOT_CONVO)[number]; id: number }[]>(
+    () => BOT_CONVO.slice(0, BOT_WINDOW).map((m, id) => ({ m, id })),
+  );
+  const [typing, setTyping] = useState(true);
 
-/* ── Brand Icons ── */
-const SalesforceIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" className="w-4 h-4" xmlns="http://www.w3.org/2000/svg">
-    <path d="M10.02 4.28a4.27 4.27 0 0 1 3.07 1.3 5.8 5.8 0 0 1 2.3-.48 5.84 5.84 0 0 1 5.84 5.84c0 .28-.02.55-.06.82A4.15 4.15 0 0 1 22 15.1a4.15 4.15 0 0 1-4.15 4.15c-.2 0-.4-.01-.59-.04a3.56 3.56 0 0 1-3.17 1.94 3.53 3.53 0 0 1-1.74-.45A4.27 4.27 0 0 1 8.3 22a4.27 4.27 0 0 1-4-2.77 3.73 3.73 0 0 1-.56.04A3.74 3.74 0 0 1 0 15.53a3.74 3.74 0 0 1 2.1-3.35 4.87 4.87 0 0 1-.18-1.32 4.88 4.88 0 0 1 4.88-4.88c.3 0 .6.03.89.08A4.27 4.27 0 0 1 10.02 4.28z" fill="#00A1E0"/>
+  useEffect(() => {
+    if (reduced) { setTyping(true); return; }
+    let timer: ReturnType<typeof setTimeout>;
+    let n = BOT_WINDOW;
+    const step = () => {
+      setTyping(true);
+      timer = setTimeout(() => {
+        const m = BOT_CONVO[n % BOT_CONVO.length];
+        const id = n;
+        n += 1;
+        setFeed(prev => [...prev, { m, id }].slice(-BOT_WINDOW));
+        setTyping(false);
+        timer = setTimeout(() => { setTyping(true); timer = setTimeout(step, 900); }, 1500);
+      }, 1400);
+    };
+    timer = setTimeout(step, 2600);
+    return () => clearTimeout(timer);
+  }, [reduced]);
+
+  return (
+    <div style={{ position: 'absolute', left: 58, top: 58, width: 258, height: 150, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', gap: 10, overflow: 'hidden' }}>
+      <AnimatePresence initial={false}>
+        {feed.map(({ m, id }) => (
+          <motion.div
+            key={id}
+            layout
+            initial={reduced ? false : { opacity: 0, y: 16, scale: 0.97 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -10, transition: { duration: 0.3, ease: 'easeIn' } }}
+            transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1], layout: { duration: 0.45, ease: [0.22, 1, 0.36, 1] } }}
+            style={{ display: 'flex', justifyContent: m.role === 'user' ? 'flex-end' : 'flex-start', flexShrink: 0 }}
+          >
+            <div style={{
+              maxWidth: 168, padding: '9px 13px', borderRadius: 15, fontSize: 12.5, lineHeight: '17px',
+              fontWeight: 500, whiteSpace: 'pre-line',
+              ...(m.role === 'user'
+                ? { background: '#0261fe', color: '#fff', borderBottomRightRadius: 4 }
+                : { background: '#eef2f8', color: '#334155', borderBottomLeftRadius: 4 }),
+            }}>{m.text}</div>
+          </motion.div>
+        ))}
+      </AnimatePresence>
+      {/* the assistant thinking — the resting state the artwork shows */}
+      <div style={{ height: 21, flexShrink: 0, display: 'flex', alignItems: 'center' }}>
+        <AnimatePresence>
+          {typing && (
+            <motion.div
+              initial={reduced ? false : { opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, transition: { duration: 0.2 } }}
+              transition={{ duration: 0.3 }}
+              style={{ background: '#eef2f8', borderRadius: 999, padding: '6px 11px', display: 'flex', gap: 5, alignItems: 'center' }}
+            >
+              {[0, 1, 2].map(i => (
+                <motion.span
+                  key={i}
+                  animate={reduced ? { y: 0 } : { y: [0, -3, 0], opacity: [0.5, 1, 0.5] }}
+                  transition={reduced ? { duration: 0 } : { duration: 0.9, repeat: Infinity, delay: i * 0.16, ease: 'easeInOut' }}
+                  style={{ width: 5, height: 5, borderRadius: 999, background: '#9aa7bd', display: 'block' }}
+                />
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </div>
+  );
+}
+
+/* ── glyphs, drawn to match the artwork's tiles ───────────────────────── */
+const GChat = () => (<svg width="24" height="24" viewBox="0 0 24 24" fill="#fff"><path d="M12 3C7 3 3 6.4 3 10.6c0 2.4 1.3 4.5 3.4 5.9l-.7 3.1a.5.5 0 0 0 .74.55l3.5-2a11 11 0 0 0 2.06.2c5 0 9-3.4 9-7.75S17 3 12 3z" /></svg>);
+const GChart = () => (<svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><rect x="3" y="12" width="4" height="9" rx="1.2" /><rect x="10" y="7" width="4" height="14" rx="1.2" /><rect x="17" y="3" width="4" height="18" rx="1.2" /></svg>);
+const GMic = () => (<svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><rect x="9" y="2" width="6" height="12" rx="3" /><path d="M5 11a7 7 0 0 0 14 0" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" /><path d="M12 18v3.5" stroke="#fff" strokeWidth="2" strokeLinecap="round" /></svg>);
+const GSend = () => (<svg width="23" height="23" viewBox="0 0 24 24" fill="#fff"><path d="M21.4 2.6 2.9 9.9c-.9.4-.8 1.7.1 1.9l5.6 1.6 1.6 5.6c.2.9 1.5 1 1.9.1l7.3-18.5c.3-.7-.3-1.3-1-1z" /></svg>);
+const GTicket = () => (<svg width="23" height="23" viewBox="0 0 24 24" fill="#fff"><path d="M11 3.2 3.2 11a2 2 0 0 0 0 2.8l7 7a2 2 0 0 0 2.8 0l7.8-7.8a2 2 0 0 0 .6-1.6l-.4-5.6a2 2 0 0 0-1.9-1.9l-5.6-.4a2 2 0 0 0-1.5.7z" /><circle cx="16" cy="8" r="1.7" fill={BLUE} /></svg>);
+const GClipboard = () => (<svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><rect x="4" y="4" width="16" height="18" rx="2.4" /><rect x="8.5" y="2" width="7" height="4" rx="1.4" fill="#fff" stroke={BLUE} strokeWidth="1.4" /><rect x="7.5" y="10" width="9" height="1.7" rx="0.85" fill={BLUE} /><rect x="7.5" y="14" width="6" height="1.7" rx="0.85" fill={BLUE} /></svg>);
+
+const IcPhone = ({ c = BLUE }: { c?: string }) => (<svg width="21" height="21" viewBox="0 0 24 24" fill={c}><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z" /></svg>);
+const IcChat = ({ c = BLUE }: { c?: string }) => (<svg width="21" height="21" viewBox="0 0 24 24" fill={c}><path d="M4 4h16a1.5 1.5 0 0 1 1.5 1.5v9A1.5 1.5 0 0 1 20 16H9l-4.2 3.6A.6.6 0 0 1 4 19.1V16a1.5 1.5 0 0 1-1.5-1.5v-9A1.5 1.5 0 0 1 4 4z" /></svg>);
+const IcWhats = () => (<svg width="21" height="21" viewBox="0 0 24 24" fill="#25D366"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm5.5 14c-.2.7-1.3 1.3-1.9 1.4-.5.1-1.1.1-1.8-.1a13 13 0 0 1-5.7-4.6c-.4-.6-.9-1.5-.9-2.4s.5-1.4.7-1.6c.2-.2.4-.3.6-.3h.5c.2 0 .4 0 .5.4l.8 1.8c.1.2 0 .4-.1.5l-.4.5c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2 1.1 1 2 1.3 2.3 1.4.2.1.4.1.5-.1l.7-.8c.2-.2.3-.2.5-.1l1.7.8c.2.1.4.2.4.3v.9z" /></svg>);
+const IcMail = ({ c = '#ef4444' }: { c?: string }) => (<svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="1.9"><rect x="2.5" y="5" width="19" height="14" rx="2.2" /><path d="m3 7 9 6 9-6" /></svg>);
+const IcInsta = () => (
+  <svg width="21" height="21" viewBox="0 0 24 24" fill="none">
+    <defs><linearGradient id="ig" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stopColor="#f09433" /><stop offset="0.5" stopColor="#dc2743" /><stop offset="1" stopColor="#bc1888" /></linearGradient></defs>
+    <rect x="2.5" y="2.5" width="19" height="19" rx="5.4" stroke="url(#ig)" strokeWidth="2" />
+    <circle cx="12" cy="12" r="4.3" stroke="url(#ig)" strokeWidth="2" />
+    <circle cx="17.4" cy="6.6" r="1.1" fill="url(#ig)" />
   </svg>
 );
-const TeamsIcon = () => (
-  <svg viewBox="0 0 24 24" className="w-4 h-4" xmlns="http://www.w3.org/2000/svg">
-    <path d="M20 4.5h-6v2h4.5v11H20V4.5z" fill="#5059C9"/>
-    <path d="M14 7a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" fill="#5059C9"/>
-    <path d="M9 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-5 2.5A1.5 1.5 0 0 0 2.5 12v5A4.5 4.5 0 0 0 7 21.5 4.5 4.5 0 0 0 11.5 17v-5A1.5 1.5 0 0 0 10 10.5H4z" fill="#7B83EB"/>
-    <path d="M9 10.5H4a1.5 1.5 0 0 0 0 3h5a1.5 1.5 0 0 0 0-3z" fill="white" fillOpacity="0.3"/>
-  </svg>
-);
-const HubSpotIcon = () => (
-  <svg viewBox="0 0 24 24" className="w-4 h-4" xmlns="http://www.w3.org/2000/svg">
-    <path d="M18.16 8.75V6.54a1.56 1.56 0 0 0 .9-1.41V5.1a1.56 1.56 0 0 0-1.56-1.56h-.03A1.56 1.56 0 0 0 15.9 5.1v.03a1.56 1.56 0 0 0 .9 1.41v2.21a4.43 4.43 0 0 0-2.1.92L8.4 5.4a1.75 1.75 0 1 0-.86 1.5l6.1 4.18a4.43 4.43 0 0 0-.6 2.2 4.43 4.43 0 0 0 .6 2.2l-1.87 1.87a1.5 1.5 0 0 0-.44-.07 1.56 1.56 0 1 0 1.56 1.56 1.5 1.5 0 0 0-.07-.44l1.85-1.85a4.45 4.45 0 1 0 3.49-7.8z" fill="#FF7A59"/>
-  </svg>
-);
-const ZoomIcon = () => (
-  <svg viewBox="0 0 24 24" className="w-4 h-4" xmlns="http://www.w3.org/2000/svg">
-    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.5 13.5H8a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1h8.5c.28 0 .5.22.5.5v6.5a.5.5 0 0 1-.5.5zm2.5-1.25-2-1.5V11.25l2-1.5v4.5z" fill="#2D8CFF"/>
-  </svg>
-);
-const AvayaIcon = () => (
-  <svg viewBox="0 0 24 24" className="w-4 h-4" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="12" cy="12" r="10" fill="#cc0000" />
-    <text x="12" y="16" textAnchor="middle" fontSize="8" fontWeight="900" fill="white" fontFamily="sans-serif">AV</text>
-  </svg>
-);
-const SlackIcon = () => (
-  <svg viewBox="0 0 24 24" className="w-4 h-4" xmlns="http://www.w3.org/2000/svg">
-    <path d="M5.04 15.12a2.04 2.04 0 0 1-2.04 2.04A2.04 2.04 0 0 1 .96 15.12a2.04 2.04 0 0 1 2.04-2.04h2.04v2.04zm1.02 0a2.04 2.04 0 0 1 2.04-2.04 2.04 2.04 0 0 1 2.04 2.04v5.1a2.04 2.04 0 0 1-2.04 2.04 2.04 2.04 0 0 1-2.04-2.04v-5.1z" fill="#E01E5A"/>
-    <path d="M8.1 5.04a2.04 2.04 0 0 1-2.04-2.04A2.04 2.04 0 0 1 8.1.96a2.04 2.04 0 0 1 2.04 2.04v2.04H8.1zm0 1.02a2.04 2.04 0 0 1 2.04 2.04 2.04 2.04 0 0 1-2.04 2.04H2.96A2.04 2.04 0 0 1 .92 8.1a2.04 2.04 0 0 1 2.04-2.04H8.1z" fill="#36C5F0"/>
-    <path d="M18.96 8.1a2.04 2.04 0 0 1 2.04-2.04A2.04 2.04 0 0 1 23.04 8.1a2.04 2.04 0 0 1-2.04 2.04h-2.04V8.1zm-1.02 0a2.04 2.04 0 0 1-2.04 2.04 2.04 2.04 0 0 1-2.04-2.04V2.96A2.04 2.04 0 0 1 15.9.92a2.04 2.04 0 0 1 2.04 2.04V8.1z" fill="#2EB67D"/>
-    <path d="M15.9 18.96a2.04 2.04 0 0 1 2.04 2.04A2.04 2.04 0 0 1 15.9 23.04a2.04 2.04 0 0 1-2.04-2.04v-2.04h2.04zm0-1.02a2.04 2.04 0 0 1-2.04-2.04 2.04 2.04 0 0 1 2.04-2.04h5.14a2.04 2.04 0 0 1 2.04 2.04 2.04 2.04 0 0 1-2.04 2.04H15.9z" fill="#ECB22E"/>
-  </svg>
-);
+const IcSmile = () => (<svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke={BLUE} strokeWidth="1.7"><circle cx="12" cy="12" r="9.2" /><circle cx="9" cy="10" r="1.1" fill={BLUE} stroke="none" /><circle cx="15" cy="10" r="1.1" fill={BLUE} stroke="none" /><path d="M8.2 14.4a4.6 4.6 0 0 0 7.6 0" strokeLinecap="round" /></svg>);
 
-/* ── Data ── */
-const AGENTS = [
-  { name: 'Jonathan Evans',  dept: 'Sales',        ext: '2309', avatar: '/images/agents/agent_1.png',  color: 'bg-blue-500',   active: false },
-  { name: 'Fatima Al-Rashid',dept: 'Front Office', ext: '6014', avatar: '/images/agents/agent_2.png',  color: 'bg-indigo-500', active: true  },
-  { name: 'Adam Smith',      dept: 'Loan Ops',     ext: '7756', avatar: '/images/people/person_1.png', color: 'bg-blue-400',   active: false },
-  { name: 'Nancy',           dept: 'Sales',        ext: '2534', avatar: '/images/people/person_2.png', color: 'bg-violet-500', active: false },
-  { name: 'Ravi Kumar',      dept: 'Support',      ext: '3301', avatar: '/images/people/person_3.png', color: 'bg-blue-600',   active: false },
-  { name: 'Sara M.',         dept: 'Finance',      ext: '4420', avatar: '/images/people/person_4.png', color: 'bg-indigo-400', active: false },
-  { name: 'Marco Rossi',     dept: 'Tech Support', ext: '8821', avatar: '/images/people/person_2.png', color: 'bg-sky-500',    active: true  },
-  { name: 'Priya Nair',      dept: 'Success',      ext: '1205', avatar: '/images/people/person_3.png', color: 'bg-emerald-500', active: false },
-  { name: 'Zhang Wei',       dept: 'Operations',   ext: '4092', avatar: '/images/people/person_4.png', color: 'bg-amber-500',   active: false },
-  { name: 'Elena Petrova',   dept: 'Retention',    ext: '5501', avatar: '/images/people/person_1.png', color: 'bg-rose-500',    active: false },
-];
-
-/* ── Hero right column: Conversation Intelligence / Outbound Dialer / Ticketing ── */
-const SOCIALS = [
-  { bg: '#1877F2', icon: <svg width="13" height="13" viewBox="0 0 24 24" fill="#fff"><path d="M15 3h3V0h-3c-2.8 0-5 2.2-5 5v3H7v3h3v13h3V11h3l1-3h-4V5c0-1.1.9-2 2-2z" /></svg> },
-  { bg: 'linear-gradient(45deg,#f09433,#dc2743,#bc1888)', icon: <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.2" strokeLinecap="round"><rect x="2" y="2" width="20" height="20" rx="5" /><circle cx="12" cy="12" r="4.5" /><circle cx="17.5" cy="6.5" r="0.6" fill="#fff" /></svg> },
-  { bg: '#1DA1F2', icon: <svg width="13" height="13" viewBox="0 0 24 24" fill="#fff"><path d="M23 4.9c-.8.4-1.7.6-2.6.8a4.5 4.5 0 0 0 2-2.5c-.9.5-1.9.9-2.9 1.1a4.5 4.5 0 0 0-7.7 4.1A12.8 12.8 0 0 1 2.5 3.7a4.5 4.5 0 0 0 1.4 6 4.4 4.4 0 0 1-2-.5v.1a4.5 4.5 0 0 0 3.6 4.4 4.6 4.6 0 0 1-2 .1 4.5 4.5 0 0 0 4.2 3.1A9 9 0 0 1 1 18.6a12.7 12.7 0 0 0 6.9 2c8.3 0 12.8-6.9 12.8-12.8v-.6c.9-.6 1.6-1.4 2.3-2.3z" /></svg> },
-  { bg: '#0A66C2', icon: <svg width="13" height="13" viewBox="0 0 24 24" fill="#fff"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM10 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05C21.4 8.65 22 11 22 14.1V21h-4v-6.1c0-1.45-.03-3.32-2.02-3.32-2.02 0-2.33 1.58-2.33 3.21V21h-4z" /></svg> },
-  { bg: '#FF0000', icon: <svg width="13" height="13" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z" /></svg> },
-  { bg: '#0f172a', icon: <svg width="13" height="13" viewBox="0 0 24 24" fill="#fff"><path d="M16 3c.5 2.3 1.9 3.9 4 4.3v3c-1.6.1-3.1-.4-4.4-1.3v6c0 3.4-2.7 5.9-5.9 5.9A5.9 5.9 0 0 1 4 15c0-3.3 3-5.9 6.3-5.6v3.1a2.8 2.8 0 1 0 2 2.7V3z" /></svg> },
-];
-const CI_STEPS = [
-  { icon: Radio,         title: 'Listen',  sub: 'Track mentions & conversations' },
-  { icon: Sparkles,      title: 'Analyze', sub: 'AI insights & sentiment' },
-  { icon: MessageCircle, title: 'Engage',  sub: 'Respond & build stronger connections' },
-];
-const DIALER_FEATURES = [
-  { icon: PhoneCall, title: 'Auto Dial',      sub: 'High volume calling' },
-  { icon: FileText,  title: 'Call Scripts',   sub: 'Smart scripts & IVR' },
-  { icon: BarChart3, title: 'Call Analytics', sub: 'Real-time reports & insights' },
-  { icon: RefreshCw, title: 'CRM Sync',       sub: 'Seamless lead management' },
-];
-const DIALER_STATS = [
-  { value: '12.5K',   label: 'Calls Connected',    color: 'text-blue-600' },
-  { value: '8.4K',    label: 'Conversations',      color: 'text-emerald-600' },
-  { value: '67%',     label: 'Contact Rate',       color: 'text-violet-600' },
-  { value: '24m 18s', label: 'Avg. Call Duration', color: 'text-cyan-600' },
-];
-const TICKET_STATS = [
-  { value: '128', label: 'Open',        color: 'text-blue-600' },
-  { value: '64',  label: 'In Progress', color: 'text-violet-600' },
-  { value: '23',  label: 'On Hold',     color: 'text-amber-500' },
-  { value: '89',  label: 'Resolved',    color: 'text-emerald-600' },
-];
-const RECENT_TICKETS = [
-  { title: 'Website not loading', id: '#TK-1029', status: 'In Progress', time: '5m ago',  pill: 'bg-amber-50 text-amber-600' },
-  { title: 'Payment failed',      id: '#TK-1028', status: 'Open',        time: '15m ago', pill: 'bg-rose-50 text-rose-500' },
-  { title: 'Refund request',      id: '#TK-1027', status: 'On Hold',     time: '1h ago',  pill: 'bg-orange-100 text-orange-600' },
-  { title: 'Login issue',         id: '#TK-1026', status: 'Resolved',    time: '2h ago',  pill: 'bg-emerald-50 text-emerald-600' },
-];
-
-
-
-/* ══════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════════════════ */
 export default function Hero() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start start', 'end start'] });
-  const cardY       = useTransform(scrollYProgress, [0, 0.2],  [60, 0]);
-  const cardOpacity = useTransform(scrollYProgress, [0, 0.15], [0, 1]);
+  const reducedRaw = useReducedMotion();
+  const reduced = !!reducedRaw;
+  const move = !reduced;
 
-  /* ── Parallax ──────────────────────────────────────────────────────────
-     The pointer moves the columns by a few pixels, the outer ones further
-     than the centre, so the composition has a little depth as the cursor
-     crosses it. Springs keep it lazy rather than twitchy, and it is a few
-     pixels of translate on three wrappers: nothing about the layout, the
-     sizes or the spacing changes. */
-  const reduced = useReducedMotion();
+  /* ── fit the canvas to whatever width we are given ── */
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const [scale, setScale] = useState(1);
+  const [band, setBand] = useState(DH);
+  useEffect(() => {
+    const fit = () => {
+      const w = wrapRef.current?.clientWidth || window.innerWidth;
+      const s = Math.min(1, w / DW);
+      setScale(s);
+      /* On a narrow screen the canvas scales right down, and letting the section
+         collapse to that height left the hero a thin strip and pulled the rest
+         of the page up around it. Keep a sensible band and sit the composition
+         in the middle of it. */
+      setBand(Math.max(DH * s, Math.min(620, Math.round(window.innerHeight * 0.72))));
+    };
+    fit();
+    window.addEventListener('resize', fit);
+    return () => window.removeEventListener('resize', fit);
+  }, []);
+
+  /* ── restrained depth: the columns lean a few pixels with the pointer ── */
   const px = useMotionValue(0);
   const py = useMotionValue(0);
-  const spring = { stiffness: 60, damping: 20, mass: 0.6 };
+  const spring = { stiffness: 55, damping: 20, mass: 0.7 };
   const sx = useSpring(px, spring);
   const sy = useSpring(py, spring);
-  const leftX   = useTransform(sx, [-1, 1], [10, -10]);
-  const leftY   = useTransform(sy, [-1, 1], [6, -6]);
-  const midX    = useTransform(sx, [-1, 1], [-4, 4]);
-  const rightX  = useTransform(sx, [-1, 1], [-10, 10]);
-  const rightY  = useTransform(sy, [-1, 1], [-6, 6]);
-
-  const onBandMove = (e: React.MouseEvent<HTMLDivElement>) => {
+  const leftX = useTransform(sx, [-1, 1], [9, -9]);
+  const leftY = useTransform(sy, [-1, 1], [5, -5]);
+  const rightX = useTransform(sx, [-1, 1], [-9, 9]);
+  const rightY = useTransform(sy, [-1, 1], [-5, 5]);
+  const midX = useTransform(sx, [-1, 1], [-3.5, 3.5]);
+  const midY = useTransform(sy, [-1, 1], [-2.5, 2.5]);
+  const onMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (reduced) return;
     const b = e.currentTarget.getBoundingClientRect();
     px.set(((e.clientX - b.left) / b.width) * 2 - 1);
     py.set(((e.clientY - b.top) / b.height) * 2 - 1);
   };
-  const onBandLeave = () => { px.set(0); py.set(0); };
+  const onLeave = () => { px.set(0); py.set(0); };
+  const L = move ? { x: leftX, y: leftY } : null;
+  const R = move ? { x: rightX, y: rightY } : null;
+  const M = move ? { x: midX, y: midY } : null;
 
-  /* A slow, staggered drift so the cards breathe while they sit there. Each
-     card keeps its own entrance; only the repeating part is added here, with a
-     different phase per card so they never move in lockstep. */
-  const drift = reduced ? {} : { y: [0, -7, 0] };
-  const driftT = (i: number) =>
-    reduced
-      ? {}
-      : { y: { duration: 7 + i * 0.8, repeat: Infinity, ease: 'easeInOut' as const, delay: 1.2 + i * 0.55 } };
+  /* ── card activity, each on its own unrelated beat ── */
+  const [inboundRow, setInboundRow] = useState(-1);
+  const [surveyHint, setSurveyHint] = useState(-1);
+  const [contacts, setContacts] = useState(reduced ? 2431 : 0);
+  const [progress, setProgress] = useState(reduced ? 68 : 0);
 
-  const [calls,         setCalls        ] = useState<typeof CALLS>([]);
-  const [activeCallIdx, setActiveCallIdx] = useState<number | null>(null);
-  const [_pulseStage,    setPulseStage   ] = useState(0);
-  const [_resolvedCount, setResolvedCount] = useState(0);
-  const [_csatScore,     setCsatScore    ] = useState(4.6);
-  const callListRef = useRef<HTMLDivElement>(null);
-
-  /* incoming calls */
   useEffect(() => {
-    const timers: ReturnType<typeof setTimeout>[] = [];
-    CALLS.forEach((c, idx) => {
-      const t = setTimeout(() => {
-        setCalls(prev => prev.find(p => p.name === c.name) ? prev : [...prev, c]);
-        setTimeout(() => callListRef.current?.scrollTo({ top: callListRef.current.scrollHeight, behavior: 'smooth' }), 50);
-      }, c.delay);
-      timers.push(t);
-    });
-    return () => timers.forEach(clearTimeout);
-  }, []);
+    if (reduced) return;
+    const a = setInterval(() => setInboundRow(i => (i + 1) % 4), 2300);
+    return () => clearInterval(a);
+  }, [reduced]);
 
-  /* cycle active call */
+  /* The survey runs a light pass across 1–5 and settles back on the 5 the
+     design selected, so the control reads as live without ever contradicting
+     the "Excellent" it is labelled with. */
   useEffect(() => {
-    const id = setInterval(() => setActiveCallIdx(i => i === null ? 0 : (i + 1) % CALLS.length), 2800);
-    return () => clearInterval(id);
-  }, []);
+    if (reduced) return;
+    let step = 0;
+    let t: ReturnType<typeof setTimeout>;
+    const run = () => {
+      step += 1;
+      if (step <= 5) { setSurveyHint(step - 1); t = setTimeout(run, 260); }
+      else { setSurveyHint(-1); step = 0; t = setTimeout(run, 5200); }
+    };
+    t = setTimeout(run, 3400);
+    return () => clearTimeout(t);
+  }, [reduced]);
 
-  /* pipeline pulse */
   useEffect(() => {
-    const id = setInterval(() => setPulseStage(s => (s + 1) % 5), 800);
-    return () => clearInterval(id);
-  }, []);
+    if (reduced) return;
+    const c = animate(0, 2431, { duration: 1.5, delay: 1.1, ease: 'easeOut', onUpdate: v => setContacts(Math.round(v)) });
+    const p = animate(0, 68, { duration: 1.4, delay: 1.2, ease: 'easeOut', onUpdate: v => setProgress(v) });
+    return () => { c.stop(); p.stop(); };
+  }, [reduced]);
 
-  /* resolved tick */
-  useEffect(() => {
-    const id = setInterval(() => setResolvedCount(c => c + 1), 3200);
-    return () => clearInterval(id);
-  }, []);
-
-  /* csat nudge */
-  useEffect(() => {
-    const id = setInterval(() => setCsatScore(s => parseFloat(Math.min(5, s + 0.01).toFixed(2))), 4000);
-    return () => clearInterval(id);
-  }, []);
+  const nodes: [number, number][] = [[543, 276], [458, 484], [518, 670], [1127, 276], [1210, 484], [1146, 673]];
 
   return (
-    <section ref={sectionRef} className="relative min-h-[100vh] pt-32 pb-0 flex flex-col items-center overflow-visible" style={{ background: 'linear-gradient(160deg, #f0f4ff 0%, #fafbff 40%, #f5f0ff 100%)' }}>
+    <section
+      className="relative w-full overflow-hidden"
+      style={{ background: 'linear-gradient(168deg, #ecf0fd 0%, #f6f9ff 42%, #fbfdfe 100%)' }}
+    >
+      {/* the artwork's faint dot field, kept to the outer edges as drawn */}
+      <div
+        aria-hidden
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage: 'radial-gradient(circle, rgba(37,99,235,0.16) 1.1px, transparent 1.1px)',
+          backgroundSize: '34px 34px',
+          maskImage: 'linear-gradient(90deg, black 0%, transparent 16%, transparent 84%, black 100%)',
+          WebkitMaskImage: 'linear-gradient(90deg, black 0%, transparent 16%, transparent 84%, black 100%)',
+          opacity: 0.6,
+        }}
+      />
 
-      {/* ── Background ── */}
-      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+      {/* The site's navbar is fixed over the top of the page, so the canvas
+          starts below it rather than under it. The composition itself is
+          untouched — it is only pushed clear. */}
+      <div ref={wrapRef} className="relative w-full" style={{ height: band, marginTop: 88 }}>
+        <div
+          onMouseMove={onMove}
+          onMouseLeave={onLeave}
+          style={{
+            position: 'absolute', top: Math.max(0, (band - DH * scale) / 2), left: '50%',
+            width: DW, height: DH, transform: `translateX(-50%) scale(${scale})`, transformOrigin: 'top center',
+          }}
+        >
 
-        {/* Base gradient */}
-        <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 100% 60% at 50% 0%, rgba(37,99,235,0.18) 0%, transparent 70%)' }} />
+          {/* ── wordmark ── */}
+          {/* the brand's own transparent asset, so nothing boxes it in */}
+          <motion.img
+            src="/logo.png" alt="inaipi"
+            initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            style={{ position: 'absolute', left: (DW - 210) / 2, top: 18, width: 210, height: 50, objectFit: 'contain' }}
+          />
 
-        {/* Full dot grid */}
-        <div className="absolute inset-0" style={{ backgroundImage: `radial-gradient(circle, rgba(37,99,235,0.18) 1.2px, transparent 1.2px)`, backgroundSize: '32px 32px', maskImage: 'radial-gradient(ellipse 100% 85% at 50% 10%, black 30%, transparent 100%)' }} />
-
-        {/* Horizontal grid lines */}
-        <div className="absolute inset-0" style={{ backgroundImage: `repeating-linear-gradient(0deg, rgba(37,99,235,0.04) 0px, rgba(37,99,235,0.04) 1px, transparent 1px, transparent 32px), repeating-linear-gradient(90deg, rgba(37,99,235,0.04) 0px, rgba(37,99,235,0.04) 1px, transparent 1px, transparent 32px)`, maskImage: 'radial-gradient(ellipse 100% 70% at 50% 0%, black 0%, transparent 100%)' }} />
-
-        {/* Large center aurora blob */}
-        <motion.div className="absolute rounded-full" style={{ width: 1100, height: 1100, top: '-35%', left: '50%', x: '-50%', background: 'radial-gradient(circle, rgba(37,99,235,0.32) 0%, rgba(99,102,241,0.18) 40%, transparent 70%)', filter: 'blur(90px)' }} animate={{ scale: [1, 1.12, 1], opacity: [0.8, 1, 0.8] }} transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }} />
-
-        {/* Left indigo blob */}
-        <motion.div className="absolute rounded-full" style={{ width: 800, height: 800, top: '5%', left: '-20%', background: 'radial-gradient(circle, rgba(99,102,241,0.26) 0%, transparent 65%)', filter: 'blur(80px)' }} animate={{ x: [0, 60, 0], y: [0, 40, 0] }} transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }} />
-
-        {/* Right violet blob */}
-        <motion.div className="absolute rounded-full" style={{ width: 700, height: 700, top: '0%', right: '-15%', background: 'radial-gradient(circle, rgba(124,58,237,0.22) 0%, transparent 65%)', filter: 'blur(80px)' }} animate={{ x: [0, -60, 0], y: [0, 50, 0] }} transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut', delay: 2 }} />
-
-        {/* Small floating orbs */}
-        <motion.div className="absolute w-3 h-3 rounded-full bg-blue-500/40" style={{ top: '18%', left: '12%', filter: 'blur(2px)' }} animate={{ y: [0, -18, 0], opacity: [0.4, 0.9, 0.4] }} transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }} />
-        <motion.div className="absolute w-2 h-2 rounded-full bg-indigo-400/50" style={{ top: '28%', right: '14%', filter: 'blur(1px)' }} animate={{ y: [0, -14, 0], opacity: [0.5, 1, 0.5] }} transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut', delay: 1 }} />
-        <motion.div className="absolute w-4 h-4 rounded-full bg-violet-400/30" style={{ top: '10%', left: '38%', filter: 'blur(3px)' }} animate={{ y: [0, -22, 0], opacity: [0.3, 0.8, 0.3] }} transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }} />
-        <motion.div className="absolute w-2 h-2 rounded-full bg-blue-400/50" style={{ top: '35%', left: '22%', filter: 'blur(1px)' }} animate={{ y: [0, -12, 0], opacity: [0.4, 0.9, 0.4] }} transition={{ duration: 3.8, repeat: Infinity, ease: 'easeInOut', delay: 1.5 }} />
-        <motion.div className="absolute w-3 h-3 rounded-full bg-indigo-500/35" style={{ top: '20%', right: '28%', filter: 'blur(2px)' }} animate={{ y: [0, -16, 0], opacity: [0.35, 0.8, 0.35] }} transition={{ duration: 5.5, repeat: Infinity, ease: 'easeInOut', delay: 0.8 }} />
-
-        {/* Spotlight cone */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[800px]" style={{ background: 'conic-gradient(from 255deg at 50% 0%, transparent 15%, rgba(37,99,235,0.18) 30%, rgba(99,102,241,0.22) 50%, rgba(37,99,235,0.18) 70%, transparent 85%)', filter: 'blur(18px)' }} />
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[2px] h-[2px]" style={{ boxShadow: '0 0 180px 90px rgba(37,99,235,0.35), 0 0 280px 140px rgba(99,102,241,0.16)' }} />
-
-        {/* Thin light beams */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-[40%]" style={{ background: 'linear-gradient(to bottom, rgba(99,102,241,0.6) 0%, transparent 100%)' }} />
-        <div className="absolute top-0 left-[42%] w-px h-[30%]" style={{ background: 'linear-gradient(to bottom, rgba(37,99,235,0.35) 0%, transparent 100%)', transform: 'rotate(6deg)', transformOrigin: 'top' }} />
-        <div className="absolute top-0 left-[58%] w-px h-[30%]" style={{ background: 'linear-gradient(to bottom, rgba(37,99,235,0.35) 0%, transparent 100%)', transform: 'rotate(-6deg)', transformOrigin: 'top' }} />
-
-        {/* Bottom fade */}
-        <div className="absolute bottom-0 left-0 right-0 h-80" style={{ background: 'linear-gradient(to top, #f5f0ff 0%, transparent 100%)' }} />
-      </div>
-
-      {/* ── Hero Text ── */}
-      <div className="container relative z-10 mx-auto px-6 text-center max-w-5xl">
-
-        {/* Badge */}
-        <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-          className="inline-flex items-center space-x-3 px-5 py-2 rounded-full border border-blue-100 bg-white shadow-sm mb-8">
-          <span className="flex h-1.5 w-1.5 rounded-full bg-blue-600 animate-pulse" />
-          <span className="text-[10px] font-black uppercase tracking-[0.35em] text-blue-600">Built for Regulated Industries</span>
-        </motion.div>
-
-        {/* Headline */}
-        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] xl:text-[3.5rem] font-bold font-figtree tracking-[-0.03em] mb-8 leading-[1.2] text-[#0f172a] max-w-5xl mx-auto overflow-visible text-balance">
-          <motion.span initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }} className="inline-block">
-            AI Native and
-          </motion.span>{' '}
-          <TypewriterWord word="Cloud-first" delay={1.1} className="inline-block text-[#1447d4]" />{' '}
-          {HEADLINE_TAIL.map((word, i) => (
-            <Fragment key={i}>
-              <motion.span initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.0, delay: 2.4 + i * 0.09, ease: [0.16, 1, 0.3, 1] }} className="inline-block">
-                {word}
-              </motion.span>
-              {i < HEADLINE_TAIL.length - 1 ? ' ' : ''}
-            </Fragment>
-          ))}
-        </h1>
-
-        {/* Subtext */}
-        <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.1, delay: 3.0, ease: [0.16, 1, 0.3, 1] }} className="mb-10 px-4">
-          <p className="text-base sm:text-lg md:text-xl text-slate-500 leading-relaxed font-normal max-w-2xl mx-auto">
-            Inaipi is an AI-native, cloud-first customer experience platform, with Sovereign Cloud options that keep data resident, compliant and fully under your control.
-          </p>
-        </motion.div>
-
-        {/* CTA Buttons */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
-          {/* Primary — exact Navbar "Get Started" clone */}
-          {/* Primary — full hover treatment */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 3.4, ease: [0.16, 1, 0.3, 1] }}
-            whileHover={{ scale: 1.05, y: -2 }}
-            whileTap={{ scale: 0.96, y: 0 }}
-            className="w-full sm:w-auto"
-          >
-            <a
-              href="#"
-              aria-label="Get started free"
-              className="relative group overflow-hidden bg-[#2563eb] hover:bg-[#1d4ed8] text-white min-h-[44px] px-5 py-2.5 rounded-full font-black text-[11px] uppercase tracking-widest transition-all duration-200 flex items-center justify-center gap-2 shadow-md shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/40 whitespace-nowrap w-full sm:w-auto"
-            >
-              {/* Shimmer fires on hover */}
-              <span className="absolute inset-0 -skew-x-12 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover:translate-x-[200%] transition-transform duration-500 ease-in-out pointer-events-none" />
-              {/* Glow ring */}
-              <span className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none" style={{ boxShadow: '0 0 0 4px rgba(37,99,235,0.25)' }} />
-              <span className="relative z-10">Get Started Free</span>
-              {/* Arrow shoots out and re-enters */}
-              <span className="relative z-10 w-5 h-5 rounded-full bg-white/20 flex items-center justify-center overflow-hidden group-hover:bg-white/30 transition-colors duration-200">
-                <ArrowRight className="w-2.5 h-2.5 text-white translate-x-0 group-hover:translate-x-4 transition-transform duration-200 ease-in" />
-                <ArrowRight className="w-2.5 h-2.5 text-white absolute -translate-x-4 group-hover:translate-x-0 transition-transform duration-200 ease-out" />
-              </span>
-            </a>
-          </motion.div>
-
-          {/* Secondary — border/text turns blue on hover */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 3.55, ease: [0.16, 1, 0.3, 1] }}
-            whileHover={{ scale: 1.05, y: -2 }}
-            whileTap={{ scale: 0.96, y: 0 }}
-            className="w-full sm:w-auto"
-          >
-            <a
-              href="#"
-              aria-label="Watch product demo"
-              className="relative group text-[11px] font-black text-[#0f172a] hover:text-[#2563eb] hover:border-[#2563eb] hover:shadow-md hover:shadow-blue-500/15 transition-all duration-200 uppercase tracking-[0.15em] flex items-center justify-center gap-2 border-2 border-[#0f172a]/40 min-h-[44px] px-5 py-2.5 rounded-full whitespace-nowrap w-full sm:w-auto"
-            >
-              Watch Demo
-              <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform duration-200" />
-            </a>
-          </motion.div>
-        </div>
-      </div>
-
-      {/* ══════════════════════════════════════════════
-          ── 3-Panel Floating Dashboard ──
-      ══════════════════════════════════════════════ */}
-      <motion.div
-        style={{ y: cardY, opacity: cardOpacity }}
-        onMouseMove={onBandMove}
-        onMouseLeave={onBandLeave}
-        className="relative z-10 w-full max-w-[1400px] mx-auto px-8 mt-10"
-      >
-        {/* Glow behind center */}
-        <div className="absolute -inset-10 bg-blue-500/8 blur-[100px] rounded-full pointer-events-none" />
-
-        {/* 3-panel container — flex so center is truly centered */}
-        <div className="flex items-start justify-center gap-0 min-h-[280px] sm:min-h-[400px] lg:min-h-[640px]">
-
-          {/* ══ LEFT — two separate cards ══ */}
-          <motion.div style={{ x: leftX, y: leftY }} className="hidden lg:flex flex-col gap-3 w-60 shrink-0 self-center z-20 -mr-5">
-
-            {/* Card 1 — AI Chatbot */}
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0, ...drift }}
-              transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1], ...driftT(0) }}
-              className="rounded-2xl border border-blue-100/60 flex flex-col overflow-hidden"
-              style={{ height: '280px', background: 'linear-gradient(160deg, #ffffff 0%, #f0f5ff 100%)', boxShadow: '0 20px 60px -10px rgba(37,99,235,0.20), 0 4px 20px -2px rgba(99,102,241,0.10)' }}
-            >
-              <div className="flex items-center gap-2 px-3 py-2 border-b border-blue-100/60 shrink-0">
-                <motion.div animate={{ scale: [1, 1.1, 1] }} transition={{ duration: 2, repeat: Infinity }}
-                  className="w-5 h-5 rounded-lg bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center shrink-0 overflow-hidden">
-                  <img src="/images/agents/agent_1.png" alt="AI Agent" className="w-full h-full object-cover" loading="eager" />
-                </motion.div>
-                <p className="text-[9px] font-black uppercase tracking-widest text-blue-600">AI Chatbot</p>
-                <span className="ml-auto text-[8px] font-black text-blue-500 bg-blue-50 px-1.5 py-0.5 rounded-full">AI Powered</span>
-              </div>
-              <div className="flex flex-col px-3 pt-2 pb-2 gap-1.5 flex-1 overflow-hidden">
-                <AICopilotChat />
-                <div className="flex items-center gap-2 bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 shrink-0">
-                  <span className="text-[10px] text-slate-300 flex-1">Ask anything...</span>
-                  <motion.div whileHover={{ scale: 1.1 }} className="w-5 h-5 rounded-lg bg-blue-600 flex items-center justify-center shrink-0 cursor-pointer">
-                    <svg className="w-2.5 h-2.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 12h14M12 5l7 7-7 7" /></svg>
-                  </motion.div>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Card 2 — Incoming Call */}
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0, ...drift }}
-              transition={{ duration: 0.8, delay: 0.45, ease: [0.22, 1, 0.36, 1], ...driftT(1) }}
-              className="rounded-2xl border border-green-200/80 overflow-hidden shrink-0"
-              style={{ background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)', boxShadow: '0 12px 40px -8px rgba(34,197,94,0.18), 0 2px 12px -2px rgba(34,197,94,0.10)' }}
-            >
-              <div className="flex items-center gap-2 px-3 py-2 border-b border-green-100">
-                <PhoneIncoming className="w-3 h-3 text-green-600" />
-                <span className="text-[8px] font-black uppercase tracking-widest text-green-700">Incoming Call</span>
-                <motion.span animate={{ opacity: [1, 0.3, 1] }} transition={{ duration: 1, repeat: Infinity }}
-                  className="ml-auto text-[7px] font-black text-green-600 bg-green-100 px-1.5 py-0.5 rounded-full">Ringing...</motion.span>
-              </div>
-              <div className="flex items-center gap-3 px-3 py-2.5">
-                <div className="relative shrink-0">
-                  <motion.div animate={{ scale: [1, 1.4, 1], opacity: [0.4, 0, 0.4] }} transition={{ duration: 1.2, repeat: Infinity }}
-                    className="absolute inset-0 rounded-full bg-green-400" />
-                  <div className="w-8 h-8 rounded-full overflow-hidden border-2 border-green-300 relative z-10">
-                    <img src="/images/people/person_1.png" alt="Caller" className="w-full h-full object-cover" loading="eager" />
-                  </div>
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-[10px] font-black text-slate-700">Sarah K.</p>
-                </div>
-                <div className="flex gap-1.5 shrink-0">
-                  <motion.div animate={{ rotate: [0, 15, -15, 0] }} transition={{ duration: 0.5, repeat: Infinity, repeatDelay: 0.8 }}
-                    className="w-7 h-7 rounded-full bg-green-500 flex items-center justify-center cursor-pointer">
-                    <Phone className="w-3 h-3 text-white" />
-                  </motion.div>
-                  <div className="w-7 h-7 rounded-full bg-red-400 flex items-center justify-center cursor-pointer">
-                    <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-
-          </motion.div>
-
-          {/* ══ CENTER card ══ */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: reduced ? 0 : [0, -4, 0] }}
-            transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1], ...(reduced ? {} : { y: { duration: 9, repeat: Infinity, ease: 'easeInOut' as const, delay: 1 } }) }}
-            className="rounded-2xl z-10 flex flex-col overflow-hidden relative w-full lg:w-[840px] h-[240px] sm:h-[360px] lg:h-[600px]"
+          {/* ── headline ── */}
+          <motion.h1
+            initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
             style={{
-              boxShadow: '0 32px 80px -20px rgba(37,99,235,0.18), 0 8px 32px -4px rgba(0,0,0,0.08)',
-              // the centre moves least, so the outer columns read as nearer
-              x: midX,
+              position: 'absolute', left: 0, top: 66, width: DW, textAlign: 'center',
+              fontSize: 58, lineHeight: '58px', fontWeight: 800, letterSpacing: '-0.022em', color: INK, margin: 0,
             }}
+            className="font-figtree"
           >
-            {/* Full background image */}
+            From Customer Interaction
+            <br />
+            <span style={{ display: 'inline-block', marginTop: 12 }}>to <span style={{ color: BLUE }}>Intelligent Action.</span></span>
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.14, ease: [0.22, 1, 0.36, 1] }}
+            style={{ position: 'absolute', left: 0, top: 194, width: DW, textAlign: 'center', fontSize: 21, fontWeight: 500, color: SLATE, margin: 0 }}
+          >
+            7 connected and independent capabilities.
+          </motion.p>
+
+          {/* ── connectors: the disc's ring nodes and the lines out to the cards ── */}
+          <svg width={DW} height={DH} style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }} aria-hidden>
+            <g fill="none" stroke="#bfd4f7" strokeWidth="1.3">
+              {/* the faint ring the connector nodes sit on */}
+              <ellipse cx="833.5" cy="494" rx="381" ry="286" opacity="0.55" />
+              <path d="M468 252 C 502 254, 522 264, 543 276" />
+              <path d="M425 484 C 438 484, 448 484, 458 484" />
+              <path d="M462 698 C 486 690, 502 681, 518 670" />
+              <path d="M1208 252 C 1174 254, 1150 264, 1127 276" />
+              <path d="M1243 484 C 1230 484, 1220 484, 1210 484" />
+              <path d="M1188 698 C 1170 690, 1158 681, 1146 673" />
+            </g>
+            {nodes.map(([x, y], i) => (
+              <g key={i}>
+                <circle cx={x} cy={y} r="7.5" fill="#ffffff" stroke="#9fc0f2" strokeWidth="1.3" />
+                <motion.circle
+                  cx={x} cy={y} r="3.6" fill={BLUE}
+                  animate={move ? { opacity: [0.55, 1, 0.55] } : { opacity: 1 }}
+                  transition={move ? { duration: 3.2, repeat: Infinity, ease: 'easeInOut', delay: i * 0.45 } : { duration: 0 }}
+                />
+              </g>
+            ))}
+          </svg>
+
+          {/* ── centre disc, cut from the approved artwork ── */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.985 }}
+            animate={{ opacity: 1, scale: 1, ...(move ? { y: [0, -5, 0] } : {}) }}
+            transition={{ duration: 0.9, delay: 0.1, ease: [0.22, 1, 0.36, 1], ...(move ? { y: { duration: 9.5, repeat: Infinity, ease: 'easeInOut', delay: 1.2 } } : {}) }}
+            style={{ position: 'absolute', left: 475, top: 229, width: 717, height: 530, ...(M ? { x: M.x } : {}) }}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/hero.png"
-              alt="Inaipi Agent"
-              className="absolute inset-0 w-full h-full object-cover"
-              loading="eager"
-              fetchPriority="high"
+              src="/hero-center.webp"
+              alt="A contact centre agent working alongside an AI assistant, with a live conversation showing the customer's request, the AI voicebot's reply, and the detected intent: Reservation Change, 92% confidence."
+              style={{ width: 717, height: 530, borderRadius: '50%', display: 'block' }}
             />
+          </motion.div>
+          {/* the disc's caption is inside the artwork; repeat it for readers and search */}
+          <p className="sr-only">Human + AI working together. Better decisions. Better outcomes.</p>
 
-            {/* Gradient overlay — left side for text legibility */}
-            <div
-              className="absolute inset-0"
-            />
-
-            {/* Animated text — moved down from top (hidden on mobile) */}
-            <div className="absolute left-0 px-4 sm:px-6 lg:px-10 hidden md:flex flex-col items-start" style={{ maxWidth: '500px', top: '22%' }}>
-              {/* Badge */}
-              <motion.div
-                initial={{ opacity: 0, x: -24 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                className="flex items-center gap-2 mb-5"
-              >
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00e7ff] opacity-75" />
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-[#00e7ff]" />
-                </span>
-                <span className="text-[10px] font-black uppercase tracking-[0.3em] text-white/70">Inaipi Platform</span>
-              </motion.div>
-
-              {/* Heading — word by word animation */}
-              <h2 className="font-black font-figtree leading-tight mb-3 sm:mb-5" style={{ fontSize: 'clamp(1rem, 3.5vw, 2rem)' }}>
-                {['From', 'Automation', 'to', 'Human', 'Connection'].map((word, i) => (
-                  <motion.span
-                    key={word}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.45, delay: 0.45 + i * 0.1, ease: [0.22, 1, 0.36, 1] }}
-                    className="inline-block text-white mr-[0.35em]"
-                  >
-                    {word}
-                  </motion.span>
-                ))}
-                <br />
-                <motion.span
-                  initial={{ opacity: 0, scale: 0.85 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.55, delay: 1.05, ease: [0.22, 1, 0.36, 1] }}
-                  className="inline-block text-[#1447d4]"
-                  style={{
-                    textShadow: 'none',
-                  }}
+          {/* ═══ 1 · INBOUND DIGITAL CONTACT CENTER ═══ */}
+          <Card box={{ x: 148, y: 148, w: 320, h: 242 }} phase={0} drift={move} parallax={L}>
+            <Tile x={12} y={12}><GChat /></Tile>
+            <Title x={84} y={20} lines={['INBOUND DIGITAL', 'CONTACT CENTER']} />
+            <div style={{ position: 'absolute', left: 12, top: 80, width: 296, height: 150, borderRadius: 13, background: PANEL, border: `1px solid ${LINE}` }}>
+              <div style={{ position: 'absolute', left: 12, top: 8, fontSize: 11.5, color: MUTED, fontWeight: 500 }}>Active (32)</div>
+              {[
+                { n: 'Sarah Johnson', t: '10:21 AM', av: '/hero-av1.webp' },
+                { n: 'Michael Lee', t: '10:19 AM', av: '/hero-av2.webp' },
+                { n: 'Priya Sharma', t: '10:18 AM', av: '/hero-av3.webp' },
+              ].map((r, i) => (
+                <motion.div
+                  key={r.n}
+                  animate={{ opacity: inboundRow === -1 || inboundRow === i ? 1 : 0.74 }}
+                  transition={{ duration: 0.55, ease: 'easeInOut' }}
+                  style={{ position: 'absolute', left: 10, top: 26 + i * 32, width: 276, height: 28, display: 'flex', alignItems: 'center' }}
                 >
-                  Seamlessly
-                </motion.span>
-              </h2>
-
-              {/* Subtext */}
-              <motion.p
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 1.2, ease: [0.22, 1, 0.36, 1] }}
-                className="text-white/75 font-figtree font-medium leading-relaxed"
-                style={{ fontSize: '0.875rem' }}
-              >
-                Inaipi unifies AI-driven automation with human intelligence to deliver faster resolutions and richer customer experiences.
-              </motion.p>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={r.av} alt="" style={{ width: 25, height: 25, borderRadius: '50%', objectFit: 'cover' }} />
+                  <span style={{ marginLeft: 10, fontSize: 12.5, fontWeight: 600, color: BODY }}>{r.n}</span>
+                  <span style={{ position: 'absolute', left: 165, fontSize: 11.5, color: '#9aa7bd' }}>{r.t}</span>
+                  <span style={{ position: 'absolute', left: 240, display: 'flex', alignItems: 'center' }}>
+                    {i === 0 && (
+                      <motion.span
+                        animate={move ? { scale: inboundRow === 0 ? 1.07 : 1 } : { scale: 1 }}
+                        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                        style={{ background: BLUE, color: '#fff', fontSize: 11, fontWeight: 700, borderRadius: 999, padding: '3px 11px', display: 'inline-block' }}
+                      >Chat</motion.span>
+                    )}
+                    {i === 1 && <IcPhone c="#22c55e" />}
+                    {i === 2 && <IcMail c="#334155" />}
+                  </span>
+                </motion.div>
+              ))}
+              <Rule x={10} y={122} w={276} />
+              <div style={{ position: 'absolute', left: 18, top: 130, width: 262, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <IcPhone /><IcChat /><IcWhats /><IcMail /><IcInsta />
+              </div>
             </div>
+          </Card>
 
-            {/* ── Bottom-left floating stat card ── */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 1.4, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute bottom-2 sm:bottom-8 lg:bottom-20 left-3 sm:left-6 rounded-xl sm:rounded-2xl px-3 sm:px-5 py-2 sm:py-4 hidden md:flex items-center gap-2 sm:gap-4"
-              style={{
-                background: 'rgba(255,255,255,0.12)',
-                backdropFilter: 'blur(16px)',
-                WebkitBackdropFilter: 'blur(16px)',
-                border: '1px solid rgba(255,255,255,0.2)',
-                boxShadow: '0 8px 32px rgba(0,0,0,0.18)',
-              }}
-            >
-              {/* Satisfaction ring */}
-              <div className="relative w-12 h-12 shrink-0">
-                <svg viewBox="0 0 36 36" className="w-full h-full -rotate-90">
-                  <circle cx="18" cy="18" r="15" fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth="3" />
-                  <motion.circle
-                    cx="18" cy="18" r="15" fill="none"
-                    stroke="#00e7ff" strokeWidth="3"
-                    strokeLinecap="round"
-                    strokeDasharray="94.2"
-                    initial={{ strokeDashoffset: 94.2 }}
-                    animate={{ strokeDashoffset: 94.2 * 0.08 }}
-                    transition={{ duration: 1.2, delay: 1.6, ease: 'easeOut' }}
-                  />
-                </svg>
-                <span className="absolute inset-0 flex items-center justify-center text-[11px] font-black text-white">92%</span>
-              </div>
-              {/* Labels */}
-              <div>
-                <p className="text-white font-black text-sm leading-none mb-1">Customer Satisfaction</p>
-                <p className="text-white/60 text-[11px] font-medium">Avg. CSAT across all channels</p>
-                <div className="flex items-center gap-1.5 mt-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#00e7ff] animate-pulse" />
-                  <span className="text-[#00e7ff] text-[10px] font-black uppercase tracking-widest">Live</span>
+          {/* ═══ 2 · CONVERSATION INTELLIGENCE ═══ */}
+          <Card box={{ x: 100, y: 410, w: 325, h: 227 }} phase={1} drift={move} parallax={L}>
+            <Tile x={13} y={13}><GChart /></Tile>
+            <Title x={81} y={20} lines={['CONVERSATION', 'INTELLIGENCE']} />
+            <Rule x={10} y={78} w={305} />
+            <Wave x={16} y={86} w={236} h={34} bars={54} seed={1.7} color="#2f7bff" live={move} />
+            <div style={{ position: 'absolute', left: 262, top: 96, fontSize: 11.5, color: '#64748b', fontWeight: 500 }}>02:18</div>
+            <Rule x={10} y={128} w={305} />
+            <div style={{ position: 'absolute', left: 96, top: 132, width: 1, height: 54, background: LINE }} />
+            <div style={{ position: 'absolute', left: 196, top: 132, width: 1, height: 54, background: LINE }} />
+            {[
+              { l: 'Sentiment', v: 'Positive', x: 14, dot: '#22c55e' },
+              { l: 'Topic', v: 'Booking\nChange', x: 106 },
+              { l: 'Intent', v: 'Change\nReservation', x: 206 },
+            ].map(c => (
+              <div key={c.l} style={{ position: 'absolute', left: c.x, top: 136 }}>
+                <div style={{ fontSize: 10.5, color: MUTED, marginBottom: 6 }}>{c.l}</div>
+                <div style={{ fontSize: 12, color: BODY, fontWeight: 600, whiteSpace: 'pre-line', lineHeight: '16px', display: 'flex', alignItems: 'flex-start', gap: 5 }}>
+                  {c.dot && (
+                    <motion.span
+                      animate={move ? { opacity: [0.55, 1, 0.55] } : { opacity: 1 }}
+                      transition={move ? { duration: 2.4, repeat: Infinity, ease: 'easeInOut' } : { duration: 0 }}
+                      style={{ width: 7, height: 7, borderRadius: 999, background: c.dot, display: 'block', marginTop: 4 }}
+                    />
+                  )}
+                  <span>{c.v}</span>
                 </div>
               </div>
-            </motion.div>
+            ))}
+            <Rule x={10} y={194} w={305} />
+            <div style={{ position: 'absolute', left: 14, top: 202, fontSize: 11, color: MUTED }}>Key Moment</div>
+            <div style={{ position: 'absolute', left: 106, top: 202, fontSize: 11.5, color: '#334155', fontWeight: 500 }}>10:21</div>
+          </Card>
 
-          </motion.div>
+          {/* ═══ 3 · AI VOICEBOT ═══ */}
+          <Card box={{ x: 150, y: 660, w: 312, h: 218 }} phase={2} drift={move} parallax={L}>
+            <Tile x={13} y={11}><GMic /></Tile>
+            <Title x={82} y={26} lines={['AI VOICEBOT']} />
+            <Rule x={12} y={76} w={288} />
+            <div style={{ position: 'absolute', left: 26, top: 82, fontSize: 12.5, color: '#334155', fontWeight: 500 }}>Call in Progress</div>
+            <div style={{ position: 'absolute', left: 250, top: 82, fontSize: 12, color: '#64748b', fontWeight: 500 }}>02:18</div>
+            <Wave x={25} y={104} w={262} h={38} bars={58} seed={2.9} color="#2f7bff" live={move} />
+            <Rule x={12} y={158} w={288} />
+            <div style={{ position: 'absolute', left: 30, top: 168, display: 'flex', alignItems: 'center', gap: 9 }}>
+              <span style={{ width: 21, height: 21, borderRadius: 999, background: BLUE, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <span style={{ width: 8, height: 8, borderRadius: 999, border: '2px solid #fff', display: 'block' }} />
+              </span>
+              <span style={{ fontSize: 12, color: '#334155', fontWeight: 500 }}>AI Voicebot</span>
+            </div>
+            <div style={{ position: 'absolute', left: 196, top: 172, display: 'flex', alignItems: 'center', gap: 7 }}>
+              <motion.span
+                animate={move ? { opacity: [0.4, 1, 0.4], scale: [1, 1.18, 1] } : { opacity: 1 }}
+                transition={move ? { duration: 1.5, repeat: Infinity, ease: 'easeInOut' } : { duration: 0 }}
+                style={{ width: 8, height: 8, borderRadius: 999, background: '#22c55e', display: 'block' }}
+              />
+              <span style={{ fontSize: 12, color: '#334155', fontWeight: 500 }}>Speaking...</span>
+            </div>
+          </Card>
 
-          {/* ══ RIGHT — three stacked product cards ══ */}
-          <motion.div style={{ x: rightX, y: rightY }} className="hidden lg:flex flex-col gap-3 shrink-0 mt-6 -ml-5 w-72 z-20">
+          {/* ═══ 4 · OUTREACH MANAGER ═══ */}
+          <Card box={{ x: 1208, y: 148, w: 322, h: 240 }} phase={3} drift={move} parallax={R}>
+            <Tile x={12} y={12}><GSend /></Tile>
+            <Title x={90} y={20} lines={['OUTREACH', 'MANAGER']} />
+            <Rule x={12} y={80} w={298} />
+            <div style={{ position: 'absolute', left: 22, top: 92, fontSize: 13.5, fontWeight: 700, color: BODY }}>Win-back Offer Campaign</div>
+            <div style={{ position: 'absolute', left: 24, top: 128, fontSize: 11.5, color: MUTED }}>Progress</div>
+            <div style={{ position: 'absolute', left: 24, top: 150, width: 223, height: 6, borderRadius: 3, background: '#eaeffb', overflow: 'hidden' }}>
+              <motion.div style={{ width: `${progress}%`, height: 6, borderRadius: 3, background: `linear-gradient(90deg, ${BLUE_SOFT}, ${BLUE})` }} />
+            </div>
+            <div style={{ position: 'absolute', left: 256, top: 141, fontSize: 14.5, fontWeight: 800, color: BODY }}>{Math.round(progress)}%</div>
+            <div style={{ position: 'absolute', left: 24, top: 176, fontSize: 11.5, color: MUTED }}>Contacts</div>
+            <div style={{ position: 'absolute', left: 24, top: 195, fontSize: 15.5, fontWeight: 800, color: BODY }}>{contacts.toLocaleString('en-US')}</div>
+            <div style={{ position: 'absolute', left: 182, top: 190, display: 'flex', alignItems: 'center' }}>
+              {['/hero-ct1.webp', '/hero-ct2.webp', '/hero-ct3.webp', '/hero-ct4.webp'].map((a, i) => (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img key={a} src={a} alt="" style={{ width: 24, height: 24, borderRadius: '50%', objectFit: 'cover', border: '1.6px solid #fff', marginLeft: i === 0 ? 0 : -6 }} />
+              ))}
+              <span style={{ marginLeft: 9, fontSize: 11, color: '#64748b', fontWeight: 600 }}>+68</span>
+            </div>
+          </Card>
 
-            {/* Card 1 — Conversation Intelligence */}
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0, ...drift }}
-              transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1], ...driftT(2) }}
-              className="rounded-2xl border border-violet-100/80 overflow-hidden px-3 py-2.5 flex flex-col gap-2"
-              style={{ background: 'linear-gradient(135deg, #ffffff 0%, #f7f4ff 55%, #f1ecff 100%)', boxShadow: '0 12px 40px -8px rgba(124,58,237,0.18), 0 2px 12px -2px rgba(99,102,241,0.10)' }}
-            >
-              <div className="flex items-center gap-2">
-                <span className="w-6 h-6 rounded-lg flex items-center justify-center shrink-0" style={{ background: 'linear-gradient(135deg,#7c3aed,#a855f7)' }}>
-                  <MessageCircle className="w-3 h-3 text-white" />
+          {/* ═══ 5 · AI CHATBOT ═══ */}
+          <Card box={{ x: 1243, y: 415, w: 332, h: 222 }} phase={4} drift={move} parallax={R}>
+            <Tile x={16} y={10}><GChat /></Tile>
+            <Title x={88} y={26} lines={['AI CHATBOT']} />
+            <ChatbotFeed reduced={reduced} />
+          </Card>
+
+          {/* ═══ 6 · TICKETING ═══ */}
+          <Card box={{ x: 1188, y: 658, w: 340, h: 212 }} phase={5} drift={move} parallax={R}>
+            <Tile x={21} y={8}><GTicket /></Tile>
+            <Title x={92} y={24} lines={['TICKETING']} />
+            <Rule x={22} y={68} w={296} />
+            {[
+              { l: 'Ticket', v: '#TK-1027', pill: 'In Progress' },
+              { l: 'Issue', v: 'Reservation change' },
+              { l: 'Priority', v: 'High', dot: '#ef4444' },
+              { l: 'Updated', v: '2m ago' },
+            ].map((r, i) => (
+              <div key={r.l} style={{ position: 'absolute', left: 28, top: 82 + i * 31, width: 292, display: 'flex', alignItems: 'center' }}>
+                <span style={{ fontSize: 12, color: '#7b8aa3', width: 84 }}>{r.l}</span>
+                <span style={{ fontSize: 12.5, color: BODY, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 6 }}>
+                  {r.dot && <span style={{ width: 7, height: 7, borderRadius: 999, background: r.dot, display: 'block' }} />}
+                  {r.v}
                 </span>
-                <div className="min-w-0">
-                  <p className="text-[8px] font-black uppercase tracking-widest text-violet-700 leading-none">Conversation Intelligence</p>
-                  <p className="text-[8.5px] font-bold text-[#0f172a] leading-tight mt-1">Social Media Listening &amp; Engagement Platform</p>
-                </div>
+                {r.pill && (
+                  <motion.span
+                    animate={move ? { opacity: [0.82, 1, 0.82] } : { opacity: 1 }}
+                    transition={move ? { duration: 3, repeat: Infinity, ease: 'easeInOut', delay: 1.4 } : { duration: 0 }}
+                    style={{ position: 'absolute', left: 204, background: '#ede9fe', color: '#6d28d9', fontSize: 11.5, fontWeight: 600, borderRadius: 999, padding: '4px 13px' }}
+                  >{r.pill}</motion.span>
+                )}
               </div>
-              <div className="flex items-center justify-between gap-1 rounded-xl bg-white/80 border border-violet-50 px-2 py-2">
-                {SOCIALS.map((s, i) => (
-                  <motion.span key={i} initial={{ opacity: 0, scale: 0.6 }} animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.35, delay: 0.45 + i * 0.06 }}
-                    className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style={{ background: s.bg }}>
-                    {s.icon}
-                  </motion.span>
-                ))}
-              </div>
-              <div className="grid grid-cols-3 gap-1.5">
-                {CI_STEPS.map((f, i) => (
-                  <div key={i} className="rounded-xl bg-white/80 border border-violet-50 px-1.5 py-1.5 flex flex-col gap-1">
-                    <span className="w-5 h-5 rounded-md bg-violet-50 flex items-center justify-center">
-                      <f.icon className="w-2.5 h-2.5 text-violet-600" />
-                    </span>
-                    <p className="text-[8px] font-black text-[#0f172a] leading-none">{f.title}</p>
-                    <p className="text-[6.5px] text-slate-400 leading-tight">{f.sub}</p>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
+            ))}
+          </Card>
 
-            {/* Card 2 — Outbound Dialer */}
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0, ...drift }}
-              transition={{ duration: 0.8, delay: 0.42, ease: [0.22, 1, 0.36, 1], ...driftT(3) }}
-              className="rounded-2xl border border-emerald-100/80 overflow-hidden px-3 py-2.5 flex flex-col gap-2"
-              style={{ background: 'linear-gradient(135deg, #ffffff 0%, #f2fdf7 55%, #ecfdf3 100%)', boxShadow: '0 12px 40px -8px rgba(16,163,74,0.16), 0 2px 12px -2px rgba(37,99,235,0.08)' }}
-            >
-              <div className="flex items-center gap-2">
-                <span className="w-6 h-6 rounded-lg flex items-center justify-center shrink-0" style={{ background: 'linear-gradient(135deg,#16a34a,#22c55e)' }}>
-                  <PhoneCall className="w-3 h-3 text-white" />
-                </span>
-                <div className="min-w-0">
-                  <p className="text-[8px] font-black uppercase tracking-widest text-emerald-700 leading-none">Outbound Dialer</p>
-                  <p className="text-[8.5px] font-bold text-[#0f172a] leading-tight mt-1">Smart Outbound Calling Platform</p>
-                </div>
-              </div>
-              <div className="grid grid-cols-4 gap-1 rounded-xl bg-white/80 border border-emerald-50 px-1.5 py-2">
-                {DIALER_FEATURES.map((f, i) => (
-                  <div key={i} className="flex flex-col items-center text-center gap-1">
-                    <span className="w-5 h-5 rounded-md bg-emerald-50 flex items-center justify-center">
-                      <f.icon className="w-2.5 h-2.5 text-emerald-600" />
-                    </span>
-                    <p className="text-[7.5px] font-black text-[#0f172a] leading-none">{f.title}</p>
-                    <p className="text-[6px] text-slate-400 leading-tight">{f.sub}</p>
-                  </div>
-                ))}
-              </div>
-              <div className="grid grid-cols-4 gap-1">
-                {DIALER_STATS.map((s, i) => (
-                  <div key={i} className="rounded-lg bg-white/70 border border-emerald-50 px-1 py-1.5 text-center">
-                    <p className={`text-[10px] font-black leading-none ${s.color}`}>{s.value}</p>
-                    <p className="text-[6px] text-slate-400 leading-tight mt-1">{s.label}</p>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-
-            {/* Card 3 — Ticketing System */}
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0, ...drift }}
-              transition={{ duration: 0.8, delay: 0.54, ease: [0.22, 1, 0.36, 1], ...driftT(4) }}
-              className="rounded-2xl border border-blue-100/80 overflow-hidden px-3 py-2.5 flex flex-col gap-2"
-              style={{ background: 'linear-gradient(135deg, #ffffff 0%, #f2f7ff 55%, #eef2ff 100%)', boxShadow: '0 12px 40px -8px rgba(37,99,235,0.18), 0 2px 12px -2px rgba(99,102,241,0.10)' }}
-            >
-              <div className="flex items-center gap-2">
-                <span className="w-6 h-6 rounded-lg flex items-center justify-center shrink-0" style={{ background: 'linear-gradient(135deg,#2563eb,#3b82f6)' }}>
-                  <Ticket className="w-3 h-3 text-white" />
-                </span>
-                <div className="min-w-0">
-                  <p className="text-[8px] font-black uppercase tracking-widest text-blue-700 leading-none">Ticketing System</p>
-                  <p className="text-[8.5px] font-bold text-[#0f172a] leading-tight mt-1">Streamline, Track &amp; Resolve Faster</p>
-                </div>
-              </div>
-              <div className="grid grid-cols-4 gap-1">
-                {TICKET_STATS.map((s, i) => (
-                  <div key={i} className="rounded-lg bg-white/80 border border-blue-50 px-1 py-1.5 text-center">
-                    <p className={`text-[11px] font-black leading-none ${s.color}`}>{s.value}</p>
-                    <p className="text-[6px] text-slate-400 leading-tight mt-1">{s.label}</p>
-                  </div>
-                ))}
-              </div>
-              <div className="rounded-xl bg-white/80 border border-blue-50 px-2 py-1.5 flex flex-col gap-1">
-                <div className="flex items-center justify-between">
-                  <p className="text-[7.5px] font-black text-[#0f172a]">Recent Tickets</p>
-                  <span className="text-[6.5px] font-bold text-blue-500">View all</span>
-                </div>
-                {RECENT_TICKETS.map((t, i) => (
-                  <motion.div key={i} initial={{ opacity: 0, x: 8 }} animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.35, delay: 0.65 + i * 0.07 }}
-                    className="flex items-center gap-1">
-                    <span className="text-[7px] text-slate-600 font-semibold truncate flex-1 min-w-0">{t.title}</span>
-                    <span className="text-[6px] text-slate-300 shrink-0">{t.id}</span>
-                    <span className={`text-[5.5px] font-black px-1 py-0.5 rounded-full shrink-0 ${t.pill}`}>{t.status}</span>
-                    <span className="text-[6px] text-slate-300 shrink-0 w-8 text-right">{t.time}</span>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-
-          </motion.div>
+          {/* ═══ 7 · SURVEYS ═══ */}
+          <Card box={{ x: 620, y: 755, w: 415, h: 158 }} phase={6} drift={move} parallax={M}>
+            <Tile x={14} y={6}><GClipboard /></Tile>
+            <Title x={82} y={22} lines={['SURVEYS']} />
+            <div style={{ position: 'absolute', left: 12, top: 60, width: 391, height: 90, borderRadius: 13, background: PANEL, border: `1px solid ${LINE}` }}>
+              <div style={{ position: 'absolute', left: 13, top: 12, fontSize: 12.5, color: '#475569' }}>How was your experience today?</div>
+              {[1, 2, 3, 4, 5].map((n, i) => {
+                const chosen = n === 5;
+                const hinted = surveyHint === i;
+                return (
+                  <motion.div
+                    key={n}
+                    animate={{
+                      scale: hinted && !chosen ? 1.1 : chosen && hinted ? 1.14 : 1,
+                      background: chosen ? BLUE : hinted ? '#dbe7ff' : '#eef1f4',
+                      color: chosen ? '#ffffff' : hinted ? '#1d4ed8' : '#64748b',
+                      boxShadow: chosen ? '0 6px 16px -4px rgba(5,89,245,0.55)' : '0 0 0 0 rgba(5,89,245,0)',
+                    }}
+                    transition={{ duration: 0.34, ease: [0.22, 1, 0.36, 1] }}
+                    style={{
+                      position: 'absolute', left: 20 + i * 49, top: 41, width: 34, height: 34, borderRadius: 999,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13.5, fontWeight: 600,
+                    }}
+                  >{n}</motion.div>
+                );
+              })}
+              <div style={{ position: 'absolute', left: 266, top: 49, fontSize: 13.5, fontWeight: 700, color: BLUE }}>Excellent</div>
+              <div style={{ position: 'absolute', left: 358, top: 47 }}><IcSmile /></div>
+            </div>
+          </Card>
 
         </div>
-
-      </motion.div>
-
-      {/* Bottom tagline — below the dashboard image */}
-      <div className="relative z-10 mt-16 text-center w-full max-w-[1400px] mx-auto px-10 pb-10">
-        <p className="text-[10px] sm:text-xs font-black text-blue-600 uppercase tracking-[0.35em] mb-4">One Intelligent Platform</p>
-        <p className="text-sm sm:text-base md:text-lg lg:text-xl text-slate-400 font-medium leading-relaxed max-w-5xl mx-auto tracking-tight">
-          Powering the entire Customer Experience Lifecycle, seamlessly integrating AI Agents, Human Teams, and your Enterprise Stack.
-        </p>
       </div>
     </section>
   );
