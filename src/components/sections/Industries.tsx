@@ -5,6 +5,9 @@ import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { industryIcon, type Industry } from '@/lib/industryIcons';
 
+/* where the reader was when they opened a sector, so Back can put them back */
+const RETURN_KEY = 'inaipi:industry-return';
+
 export default function Industries() {
   /* The cards are managed in the admin, so a new sector shows up here and gets
      its own detail page without a code change. */
@@ -51,6 +54,84 @@ export default function Industries() {
   }, []);
 
   const revealed = industries.length > 0 && (gridInView || restored);
+
+  /* Back from a sector's page puts the reader back exactly where they left.
+
+     Leaving the page is remembered as the card they opened and how far down the
+     screen it was sitting. The browser's own restore cannot manage this on a
+     phone: it puts back a scroll offset, and the page is still measuring itself
+     — images, fonts and the sections above all settle after it lands — so the
+     offset ends up pointing somewhere else entirely, a couple of thousand
+     pixels from the card they tapped. Anchoring to the card instead survives
+     all of that, and re-applying it for a beat and a half outlasts the settling.
+
+     Only on an actual Back: a fresh visit to the home page is left alone. */
+  useEffect(() => {
+    if (!industries.length) return;
+    let mark: { slug: string; offset: number; t: number } | null = null;
+    try {
+      const raw = sessionStorage.getItem(RETURN_KEY);
+      if (raw) mark = JSON.parse(raw);
+    } catch { mark = null; }
+    if (!mark) return;
+    sessionStorage.removeItem(RETURN_KEY);
+
+    /* The mark alone is the signal. Going back is a client-side navigation, so
+       the document is never reloaded and the browser still reports the original
+       navigation type — asking it whether this was a Back gives the wrong
+       answer every time. The mark is only written when a card is opened, it is
+       read once, and it is dropped if it has gone stale. */
+    const giveBack = () => { try { history.scrollRestoration = 'auto'; } catch { /* not supported */ } };
+    if (Date.now() - mark.t > 10 * 60 * 1000) { giveBack(); return; }
+
+    setRestored(true);
+    let stop = false;
+    const put = () => {
+      if (stop) return;
+      const card = document.getElementById(`industry-${mark!.slug}`);
+      if (!card) return;
+      const y = window.scrollY + card.getBoundingClientRect().top - mark!.offset;
+      window.scrollTo({ top: Math.max(0, Math.round(y)), behavior: 'auto' });
+    };
+    /* Hand scrolling back to the browser once we are done, and stop the moment
+       the reader takes over — re-applying under their finger would be its own
+       kind of yank. */
+    const done = () => {
+      stop = true;
+      try { history.scrollRestoration = 'auto'; } catch { /* not supported */ }
+    };
+    const opts = { passive: true, once: true } as const;
+    window.addEventListener('touchstart', done, opts);
+    window.addEventListener('wheel', done, opts);
+    window.addEventListener('keydown', done, opts);
+
+    const timers = [0, 60, 160, 320, 600, 900, 1400, 1900, 2400].map(ms => window.setTimeout(put, ms));
+    timers.push(window.setTimeout(done, 2600));
+    return () => {
+      timers.forEach(clearTimeout);
+      window.removeEventListener('touchstart', done);
+      window.removeEventListener('wheel', done);
+      window.removeEventListener('keydown', done);
+      try { history.scrollRestoration = 'auto'; } catch { /* not supported */ }
+    };
+  }, [industries.length]);
+
+  /* Remember the card being opened, and where it sits on screen right now.
+
+     The browser's own restore is switched off for this trip. It lands its
+     offset after we have anchored to the card and overrides us — on a phone
+     that put the reader about two thousand pixels from the card they tapped.
+     It is switched back on as soon as the restore is finished. */
+  const remember = (slug: string) => {
+    const card = document.getElementById(`industry-${slug}`);
+    if (!card) return;
+    try {
+      sessionStorage.setItem(RETURN_KEY, JSON.stringify({
+        slug, offset: Math.round(card.getBoundingClientRect().top), t: Date.now(),
+      }));
+      history.scrollRestoration = 'manual';
+    } catch { /* private mode — the browser's own restore is all we get */ }
+  };
 
   /* A link to /#industry-<slug> brings that sector's own card into view. The
      cards arrive with the fetch, so this runs once they exist as well as on
@@ -137,7 +218,7 @@ export default function Industries() {
                 {/* The whole card opens the sector's page. An overlay link keeps
                     the card markup, hover animation and spacing exactly as they
                     were rather than re-nesting everything inside an anchor. */}
-                <Link href={`/industries/${ind.slug}`} className="absolute inset-0 z-10" aria-label={ind.name} />
+                <Link href={`/industries/${ind.slug}`} onClick={() => remember(ind.slug)} className="absolute inset-0 z-10" aria-label={ind.name} />
 
                 {/* Top accent line on hover */}
                 <div className="absolute top-0 left-0 right-0 h-[2.5px] rounded-t-[20px] opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ background: '#1447d4' }} />
