@@ -244,6 +244,7 @@ export default function Hero() {
   const wrapRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(1);
   const [band, setBand] = useState(DH);
+  const [mobile, setMobile] = useState(false);
   useEffect(() => {
     const fit = () => {
       const w = wrapRef.current?.clientWidth || window.innerWidth;
@@ -257,6 +258,7 @@ export default function Hero() {
          right down, and that same band left a few hundred pixels of empty space
          under the artwork — so there the section is only a little taller than
          the artwork itself, enough that it does not read as a hairline strip. */
+      setMobile(w < 900);
       setBand(w < 900
         ? Math.max(CH * s + 48, Math.min(360, Math.round(window.innerHeight * 0.42)))
         : Math.max(CH * s, Math.min(620, Math.round(window.innerHeight * 0.72))));
@@ -347,13 +349,18 @@ export default function Hero() {
       {/* The site's navbar is fixed over the top of the page, so the canvas
           starts below it rather than under it. The composition itself is
           untouched — it is only pushed clear. */}
-      <div ref={wrapRef} className="relative w-full" style={{ height: band, marginTop: 88 }}>
+      <div ref={wrapRef} className="relative w-full" style={mobile ? { marginTop: 84 } : { height: band, marginTop: 88 }}>
         <div
           onMouseMove={onMove}
           onMouseLeave={onLeave}
           style={{
-            position: 'absolute', top: Math.max(0, (band - CH * scale) / 2), left: '50%',
-            width: DW, height: CH, transform: `translateX(-50%) scale(${scale})`, transformOrigin: 'top center',
+            ...(mobile ? {
+              position: 'relative', width: '100%', padding: '0 16px 4px',
+              display: 'flex', flexDirection: 'column', alignItems: 'center',
+            } : {
+              position: 'absolute', top: Math.max(0, (band - CH * scale) / 2), left: '50%',
+              width: DW, height: CH, transform: `translateX(-50%) scale(${scale})`, transformOrigin: 'top center',
+            }),
           }}
         >
 
@@ -366,8 +373,10 @@ export default function Hero() {
               prefers-reduced-motion. */}
           <h1
             style={{
-              position: 'absolute', left: 0, top: 40, width: DW, textAlign: 'center',
-              fontSize: 58, lineHeight: '58px', fontWeight: 800, letterSpacing: '-0.022em', color: INK, margin: 0,
+              ...(mobile
+                ? { position: 'relative', width: '100%', textAlign: 'center', fontSize: 30, lineHeight: '38px', marginTop: 4 }
+                : { position: 'absolute', left: 0, top: 40, width: DW, textAlign: 'center', fontSize: 58, lineHeight: '58px', margin: 0 }),
+              fontWeight: 800, letterSpacing: '-0.022em', color: INK,
             }}
             className="font-figtree"
           >
@@ -379,7 +388,7 @@ export default function Hero() {
             </motion.span>
             <motion.span
               initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.17, ease: [0.22, 1, 0.36, 1] }}
-              style={{ display: 'block', marginTop: 12 }}
+              style={{ display: 'block', marginTop: mobile ? 2 : 12 }}
             >
               to{' '}
               {/* #0559f5 → #2f7bff → #0559f5, drifting across the words over 14s,
@@ -403,7 +412,9 @@ export default function Hero() {
 
           <motion.p
             initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.14, ease: [0.22, 1, 0.36, 1] }}
-            style={{ position: 'absolute', left: 0, top: 186, width: DW, textAlign: 'center', fontSize: 21, fontWeight: 500, color: SLATE, margin: 0 }}
+            style={mobile
+              ? { position: 'relative', width: '100%', textAlign: 'center', fontSize: 17, lineHeight: '25px', fontWeight: 500, color: SLATE, margin: '12px 0 0' }
+              : { position: 'absolute', left: 0, top: 186, width: DW, textAlign: 'center', fontSize: 21, fontWeight: 500, color: SLATE, margin: 0 }}
           >
             7 connected and independent capabilities.
           </motion.p>
@@ -416,8 +427,10 @@ export default function Hero() {
           <motion.p
             initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.19, ease: [0.22, 1, 0.36, 1] }}
             style={{
-              position: 'absolute', left: (DW - 880) / 2, top: 222, width: 880, textAlign: 'center',
-              fontSize: 19, fontWeight: 400, lineHeight: '28px', color: '#64748b', margin: 0,
+              ...(mobile
+                ? { position: 'relative', width: '100%', maxWidth: 480, textAlign: 'center', fontSize: 16, lineHeight: '26px', margin: '10px 0 0' }
+                : { position: 'absolute', left: (DW - 880) / 2, top: 222, width: 880, textAlign: 'center', fontSize: 19, lineHeight: '28px', margin: 0 }),
+              fontWeight: 400, color: '#64748b',
             }}
           >
             Inaipi is an AI-native, cloud-first customer experience platform, with Sovereign Cloud options that keep data resident, compliant and fully under your control.
@@ -427,7 +440,9 @@ export default function Hero() {
           {/* the same two buttons, with the same hover treatment, as before */}
           <motion.div
             initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.24, ease: [0.22, 1, 0.36, 1] }}
-            style={{ position: 'absolute', left: 0, top: 302, width: DW, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16 }}
+            style={mobile
+              ? { position: 'relative', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12, margin: '18px 0 2px', flexWrap: 'wrap' }
+              : { position: 'absolute', left: 0, top: 302, width: DW, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16 }}
           >
             {/* Primary — full hover treatment */}
             <motion.div whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.96, y: 0 }}>
@@ -467,7 +482,10 @@ export default function Hero() {
               else. The disc, the connector lines and all seven cards keep the
               coordinates they were signed off at, so nothing inside the artwork
               has shifted relative to anything else in it. */}
-          <div style={{ position: 'absolute', left: 0, top: HEAD, width: DW, height: DH }}>
+          <div style={mobile ? { position: 'relative', width: '100%', height: DH * scale, marginTop: 10 } : undefined}>
+          <div style={mobile
+            ? { position: 'absolute', top: 0, left: '50%', width: DW, height: DH, transform: `translateX(-50%) scale(${scale})`, transformOrigin: 'top center' }
+            : { position: 'absolute', left: 0, top: HEAD, width: DW, height: DH }}>
 
           {/* ── connectors: the disc's ring nodes and the lines out to the cards ── */}
           <svg width={DW} height={DH} style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }} aria-hidden>
@@ -698,7 +716,7 @@ export default function Hero() {
             </div>
           </Card>
 
-          </div>{/* ── end of the artwork block ── */}
+          </div></div>{/* ── end of the artwork block ── */}
 
         </div>
       </div>
