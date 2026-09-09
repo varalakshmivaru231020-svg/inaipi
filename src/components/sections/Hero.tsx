@@ -39,6 +39,48 @@ const MUTED = '#8b98ae';
 const LINE = '#eef2f9';
 const PANEL = '#fdfeff';
 
+/* ── Typewriter ──
+   The hero's original: it types the line out and blinks a caret while it goes.
+   Untyped text stays in the DOM but transparent, so the whole sentence is in
+   the page exactly once — server HTML, copy and paste, screen readers — and
+   its width is reserved, which is what stops the wrapped line reflowing on
+   every keystroke. The caret is taken out of the flow for the same reason.
+   A reader who has asked for less motion simply gets the finished line. */
+function Typewriter({ text, delay, speed = 60 }: { text: string; delay: number; speed?: number }) {
+  const reduced = useReducedMotion();
+  const [shown, setShown] = useState(0);
+  const [started, setStarted] = useState(false);
+  useEffect(() => {
+    if (reduced) return;
+    const t = setTimeout(() => setStarted(true), delay * 1000);
+    return () => clearTimeout(t);
+  }, [delay, reduced]);
+  useEffect(() => {
+    if (reduced || !started || shown >= text.length) return;
+    const t = setTimeout(() => setShown(n => n + 1), speed);
+    return () => clearTimeout(t);
+  }, [reduced, started, shown, text, speed]);
+
+  if (reduced) return <>{text}</>;
+  const typing = started && shown < text.length;
+  return (
+    <>
+      {text.slice(0, shown)}
+      {typing && (
+        <span style={{ position: 'relative', display: 'inline-block', width: 0 }}>
+          <motion.span
+            animate={{ opacity: [1, 0] }}
+            transition={{ duration: 0.5, repeat: Infinity, repeatType: 'reverse' }}
+            className="inline-block w-[3px] bg-blue-500 align-middle"
+            style={{ position: 'absolute', left: 2, top: '0.08em', height: '0.85em' }}
+          />
+        </span>
+      )}
+      <span className="opacity-0">{text.slice(shown)}</span>
+    </>
+  );
+}
+
 /* ── little shared pieces ─────────────────────────────────────────────── */
 
 type Box = { x: number; y: number; w: number; h: number };
@@ -433,7 +475,11 @@ export default function Hero() {
               fontWeight: 400, color: '#64748b',
             }}
           >
-            Inaipi is an AI-native, cloud-first customer experience platform, with Sovereign Cloud options that keep data resident, compliant and fully under your control.
+            <Typewriter
+              text="Inaipi is an AI-native, cloud-first customer experience platform, with Sovereign Cloud options that keep data resident, compliant and fully under your control."
+              delay={0.55}
+              speed={18}
+            />
           </motion.p>
 
           {/* ── calls to action ── */}
@@ -483,9 +529,14 @@ export default function Hero() {
               coordinates they were signed off at, so nothing inside the artwork
               has shifted relative to anything else in it. */}
           <div style={mobile ? { position: 'relative', width: '100%', height: DH * scale, marginTop: 10 } : undefined}>
+          {/* Nothing in the artwork is interactive, and its box reaches up over
+              the buttons — so it let the pointer through rather than swallowing
+              it. That is what stopped the calls to action lighting up on hover;
+              the pointer never reached them. Parallax still gets the movement,
+              because it listens on the canvas underneath. */}
           <div style={mobile
-            ? { position: 'absolute', top: 0, left: '50%', width: DW, height: DH, transform: `translateX(-50%) scale(${scale})`, transformOrigin: 'top center' }
-            : { position: 'absolute', left: 0, top: HEAD, width: DW, height: DH }}>
+            ? { position: 'absolute', top: 0, left: '50%', width: DW, height: DH, transform: `translateX(-50%) scale(${scale})`, transformOrigin: 'top center', pointerEvents: 'none' }
+            : { position: 'absolute', left: 0, top: HEAD, width: DW, height: DH, pointerEvents: 'none' }}>
 
           {/* ── connectors: the disc's ring nodes and the lines out to the cards ── */}
           <svg width={DW} height={DH} style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }} aria-hidden>
