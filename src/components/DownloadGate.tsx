@@ -1,8 +1,51 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FileText, Download, X, Loader2, Check } from 'lucide-react';
 import type { DocumentRef } from '@/lib/richtext';
+
+/* Dialling codes, with the markets Inaipi sells into at the top and the rest in
+   alphabetical order. The code is stored with the number so a sales team can
+   ring back without guessing the country. */
+const DIAL_CODES: { code: string; label: string }[] = [
+  { code: '+971', label: 'United Arab Emirates' },
+  { code: '+91', label: 'India' },
+  { code: '+966', label: 'Saudi Arabia' },
+  { code: '+974', label: 'Qatar' },
+  { code: '+973', label: 'Bahrain' },
+  { code: '+965', label: 'Kuwait' },
+  { code: '+968', label: 'Oman' },
+  { code: '+1', label: 'United States / Canada' },
+  { code: '+44', label: 'United Kingdom' },
+  { code: '+61', label: 'Australia' },
+  { code: '+49', label: 'Germany' },
+  { code: '+33', label: 'France' },
+  { code: '+31', label: 'Netherlands' },
+  { code: '+65', label: 'Singapore' },
+  { code: '+60', label: 'Malaysia' },
+  { code: '+62', label: 'Indonesia' },
+  { code: '+63', label: 'Philippines' },
+  { code: '+81', label: 'Japan' },
+  { code: '+82', label: 'South Korea' },
+  { code: '+86', label: 'China' },
+  { code: '+852', label: 'Hong Kong' },
+  { code: '+64', label: 'New Zealand' },
+  { code: '+27', label: 'South Africa' },
+  { code: '+20', label: 'Egypt' },
+  { code: '+234', label: 'Nigeria' },
+  { code: '+254', label: 'Kenya' },
+  { code: '+90', label: 'Turkey' },
+  { code: '+92', label: 'Pakistan' },
+  { code: '+880', label: 'Bangladesh' },
+  { code: '+94', label: 'Sri Lanka' },
+  { code: '+55', label: 'Brazil' },
+  { code: '+52', label: 'Mexico' },
+  { code: '+39', label: 'Italy' },
+  { code: '+34', label: 'Spain' },
+  { code: '+41', label: 'Switzerland' },
+  { code: '+46', label: 'Sweden' },
+  { code: '+353', label: 'Ireland' },
+];
 
 /**
  * Documents are gated: a visitor gives their name and email before the file is
@@ -20,12 +63,38 @@ export default function DownloadGate({
   title: string;    // the entry being downloaded from
 }) {
   const [open, setOpen] = useState<DocumentRef | null>(null);
-  const [form, setForm] = useState({ name: '', email: '', company: '', website: '' });
+  const [form, setForm] = useState({ name: '', email: '', company: '', dial: '+971', phone: '', website: '' });
   const [sending, setSending] = useState(false);
   const [error, setError] = useState('');
   const [done, setDone] = useState<string | null>(null);
 
+  /* Whether this section asks for details at all, which the admin controls.
+     It starts as "ask": until the answer arrives, and if it never does, the
+     gate stays up rather than handing files over unasked. */
+  const [gated, setGated] = useState(true);
+  useEffect(() => {
+    let alive = true;
+    fetch('/api/lead-gate', { cache: 'no-store' })
+      .then(r => (r.ok ? r.json() : null))
+      .then(d => { if (alive && d && typeof d[source] === 'boolean') setGated(d[source]); })
+      .catch(() => { /* keep the gate up */ });
+    return () => { alive = false; };
+  }, [source]);
+
   if (!documents.length) return null;
+
+  /* Hand the file over. Used on its own when the gate is off, and after the
+     details have been recorded when it is on. */
+  const handOver = (doc: DocumentRef) => {
+    const a = document.createElement('a');
+    a.href = doc.url;
+    a.download = doc.name;
+    a.rel = 'noreferrer';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setDone(doc.url);
+  };
 
   const close = () => { setOpen(null); setError(''); setSending(false); };
 
@@ -42,6 +111,7 @@ export default function DownloadGate({
           name: form.name,
           email: form.email,
           company: form.company,
+          phone: `${form.dial} ${form.phone}`.trim(),
           document: open.name,
           file: open.url,
           source,
@@ -56,15 +126,8 @@ export default function DownloadGate({
       return;
     }
     setSending(false);
-    setDone(open.url);
     // hand the file over only once the details are in
-    const a = document.createElement('a');
-    a.href = open.url;
-    a.download = open.name;
-    a.rel = 'noreferrer';
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
+    handOver(open);
     close();
   };
 
@@ -78,7 +141,7 @@ export default function DownloadGate({
           <button
             key={doc.url}
             type="button"
-            onClick={() => { setOpen(doc); setError(''); }}
+            onClick={() => { if (gated) { setOpen(doc); setError(''); } else handOver(doc); }}
             className="w-full flex items-center gap-3 text-left rounded-2xl border border-blue-100 bg-[#f8faff] hover:border-[#1447d4] hover:shadow-md transition-all p-4 group"
           >
             <span className="w-11 h-11 rounded-xl bg-[#1447d4] text-white flex items-center justify-center shrink-0">
@@ -87,7 +150,7 @@ export default function DownloadGate({
             <span className="flex-1 min-w-0">
               <span className="block text-[15px] font-bold text-[#0f172a] truncate">{doc.name}</span>
               <span className="block text-xs text-slate-400 mt-0.5">
-                {done === doc.url ? 'Downloaded' : 'Share your details to download'}
+                {done === doc.url ? 'Downloaded' : gated ? 'Share your details to download' : 'Click to download'}
               </span>
             </span>
             <span className="shrink-0 text-[#1447d4] group-hover:translate-x-0.5 transition-transform">
@@ -119,7 +182,7 @@ export default function DownloadGate({
             <p className="text-[11px] font-black uppercase tracking-widest text-slate-400 mb-1">Before you download</p>
             <h3 className="text-xl font-bold font-figtree text-[#0f172a] leading-snug mb-1.5">{open.name}</h3>
             <p className="text-sm text-slate-500 leading-relaxed mb-5">
-              Tell us where to reach you and the download will start straight away.
+              All fields are required. Tell us where to reach you and the download will start straight away.
             </p>
 
             <form onSubmit={submit} className="space-y-3">
@@ -141,12 +204,38 @@ export default function DownloadGate({
                 className="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 focus:outline-none focus:border-[#1447d4] transition-colors"
               />
               <input
+                required
                 value={form.company}
                 onChange={e => setForm(f => ({ ...f, company: e.target.value }))}
-                placeholder="Company (optional)"
+                placeholder="Company name"
                 autoComplete="organization"
                 className="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 focus:outline-none focus:border-[#1447d4] transition-colors"
               />
+              {/* Phone, with its country code alongside rather than typed in */}
+              <div className="flex gap-2">
+                <select
+                  value={form.dial}
+                  onChange={e => setForm(f => ({ ...f, dial: e.target.value }))}
+                  aria-label="Country dialling code"
+                  className="shrink-0 w-[124px] border border-slate-200 rounded-xl px-2 py-3 text-sm text-slate-800 bg-white focus:outline-none focus:border-[#1447d4] transition-colors"
+                >
+                  {DIAL_CODES.map(c => (
+                    <option key={c.code + c.label} value={c.code}>{c.code} {c.label}</option>
+                  ))}
+                </select>
+                <input
+                  required
+                  type="tel"
+                  inputMode="tel"
+                  pattern="[0-9 ()\\-]{6,20}"
+                  title="Enter your phone number — digits only"
+                  value={form.phone}
+                  onChange={e => setForm(f => ({ ...f, phone: e.target.value }))}
+                  placeholder="Phone number"
+                  autoComplete="tel-national"
+                  className="flex-1 min-w-0 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 focus:outline-none focus:border-[#1447d4] transition-colors"
+                />
+              </div>
               {/* a field no person sees, so anything in it came from a bot */}
               <input
                 value={form.website}

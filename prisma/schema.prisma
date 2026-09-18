@@ -49,6 +49,9 @@ model Testimonial {
   stat      String   @default("")
   statLabel String   @default("")
   stars     Int      @default(5)
+  // New reviews go live straight away; unpublishing hides one from the site
+  // without deleting it, so it can be brought back.
+  published Boolean  @default(true)
   createdAt DateTime @default(now())
 }
 

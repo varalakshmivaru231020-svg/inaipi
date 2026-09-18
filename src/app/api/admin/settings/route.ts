@@ -8,6 +8,8 @@ export const runtime = 'nodejs';
 const KEYS = [
   'smtp_host', 'smtp_port', 'smtp_secure', 'smtp_user', 'smtp_pass',
   'smtp_from', 'enquiry_to', 'smtp_enabled', 'ga_id',
+  // whether a document download asks for the visitor's details first
+  'lead_gate_blog', 'lead_gate_resource', 'lead_gate_industry',
 ];
 
 /** Return all settings; the SMTP password is never sent back to the client. */
@@ -23,6 +25,10 @@ export async function GET() {
     enquiry_to: s.enquiry_to || '',
     smtp_enabled: s.smtp_enabled || '',
     ga_id: s.ga_id || '',
+    // gating is the default, so only an explicit 'false' turns it off
+    lead_gate_blog: s.lead_gate_blog !== 'false',
+    lead_gate_resource: s.lead_gate_resource !== 'false',
+    lead_gate_industry: s.lead_gate_industry !== 'false',
   });
 }
 

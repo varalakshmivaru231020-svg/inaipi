@@ -16,6 +16,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
         ...(b.stat !== undefined && { stat: b.stat }),
         ...(b.statLabel !== undefined && { statLabel: b.statLabel }),
         ...(b.stars !== undefined && { stars: Number(b.stars) || 5 }),
+        ...(b.published !== undefined && { published: !!b.published }),
       },
     });
     return NextResponse.json(item);

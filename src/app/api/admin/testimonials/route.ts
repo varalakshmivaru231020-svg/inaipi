@@ -19,6 +19,7 @@ export async function POST(req: NextRequest) {
       stat: b.stat ?? '',
       statLabel: b.statLabel ?? '',
       stars: Number(b.stars) || 5,
+      published: b.published === undefined ? true : !!b.published,
     },
   });
   return NextResponse.json(item, { status: 201 });

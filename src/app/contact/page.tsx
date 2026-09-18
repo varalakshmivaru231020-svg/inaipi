@@ -141,17 +141,17 @@ export default function ContactPage() {
               {/* Contact details */}
               <div className="space-y-6 mb-10">
                 <div>
-                  <div className="text-[13px] font-bold text-[#0f172a] uppercase tracking-widest mb-1">UAE (HO)</div>
-                  <div className="text-[15px] text-slate-500 leading-relaxed font-medium">1504 B, 1 Lake Plaza,<br />Cluster T, Jumeirah Lakes Towers,<br />PO Box: 73916, Dubai, UAE</div>
-                  <div className="text-[15px] text-slate-500 mt-1">800- INAIPI</div>
-                </div>
-                <div>
-                  <div className="text-[13px] font-bold text-[#0f172a] uppercase tracking-widest mb-1">Bengaluru</div>
+                  <div className="text-[13px] font-bold text-[#0f172a] uppercase tracking-widest mb-1">Bengaluru (Headquarters)</div>
                   <div className="text-[15px] text-slate-500 leading-relaxed font-medium">#Krishna Tech Park, near Kaverappa<br />Layout, Kadubeesanahalli, Bengaluru,<br />Karnataka 560075</div>
                 </div>
                 <div>
                   <div className="text-[13px] font-bold text-[#0f172a] uppercase tracking-widest mb-1">Chennai</div>
                   <div className="text-[15px] text-slate-500 leading-relaxed font-medium">47/2 Ashok Nagar, 53rd Street,<br />Indira Colony, Chennai, Tamil Nadu<br />600083</div>
+                </div>
+                <div>
+                  <div className="text-[13px] font-bold text-[#0f172a] uppercase tracking-widest mb-1">UAE</div>
+                  <div className="text-[15px] text-slate-500 leading-relaxed font-medium">1504 B, 1 Lake Plaza,<br />Cluster T, Jumeirah Lakes Towers,<br />PO Box: 73916, Dubai, UAE</div>
+                  <div className="text-[15px] text-slate-500 mt-1">800- INAIPI</div>
                 </div>
               </div>
 

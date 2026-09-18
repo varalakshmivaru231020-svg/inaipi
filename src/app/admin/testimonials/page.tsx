@@ -5,8 +5,8 @@ import { Plus, Quote, Star } from 'lucide-react';
 import ImageUpload from '../components/ImageUpload';
 import { PageHeader, Card, Field, inputCls, btnPrimary, btnGhost, EmptyState, LoadingRows } from '../ui';
 
-type T = { id: string; name: string; role: string; quote: string; avatar: string; stat: string; statLabel: string; stars: number };
-const blank = (): Omit<T, 'id'> => ({ name: '', role: '', quote: '', avatar: '', stat: '', statLabel: '', stars: 5 });
+type T = { id: string; name: string; role: string; quote: string; avatar: string; stat: string; statLabel: string; stars: number; published: boolean };
+const blank = (): Omit<T, 'id'> => ({ name: '', role: '', quote: '', avatar: '', stat: '', statLabel: '', stars: 5, published: true });
 
 export default function AdminTestimonials() {
   const [list, setList] = useState<T[]>([]);
@@ -17,6 +17,18 @@ export default function AdminTestimonials() {
   const [saving, setSaving] = useState(false);
 
   const load = () => fetch('/api/admin/testimonials').then(r => r.json()).then(d => { setList(d); setLoading(false); });
+
+  /* Publish / unpublish. Unpublishing takes the review off the site but keeps
+     it here, so it can go back up without being retyped. */
+  const togglePublished = async (t: T) => {
+    setList(l => l.map(x => (x.id === t.id ? { ...x, published: !x.published } : x)));
+    await fetch(`/api/admin/testimonials/${t.id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ published: !t.published }),
+    });
+    load();
+  };
   useEffect(() => { load(); }, []);
 
   const set = (k: string, v: string | number) => setForm(f => ({ ...f, [k]: v }));
@@ -39,7 +51,7 @@ export default function AdminTestimonials() {
     load();
   };
 
-  const startEdit = (t: T) => { setEditing(t); setForm({ name: t.name, role: t.role, quote: t.quote, avatar: t.avatar, stat: t.stat, statLabel: t.statLabel, stars: t.stars }); setAdding(false); };
+  const startEdit = (t: T) => { setEditing(t); setForm({ name: t.name, role: t.role, quote: t.quote, avatar: t.avatar, stat: t.stat, statLabel: t.statLabel, stars: t.stars, published: t.published }); setAdding(false); };
   const startAdd = () => { setAdding(true); setEditing(null); setForm(blank()); };
   const cancel = () => { setEditing(null); setAdding(false); setForm(blank()); };
 
@@ -64,6 +76,12 @@ export default function AdminTestimonials() {
             <Field label="Stars (1-5)">
               <select value={form.stars} onChange={e => set('stars', Number(e.target.value))} className={inputCls}>
                 {[5, 4, 3, 2, 1].map(n => <option key={n} value={n}>{n} ★</option>)}
+              </select>
+            </Field>
+            <Field label="Status">
+              <select value={form.published ? 'true' : 'false'} onChange={e => setForm(f => ({ ...f, published: e.target.value === 'true' }))} className={inputCls}>
+                <option value="true">Published (Public)</option>
+                <option value="false">Unpublished (Draft)</option>
               </select>
             </Field>
             <div className="sm:col-span-2">
@@ -98,9 +116,18 @@ export default function AdminTestimonials() {
                 <div className="flex items-center gap-2 mt-1.5">
                   <span className="inline-flex items-center gap-0.5 text-amber-400">{Array.from({ length: t.stars }).map((_, i) => <Star key={i} className="w-3 h-3 fill-current" />)}</span>
                   {t.stat && <span className="text-xs font-bold text-violet-600">{t.stat} {t.statLabel}</span>}
+                  <span className={`text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full ${t.published ? 'bg-emerald-50 text-emerald-600' : 'bg-slate-100 text-slate-400'}`}>
+                    {t.published ? 'Published' : 'Draft'}
+                  </span>
                 </div>
               </div>
               <div className="flex gap-1 shrink-0">
+                <button
+                  onClick={() => togglePublished(t)}
+                  className={`text-xs font-bold px-3 py-1.5 rounded-lg transition-colors ${t.published ? 'text-slate-500 hover:text-amber-600 hover:bg-amber-50' : 'text-emerald-600 hover:bg-emerald-50'}`}
+                >
+                  {t.published ? 'Unpublish' : 'Publish'}
+                </button>
                 <button onClick={() => startEdit(t)} className="text-xs font-bold text-slate-500 hover:text-violet-600 px-3 py-1.5 rounded-lg hover:bg-violet-50 transition-colors">Edit</button>
                 <button onClick={() => del(t.id, t.name)} className="text-xs font-bold text-slate-400 hover:text-rose-600 px-3 py-1.5 rounded-lg hover:bg-rose-50 transition-colors">Delete</button>
               </div>

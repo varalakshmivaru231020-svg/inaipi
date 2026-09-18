@@ -34,6 +34,8 @@ function rateLimited(ip: string): boolean {
 }
 
 const clean = (v: unknown, max: number) => String(v ?? '').replace(/\s+/g, ' ').trim().slice(0, max);
+// a dialling code and at least six digits, however it has been spaced out
+const PHONE_RE = /^\+?[0-9][0-9()\s-]{5,24}$/;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 export async function POST(req: NextRequest) {
@@ -53,13 +55,19 @@ export async function POST(req: NextRequest) {
   const name = clean(body.name, 120);
   const email = clean(body.email, 200).toLowerCase();
   const company = clean(body.company, 160);
+  const phone = clean(body.phone, 40);
   const document = clean(body.document, 200);
   const source = clean(body.source, 80);
   const title = clean(body.title, 200);
   const file = clean(body.file, 400);
 
-  if (!name || !email || !document) {
-    return NextResponse.json({ error: 'Your name and email are required.' }, { status: 400 });
+  // all four are asked for on the form, so all four are required here too — a
+  // lead with no company and no number is not much of a lead
+  if (!name || !email || !company || !phone || !document) {
+    return NextResponse.json({ error: 'Name, work email, company and phone number are all required.' }, { status: 400 });
+  }
+  if (!PHONE_RE.test(phone)) {
+    return NextResponse.json({ error: 'Enter a valid phone number.' }, { status: 400 });
   }
   if (!EMAIL_RE.test(email)) {
     return NextResponse.json({ error: 'Enter a valid email address.' }, { status: 400 });
@@ -71,6 +79,7 @@ export async function POST(req: NextRequest) {
     `Document: ${document}`,
     file && `File: ${file}`,
     company && `Company: ${company}`,
+    phone && `Phone: ${phone}`,
   ].filter(Boolean).join('\n');
 
   const ua = clean(req.headers.get('user-agent'), 300);

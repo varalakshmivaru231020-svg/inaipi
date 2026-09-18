@@ -28,6 +28,7 @@ const GROUPS = [
       { label: 'SEO', href: '/admin/seo', icon: Search },
       { label: 'Email (SMTP)', href: '/admin/email', icon: Mail },
       { label: 'Analytics', href: '/admin/analytics', icon: BarChart3 },
+      { label: 'Downloads', href: '/admin/downloads', icon: Download },
     ],
   },
 ];

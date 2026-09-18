@@ -21,9 +21,9 @@ const allLeaders = [
 ];
 
 const offices = [
-  { city: 'Dubai, UAE', type: 'Headquarters', flag: '🇦🇪', addr: '1504 B, 1 Lake Plaza, Cluster T, Jumeirah Lakes Towers, PO Box 73916' },
-  { city: 'Bengaluru, India', type: 'Sales & R&D', flag: '🇮🇳', addr: 'Krishna Tech Park, Kadubeesanahalli, Bengaluru 560075' },
+  { city: 'Bengaluru, India', type: 'Headquarters', flag: '🇮🇳', addr: 'Krishna Tech Park, Kadubeesanahalli, Bengaluru 560075' },
   { city: 'Chennai, India', type: 'R&D Office', flag: '🇮🇳', addr: '47/2 Ashok Nagar, 53rd Street, Indira Colony, Chennai 600083' },
+  { city: 'Dubai, UAE', type: 'Regional Office', flag: '🇦🇪', addr: '1504 B, 1 Lake Plaza, Cluster T, Jumeirah Lakes Towers, PO Box 73916' },
   { city: 'Trivandrum, India', type: 'R&D Office', flag: '🇮🇳', addr: '' },
   { city: 'Delaware, USA', type: 'Sales Office', flag: '🇺🇸', addr: '' },
   { city: 'Philippines', type: 'Sales Office', flag: '🇵🇭', addr: '' },
