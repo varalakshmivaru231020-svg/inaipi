@@ -67,6 +67,19 @@ function ProgressDot({ active, onClick }: { active: boolean; onClick: () => void
 
 export default function Testimonials() {
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+
+  /* Whether the whole section is shown, which the admin controls. Showing is
+     the default: until the answer arrives, and if it never does, the section
+     stays as it always was rather than blinking out. */
+  const [shown, setShown] = useState(true);
+  useEffect(() => {
+    let alive = true;
+    fetch('/api/section-visibility', { cache: 'no-store' })
+      .then(r => (r.ok ? r.json() : null))
+      .then(d => { if (alive && d && typeof d.testimonials === 'boolean') setShown(d.testimonials); })
+      .catch(() => { /* leave it showing */ });
+    return () => { alive = false; };
+  }, []);
   useEffect(() => {
     let alive = true;
     let attempt = 0;
@@ -174,6 +187,9 @@ export default function Testimonials() {
     rafRef.current = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(rafRef.current);
   }, []);
+
+  // hidden by the admin: heading, reviews and all
+  if (!shown) return null;
 
   return (
     <section className="py-14 lg:py-16 relative overflow-hidden"

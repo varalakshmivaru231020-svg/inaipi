@@ -20,6 +20,7 @@ export async function POST(req: NextRequest) {
       statLabel: b.statLabel ?? '',
       stars: Number(b.stars) || 5,
       published: b.published === undefined ? true : !!b.published,
+      hidden: b.hidden === undefined ? false : !!b.hidden,
     },
   });
   return NextResponse.json(item, { status: 201 });

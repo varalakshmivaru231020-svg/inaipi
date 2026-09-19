@@ -52,6 +52,9 @@ model Testimonial {
   // New reviews go live straight away; unpublishing hides one from the site
   // without deleting it, so it can be brought back.
   published Boolean  @default(true)
+  // Hidden takes a single review off the site without touching whether it is
+  // published, so the two controls stay independent.
+  hidden    Boolean  @default(false)
   createdAt DateTime @default(now())
 }
 

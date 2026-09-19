@@ -67,6 +67,18 @@ const LeftBracket = () => (
 );
 
 export default function TrustMarquee() {
+  /* Whether the strip is shown at all, which the admin controls. Showing is
+     the default, so a failure to ask leaves the strip exactly as it was. */
+  const [shown, setShown] = useState(true);
+  useEffect(() => {
+    let alive = true;
+    fetch('/api/section-visibility', { cache: 'no-store' })
+      .then(r => (r.ok ? r.json() : null))
+      .then(d => { if (alive && d && typeof d.trustLogos === 'boolean') setShown(d.trustLogos); })
+      .catch(() => { /* leave it showing */ });
+    return () => { alive = false; };
+  }, []);
+
   const [logos, setLogos] = useState<Logo[]>([]);
   /* A logo whose file 404s is dropped rather than left as a broken image. */
   const [broken, setBroken] = useState<string[]>([]);
@@ -83,6 +95,9 @@ export default function TrustMarquee() {
   const usable = logos.filter(l => l?.url && !broken.includes(l.url));
   const track = buildTrack(usable);
   const markBroken = (url: string) => setBroken(b => (b.includes(url) ? b : [...b, url]));
+
+  // hidden by the admin: the line and the strip together
+  if (!shown) return null;
 
   return (
     <motion.div

@@ -1,12 +1,28 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Plus, Quote, Star } from 'lucide-react';
+import { Plus, Quote, Star, Eye, EyeOff, BadgeCheck } from 'lucide-react';
 import ImageUpload from '../components/ImageUpload';
 import { PageHeader, Card, Field, inputCls, btnPrimary, btnGhost, EmptyState, LoadingRows } from '../ui';
 
-type T = { id: string; name: string; role: string; quote: string; avatar: string; stat: string; statLabel: string; stars: number; published: boolean };
-const blank = (): Omit<T, 'id'> => ({ name: '', role: '', quote: '', avatar: '', stat: '', statLabel: '', stars: 5, published: true });
+type T = { id: string; name: string; role: string; quote: string; avatar: string; stat: string; statLabel: string; stars: number; published: boolean; hidden: boolean };
+const blank = (): Omit<T, 'id'> => ({ name: '', role: '', quote: '', avatar: '', stat: '', statLabel: '', stars: 5, published: true, hidden: false });
+
+/* The switch used for the two whole-section controls. */
+function Switch({ on, onClick, label }: { on: boolean; onClick: () => void; label: string }) {
+  return (
+    <button
+      type="button"
+      role="switch"
+      aria-checked={on}
+      aria-label={label}
+      onClick={onClick}
+      className={`relative w-12 h-7 rounded-full transition-colors shrink-0 ${on ? 'bg-[#1447d4]' : 'bg-slate-200'}`}
+    >
+      <span className={`absolute top-1 w-5 h-5 rounded-full bg-white shadow transition-all ${on ? 'left-6' : 'left-1'}`} />
+    </button>
+  );
+}
 
 export default function AdminTestimonials() {
   const [list, setList] = useState<T[]>([]);
@@ -17,6 +33,38 @@ export default function AdminTestimonials() {
   const [saving, setSaving] = useState(false);
 
   const load = () => fetch('/api/admin/testimonials').then(r => r.json()).then(d => { setList(d); setLoading(false); });
+
+  /* The two whole-section switches, kept in the existing settings store. */
+  const [sections, setSections] = useState<{ show_testimonials: boolean; show_trust_logos: boolean } | null>(null);
+  useEffect(() => {
+    fetch('/api/admin/settings')
+      .then(r => r.json())
+      .then(d => setSections({
+        show_testimonials: d.show_testimonials !== false,
+        show_trust_logos: d.show_trust_logos !== false,
+      }));
+  }, []);
+
+  const setSection = async (key: 'show_testimonials' | 'show_trust_logos', on: boolean) => {
+    setSections(s => (s ? { ...s, [key]: on } : s));
+    await fetch('/api/admin/settings', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ [key]: String(on) }),
+    });
+  };
+
+  /* Hiding a review takes it off the site on its own, leaving whether it is
+     published exactly as it was. */
+  const toggleHidden = async (t: T) => {
+    setList(l => l.map(x => (x.id === t.id ? { ...x, hidden: !x.hidden } : x)));
+    await fetch(`/api/admin/testimonials/${t.id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ hidden: !t.hidden }),
+    });
+    load();
+  };
 
   /* Publish / unpublish. Unpublishing takes the review off the site but keeps
      it here, so it can go back up without being retyped. */
@@ -51,7 +99,7 @@ export default function AdminTestimonials() {
     load();
   };
 
-  const startEdit = (t: T) => { setEditing(t); setForm({ name: t.name, role: t.role, quote: t.quote, avatar: t.avatar, stat: t.stat, statLabel: t.statLabel, stars: t.stars, published: t.published }); setAdding(false); };
+  const startEdit = (t: T) => { setEditing(t); setForm({ name: t.name, role: t.role, quote: t.quote, avatar: t.avatar, stat: t.stat, statLabel: t.statLabel, stars: t.stars, published: t.published, hidden: t.hidden }); setAdding(false); };
   const startAdd = () => { setAdding(true); setEditing(null); setForm(blank()); };
   const cancel = () => { setEditing(null); setAdding(false); setForm(blank()); };
 
@@ -64,6 +112,35 @@ export default function AdminTestimonials() {
         subtitle={`${list.length} ${list.length === 1 ? 'review' : 'reviews'}`}
         action={!showForm ? <button onClick={startAdd} className={btnPrimary}><Plus className="w-4 h-4" /> Add Review</button> : undefined}
       />
+
+      {/* Whole sections of the website, shown or hidden */}
+      <Card className="p-5 mb-6">
+        <p className="text-xs font-black uppercase tracking-widest text-slate-400 mb-4">Website visibility</p>
+        <div className="divide-y divide-slate-100">
+          {([
+            { key: 'show_testimonials' as const, icon: <Quote className="w-5 h-5" />, title: 'Testimonials section', hint: 'The heading and every review on the home page' },
+            { key: 'show_trust_logos' as const, icon: <BadgeCheck className="w-5 h-5" />, title: 'Customer logo strip', hint: '“Trusted by 500+ enterprise customers across the region”' },
+          ]).map(row => {
+            const on = sections ? sections[row.key] : true;
+            return (
+              <div key={row.key} className="flex items-center gap-4 py-3.5 first:pt-0 last:pb-0">
+                <span className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${on ? 'bg-blue-50 text-[#1447d4]' : 'bg-slate-100 text-slate-400'}`}>
+                  {row.icon}
+                </span>
+                <div className="flex-1 min-w-0">
+                  <p className="font-bold text-slate-800">{row.title}</p>
+                  <p className="text-xs text-slate-400 mt-0.5">{row.hint}</p>
+                </div>
+                <span className={`text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full shrink-0 ${on ? 'bg-emerald-50 text-emerald-600' : 'bg-slate-100 text-slate-400'}`}>
+                  {on ? 'Shown' : 'Hidden'}
+                </span>
+                <Switch on={on} onClick={() => setSection(row.key, !on)} label={`Show ${row.title} on the website`} />
+              </div>
+            );
+          })}
+        </div>
+        {!sections && <p className="text-xs text-slate-400 mt-3">Loading…</p>}
+      </Card>
 
       {showForm && (
         <Card className="p-6 mb-6">
@@ -119,9 +196,22 @@ export default function AdminTestimonials() {
                   <span className={`text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full ${t.published ? 'bg-emerald-50 text-emerald-600' : 'bg-slate-100 text-slate-400'}`}>
                     {t.published ? 'Published' : 'Draft'}
                   </span>
+                  {t.hidden && (
+                    <span className="text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full bg-amber-50 text-amber-600">
+                      Hidden
+                    </span>
+                  )}
                 </div>
               </div>
               <div className="flex gap-1 shrink-0">
+                <button
+                  onClick={() => toggleHidden(t)}
+                  aria-label={t.hidden ? `Show ${t.name} on the website` : `Hide ${t.name} from the website`}
+                  className={`text-xs font-bold px-3 py-1.5 rounded-lg transition-colors inline-flex items-center gap-1.5 ${t.hidden ? 'text-[#1447d4] hover:bg-blue-50' : 'text-slate-500 hover:text-amber-600 hover:bg-amber-50'}`}
+                >
+                  {t.hidden ? <Eye className="w-3.5 h-3.5" /> : <EyeOff className="w-3.5 h-3.5" />}
+                  {t.hidden ? 'Show' : 'Hide'}
+                </button>
                 <button
                   onClick={() => togglePublished(t)}
                   className={`text-xs font-bold px-3 py-1.5 rounded-lg transition-colors ${t.published ? 'text-slate-500 hover:text-amber-600 hover:bg-amber-50' : 'text-emerald-600 hover:bg-emerald-50'}`}

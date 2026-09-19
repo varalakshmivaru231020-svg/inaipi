@@ -8,6 +8,8 @@ export const runtime = 'nodejs';
 const KEYS = [
   'smtp_host', 'smtp_port', 'smtp_secure', 'smtp_user', 'smtp_pass',
   'smtp_from', 'enquiry_to', 'smtp_enabled', 'ga_id',
+  // whole sections the admin can hide
+  'show_testimonials', 'show_trust_logos',
 ];
 
 /** Return all settings; the SMTP password is never sent back to the client. */
@@ -23,6 +25,9 @@ export async function GET() {
     enquiry_to: s.enquiry_to || '',
     smtp_enabled: s.smtp_enabled || '',
     ga_id: s.ga_id || '',
+    // showing is the default, so only an explicit 'false' hides a section
+    show_testimonials: s.show_testimonials !== 'false',
+    show_trust_logos: s.show_trust_logos !== 'false',
   });
 }
 
