@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { sendEnquiryMail } from '@/lib/mailer';
-import { getSettings } from '@/lib/settings';
+import { isDocumentGated } from '@/lib/documentGate';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -32,33 +32,6 @@ function rateLimited(ip: string): boolean {
   HITS.set(ip, arr);
   if (HITS.size > 5000) for (const [k, v] of HITS) if (!v.some(t => now - t < WINDOW_MS)) HITS.delete(k);
   return false;
-}
-
-/* Which switch governs each section, and whether it is on.
-
-   The browser is told the same thing by /api/lead-gate so it knows whether to
-   show the form, but the answer is settled here as well: the rule is not the
-   client's to decide. A caller cannot post a stripped-down payload to a gated
-   section and have it accepted, and it cannot turn a section off by claiming
-   it is off — the switch is read from the database on every request.
-
-   Unknown section, unset switch, unreachable database: all mean gated. The
-   failure direction is to ask, never to wave someone through. */
-const GATE_KEY: Record<string, string> = {
-  'Blog post': 'lead_gate_blog',
-  'Buyer Resource': 'lead_gate_resource',
-  Industry: 'lead_gate_industry',
-};
-
-async function isGated(source: string): Promise<boolean> {
-  const key = GATE_KEY[source];
-  if (!key) return true;
-  try {
-    const s = await getSettings([key]);
-    return s[key] !== 'false';
-  } catch {
-    return true;
-  }
 }
 
 const clean = (v: unknown, max: number) => String(v ?? '').replace(/\s+/g, ' ').trim().slice(0, max);
@@ -93,12 +66,12 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Which document is being downloaded is required.' }, { status: 400 });
   }
 
-  /* With the switch on, all four details are required — that is the whole
-     point of the gate, and it is enforced here rather than trusted to the
-     form. With it off the section hands the file over on the first click, so
-     anything that still arrives is recorded for what it is worth and nothing
-     is demanded. */
-  const gated = await isGated(source);
+  /* Whether this document asks for details is read from the database, against
+     the file's own URL — the caller does not get to assert it. Gated, all four
+     details are required and the number is checked. Not gated, the file goes
+     over on the first click, so anything that still arrives is recorded for
+     what it is worth and nothing is demanded. */
+  const gated = await isDocumentGated(file);
   if (gated) {
     if (!name || !email || !company || !phone) {
       return NextResponse.json({ error: 'Name, work email, company and phone number are all required.' }, { status: 400 });

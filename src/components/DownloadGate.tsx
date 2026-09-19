@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { FileText, Download, X, Loader2, Check } from 'lucide-react';
 import type { DocumentRef } from '@/lib/richtext';
 
@@ -68,18 +68,11 @@ export default function DownloadGate({
   const [error, setError] = useState('');
   const [done, setDone] = useState<string | null>(null);
 
-  /* Whether this section asks for details at all, which the admin controls.
-     It starts as "ask": until the answer arrives, and if it never does, the
-     gate stays up rather than handing files over unasked. */
-  const [gated, setGated] = useState(true);
-  useEffect(() => {
-    let alive = true;
-    fetch('/api/lead-gate', { cache: 'no-store' })
-      .then(r => (r.ok ? r.json() : null))
-      .then(d => { if (alive && d && typeof d[source] === 'boolean') setGated(d[source]); })
-      .catch(() => { /* keep the gate up */ });
-    return () => { alive = false; };
-  }, [source]);
+  /* Each document decides for itself, and the answer travels with it. Only an
+     explicit false opens a document up, so anything saved before the setting
+     existed still asks. The server checks the same flag when the details are
+     submitted, so this is the convenience, not the rule. */
+  const isGated = (doc: DocumentRef) => doc.gated !== false;
 
   if (!documents.length) return null;
 
@@ -141,7 +134,7 @@ export default function DownloadGate({
           <button
             key={doc.url}
             type="button"
-            onClick={() => { if (gated) { setOpen(doc); setError(''); } else handOver(doc); }}
+            onClick={() => { if (isGated(doc)) { setOpen(doc); setError(''); } else handOver(doc); }}
             className="w-full flex items-center gap-3 text-left rounded-2xl border border-blue-100 bg-[#f8faff] hover:border-[#1447d4] hover:shadow-md transition-all p-4 group"
           >
             <span className="w-11 h-11 rounded-xl bg-[#1447d4] text-white flex items-center justify-center shrink-0">
@@ -150,7 +143,7 @@ export default function DownloadGate({
             <span className="flex-1 min-w-0">
               <span className="block text-[15px] font-bold text-[#0f172a] truncate">{doc.name}</span>
               <span className="block text-xs text-slate-400 mt-0.5">
-                {done === doc.url ? 'Downloaded' : gated ? 'Share your details to download' : 'Click to download'}
+                {done === doc.url ? 'Downloaded' : isGated(doc) ? 'Share your details to download' : 'Click to download'}
               </span>
             </span>
             <span className="shrink-0 text-[#1447d4] group-hover:translate-x-0.5 transition-transform">

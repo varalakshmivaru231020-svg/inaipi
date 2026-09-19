@@ -88,16 +88,28 @@ export function sanitizeHtml(input: string): string {
 export const hasHtml = (html?: string) =>
   !!html && html.replace(/<[^>]*>/g, '').replace(/&nbsp;/g, ' ').trim().length > 0;
 
-export type DocumentRef = { name: string; url: string };
+export type DocumentRef = { name: string; url: string; gated: boolean };
 
-/** Documents arrive as JSON from the database; keep only well-formed entries. */
+/**
+ * Documents arrive as JSON from the database; keep only well-formed entries.
+ *
+ * `gated` says whether this particular document asks the visitor for their
+ * details first. Anything uploaded before the flag existed has no value for
+ * it, and every one of those was gated, so a missing flag reads as on — only
+ * an explicit `false` turns it off. Everything the admin saves goes through
+ * here, so that default holds on the way in as well as on the way out.
+ */
 export function toDocuments(value: unknown): DocumentRef[] {
   if (!Array.isArray(value)) return [];
   return value
     .filter((d): d is DocumentRef =>
       !!d && typeof d === 'object' &&
       typeof (d as DocumentRef).url === 'string' && (d as DocumentRef).url.trim() !== '')
-    .map(d => ({ name: (d.name || d.url.split('/').pop() || 'Document').trim(), url: d.url.trim() }));
+    .map(d => ({
+      name: (d.name || d.url.split('/').pop() || 'Document').trim(),
+      url: d.url.trim(),
+      gated: (d as DocumentRef).gated !== false,
+    }));
 }
 
 /**
