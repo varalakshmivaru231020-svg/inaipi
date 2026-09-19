@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 
 /* Logos come from the admin (settings-backed) customer logo list. The customer
    supplies the artwork; until then the strip renders without items. */
-type Logo = { url: string; name: string };
+type Logo = { url: string; name: string; hidden?: boolean };
 
 /* The marquee loops by translating one third of the track, so it always needs
    three identical copies. Short lists are padded first so a single logo still
@@ -92,7 +92,8 @@ export default function TrustMarquee() {
     return () => { alive = false; };
   }, []);
 
-  const usable = logos.filter(l => l?.url && !broken.includes(l.url));
+  // a logo the admin has hidden stays in the list but off the strip
+  const usable = logos.filter(l => l?.url && !l.hidden && !broken.includes(l.url));
   const track = buildTrack(usable);
   const markBroken = (url: string) => setBroken(b => (b.includes(url) ? b : [...b, url]));
 

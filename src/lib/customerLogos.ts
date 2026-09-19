@@ -9,7 +9,7 @@ import { getSetting, setSettings } from '@/lib/settings';
  * existing /api/admin/upload endpoint, which returns a /uploads/... path.
  */
 
-export type CustomerLogo = { url: string; name: string };
+export type CustomerLogo = { url: string; name: string; hidden: boolean };
 
 export const CUSTOMER_LOGOS_KEY = 'customerLogos';
 
@@ -18,14 +18,20 @@ function normalise(raw: unknown): CustomerLogo[] {
   if (!Array.isArray(raw)) return [];
   return raw
     .map(item => {
-      if (typeof item === 'string') return { url: item, name: '' };
+      if (typeof item === 'string') return { url: item, name: '', hidden: false };
       if (item && typeof item === 'object') {
         const o = item as Record<string, unknown>;
-        return { url: typeof o.url === 'string' ? o.url : '', name: typeof o.name === 'string' ? o.name : '' };
+        return {
+          url: typeof o.url === 'string' ? o.url : '',
+          name: typeof o.name === 'string' ? o.name : '',
+          // Anything saved before the flag existed was on the strip, so a
+          // missing value means shown; only an explicit true hides one.
+          hidden: o.hidden === true,
+        };
       }
-      return { url: '', name: '' };
+      return { url: '', name: '', hidden: false };
     })
-    .map(l => ({ url: l.url.trim(), name: l.name.trim() }))
+    .map(l => ({ url: l.url.trim(), name: l.name.trim(), hidden: l.hidden }))
     // Drop blanks so the strip never renders an empty <img> as a broken icon.
     .filter(l => l.url !== '');
 }

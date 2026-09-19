@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 import { Check, Loader2 } from 'lucide-react';
 import ImageUpload from '../components/ImageUpload';
-import CustomerLogos from '../components/CustomerLogos';
 import { PageHeader, Card, btnPrimary } from '../ui';
 
 export default function AdminSiteImages() {
@@ -63,7 +62,6 @@ export default function AdminSiteImages() {
           <ImageUpload label="Unified Workspace Screenshot" value={desktop} onChange={setDesktop} hint="Recommended: 1400×900px, JPG or WebP, replaces the animated demo" />
         </Card>
 
-        <CustomerLogos />
       </div>
     </div>
   );
