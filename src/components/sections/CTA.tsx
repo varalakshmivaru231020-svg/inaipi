@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { ArrowRight, CheckCheck } from 'lucide-react';
+import Link from 'next/link';
 
 const CUBE: [number, number, number, number] = [0.18, 0.82, 0.41, 1];
 
@@ -78,7 +79,7 @@ export default function CTA() {
                 >
                   {/* Primary — full hover treatment */}
                   <motion.div whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.96, y: 0 }} className="w-full sm:w-auto">
-                    <button className="relative group overflow-hidden text-white min-h-[44px] px-5 py-2.5 rounded-full font-black text-[11px] uppercase tracking-widest transition-all duration-200 flex items-center justify-center gap-2 shadow-md shadow-blue-700/30 hover:shadow-xl hover:shadow-blue-700/50 hover:brightness-110 whitespace-nowrap w-full sm:w-auto" style={{ background: '#1447d4' }}>
+                    <Link href="/contact#get-in-touch" aria-label="Book a demo — opens the Get in Touch form" className="relative group overflow-hidden text-white min-h-[44px] px-5 py-2.5 rounded-full font-black text-[11px] uppercase tracking-widest transition-all duration-200 flex items-center justify-center gap-2 shadow-md shadow-blue-700/30 hover:shadow-xl hover:shadow-blue-700/50 hover:brightness-110 whitespace-nowrap w-full sm:w-auto" style={{ background: '#1447d4' }}>
                       {/* Shimmer fires on hover */}
                       <span className="absolute inset-0 -skew-x-12 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover:translate-x-[200%] transition-transform duration-500 ease-in-out pointer-events-none" />
                       {/* Glow ring */}
@@ -89,7 +90,7 @@ export default function CTA() {
                         <ArrowRight className="w-2.5 h-2.5 text-white translate-x-0 group-hover:translate-x-4 transition-transform duration-200 ease-in" />
                         <ArrowRight className="w-2.5 h-2.5 text-white absolute -translate-x-4 group-hover:translate-x-0 transition-transform duration-200 ease-out" />
                       </span>
-                    </button>
+                    </Link>
                   </motion.div>
                 </motion.div>
 

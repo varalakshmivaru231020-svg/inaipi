@@ -173,7 +173,9 @@ export default function ContactPage() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.7, ease }}
-              className="rounded-[2rem] p-8 lg:p-10 shadow-xl shadow-blue-900/15 relative overflow-hidden"
+              /* Book a Demo anywhere on the site lands here */
+              id="get-in-touch"
+              className="rounded-[2rem] p-8 lg:p-10 shadow-xl shadow-blue-900/15 relative overflow-hidden scroll-mt-28"
               style={{ background: '#1447d4' }}
             >
               <div className="absolute inset-0 rounded-[2rem]" style={{ background: 'radial-gradient(ellipse 80% 50% at 20% 20%, rgba(255,255,255,0.08) 0%, transparent 60%)' }} />
