@@ -9,7 +9,8 @@ import { PageHeader, Card, inputCls, btnPrimary, btnGhost } from '../ui';
  * The customer logo strip — the trusted-by band on the home page.
  *
  * Everything about it lives here: whether the strip shows at all, the line
- * above it, and the logos themselves — add, rename, reorder, hide and remove.
+ * above it, the highlight in the middle of the band, and the logos
+ * themselves — add, rename, reorder, hide and remove.
  * The logos are the same JSON list in the settings store they have always
  * been, so nothing that was already uploaded is disturbed.
  */
@@ -17,11 +18,14 @@ import { PageHeader, Card, inputCls, btnPrimary, btnGhost } from '../ui';
 type Logo = { url: string; name: string; hidden: boolean };
 
 const DEFAULT_SUBTITLE = 'Trusted by businesses across the region';
+const HIGHLIGHT_MAX = 24;
 
 export default function AdminLogoStrip() {
   const [logos, setLogos] = useState<Logo[]>([]);
   /* The line printed above the strip. Editable so no claim is hardcoded. */
   const [subtitle, setSubtitle] = useState('');
+  /* The highlight between the two halves of the band. Blank hides it. */
+  const [highlight, setHighlight] = useState('');
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
@@ -35,6 +39,7 @@ export default function AdminLogoStrip() {
       .then(d => {
         setLogos(Array.isArray(d.logos) ? d.logos : []);
         setSubtitle(typeof d.subtitle === 'string' ? d.subtitle : DEFAULT_SUBTITLE);
+        setHighlight(typeof d.highlight === 'string' ? d.highlight : '');
       })
       .catch(() => setLogos([]))
       .finally(() => setLoading(false));
@@ -71,13 +76,14 @@ export default function AdminLogoStrip() {
     const res = await fetch('/api/admin/customer-logos', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ logos, subtitle }),
+      body: JSON.stringify({ logos, subtitle, highlight }),
     });
     if (res.ok) {
       const d = await res.json();
       setLogos(Array.isArray(d.logos) ? d.logos : []);
       // blank comes back as the default, so the field shows what the site shows
       if (typeof d.subtitle === 'string') setSubtitle(d.subtitle);
+      if (typeof d.highlight === 'string') setHighlight(d.highlight);
     }
     setSaving(false);
     setSaved(true);
@@ -146,6 +152,26 @@ export default function AdminLogoStrip() {
           placeholder={DEFAULT_SUBTITLE}
           value={subtitle}
           onChange={e => setSubtitle(e.target.value)}
+        />
+      </Card>
+
+      {/* The highlight in the middle of the band */}
+      <Card className="p-6 mb-6">
+        <label htmlFor="strip-highlight" className="block text-[11px] font-black uppercase tracking-widest text-slate-400 mb-1">
+          Strip highlight
+        </label>
+        <p className="text-xs text-slate-400 mb-3">
+          The figure or word shown between the two halves of the blue band — any short text, such as
+          &ldquo;500+&rdquo; or &ldquo;Trusted&rdquo;. Leave it blank to show no highlight; the band closes up
+          neatly without it. Saved with Save Logos.
+        </p>
+        <input
+          id="strip-highlight"
+          className={inputCls + ' max-w-[16rem]'}
+          maxLength={HIGHLIGHT_MAX}
+          placeholder="No highlight"
+          value={highlight}
+          onChange={e => setHighlight(e.target.value)}
         />
       </Card>
 

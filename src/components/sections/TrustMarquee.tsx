@@ -11,6 +11,11 @@ type Logo = { url: string; name: string; hidden?: boolean };
    base is hardcoded here. This is only what shows before the fetch lands. */
 const DEFAULT_SUBTITLE = 'Trusted by businesses across the region';
 
+/* The highlight in the middle of the band is admin-editable too, and the
+   admin may clear it. Until the fetch answers we don't know which, so the
+   band starts with the narrow centre and no figure: better a centre that
+   widens a moment later than a flash of a number somebody removed. */
+
 /* The marquee loops by translating one third of the track, so it always needs
    three identical copies. Short lists are padded first so a single logo still
    fills the strip instead of leaving a gap. */
@@ -85,6 +90,7 @@ export default function TrustMarquee() {
 
   const [logos, setLogos] = useState<Logo[]>([]);
   const [subtitle, setSubtitle] = useState(DEFAULT_SUBTITLE);
+  const [highlight, setHighlight] = useState('');
   /* A logo whose file 404s is dropped rather than left as a broken image. */
   const [broken, setBroken] = useState<string[]>([]);
 
@@ -96,6 +102,7 @@ export default function TrustMarquee() {
         if (!alive) return;
         setLogos(Array.isArray(d?.logos) ? d.logos : []);
         if (typeof d?.subtitle === 'string' && d.subtitle.trim()) setSubtitle(d.subtitle);
+        if (typeof d?.highlight === 'string') setHighlight(d.highlight.trim());
       })
       .catch(() => { if (alive) setLogos([]); });
     return () => { alive = false; };
@@ -163,16 +170,44 @@ export default function TrustMarquee() {
           </div>
         </div>
 
-        {/* Centre — brackets + counter, overflowing strip */}
+        {/* Centre — the two rounded caps and whatever the admin put between
+            them, overflowing the strip. The pale box is not decoration: the
+            halves are clipped hard at 50%, and it hides the cut edge as a logo
+            slides through. With no highlight it narrows to a sliver, so the
+            band closes up instead of leaving a hole. */}
         <div
           className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 z-30 flex items-center select-none pointer-events-none"
         >
           <RightBracket />
-          {/* page-color box hides strip behind the number */}
-          <div style={{ background: PAGE_BG, height: 'clamp(64px, 10vw, 88px)', display: 'flex', alignItems: 'center', padding: '0 clamp(12px, 3vw, 32px)' }}>
-            <span style={{ fontSize: 'clamp(1.25rem, 4vw, 2rem)', fontWeight: 700, color: '#1447d4', whiteSpace: 'nowrap', letterSpacing: '-0.03em', fontFamily: 'var(--font-figtree), Figtree, sans-serif' }}>
-              500+
-            </span>
+          <div
+            style={{
+              background: PAGE_BG,
+              height: 'clamp(64px, 10vw, 88px)',
+              display: 'flex',
+              alignItems: 'center',
+              ...(highlight
+                ? { padding: '0 clamp(12px, 3vw, 32px)' }
+                : { width: 'clamp(10px, 1.5vw, 18px)' }),
+            }}
+          >
+            {highlight && (
+              <span
+                style={{
+                  fontSize: 'clamp(1.25rem, 4vw, 2rem)',
+                  fontWeight: 700,
+                  color: '#1447d4',
+                  whiteSpace: 'nowrap',
+                  letterSpacing: '-0.03em',
+                  fontFamily: 'var(--font-figtree), Figtree, sans-serif',
+                  // a long value shortens rather than pushing the page sideways
+                  maxWidth: 'min(60vw, 420px)',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                }}
+              >
+                {highlight}
+              </span>
+            )}
           </div>
           <LeftBracket />
         </div>
