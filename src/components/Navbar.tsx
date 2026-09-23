@@ -62,12 +62,12 @@ export default function Navbar() {
         }}
       >
         <motion.div
-          className="w-full overflow-hidden"
+          className="w-full"
           animate={{ maxWidth: scrolled ? '980px' : '100%' }}
           transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
         >
           <motion.div
-            className="relative grid items-center gap-x-6 xl:gap-x-10 px-6 sm:px-10"
+            className="relative grid items-center gap-x-6 xl:gap-x-10 px-6 sm:px-10 overflow-hidden"
             style={{
               // logo | links | call to action — the outer columns share the
               // slack evenly, so the links sit centred with matching gaps
@@ -83,7 +83,7 @@ export default function Navbar() {
               borderWidth: scrolled ? '1px' : '0px',
               borderColor: scrolled ? 'rgba(37,99,235,0.15)' : 'transparent',
               boxShadow: scrolled
-                ? '0 8px 32px -8px rgba(37,99,235,0.18), 0 2px 8px -2px rgba(0,0,0,0.08)'
+                ? '0 1px 2px -1px rgba(15,23,42,0.05), 0 8px 20px -12px rgba(15,23,42,0.10), 0 20px 44px -24px rgba(20,71,212,0.16)'
                 : '0 1px 0 0 rgba(0,0,0,0.06)',
               paddingTop: scrolled ? 10 : 18,
               paddingBottom: scrolled ? 10 : 18,
