@@ -7,6 +7,10 @@ import { useEffect, useState } from 'react';
    supplies the artwork; until then the strip renders without items. */
 type Logo = { url: string; name: string; hidden?: boolean };
 
+/* The line above the strip is admin-editable, so nothing about the customer
+   base is hardcoded here. This is only what shows before the fetch lands. */
+const DEFAULT_SUBTITLE = 'Trusted by businesses across the region';
+
 /* The marquee loops by translating one third of the track, so it always needs
    three identical copies. Short lists are padded first so a single logo still
    fills the strip instead of leaving a gap. */
@@ -80,6 +84,7 @@ export default function TrustMarquee() {
   }, []);
 
   const [logos, setLogos] = useState<Logo[]>([]);
+  const [subtitle, setSubtitle] = useState(DEFAULT_SUBTITLE);
   /* A logo whose file 404s is dropped rather than left as a broken image. */
   const [broken, setBroken] = useState<string[]>([]);
 
@@ -87,7 +92,11 @@ export default function TrustMarquee() {
     let alive = true;
     fetch('/api/customer-logos')
       .then(r => r.json())
-      .then(d => { if (alive) setLogos(Array.isArray(d?.logos) ? d.logos : []); })
+      .then(d => {
+        if (!alive) return;
+        setLogos(Array.isArray(d?.logos) ? d.logos : []);
+        if (typeof d?.subtitle === 'string' && d.subtitle.trim()) setSubtitle(d.subtitle);
+      })
       .catch(() => { if (alive) setLogos([]); });
     return () => { alive = false; };
   }, []);
@@ -117,9 +126,7 @@ export default function TrustMarquee() {
         transition={{ duration: 0.5 }}
         className="text-center text-sm font-semibold text-slate-400 uppercase tracking-[0.2em] mb-12"
       >
-        Trusted by{' '}
-        <span className="text-[#1447d4]">500+ enterprise customers</span>
-        {' '}across the region
+        {subtitle}
       </motion.p>
 
       {/* Strip — overflow visible so brackets protrude above & below */}

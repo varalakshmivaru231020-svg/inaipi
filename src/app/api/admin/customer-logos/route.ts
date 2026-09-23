@@ -1,14 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getCustomerLogos, setCustomerLogos } from '@/lib/customerLogos';
+import { getCustomerStrip, setCustomerStrip } from '@/lib/customerLogos';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
-  return NextResponse.json({ logos: await getCustomerLogos() });
+  const { logos, subtitle } = await getCustomerStrip();
+  return NextResponse.json({ logos, subtitle });
 }
 
+/** The Save Logos action: the strip's line and its logos in one write. */
 export async function PUT(req: NextRequest) {
-  const body = await req.json().catch(() => ({}));
-  const logos = await setCustomerLogos((body as { logos?: unknown })?.logos ?? []);
-  return NextResponse.json({ logos });
+  const body = (await req.json().catch(() => ({}))) as { logos?: unknown; subtitle?: unknown };
+  const { logos, subtitle } = await setCustomerStrip({
+    logos: body?.logos ?? [],
+    subtitle: body?.subtitle,
+  });
+  return NextResponse.json({ logos, subtitle });
 }

@@ -6,19 +6,22 @@ import ImageUpload from '../components/ImageUpload';
 import { PageHeader, Card, inputCls, btnPrimary, btnGhost } from '../ui';
 
 /**
- * The customer logo strip — the "Trusted by 500+ enterprise customers across
- * the region" band on the home page.
+ * The customer logo strip — the trusted-by band on the home page.
  *
- * Everything about it lives here: whether the strip shows at all, and the
- * logos themselves — add, rename, reorder, hide and remove. The logos are the
- * same JSON list in the settings store they have always been, so nothing that
- * was already uploaded is disturbed.
+ * Everything about it lives here: whether the strip shows at all, the line
+ * above it, and the logos themselves — add, rename, reorder, hide and remove.
+ * The logos are the same JSON list in the settings store they have always
+ * been, so nothing that was already uploaded is disturbed.
  */
 
 type Logo = { url: string; name: string; hidden: boolean };
 
+const DEFAULT_SUBTITLE = 'Trusted by businesses across the region';
+
 export default function AdminLogoStrip() {
   const [logos, setLogos] = useState<Logo[]>([]);
+  /* The line printed above the strip. Editable so no claim is hardcoded. */
+  const [subtitle, setSubtitle] = useState('');
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
@@ -29,7 +32,10 @@ export default function AdminLogoStrip() {
   useEffect(() => {
     fetch('/api/admin/customer-logos')
       .then(r => r.json())
-      .then(d => setLogos(Array.isArray(d.logos) ? d.logos : []))
+      .then(d => {
+        setLogos(Array.isArray(d.logos) ? d.logos : []);
+        setSubtitle(typeof d.subtitle === 'string' ? d.subtitle : DEFAULT_SUBTITLE);
+      })
       .catch(() => setLogos([]))
       .finally(() => setLoading(false));
     fetch('/api/admin/settings')
@@ -65,11 +71,13 @@ export default function AdminLogoStrip() {
     const res = await fetch('/api/admin/customer-logos', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ logos }),
+      body: JSON.stringify({ logos, subtitle }),
     });
     if (res.ok) {
       const d = await res.json();
       setLogos(Array.isArray(d.logos) ? d.logos : []);
+      // blank comes back as the default, so the field shows what the site shows
+      if (typeof d.subtitle === 'string') setSubtitle(d.subtitle);
     }
     setSaving(false);
     setSaved(true);
@@ -102,7 +110,7 @@ export default function AdminLogoStrip() {
           <div className="flex-1 min-w-0">
             <p className="font-bold text-slate-800">Customer logo strip</p>
             <p className="text-xs text-slate-400 mt-0.5">
-              &ldquo;Trusted by 500+ enterprise customers across the region&rdquo; and the scrolling logos beneath it
+              &ldquo;{subtitle || DEFAULT_SUBTITLE}&rdquo; and the scrolling logos beneath it
             </p>
           </div>
           <span className={`text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full shrink-0 ${on ? 'bg-emerald-50 text-emerald-600' : 'bg-slate-100 text-slate-400'}`}>
@@ -120,6 +128,25 @@ export default function AdminLogoStrip() {
           </button>
         </div>
         {shown === null && <p className="text-xs text-slate-400 mt-3">Loading…</p>}
+      </Card>
+
+      {/* The line above the strip */}
+      <Card className="p-6 mb-6">
+        <label htmlFor="strip-subtitle" className="block text-[11px] font-black uppercase tracking-widest text-slate-400 mb-1">
+          Strip subtitle
+        </label>
+        <p className="text-xs text-slate-400 mb-3">
+          The line printed above the logos. Shown on the home page exactly as typed — leave it blank to fall
+          back to &ldquo;{DEFAULT_SUBTITLE}&rdquo;. Saved with Save Logos.
+        </p>
+        <input
+          id="strip-subtitle"
+          className={inputCls}
+          maxLength={160}
+          placeholder={DEFAULT_SUBTITLE}
+          value={subtitle}
+          onChange={e => setSubtitle(e.target.value)}
+        />
       </Card>
 
       {/* The logos themselves */}
