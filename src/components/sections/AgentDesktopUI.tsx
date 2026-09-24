@@ -425,7 +425,7 @@ export default function AgentDesktopUI({ playing = true, fixedView }: { playing?
       <header style={{ height: 64, background: '#fff', borderBottom: '1px solid #E3EAF5', display: 'flex', alignItems: 'center', gap: 24, padding: '0 24px', flexShrink: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, minWidth: 150 }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo.png" alt="inaipi" style={{ height: 34, display: 'block' }} />
+          <img src="/client-assets/images/brand/logo.png" alt="inaipi" style={{ height: 34, display: 'block' }} />
         </div>
         <nav style={{ display: 'flex', gap: 6, background: '#F1F5FC', padding: 5, borderRadius: 12 }}>
           <button onClick={() => { setManual(true); setView('workspace'); }} style={navStyle(view === 'workspace')}>Agent Workspace</button>

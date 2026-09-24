@@ -10,6 +10,8 @@ const KEYS = [
   'smtp_from', 'enquiry_to', 'smtp_enabled', 'ga_id',
   // whole sections the admin can hide
   'show_testimonials', 'show_trust_logos',
+  // the browser tab icon
+  'site_favicon',
 ];
 
 /** Return all settings; the SMTP password is never sent back to the client. */
@@ -28,6 +30,7 @@ export async function GET() {
     // showing is the default, so only an explicit 'false' hides a section
     show_testimonials: s.show_testimonials !== 'false',
     show_trust_logos: s.show_trust_logos !== 'false',
+    site_favicon: s.site_favicon || '',
   });
 }
 

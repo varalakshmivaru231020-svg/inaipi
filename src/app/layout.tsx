@@ -13,6 +13,13 @@ export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://inaipi.zapeat.in"),
   title: "Inaipi | AI-Native, Cloud-First CX with Sovereign Cloud",
   description: "Inaipi is an AI-native, cloud-first customer experience platform with Sovereign Cloud options for regulated industries: data stays resident and compliant.",
+  /* Served by /api/favicon, not a file in the build, so the admin can replace
+     the icon without a deploy. /favicon.ico is rewritten to the same route. */
+  icons: {
+    icon: [{ url: "/api/favicon" }],
+    shortcut: [{ url: "/api/favicon" }],
+    apple: [{ url: "/client-assets/images/brand/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+  },
 };
 
 export default function RootLayout({
@@ -23,8 +30,8 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${figtree.variable} ${poppins.variable}`} style={{ scrollBehavior: "auto" }}>
       <head>
-        <link rel="preload" as="image" href="/hero.png" fetchPriority="high" />
-        <link rel="preload" as="image" href="/arch1.png" />
+        <link rel="preload" as="image" href="/client-assets/images/hero/hero.png" fetchPriority="high" />
+        <link rel="preload" as="image" href="/client-assets/images/architecture/arch1.png" />
       </head>
       <body className="antialiased overflow-x-clip">
         <GoogleAnalytics />

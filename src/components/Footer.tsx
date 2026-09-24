@@ -83,7 +83,7 @@ export default function Footer() {
           <div className="lg:col-span-2 space-y-7">
             <Link href="/" className="inline-flex items-center">
               <Image
-                src="/logo.png"
+                src="/client-assets/images/brand/logo.png"
                 alt="inaipi"
                 width={120}
                 height={38}

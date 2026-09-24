@@ -6,7 +6,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import {
   LayoutDashboard, FileText, Factory, Download, Briefcase, Quote, Inbox, BadgeCheck,
-  Search, Mail, BarChart3, LogOut, Menu, X, ExternalLink,
+  Search, Mail, BarChart3, LogOut, Menu, X, ExternalLink, Palette, ImageIcon,
 } from 'lucide-react';
 
 const GROUPS = [
@@ -26,6 +26,8 @@ const GROUPS = [
   {
     title: 'Site Settings',
     items: [
+      { label: 'Branding', href: '/admin/branding', icon: Palette },
+      { label: 'Section Images', href: '/admin/site-images', icon: ImageIcon },
       { label: 'SEO', href: '/admin/seo', icon: Search },
       { label: 'Email (SMTP)', href: '/admin/email', icon: Mail },
       { label: 'Analytics', href: '/admin/analytics', icon: BarChart3 },
@@ -55,7 +57,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const Sidebar = (
     <aside className="w-64 shrink-0 bg-white border-r border-slate-200 flex flex-col h-full">
       <div className="px-6 h-16 flex items-center gap-2.5 border-b border-slate-100">
-        <Image src="/logo.png" alt="inaipi" width={120} height={34} className="w-auto h-7 object-contain" priority />
+        <Image src="/client-assets/images/brand/logo.png" alt="inaipi" width={120} height={34} className="w-auto h-7 object-contain" priority />
         <span className="text-slate-300 text-[10px] font-bold uppercase tracking-widest">Admin</span>
       </div>
 

@@ -13,7 +13,7 @@ export default function AdminSiteImages() {
 
   useEffect(() => {
     fetch('/api/admin/site-images').then(r => r.json()).then(d => {
-      setArch(d.architectureImage ?? '/arch1.png');
+      setArch(d.architectureImage ?? '/client-assets/images/architecture/arch1.png');
       setDesktop(d.agentDesktopImage ?? '');
     });
   }, []);
