@@ -1,0 +1,34 @@
+# core.autocrlf is on, and git only guesses which files are binary. It guesses
+# wrong for some PDFs — they were about to be committed as text, which rewrites
+# their line endings and corrupts the file. Everything below is declared binary
+# so git never touches its bytes.
+
+*.pdf  binary
+*.doc  binary
+*.docx binary
+*.xls  binary
+*.xlsx binary
+*.ppt  binary
+*.pptx binary
+*.zip  binary
+
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.JPG  binary
+*.JPEG binary
+*.gif  binary
+*.webp binary
+*.avif binary
+*.ico  binary
+*.bmp  binary
+
+*.woff  binary
+*.woff2 binary
+*.ttf   binary
+*.otf   binary
+*.eot   binary
+
+*.mp4  binary
+*.webm binary
+*.mp3  binary
