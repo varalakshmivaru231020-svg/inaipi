@@ -529,7 +529,7 @@ export default function Hero() {
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/client-assets/images/hero/hero-center.webp"
+              src="/hero/hero-center.webp"
               alt="A contact centre agent working alongside an AI assistant, with a live conversation showing the customer's request, the AI voicebot's reply, and the detected intent: Reservation Change, 92% confidence."
               style={{ width: 717, height: 530, borderRadius: '50%', display: 'block' }}
             />
@@ -544,9 +544,9 @@ export default function Hero() {
             <div style={{ position: 'absolute', left: 12, top: 80, width: 296, height: 150, borderRadius: 13, background: PANEL, border: `1px solid ${LINE}` }}>
               <div style={{ position: 'absolute', left: 12, top: 8, fontSize: 11.5, color: MUTED, fontWeight: 500 }}>Active (32)</div>
               {[
-                { n: 'Sarah Johnson', t: '10:21 AM', av: '/client-assets/images/hero/hero-av1.webp' },
-                { n: 'Michael Lee', t: '10:19 AM', av: '/client-assets/images/hero/hero-av2.webp' },
-                { n: 'Priya Sharma', t: '10:18 AM', av: '/client-assets/images/hero/hero-av3.webp' },
+                { n: 'Sarah Johnson', t: '10:21 AM', av: '/hero/hero-av1.webp' },
+                { n: 'Michael Lee', t: '10:19 AM', av: '/hero/hero-av2.webp' },
+                { n: 'Priya Sharma', t: '10:18 AM', av: '/hero/hero-av3.webp' },
               ].map((r, i) => (
                 <motion.div
                   key={r.n}
@@ -651,7 +651,7 @@ export default function Hero() {
             <div style={{ position: 'absolute', left: 24, top: 176, fontSize: 11.5, color: MUTED }}>Contacts</div>
             <div style={{ position: 'absolute', left: 24, top: 195, fontSize: 15.5, fontWeight: 800, color: BODY }}>{contacts.toLocaleString('en-US')}</div>
             <div style={{ position: 'absolute', left: 182, top: 190, display: 'flex', alignItems: 'center' }}>
-              {['/client-assets/images/hero/hero-ct1.webp', '/client-assets/images/hero/hero-ct2.webp', '/client-assets/images/hero/hero-ct3.webp', '/client-assets/images/hero/hero-ct4.webp'].map((a, i) => (
+              {['/hero/hero-ct1.webp', '/hero/hero-ct2.webp', '/hero/hero-ct3.webp', '/hero/hero-ct4.webp'].map((a, i) => (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img key={a} src={a} alt="" style={{ width: 24, height: 24, borderRadius: '50%', objectFit: 'cover', border: '1.6px solid #fff', marginLeft: i === 0 ? 0 : -6 }} />
               ))}

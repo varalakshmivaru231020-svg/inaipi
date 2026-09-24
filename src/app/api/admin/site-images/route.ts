@@ -7,7 +7,7 @@ async function currentMap() {
   const rows = await prisma.siteImage.findMany();
   const map = Object.fromEntries(rows.map(r => [r.key, r.value]));
   return {
-    architectureImage: map.architectureImage ?? '/client-assets/images/architecture/arch1.png',
+    architectureImage: map.architectureImage ?? '/architecture/arch1.png',
     agentDesktopImage: map.agentDesktopImage ?? '',
   };
 }

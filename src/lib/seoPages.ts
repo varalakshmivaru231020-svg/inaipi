@@ -29,7 +29,7 @@ export const SEO_DEFAULTS: Record<string, SeoEntry> = {
     title: 'Inaipi | AI-Native, Cloud-First CX with Sovereign Cloud',
     description:
       'Inaipi is an AI-native, cloud-first customer experience platform with Sovereign Cloud options for regulated industries: data stays resident and compliant.',
-    ogImage: '/client-assets/images/hero/hero.png',
+    ogImage: '/hero/hero.png',
   },
   about: {
     title: 'About Inaipi | AI-Native Customer Experience Platform',

@@ -11,13 +11,13 @@ import Marquee from '@/components/sections/TrustMarquee';
 import CTA from '@/components/sections/CTA';
 
 const allLeaders = [
-  { name: 'Manikandan Karunakaran', title: 'Chief Executive Officer', initials: 'MK', gradient: 'from-[#1447d4] to-[#006fff]', img: '/client-assets/images/team/Manikandan Karunakaran.JPG' },
-  { name: 'Sanju Sambasivan', title: 'Business Growth Leader', initials: 'SS', gradient: 'from-blue-700 to-cyan-500', img: '/client-assets/images/team/Sanju Sambasivan.JPG' },
-  { name: 'Bharath K Reddy', title: 'Director - Revenue and Operations', initials: 'BK', gradient: 'from-emerald-600 to-cyan-600', img: '/client-assets/images/team/Bharath K Reddy.JPG' },
-  { name: 'Wilson Xavier', title: 'Chief Strategy Advisor', initials: 'WX', gradient: 'from-[#1447d4] to-[#006fff]', img: '/client-assets/images/team/Wilson Xavier.jpeg' },
-  { name: 'Monish', title: 'Product and Growth Manager', initials: 'MO', gradient: 'from-[#006fff] to-[#00e7ff]', img: '/client-assets/images/team/Monish.jpeg' },
-  { name: 'Sarath Kumar', title: 'Solution Architect', initials: 'SK', gradient: 'from-[#006fff] to-[#00e7ff]', img: '/client-assets/images/team/Sarath Kumar.jpeg' },
-  { name: 'Shajith Navas', title: 'Head of Presales', initials: 'SN', gradient: 'from-[#1447d4] to-[#00e7ff]', img: '/client-assets/images/team/Shajith Navas.jpeg' },
+  { name: 'Manikandan Karunakaran', title: 'Chief Executive Officer', initials: 'MK', gradient: 'from-[#1447d4] to-[#006fff]', img: '/team/Manikandan Karunakaran.JPG' },
+  { name: 'Sanju Sambasivan', title: 'Business Growth Leader', initials: 'SS', gradient: 'from-blue-700 to-cyan-500', img: '/team/Sanju Sambasivan.JPG' },
+  { name: 'Bharath K Reddy', title: 'Director - Revenue and Operations', initials: 'BK', gradient: 'from-emerald-600 to-cyan-600', img: '/team/Bharath K Reddy.JPG' },
+  { name: 'Wilson Xavier', title: 'Chief Strategy Advisor', initials: 'WX', gradient: 'from-[#1447d4] to-[#006fff]', img: '/team/Wilson Xavier.jpeg' },
+  { name: 'Monish', title: 'Product and Growth Manager', initials: 'MO', gradient: 'from-[#006fff] to-[#00e7ff]', img: '/team/Monish.jpeg' },
+  { name: 'Sarath Kumar', title: 'Solution Architect', initials: 'SK', gradient: 'from-[#006fff] to-[#00e7ff]', img: '/team/Sarath Kumar.jpeg' },
+  { name: 'Shajith Navas', title: 'Head of Presales', initials: 'SN', gradient: 'from-[#1447d4] to-[#00e7ff]', img: '/team/Shajith Navas.jpeg' },
 ];
 
 const offices = [
@@ -144,7 +144,7 @@ export default function AboutPage() {
               transition={{ duration: 0.9, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
               className="lg:col-span-8 rounded-[2rem] overflow-hidden relative min-h-[420px]"
             >
-              <Image src="/client-assets/images/about/about-hero.jpg" alt="Inaipi Team" fill className="object-cover" />
+              <Image src="/about/about-hero.jpg" alt="Inaipi Team" fill className="object-cover" />
             </motion.div>
 
             <motion.div
@@ -204,7 +204,7 @@ export default function AboutPage() {
                 transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
                 className="rounded-2xl overflow-hidden relative h-[280px] group/img"
               >
-                <Image src="/client-assets/images/about/about-hero.jpg" alt="Team collaboration" fill className="object-cover transition-transform duration-500 group-hover/img:scale-105" />
+                <Image src="/about/about-hero.jpg" alt="Team collaboration" fill className="object-cover transition-transform duration-500 group-hover/img:scale-105" />
                 <div className="absolute inset-0 bg-blue-900/0 group-hover/img:bg-blue-900/30 transition-all duration-400 pointer-events-none" />
               </motion.div>
             </div>
@@ -415,7 +415,7 @@ export default function AboutPage() {
                 transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
                 className="relative rounded-[2rem] overflow-hidden flex-1 min-h-[340px]"
               >
-                <Image src="/client-assets/images/about/about-hero.jpg" alt="Inaipi Team" fill className="object-cover" />
+                <Image src="/about/about-hero.jpg" alt="Inaipi Team" fill className="object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0f172a]/60 via-transparent to-transparent" />
               </motion.div>
 
@@ -664,7 +664,7 @@ export default function AboutPage() {
               className="lg:w-[55%] rounded-[2.5rem] overflow-hidden shadow-2xl shadow-blue-900/10 shrink-0 relative min-h-[420px]"
             >
               <Image
-                src="/client-assets/images/about/global1.jpeg"
+                src="/about/global1.jpeg"
                 alt="Inaipi Global Presence"
                 fill
                 className="object-cover object-center"

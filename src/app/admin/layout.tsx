@@ -57,7 +57,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const Sidebar = (
     <aside className="w-64 shrink-0 bg-white border-r border-slate-200 flex flex-col h-full">
       <div className="px-6 h-16 flex items-center gap-2.5 border-b border-slate-100">
-        <Image src="/client-assets/images/brand/logo.png" alt="inaipi" width={120} height={34} className="w-auto h-7 object-contain" priority />
+        <Image src="/brand/logo.png" alt="inaipi" width={120} height={34} className="w-auto h-7 object-contain" priority />
         <span className="text-slate-300 text-[10px] font-bold uppercase tracking-widest">Admin</span>
       </div>
 

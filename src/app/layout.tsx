@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   icons: {
     icon: [{ url: "/api/favicon" }],
     shortcut: [{ url: "/api/favicon" }],
-    apple: [{ url: "/client-assets/images/brand/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+    apple: [{ url: "/brand/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
   },
 };
 
@@ -30,8 +30,8 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${figtree.variable} ${poppins.variable}`} style={{ scrollBehavior: "auto" }}>
       <head>
-        <link rel="preload" as="image" href="/client-assets/images/hero/hero.png" fetchPriority="high" />
-        <link rel="preload" as="image" href="/client-assets/images/architecture/arch1.png" />
+        <link rel="preload" as="image" href="/hero/hero.png" fetchPriority="high" />
+        <link rel="preload" as="image" href="/architecture/arch1.png" />
       </head>
       <body className="antialiased overflow-x-clip">
         <GoogleAnalytics />

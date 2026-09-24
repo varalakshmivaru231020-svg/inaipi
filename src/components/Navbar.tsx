@@ -99,7 +99,7 @@ export default function Navbar() {
               <Link href="/" className="flex items-center">
                 <motion.div style={{ height: logoHeight }} className="overflow-hidden flex items-center">
                   <Image
-                    src="/client-assets/images/brand/logo.png"
+                    src="/brand/logo.png"
                     alt="inaipi"
                     width={140}
                     height={44}

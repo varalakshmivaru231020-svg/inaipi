@@ -34,7 +34,7 @@ export default function AdminLogin() {
       />
       <div className="w-full max-w-sm relative">
         <div className="text-center mb-8">
-          <Image src="/client-assets/images/brand/logo.png" alt="inaipi" width={150} height={44} className="w-auto h-10 object-contain mx-auto mb-5" priority />
+          <Image src="/brand/logo.png" alt="inaipi" width={150} height={44} className="w-auto h-10 object-contain mx-auto mb-5" priority />
           <h1 className="text-2xl font-bold text-slate-900 font-figtree">Admin Panel</h1>
           <p className="text-slate-400 text-sm mt-1">Sign in to manage your content</p>
         </div>

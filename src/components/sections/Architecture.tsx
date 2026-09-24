@@ -21,10 +21,10 @@ export default function Architecture() {
   useEffect(() => {
     fetch('/api/site-images')
       .then(r => r.json())
-      // `/client-assets/images/architecture/arch1.png` is the API's legacy hard-coded fallback, not a real admin
+      // `/architecture/arch1.png` is the API's legacy hard-coded fallback, not a real admin
       // upload — ignore it so the new diagram is the default. A genuinely
       // uploaded image still overrides.
-      .then(d => { if (d.architectureImage && d.architectureImage !== '/client-assets/images/architecture/arch1.png') setArchImage(d.architectureImage); })
+      .then(d => { if (d.architectureImage && d.architectureImage !== '/architecture/arch1.png') setArchImage(d.architectureImage); })
       .catch(() => {});
   }, []);
 

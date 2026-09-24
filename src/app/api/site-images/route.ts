@@ -8,10 +8,10 @@ export async function GET() {
     const rows = await prisma.siteImage.findMany();
     const map = Object.fromEntries(rows.map(r => [r.key, r.value]));
     return NextResponse.json({
-      architectureImage: map.architectureImage ?? '/client-assets/images/architecture/arch1.png',
+      architectureImage: map.architectureImage ?? '/architecture/arch1.png',
       agentDesktopImage: map.agentDesktopImage ?? '',
     });
   } catch {
-    return NextResponse.json({ architectureImage: '/client-assets/images/architecture/arch1.png', agentDesktopImage: '' });
+    return NextResponse.json({ architectureImage: '/architecture/arch1.png', agentDesktopImage: '' });
   }
 }

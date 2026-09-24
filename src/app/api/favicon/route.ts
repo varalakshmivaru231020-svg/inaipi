@@ -18,7 +18,7 @@ export const runtime = 'nodejs';
 /* local, not exported: a route file may only export its handlers and config */
 const FAVICON_KEY = 'site_favicon';
 
-const DEFAULT_ICON = 'client-assets/images/brand/favicon.ico';
+const DEFAULT_ICON = 'brand/favicon.ico';
 
 const TYPES: Record<string, string> = {
   '.ico': 'image/x-icon',
@@ -31,15 +31,21 @@ const TYPES: Record<string, string> = {
   '.avif': 'image/avif',
 };
 
+/** The folders the site's own images live in, plus admin uploads. */
+const ASSET_DIRS = ['uploads', 'brand', 'hero', 'about', 'team', 'architecture', 'logos', 'images'];
+
 /**
- * Only ever read from the two folders the site's own images live in. The value
- * comes from the admin, so it is treated as untrusted input rather than a path.
+ * Only ever read from those folders. The value comes from the admin, so it is
+ * treated as untrusted input rather than a path. A value saved while the
+ * images sat under client-assets/images/ is folded onto its new home rather
+ * than being dropped.
  */
 function safeRelPath(value: string): string | null {
   if (!value) return null;
-  const rel = normalize(value.replace(/^\/+/, '')).replace(/\\/g, '/');
+  let rel = normalize(value.replace(/^\/+/, '')).replace(/\\/g, '/');
+  rel = rel.replace(/^client-assets\/images\//, '');
   if (rel.includes('..')) return null;
-  if (!/^(uploads|client-assets)\//.test(rel)) return null;
+  if (!ASSET_DIRS.some(d => rel.startsWith(d + '/'))) return null;
   if (!TYPES[extname(rel).toLowerCase()]) return null;
   return rel;
 }
