@@ -61,7 +61,15 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <span className="text-slate-300 text-[10px] font-bold uppercase tracking-widest">Admin</span>
       </div>
 
-      <nav className="flex-1 overflow-y-auto p-3.5 space-y-6">
+      {/* Its own scroll area. min-h-0 lets this flex child shrink below its
+          content so the overflow is real, overscroll-contain stops a flick at
+          either end from carrying on into the page, and data-lenis-prevent
+          keeps the site's smooth scrolling from swallowing the wheel in here —
+          without it Lenis handles every wheel event and the menu never moves. */}
+      <nav
+        data-lenis-prevent
+        className="flex-1 min-h-0 overflow-y-auto overscroll-contain p-3.5 space-y-6"
+      >
         {GROUPS.map(group => (
           <div key={group.title}>
             <p className="px-3 mb-2 text-[10px] font-black uppercase tracking-widest text-slate-300">{group.title}</p>
